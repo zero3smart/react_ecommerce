@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-120529562-1"></script>
+    <script>
+         window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-120529562-1');
+    </script>
+    <title>Select your fit</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+    <script src="js/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.4.2.js"></script>
+    <script src="js/snap.svg.js"></script>
+    <script src="vf_common.js"></script> 
+    <script src="vf_interact.js"></script> 
+    <style>
+        #btnTop {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            z-index: 99;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            background-color: red;
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+        #btnTop:hover {
+            background-color: #555;
+        }
+        .img-thumbnail {
+            border: 0 none;
+            box-shadow: none;
+        }
+	/*	body { padding-top: 30px; }  */
+
+		.navbar-nav > li > a {padding-top:0px !important; padding-bottom:0px !important;}
+		.navbar {max-height:32px !important}
+    </style>
+</head>
+<body>
+<!--
+    <nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+			  <a class="navbar-brand" href="#"></a>
+			</div>
+			<ul class="nav nav-justified">
+				<li class="active"><a href="#">home</a></li>
+				<li><a href="#">details</a></li>
+			</ul>
+		 </div>
+	</nav>
+-->
+    <div id="main" class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6">
+                <div class="row" align="center">
+                    <svg width="100%" id="svg"></svg>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6"> 
+                <div class="row" align="center" data-bind="foreach: products">
+                    <a data-bind="attr: {href: link}">
+                        <img data-bind="attr: {src: front_img}" class="img-thumbnail" style="max-width:30%;width:30%"/>
+                        <!-- <img data-toggle="tooltip" data-bind="attr: {src: front_img, title: details}" class="img-thumbnail" style="width:32%"/> -->
+                    </a>
+                </div> 
+            </div>
+        </div>
+   </div>
+   <button onclick="gotoTop()" id="btnTop" title="Go to top">Top</button>
+    <script type="text/javascript">
+        function Product(data) {
+            var self = this;
+            self.product_id = data.product_id;
+            self.front_img = "imgs/ns_woman_top/"+data.front_img;
+            self.details = data.extra_info;
+            self.link = "search_by_product.html?pid="+data.product_id;
+            //console.log('Creating Product', self.product_id, self.front_img);
+        }
+        function getProducts() {
+            var self = this;
+            console.log('getProducts', self.request_str());
+            $.getJSON(self.request_str(), function(allData) {
+                mappedProducts = $.map(allData['products'], function(item) { return new Product(item) });
+                self.products(mappedProducts);
+                self.result_cnt("Match count="+allData['total_cnt']);
+                self.desc("Match Stat="+allData['desc']);
+            });
+        }
+        function FitSelectViewModel() {
+            var self = this;
+            self.result_cnt = ko.observable("");
+            self.desc = ko.observable("");
+            self.request_str = ko.observable("");
+            self.products = ko.observableArray([]);
+            self.products_json = ko.computed(getProducts, self);
+            set_fit_change_observer(self.request_str);
+            self.request_str(getRestProductReqStr()); // Fire initial update
+        }
+        ko.applyBindings( new FitSelectViewModel());
+        
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById("btnTop").style.display = "block";
+            }else{
+                document.getElementById("btnTop").style.display = "none";
+            }
+        }
+
+        function gotoTop() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+
+    </script>
+</body>
+</html>
+
