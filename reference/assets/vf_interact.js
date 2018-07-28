@@ -357,7 +357,7 @@ window.onload = function () {
 
 function getRestProductReqStr() {
     var self = this;
-    http_req = "products/woman_top?"
+    http_req = rest_server_url + "products/woman_top?"
     http_req += "page=0";
     http_req += "&extra_info=1";
     http_req += "&cnt_per_page=72"

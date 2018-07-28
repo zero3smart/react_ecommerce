@@ -20,6 +20,7 @@
     <script src="js/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.4.2.js"></script>
+    <script src="vf_common.js"></script> 
 
 <!--
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -142,7 +143,7 @@
         function Product(data) {
             var self = this;
             self.product_id = data.product_id;
-            self.front_img = "imgs/ns_woman_top/"+data.front_img;
+            self.front_img = rest_server_url + "imgs/ns_woman_top/"+data.front_img;
             self.details = data.extra_info;
             self.name = data.name
             self.description = data.description
@@ -153,7 +154,7 @@
             self.extra_imgs = []
 			for (i in data.extra_imgs)
 			{
-				self.extra_imgs.push("imgs/ns_woman_top/"+data.extra_imgs[i])
+				self.extra_imgs.push(rest_server_url + "imgs/ns_woman_top/"+data.extra_imgs[i])
 			}
 
 			//if (self.extra_imgs.length)
@@ -181,7 +182,7 @@
         }
         function getCurrentProduct() {
             var self = this;
-            http_req = "products/woman_top/"+getCurrentPid();
+            http_req = rest_server_url + "products/woman_top/"+getCurrentPid();
             console.log(http_req);
             $.getJSON(http_req, function(allData) {
                 mappedProducts = $.map(allData['products'], function(item) { return new Product(item) });
@@ -191,7 +192,7 @@
 
         function getSimilarProducts() {
             var self = this;
-            http_req = "products/woman_top?";
+            http_req = rest_server_url + "products/woman_top?";
             http_req += "page=0";
             http_req += "&selected_product_id="+getCurrentPid();
             http_req += "&cnt_per_page=48";

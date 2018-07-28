@@ -88,7 +88,7 @@
         function Product(data) {
             var self = this;
             self.product_id = data.product_id;
-            self.front_img = "imgs/ns_woman_top/"+data.front_img;
+            self.front_img = rest_server_url + "imgs/ns_woman_top/"+data.front_img;
             self.details = data.extra_info;
             self.link = "search_by_product.html?pid="+data.product_id;
             //console.log('Creating Product', self.product_id, self.front_img);
