@@ -65,7 +65,7 @@ function hide_group(s, id)
     g.attr({ visibility: "hidden" });
 }
 
-var rest_server_url = "http://35.185.226.95:5000/" // yesplz-asia
+//var rest_server_url = "http://35.185.226.95:5000/" // yesplz-us
+var rest_server_url = "http://35.240.154.83:5000/" // yesplz-asis
 //var rest_server_url = "" // Use same server
-
 
