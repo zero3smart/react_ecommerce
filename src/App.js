@@ -3,7 +3,9 @@ import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
 import store, { history } from './config/store'
 import routes from './config/routes'
-import './App.css'
+// import global styles
+import 'assets/css/reset.css'
+import './app.css'
 
 const App = () => (
   <Provider store={store}>
