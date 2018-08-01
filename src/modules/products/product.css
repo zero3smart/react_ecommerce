@@ -1,0 +1,48 @@
+.Product {
+  background: white;
+  width: 100%;
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: auto;
+  grid-template-areas:
+  "images detail"
+  "footer footer";
+  grid-gap: 25px 30px;
+  padding: 15px 30px 30px;
+}
+
+.Product-images {
+  grid-area: images;
+}
+
+.Product-images img {
+  width: 128px;
+}
+
+.Product-detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 160px;
+  grid-area: detail;
+}
+
+.Product-detail h4 {
+  margin-bottom: 0px;
+}
+
+.Product-detail > p {
+  max-height: 70px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  /* autoprefixer: off */
+  -webkit-box-orient: vertical;
+  /* autoprefixer: on */
+}
+
+
+.Product-footer {
+  grid-area: footer;
+}

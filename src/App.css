@@ -1,0 +1,47 @@
+body {
+  font-family: 'Muli', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #000000;
+}
+
+h1, h2, h3, h4, h5, p {
+  margin-bottom: 10px;
+}
+
+h1 {
+  font-size: 2.250em; /* 36px */
+  font-weight: 700;
+  line-height: 1.4em;
+}
+
+h2 {
+  font-size: 1.500em; /* 24px */
+  font-weight: 700;
+  line-height: 1.4em;
+}
+
+h3 {
+  font-size: 1.125em; /* 18px */
+  font-weight: 700;
+}
+
+h4 {
+  font-size: 1em;
+}
+
+h5, p {
+  font-size: 0.875em; /* 14px */
+}
+
+/* Misc */
+.img-responsive {
+  display: block;
+  max-width: 100%;
+}
+
+.animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
