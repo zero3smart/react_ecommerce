@@ -11,8 +11,8 @@ const createRoutes = () => (
 )
 
 // nested routes components
-const BasePlatform = () => (
-  <Base>
+const BasePlatform = (props) => (
+  <Base {...props}>
     <Switch>
       <Route exact path='/' component={Tops} />
       <Route exact path='/products/:productId' component={Tops} />
