@@ -1,11 +1,24 @@
 import React from 'react'
 import { Route, Switch } from 'react-router'
+// pages
+import { Base, NotFound } from 'modules/base'
 import Tops from 'modules/tops/Tops'
 
-const routes = (
+const createRoutes = () => (
   <Switch>
-    <Route path='/' component={Tops} />
+    <Route path='/' component={BasePlatform} />
   </Switch>
 )
 
-export default routes
+// nested routes components
+const BasePlatform = () => (
+  <Base>
+    <Switch>
+      <Route exact path='/' component={Tops} />
+      <Route exact path='/products/:productId' component={Tops} />
+      <Route component={NotFound} />
+    </Switch>
+  </Base>
+)
+
+export default createRoutes()
