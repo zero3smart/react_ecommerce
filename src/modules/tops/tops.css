@@ -13,7 +13,7 @@
 }
 
 .Tops-products .ProductGrid {
-  width: calc(33% - 10px);
+  width: calc(33.33333% - 10px);
   margin-left: 5px;
   margin-right: 5px;
   margin-bottom: 10px;

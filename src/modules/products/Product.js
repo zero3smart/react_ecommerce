@@ -28,10 +28,11 @@ class Product extends Component {
     const { id, fetchSingleProduct } = this.props
 
     // fetch single top data
-    fetchSingleProduct(id)
+    this.fetchRequest = fetchSingleProduct(id)
   }
 
   componentWillUnmount () {
+    this.fetchRequest.cancel()
     this.props.setActiveProduct({})
   }
 

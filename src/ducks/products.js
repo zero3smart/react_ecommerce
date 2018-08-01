@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { PRODUCT_COUNT_PER_PAGE } from 'config/constants'
+import { createCancelableAsyncAction } from 'utils/async'
 
 // Actions
 const SET_PRODUCTS = 'products/SET_PRODUCTS'
@@ -83,19 +84,22 @@ export function fetchProducts (filters = {}, page = null) {
 }
 
 /**
- * fetch single product
+ * fetch single product, with cancelable promise support
  * @param {string} productId
  */
-export function fetchSingleProduct (productId) {
+export const fetchSingleProduct = createCancelableAsyncAction((productId, requestStatus = {}) => {
   return async dispatch => {
     try {
       const response = await axios.get(`/products/woman_top/${productId}`)
+
       //  put it on store as `activeProduct`
-      dispatch(setActiveProduct(response.data.products[0]))
+      if (!requestStatus.isCancelled) {
+        dispatch(setActiveProduct(response.data.products[0]))
+      }
 
       return response
     } catch (e) {
       console.log('Error:', e)
     }
   }
-}
+})
