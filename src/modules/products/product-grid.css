@@ -1,0 +1,28 @@
+.ProductGrid {
+  background: white;
+  color: #000000;
+  text-decoration: none;
+}
+
+.ProductGrid-thumbnail {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.ProductGrid-detail {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 8px 10px 8px;
+}
+
+.ProductGrid-detail h5,
+.ProductGrid-price {
+  font-size: 0.875em; /* 14px */
+}
+
+.ProductGrid-detail h5 {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 60px;
+}
