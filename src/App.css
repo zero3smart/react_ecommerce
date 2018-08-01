@@ -40,3 +40,8 @@ h5, p {
   display: block;
   max-width: 100%;
 }
+
+.animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { fetchProducts } from 'ducks/products'
 import { ProductGrid } from 'modules/products'
+import Transition from 'ui-kits/transitions/Transition'
 import './tops.css'
 
 class Tops extends Component {
@@ -28,23 +29,26 @@ class Tops extends Component {
   }
 
   render () {
-    const { products, productId } = this.props
+    const { products, productId, isProductsFetched } = this.props
 
     return (
       <div className='Tops-products'>
-        {
-          products.map((product) => (
-            <ProductGrid
-              key={product.product_id}
-              id={product.product_id}
-              name={product.name}
-              brand={product.brand}
-              price={product.price}
-              imgSrc={product.front_img}
-              active={productId === product.product_id}
-            />
-          ))
-        }
+        <Transition show={isProductsFetched} transition='fadeInUp' >
+          {
+            products.map((product, index) => (
+              <ProductGrid
+                key={product.product_id}
+                id={product.product_id}
+                name={product.name}
+                brand={product.brand}
+                price={product.price}
+                imgSrc={product.front_img}
+                active={productId === product.product_id}
+                style={{ animationDelay: `${50 * index}ms` }}
+              />
+            ))
+          }
+        </Transition>
       </div>
     )
   }
