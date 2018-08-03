@@ -35,7 +35,13 @@ export default class ProductGrid extends PureComponent {
     return (
       <Link to={`/products/${id}`} className={`ProductGrid ${className}`} style={style}>
         <div className='ProductGrid-thumbnail'>
-          {imgSrc && <img src={`${BASE_API_PATH}/imgs/ns_woman_top/${imgSrc}`} alt={name} className='img-responsive' />}
+          {
+            imgSrc ? (
+              <img src={`${BASE_API_PATH}imgs/ns_woman_top/${imgSrc}`} alt={name} className='img-responsive' />
+            ) : (
+              <div className='ProductGrid-noImage' />
+            )
+          }
         </div>
         <div className='ProductGrid-detail'>
           <h5>{brand}</h5>

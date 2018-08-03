@@ -42,7 +42,7 @@ class Product extends Component {
     return (
       <div className='Product'>
         <div className='Product-images'>
-          {imgSrc && <img src={`${BASE_API_PATH}/imgs/ns_woman_top/${imgSrc}`} alt={name} className='img-responsive' />}
+          {imgSrc && <img src={`${BASE_API_PATH}imgs/ns_woman_top/${imgSrc}`} alt={name} className='img-responsive' />}
         </div>
         <div className='Product-detail'>
           <h3>{brand}</h3>
