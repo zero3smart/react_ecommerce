@@ -19,10 +19,10 @@ class DotLoader extends PureComponent {
       return null
     }
     return (
-      <div className='dot-loader' style={style}>
-        <div className='dot' style={dotStyle} />
-        <div className='dot' style={dotStyle} />
-        <div className='dot' style={dotStyle} />
+      <div className='DotLoader' style={style}>
+        <div className='DotLoader-dot' style={dotStyle} />
+        <div className='DotLoader-dot' style={dotStyle} />
+        <div className='DotLoader-dot' style={dotStyle} />
       </div>
     )
   }

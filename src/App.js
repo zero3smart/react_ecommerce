@@ -5,7 +5,7 @@ import store, { history } from './config/store'
 import routes from './config/routes'
 // import global styles
 import 'assets/css/reset.css'
-import './app.css'
+import 'app.css'
 
 const App = () => (
   <Provider store={store}>

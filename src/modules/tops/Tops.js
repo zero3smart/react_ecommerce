@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { fetchProducts } from 'ducks/products'
 import { ProductGrid } from 'modules/products'
+import { ProductFilter } from 'modules/filters'
 import Transition from 'ui-kits/transitions/Transition'
 import { ScrollFetcher } from 'ui-kits/fetchers'
 import { PRODUCT_COUNT_PER_PAGE } from 'config/constants'
@@ -51,27 +52,30 @@ class Tops extends Component {
     const loadedProductsCount = PRODUCT_COUNT_PER_PAGE * (currentPage < 0 ? 0 : currentPage)
 
     return (
-      <ScrollFetcher onFetch={this.handleFetch} className='Tops-products' disableInitalFetch>
-        <Transition show={isProductsFetched} transition='fadeInUp' >
-          {
-            products.map((product, index) => (
-              <ProductGrid
-                key={product.product_id}
-                id={product.product_id}
-                name={product.name}
-                brand={product.brand}
-                price={product.price}
-                imgSrc={product.front_img}
-                active={productId === product.product_id}
-                style={{
-                  // `ProducGrid` need be showed directly in each page
-                  animationDelay: `${50 * (index - loadedProductsCount)}ms`
-                }}
-              />
-            ))
-          }
-        </Transition>
-      </ScrollFetcher>
+      <div className='Tops'>
+        <ProductFilter />
+        <ScrollFetcher onFetch={this.handleFetch} className='Tops-products' disableInitalFetch>
+          <Transition show={isProductsFetched} transition='fadeInUp' >
+            {
+              products.map((product, index) => (
+                <ProductGrid
+                  key={product.product_id}
+                  id={product.product_id}
+                  name={product.name}
+                  brand={product.brand}
+                  price={product.price}
+                  imgSrc={product.front_img}
+                  active={productId === product.product_id}
+                  style={{
+                    // `ProducGrid` need be showed directly in each page
+                    animationDelay: `${50 * (index - loadedProductsCount)}ms`
+                  }}
+                />
+              ))
+            }
+          </Transition>
+        </ScrollFetcher>
+      </div>
     )
   }
 }
