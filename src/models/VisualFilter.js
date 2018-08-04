@@ -3,7 +3,7 @@
  * contains functions to handle visual filter svg interactions
  */
 // Import Snap from window. Snap is loaded from template.
-import { PROP_CONST, THUMBNAIL_IMG_X_OFFSET, THUMBNAIL_Y_OFFSET, BASE_API_PATH } from 'config/constants'
+import { PROP_CONST, THUMBNAIL_IMG_X_OFFSET, THUMBNAIL_Y_OFFSET } from 'config/constants'
 const { Snap, localStorage } = window
 
 export default class VisualFilter {
@@ -193,7 +193,7 @@ export default class VisualFilter {
 
     VisualFilter.showSelectionBox(this.snap, this.currentThumbnail, parseInt(tnIdx))
 
-    if (tnIdx === PROP_CONST[this.currentThumbnail][1] + 1) {
+    if (parseInt(tnIdx) === PROP_CONST[this.currentThumbnail][1] + 1) {
       tnIdx = 'all'
     }
 
@@ -284,32 +284,6 @@ export default class VisualFilter {
     }
   }
 
-  getRestProductReqStr () {
-    let httpReq = BASE_API_PATH + 'products/woman_top?'
-    httpReq += 'page=0'
-    httpReq += '&extra_info=1'
-    httpReq += '&cnt_per_page=72'
-
-    for (let prop in this.currentPropState) {
-      let ps = this.currentPropState[prop]
-      if (ps >= 0) {
-        // sleeve_length covers sleeve_length and tightness for UI simplicity
-        if (prop === 'sleeve_length') {
-          if (ps === 5) { // long & wide sleeve
-            httpReq += '&sleeve_length=4&sleeve_tightness=1'
-          } else if (ps === 4) { // long & tight sleeve
-            httpReq += '&sleeve_length=4&sleeve_tightness=0'
-          } else {
-            httpReq += '&' + prop + '=' + ps
-          }
-        } else {
-          httpReq += '&' + prop + '=' + ps
-        }
-      }
-    }
-    return httpReq
-  }
-
   getProductFilters () {
     let filters = {
       page: 0,
@@ -397,7 +371,7 @@ export default class VisualFilter {
    * Check wheter onboarding screen needs to be loaded
    */
   static shouldShowOnboarding () {
-    return VisualFilter.loadConfig('onboarding_completed')
+    return !VisualFilter.loadConfig('onboarding_completed')
   }
 
   /**
