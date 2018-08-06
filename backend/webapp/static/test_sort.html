@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Filter Test Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+    <script src="js/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.4.2.js"></script>
+    <style>
+        body, html {
+        margin: 0;
+        overflow: hidden;
+        height:100%;
+        }
+
+        #left {
+        text-align: left;
+        height:100%;
+        position: absolute;
+        top: 0px;
+        bottom: 0;
+        left: 0;
+        width: 25%;
+        overflow-y: scroll; 
+        }
+
+        #right-scroll {
+        height:100%;
+        text-align: left;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        overflow-y: scroll;
+        width: 75%;
+        }    
+    </style>
+</head>
+<body>
+    <div id="main" class="container">
+        <div class="row">
+            <div class="col-sm-4" id="left">
+            <table class="table table-striped">
+                <thead><tr>
+                    <th>Property</th><th>Value</th>
+                </tr></thead>
+                <tbody data-bind="foreach: props"><tr>
+                    <td data-bind="text: name"></td>
+                    <td><select data-bind="options: availableValues, value: currentValue, optionsValue: 'value', optionsText: 'text'"></select></td>
+                    </tr>    
+                </tbody>
+            </table>
+            Coretype wasit/belly pairs <br>
+            Tanktop [(0,0), (0,1), (0,2), (0,3), (4,0), (4,1), (5,0), (5,1), (5,2), (6,0), (6,1), (6,2)] <br>
+            Bodysuit [(1,1), (1,2), (1,3), (2,1), (2,2), (2,3), (3,1), (3,2)] <br>
+            Tunic [(3,3), (3,4), (3,5), (4,2), (4,3), (4,4), (4,5), (4,6), (5,3), (5,4)] <br>
+            Boxy [(5,5), (5,6), (6,3), (6,4), (6,5), (6,6)]+[(1,4), (1,5), (1,6), (2,4), (2,5), (2,6), (2,6), (3,6)] <br>
+            <h4 data-bind="text: request_str"></h4>
+            </div>
+            <!-- <h4 data-bind="text: result_cnt"></h4> -->
+            <!-- <h4 data-bind="text: desc"></h4> -->
+            <div class="col-sm-8" id="right-scroll"> 
+                <table class="table">
+                    <col width="400">
+                    <thead> <tr>
+                        <th scope="col">Image</th>
+                        <th scope="col">Current</th>
+                        <th scope="col">Fix-it</th>
+                    </tr></thead> 
+                    <tbody data-bind="foreach: products">
+                        <tr> 
+                            <th scope="row">
+                                <a data-bind="attr: {href: link}">
+                                    <img data-bind="attr: {src: front_img}" style="width:30%"/>
+                                </a>
+                            </th>
+                            <td data-bind="html: getProductScoreInfo(details)"> </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+   </div>
+    <script type="text/javascript">
+        function Property(name, options, default_value="Don't Care") {
+            var self = this;
+            self.name = name;
+            self.availableValues = options
+            self.currentValue = ko.observable(default_value);
+        }
+        function getPropValues(maxVal, texts=null) {
+            var values = [{value: "Don't Care", text: "Don't Care"}]
+            for (i = 0; i <= maxVal; i++) {
+                if (texts)
+                    values.push({value: i, text: texts[i]})
+                else
+                    values.push({value: i, text: i})
+            }
+            return values
+        }
+        function getPageValues() {
+            var values = []
+            for (i = 0; i <= 10; i++) {
+                values.push({value: i, text: i})
+            }
+            return values
+        }
+        function getHttpReqStr() {
+            var self = this
+            http_req = "api/products/woman_top_internal?"
+            props = self.props()
+            for (i in props) {
+                if (props[i].currentValue() != "Don't Care") {
+                    http_req += props[i].name + "=" + props[i].currentValue() + "&";
+                } }
+            //http_req += "page=0";
+            //http_req += "extra_info=1"
+            return http_req;
+        }
+
+        function subprops(prop_name)
+        {
+            if (prop_name == 'coretype')
+                return ['waist', 'belly']
+            if (prop_name == 'details')
+            return [prop_name]
+        }
+
+        function getProductScoreInfo(details) {
+            var self = this;
+            props = self.props;
+            s = "PID="+details.product_id +"<br>";
+            s += "Score="+details.score+"<br>";
+            for (i in props) {
+                pn = props[i].name
+                if (pn == 'cnt_per_page' || pn == 'page') continue;
+                if (props[i].currentValue() != "Don't Care") 
+                {
+                    if (pn == 'coretype')
+                    {
+                        s += "coretype score= -" + details['coretype_score'] 
+                        s += "(waist=" + details["waist"] 
+                        s += "belly=" + details["belly"] + ")</br>"
+                    }
+                    else if (pn == "details")
+                    {
+                        s += "details_score= -" + details['details_score'] + "("
+                        spn = ['details', 'ruffle', 'embellish', 'fringe', 'cutout', 'bow', 'strappy', 
+                                'corset', 'twist', 'tie', 'misc'] 
+                        for (var i in spn)
+                        {
+                            s += spn[i] + "=" + details[spn[i]] + " "
+                        }
+                        s += ")"
+                    }
+                    else if (pn == "solid")
+                    {
+                        s += "solidpatern_score= -" + details['solidpattern_score'] + "("
+                        spn = ['solid', 'checker', 'stripe', 'pattern']
+                        for (var i in spn)
+                        {
+                            s += spn[i] + "=" + details[spn[i]] + " "
+                        }
+                        s += ") <br>"
+                    }
+                    else if (pn == "pattern")
+                    {   //handled by solid
+                    }
+                    else
+                    {
+                        s += pn+" score= -" + details[pn+'_score'] + "<br>"
+                        s += pn + "=" + details[pn] + "<br>";
+                    }
+                }
+            }
+            return s
+        }
+
+        function Product(data) {
+            var self = this;
+            self.product_id = data.product_id;
+            self.front_img = "imgs/ns_woman_top/"+data.front_img;
+            self.details = data.extra;
+            self.details.product_id = data.product_id
+            self.link = "search_by_product.html?pid="+data.product_id;
+            //console.log('Creating Product', self.product_id, self.front_img);
+        }
+        function getProducts() {
+            var self = this;
+            console.log('getProducts', self.request_str());
+            $.getJSON(self.request_str(), function(allData) {
+                mappedProducts = $.map(allData['products'], function(item) { return new Product(item) });
+                self.products(mappedProducts);
+                self.result_cnt("Match count="+allData['total_cnt']);
+                //self.desc("Match Stat="+allData['desc']);
+            });
+        }
+        function PropertiesViewModel() {
+            var self = this;
+            self.result_cnt = ko.observable("");
+            self.desc = ko.observable("");
+            self.props = ko.observableArray([
+                new Property("page", getPageValues(), null, 0),
+                new Property("coretype", getPropValues(3, ["tanktop", "bodysuit", "tunic", "boxy"])),
+                new Property("sleeve_tightness", getPropValues(1, ["0(0~3)", "1(4)"])),
+                new Property("sleeve_length", getPropValues(4, ["0(0~1)", "1(2)", "2(3)", "3(4~5)", "4(6~7)"])),
+                new Property("neckline", getPropValues(2, ["0", "1(1~3)", "2(4~6)"])),
+                new Property("collar", getPropValues(2, ["0", "1", "2(2~4)"])),
+                new Property("shoulder", getPropValues(4, ["0", "1", "2", "3", "4(4~5)"])),
+                //new Property("chest", getPropValues(2)),
+                new Property("top_length", getPropValues(2, ["0", "1(1~3)", "2(4)"])),
+                new Property("solid", getPropValues(1), "0"),
+                new Property("pattern", getPropValues(1), "0"),
+                new Property("details", getPropValues(1), "0"),
+                //new Property("waist", getPropValues(3)),
+                //new Property("belly", getPropValues(3)),
+                new Property("cnt_per_page", [{value: 33, text: 33}, {value: 120, text:120}]),
+            ]);
+
+            self.request_str = ko.computed(getHttpReqStr, self);
+            self.products = ko.observableArray([]);
+            self.products_json = ko.computed(getProducts, self);
+        }
+        ko.applyBindings( new PropertiesViewModel());
+    </script>
+</body>
+</html>
+
