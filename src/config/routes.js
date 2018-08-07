@@ -19,6 +19,7 @@ const BasePlatform = (props) => (
       <Route exact path='/' component={Tops} />
       <Route exact path='/products/:productId' component={TopSingle} />
       <Route exact path='/favorites' component={Favorites} />
+      <Route exact path='/favorites/:favoriteType' component={Favorites} />
       <Route exact path='/feedbacks' component={Feedbacks} />
       <Route component={NotFound} />
     </Switch>

@@ -11,13 +11,19 @@ export default class Tabs extends Component {
       PropTypes.arrayOf(PropTypes.element),
       PropTypes.element
     ]),
+    kind: PropTypes.oneOf(['default', 'capsule']),
     style: PropTypes.object
   }
 
+  static defaultProps = {
+    kind: 'default'
+  }
+
   render () {
-    const { children, style } = this.props
+    const { children, kind, style } = this.props
+
     return (
-      <div className='Tabs' style={style}>
+      <div className={`Tabs ${kind}`} style={style}>
         {manageChildren(children)}
       </div>
     )

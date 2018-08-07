@@ -30,11 +30,20 @@
 }
 
 .Favorites-products .ProductGrid {
-  width: calc(33.33333% - 10px);
+  width: calc(50% - 10px);
   margin-left: 5px;
   margin-right: 5px;
   margin-bottom: 10px;
   order: 1;
+}
+
+.Favorites-products .ProductGrid .ProductGrid-thumbnail {
+  min-height: 120px;
+}
+
+.Favorites-products .ProductGrid .ProductGrid-thumbnail > img {
+  max-width: 80px;
+  margin: auto;
 }
 
 /* from ScrollFetcher */

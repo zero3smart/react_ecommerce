@@ -1,16 +1,18 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { NavLink } from 'react-router-dom'
+import Tabs from 'ui-kits/navigations/Tabs'
 import { fetchProducts } from 'ducks/products'
 import { likeProduct, unlikeProduct } from 'ducks/product'
 import { setFilter, syncFilter } from 'ducks/filters'
 import { ProductList } from 'modules/products'
-import { FlatBanner } from 'ui-kits/banners'
 import { favoriteProductsSelector } from './selectors'
 import './favorites.css'
 
 class Favorites extends Component {
   static propTypes = {
+    favoriteType: PropTypes.string,
     products: PropTypes.array,
     isProductsFetched: PropTypes.bool,
     nextPage: PropTypes.number,
@@ -66,28 +68,36 @@ class Favorites extends Component {
   }
 
   render () {
-    const { products, isProductsFetched, nextPage } = this.props
+    const { products, isProductsFetched, nextPage, favoriteType } = this.props
+
     const banner = (
-      <FlatBanner style={styles.banner}>
-        <h1>Coming Soon!</h1>
-      </FlatBanner>
+      <Tabs kind='capsule' style={styles.tabs}>
+        <NavLink to='/favorites/fits'>fits</NavLink>
+        <NavLink to='/favorites/clothing'>clothing</NavLink>
+      </Tabs>
     )
+
     return (
       <div className='Favorites'>
-        <ProductList
-          show={isProductsFetched}
-          products={products}
-          nextPage={nextPage}
-          onToggleLike={this.toggleProductLike}
-          extraItem={banner}
-          className='Favorites-products'
-        />
+        {
+          favoriteType === 'fits' ? null : (
+            <ProductList
+              show={isProductsFetched}
+              products={products}
+              nextPage={nextPage}
+              onToggleLike={this.toggleProductLike}
+              extraItem={banner}
+              className='Favorites-products'
+            />
+          )
+        }
       </div>
     )
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, props) => ({
+  favoriteType: props.match.params.favoriteType,
   products: favoriteProductsSelector(state),
   isProductsFetched: state.products.fetched,
   nextPage: state.products.nextPage
@@ -105,11 +115,8 @@ export default connect(
 )(Favorites)
 
 const styles = {
-  banner: {
-    textAlign: 'center',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 10
+  tabs: {
+    marginTop: 10,
+    marginBottom: 25
   }
 }
