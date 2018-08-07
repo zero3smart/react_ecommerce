@@ -5,7 +5,7 @@ import { PRODUCT_COUNT_PER_PAGE } from 'config/constants'
 import Transition from 'ui-kits/transitions/Transition'
 import { ScrollFetcher } from 'ui-kits/fetchers'
 import { Product, ProductGrid, ProductPlaceholder } from 'modules/products'
-import { fetchProduct, fetchRelatedProducts, resetProduct } from 'ducks/singleProduct'
+import { fetchProduct, fetchRelatedProducts, resetProduct } from 'ducks/product'
 import './top-single.css'
 
 class TopSingle extends Component {
@@ -112,12 +112,12 @@ class TopSingle extends Component {
 }
 
 const mapStateToProps = (state, props) => ({
-  product: state.singleProduct.data,
+  product: state.product.data,
   productId: props.match.params.productId,
-  isProductFetched: state.singleProduct.fetched,
-  isRelatedProductsFetched: state.singleProduct.relatedProductsFetched,
-  relatedProducts: state.singleProduct.relatedProducts,
-  nextPage: state.singleProduct.nextPage
+  isProductFetched: state.product.fetched,
+  isRelatedProductsFetched: state.product.relatedProductsFetched,
+  relatedProducts: state.product.relatedProducts,
+  nextPage: state.product.nextPage
 })
 
 export default connect(mapStateToProps, { fetchProduct, fetchRelatedProducts, resetProduct })(TopSingle)

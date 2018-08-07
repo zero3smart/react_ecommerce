@@ -3,10 +3,10 @@ import { PRODUCT_COUNT_PER_PAGE } from 'config/constants'
 import { createCancelableAsyncAction } from 'utils/async'
 
 // Actions
-const SET_PRODUCT = 'singleProduct/SET_PRODUCT'
-const RESET_PRODUCT = 'singleProduct/RESET_PRODUCT'
-const SET_RELATED_PRODUCTS = 'singleProduct/SET_RELATED_PRODUCTS'
-const APPEND_RELATED_PRODUCTS = 'singleProduct/APPEND_PRODUCTS'
+const SET_PRODUCT = 'product/SET_PRODUCT'
+const RESET_PRODUCT = 'product/RESET_PRODUCT'
+const SET_RELATED_PRODUCTS = 'product/SET_RELATED_PRODUCTS'
+const APPEND_RELATED_PRODUCTS = 'product/APPEND_PRODUCTS'
 
 const defaultState = {
   data: {},
@@ -96,11 +96,11 @@ export const fetchProduct = createCancelableAsyncAction((productId, requestStatu
 export const fetchRelatedProducts = createCancelableAsyncAction((productId, requestStatus = {}) => {
   return async (dispatch, getState) => {
     try {
-      const { singleProduct } = getState()
+      const { product } = getState()
 
       const response = await axios.get('/products/woman_top', {
         params: {
-          page: singleProduct.nextPage,
+          page: product.nextPage,
           cnt_per_page: PRODUCT_COUNT_PER_PAGE,
           selected_product_id: productId
         }
@@ -110,7 +110,7 @@ export const fetchRelatedProducts = createCancelableAsyncAction((productId, requ
       if (!requestStatus.isCancelled) {
         // if next page is more than 0, append related products to the list
         // else, reset the product
-        if (singleProduct.nextPage > 0) {
+        if (product.nextPage > 0) {
           dispatch(appendRelatedProducts(response.data.products))
         } else {
           dispatch(setRelatedProducts(response.data.products, response.data.total_cnt))
