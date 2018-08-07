@@ -3,7 +3,10 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { fetchProducts } from 'ducks/products'
 import { ProductGrid } from 'modules/products'
+import { ProductFilter } from 'modules/filters'
 import Transition from 'ui-kits/transitions/Transition'
+import { ScrollFetcher } from 'ui-kits/fetchers'
+import { PRODUCT_COUNT_PER_PAGE } from 'config/constants'
 import './tops.css'
 
 class Tops extends Component {
@@ -11,6 +14,7 @@ class Tops extends Component {
     products: PropTypes.array,
     isProductsFetched: PropTypes.bool,
     productId: PropTypes.string,
+    nextPage: PropTypes.number,
     fetchProducts: PropTypes.func.isRequired
   }
 
@@ -28,27 +32,49 @@ class Tops extends Component {
     }
   }
 
+  /**
+   * only applicable on next fetch, if available
+   */
+  get handleFetch () {
+    const { fetchProducts } = this.props
+    return (next) => {
+      fetchProducts().then(() => {
+        next()
+      })
+    }
+  }
+
   render () {
-    const { products, productId, isProductsFetched } = this.props
+    const { products, productId, isProductsFetched, nextPage } = this.props
+
+    // get loaded products count
+    const currentPage = (nextPage - 1)
+    const loadedProductsCount = PRODUCT_COUNT_PER_PAGE * (currentPage < 0 ? 0 : currentPage)
 
     return (
-      <div className='Tops-products'>
-        <Transition show={isProductsFetched} transition='fadeInUp' >
-          {
-            products.map((product, index) => (
-              <ProductGrid
-                key={product.product_id}
-                id={product.product_id}
-                name={product.name}
-                brand={product.brand}
-                price={product.price}
-                imgSrc={product.front_img}
-                active={productId === product.product_id}
-                style={{ animationDelay: `${50 * index}ms` }}
-              />
-            ))
-          }
-        </Transition>
+      <div className='Tops'>
+        <ProductFilter />
+        <ScrollFetcher onFetch={this.handleFetch} className='Tops-products' disableInitalFetch>
+          <Transition show={isProductsFetched} transition='fadeInUp' >
+            {
+              products.map((product, index) => (
+                <ProductGrid
+                  key={product.product_id}
+                  id={product.product_id}
+                  name={product.name}
+                  brand={product.brand}
+                  price={product.price}
+                  imgSrc={product.front_img}
+                  active={productId === product.product_id}
+                  style={{
+                    // `ProducGrid` need be showed directly in each page
+                    animationDelay: `${50 * (index - loadedProductsCount)}ms`
+                  }}
+                />
+              ))
+            }
+          </Transition>
+        </ScrollFetcher>
       </div>
     )
   }
@@ -57,6 +83,7 @@ class Tops extends Component {
 const mapStateToProps = (state, props) => ({
   products: state.products.list,
   isProductsFetched: state.products.fetched,
+  nextPage: state.products.nextPage,
   productId: props.match.params.productId
 })
 

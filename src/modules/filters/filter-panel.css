@@ -1,0 +1,22 @@
+.FilterPanel {
+  background: #FFFFFF;
+  min-height: 385px;
+  padding: 10px;
+  position: fixed;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 3;
+}
+
+.FilterPanel-close {
+  background: #9B9B9B;
+  padding: 5px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.FilterPanel-close > img {
+  vertical-align: top;
+}
