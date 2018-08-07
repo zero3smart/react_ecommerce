@@ -69,7 +69,7 @@ export function fetchProducts (page = null) {
         params: {
           page: nextPage,
           cnt_per_page: PRODUCT_COUNT_PER_PAGE,
-          ...omit(filters, 'page', 'cnt_per_page') // use page and count per page defined from the system
+          ...omit(filters.data, 'page', 'cnt_per_page') // use page and count per page defined from the system
         }
       })
 
