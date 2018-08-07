@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { fetchProducts } from 'ducks/products'
+import { setFilter } from 'ducks/filters'
 import { ProductGrid } from 'modules/products'
 import { ProductFilter } from 'modules/filters'
 import Transition from 'ui-kits/transitions/Transition'
@@ -13,9 +14,9 @@ class Tops extends Component {
   static propTypes = {
     products: PropTypes.array,
     isProductsFetched: PropTypes.bool,
-    productId: PropTypes.string,
     nextPage: PropTypes.number,
-    fetchProducts: PropTypes.func.isRequired
+    fetchProducts: PropTypes.func.isRequired,
+    setFilter: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -44,8 +45,19 @@ class Tops extends Component {
     }
   }
 
+  get handleFilterChange () {
+    const { fetchProducts, setFilter } = this.props
+    return (filters) => {
+      // set filter to store
+      setFilter(filters)
+      // fetch products based selected filter
+      // start index 0 / reset product list
+      fetchProducts(filters, 0)
+    }
+  }
+
   render () {
-    const { products, productId, isProductsFetched, nextPage } = this.props
+    const { products, isProductsFetched, nextPage } = this.props
 
     // get loaded products count
     const currentPage = (nextPage - 1)
@@ -53,7 +65,7 @@ class Tops extends Component {
 
     return (
       <div className='Tops'>
-        <ProductFilter />
+        <ProductFilter onFilterChange={this.handleFilterChange} />
         <ScrollFetcher onFetch={this.handleFetch} className='Tops-products' disableInitalFetch>
           <Transition show={isProductsFetched} transition='fadeInUp' >
             {
@@ -65,7 +77,6 @@ class Tops extends Component {
                   brand={product.brand}
                   price={product.price}
                   imgSrc={product.front_img}
-                  active={productId === product.product_id}
                   style={{
                     // `ProducGrid` need be showed directly in each page
                     animationDelay: `${50 * (index - loadedProductsCount)}ms`
@@ -83,8 +94,7 @@ class Tops extends Component {
 const mapStateToProps = (state, props) => ({
   products: state.products.list,
   isProductsFetched: state.products.fetched,
-  nextPage: state.products.nextPage,
-  productId: props.match.params.productId
+  nextPage: state.products.nextPage
 })
 
-export default connect(mapStateToProps, { fetchProducts })(Tops)
+export default connect(mapStateToProps, { fetchProducts, setFilter })(Tops)

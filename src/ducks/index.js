@@ -1,7 +1,9 @@
-import filter from './filter'
+import filters from './filters'
 import products from './products'
+import singleProduct from './singleProduct'
 
 export {
-  filter,
-  products
+  filters,
+  products,
+  singleProduct
 }

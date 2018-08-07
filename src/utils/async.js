@@ -14,7 +14,7 @@ export function createCancelableAsyncAction (action) {
 
     // dispatch action with additional `requestStatus` param
     // as an indicator whether the promise is cancelled
-    dispatch(action(...promiseArgs, requestStatus))
+    const originalPromise = dispatch(action(...promiseArgs, requestStatus))
 
     // fake promise to reject promise before original promise finished
     const cancelableRequest = new Promise((resolve, reject) => {
@@ -27,7 +27,7 @@ export function createCancelableAsyncAction (action) {
     })
 
     // get the first finished promise
-    racedPromise = Promise.race([action, cancelableRequest])
+    racedPromise = Promise.race([originalPromise, cancelableRequest])
     racedPromise.cancel = cancelPromise
 
     return racedPromise
