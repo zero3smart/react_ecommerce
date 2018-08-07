@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import _ from 'lodash'
+import reduce from 'lodash-es/reduce'
+import isEqual from 'lodash-es/isEqual'
 import DotLoader from 'ui-kits/loaders/DotLoader'
 
 class ScrollFetcher extends Component {
@@ -35,7 +36,7 @@ class ScrollFetcher extends Component {
   }
 
   componentDidUpdate (prevProps) {
-    if (!_.isEqual(prevProps.children, this.props.children) && !this.props.disableInitalFetch) {
+    if (!isEqual(prevProps.children, this.props.children) && !this.props.disableInitalFetch) {
       this.checkScrollOnMount()
     }
   }
@@ -53,7 +54,7 @@ class ScrollFetcher extends Component {
     this.scrollCheckTimeout = setTimeout(() => { // need to have setTimeout, waiting for this component to complete rendering
       const scrollFetcher = this.refs.scrollFetcher
       if (scrollFetcher) {
-        const contentHeight = _.reduce((scrollFetcher.children), (totalHeight, child) => (totalHeight + child.clientHeight), 0)
+        const contentHeight = reduce((scrollFetcher.children), (totalHeight, child) => (totalHeight + child.clientHeight), 0)
         // This will check whether the container has scroll or not
         if (scrollFetcher.offsetHeight > contentHeight) { // container doesn't has scroll
           this.handleFetch() // do fetch
