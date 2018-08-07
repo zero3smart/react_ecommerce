@@ -1,12 +1,15 @@
 .FilterPanel {
   background: #FFFFFF;
+  max-width: 414px;
   min-height: 385px;
   padding: 10px;
   position: fixed;
   right: 0;
   left: 0;
   bottom: 0;
+  margin: auto;
   z-index: 3;
+  box-sizing: border-box;
 }
 
 .FilterPanel-close {
