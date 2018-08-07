@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { PRODUCT_COUNT_PER_PAGE } from 'config/constants'
-import Transition from 'ui-kits/transitions/Transition'
-import { ScrollFetcher } from 'ui-kits/fetchers'
-import { Product, ProductGrid, ProductPlaceholder } from 'modules/products'
-import { fetchProduct, fetchRelatedProducts, resetProduct } from 'ducks/product'
+import { Product, ProductPlaceholder, ProductList } from 'modules/products'
+import { fetchProduct, fetchRelatedProducts, resetProduct, likeProduct, unlikeProduct } from 'ducks/product'
 import './top-single.css'
 
 class TopSingle extends Component {
@@ -18,7 +15,9 @@ class TopSingle extends Component {
     nextPage: PropTypes.number,
     fetchProduct: PropTypes.func.isRequired,
     fetchRelatedProducts: PropTypes.func.isRequired,
-    resetProduct: PropTypes.func.isRequired
+    resetProduct: PropTypes.func.isRequired,
+    likeProduct: PropTypes.func.isRequired,
+    unlikeProduct: PropTypes.func.isRequired
   }
 
   componentDidMount () {
@@ -63,12 +62,19 @@ class TopSingle extends Component {
     }
   }
 
+  get toggleProductLike () {
+    const { likeProduct, unlikeProduct } = this.props
+    return (id, favorite) => {
+      if (favorite) {
+        likeProduct(id)
+      } else {
+        unlikeProduct(id)
+      }
+    }
+  }
+
   render () {
     const { product, relatedProducts, isProductFetched, isRelatedProductsFetched, nextPage } = this.props
-
-    // get loaded products count
-    const currentPage = (nextPage - 1)
-    const loadedProductsCount = PRODUCT_COUNT_PER_PAGE * (currentPage < 0 ? 0 : currentPage)
 
     return (
       <div className='TopSingle'>
@@ -86,26 +92,14 @@ class TopSingle extends Component {
             <ProductPlaceholder />
           )
         }
-        <ScrollFetcher onFetch={this.handleFetchNext} className='TopSingle-products' disableInitalFetch>
-          <Transition show={isRelatedProductsFetched} transition='fadeInUp' >
-            {
-              relatedProducts.map((product, index) => (
-                <ProductGrid
-                  key={product.product_id}
-                  id={product.product_id}
-                  name={product.name}
-                  brand={product.brand}
-                  price={product.price}
-                  imgSrc={product.front_img}
-                  style={{
-                    // `ProducGrid` need be showed directly in each page
-                    animationDelay: `${50 * (index - loadedProductsCount)}ms`
-                  }}
-                />
-              ))
-            }
-          </Transition>
-        </ScrollFetcher>
+        <ProductList
+          show={isRelatedProductsFetched}
+          products={relatedProducts}
+          nextPage={nextPage}
+          onFetch={this.handleFetchNext}
+          onToggleLike={this.toggleProductLike}
+          className='TopSingle-products'
+        />
       </div>
     )
   }
@@ -120,4 +114,13 @@ const mapStateToProps = (state, props) => ({
   nextPage: state.product.nextPage
 })
 
-export default connect(mapStateToProps, { fetchProduct, fetchRelatedProducts, resetProduct })(TopSingle)
+export default connect(
+  mapStateToProps,
+  {
+    fetchProduct,
+    fetchRelatedProducts,
+    resetProduct,
+    likeProduct,
+    unlikeProduct
+  }
+)(TopSingle)

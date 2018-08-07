@@ -2,12 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { fetchProducts } from 'ducks/products'
+import { likeProduct, unlikeProduct } from 'ducks/product'
 import { setFilter } from 'ducks/filters'
-import { ProductGrid } from 'modules/products'
+import { ProductList } from 'modules/products'
 import { ProductFilter } from 'modules/filters'
-import Transition from 'ui-kits/transitions/Transition'
-import { ScrollFetcher } from 'ui-kits/fetchers'
-import { PRODUCT_COUNT_PER_PAGE } from 'config/constants'
 import './tops.css'
 
 class Tops extends Component {
@@ -16,7 +14,9 @@ class Tops extends Component {
     isProductsFetched: PropTypes.bool,
     nextPage: PropTypes.number,
     fetchProducts: PropTypes.func.isRequired,
-    setFilter: PropTypes.func.isRequired
+    setFilter: PropTypes.func.isRequired,
+    likeProduct: PropTypes.func.isRequired,
+    unlikeProduct: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -45,6 +45,17 @@ class Tops extends Component {
     }
   }
 
+  get toggleProductLike () {
+    const { likeProduct, unlikeProduct } = this.props
+    return (id, favorite) => {
+      if (favorite) {
+        likeProduct(id)
+      } else {
+        unlikeProduct(id)
+      }
+    }
+  }
+
   get handleFilterChange () {
     const { fetchProducts, setFilter } = this.props
     return (filters) => {
@@ -59,33 +70,17 @@ class Tops extends Component {
   render () {
     const { products, isProductsFetched, nextPage } = this.props
 
-    // get loaded products count
-    const currentPage = (nextPage - 1)
-    const loadedProductsCount = PRODUCT_COUNT_PER_PAGE * (currentPage < 0 ? 0 : currentPage)
-
     return (
       <div className='Tops'>
         <ProductFilter onFilterChange={this.handleFilterChange} />
-        <ScrollFetcher onFetch={this.handleFetch} className='Tops-products' disableInitalFetch>
-          <Transition show={isProductsFetched} transition='fadeInUp' >
-            {
-              products.map((product, index) => (
-                <ProductGrid
-                  key={product.product_id}
-                  id={product.product_id}
-                  name={product.name}
-                  brand={product.brand}
-                  price={product.price}
-                  imgSrc={product.front_img}
-                  style={{
-                    // `ProducGrid` need be showed directly in each page
-                    animationDelay: `${50 * (index - loadedProductsCount)}ms`
-                  }}
-                />
-              ))
-            }
-          </Transition>
-        </ScrollFetcher>
+        <ProductList
+          show={isProductsFetched}
+          products={products}
+          nextPage={nextPage}
+          onFetch={this.handleFetch}
+          onToggleLike={this.toggleProductLike}
+          className='Tops-products'
+        />
       </div>
     )
   }
@@ -97,4 +92,12 @@ const mapStateToProps = (state, props) => ({
   nextPage: state.products.nextPage
 })
 
-export default connect(mapStateToProps, { fetchProducts, setFilter })(Tops)
+export default connect(
+  mapStateToProps,
+  {
+    fetchProducts,
+    setFilter,
+    likeProduct,
+    unlikeProduct
+  }
+)(Tops)

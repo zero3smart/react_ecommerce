@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { BASE_IMG_PATH } from 'config/constants'
+import { LikeButton } from 'ui-kits/buttons'
 import './product-grid.css'
 
 export default class ProductGrid extends PureComponent {
@@ -14,20 +15,40 @@ export default class ProductGrid extends PureComponent {
     currency: PropTypes.string,
     transition: PropTypes.string,
     className: PropTypes.string,
+    favorite: PropTypes.bool,
+    onToggleLike: PropTypes.func,
     style: PropTypes.object
   }
 
   static defaultProps = {
     currency: '$',
     active: false,
-    className: ''
+    favorite: false,
+    className: '',
+    onToggleLike: (id, favorite) => { console.debug('ProductGrid - favorite', favorite) }
+  }
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      liked: false
+    }
+  }
+
+  get toggleLike () {
+    const { id, favorite, onToggleLike } = this.props
+    return (e) => {
+      e.preventDefault()
+      onToggleLike(id, !favorite)
+    }
   }
 
   render () {
-    const { id, name, brand, imgSrc, price, currency, transition, className, style } = this.props
+    const { id, name, brand, imgSrc, price, currency, transition, className, favorite, style } = this.props
 
     return (
       <Link to={`/products/${id}`} className={`ProductGrid ${className}`} style={style}>
+        <LikeButton active={favorite} onClick={this.toggleLike} />
         <div className='ProductGrid-thumbnail'>
           {
             imgSrc ? (

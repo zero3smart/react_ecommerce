@@ -2,6 +2,7 @@
   background: white;
   color: #000000;
   text-decoration: none;
+  position: relative;
 }
 
 .ProductGrid-thumbnail {
@@ -27,6 +28,12 @@
   overflow: hidden;
   width: 60px;
   margin-bottom: 0px;
+}
+
+.ProductGrid .LikeButton {
+  position: absolute;
+  top: 4px;
+  left: 4px;
 }
 
 /* misc */
