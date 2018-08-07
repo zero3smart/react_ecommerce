@@ -7,24 +7,22 @@ import './filter-panel.css'
 export default class FilterPanel extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
+    onFilterChange: PropTypes.func,
     onClose: PropTypes.func
   }
 
   static defaultProps = {
     className: '',
+    onFilterChange: (filters) => { console.debug('FilterPanel - filter changed', filters) },
     onClose: () => { console.debug('FilterPanel - close button clicked') }
   }
 
   componentDidMount () {
+    const { onFilterChange } = this.props
+    // initialize visual filter
     this.visualFilter = new VisualFilter('#VisualFilter', {
-      onBodyPartClick: this.handleFilterChange
+      onBodyPartClick: onFilterChange
     })
-  }
-
-  get handleFilterChange () {
-    return (filters) => {
-      console.debug('filters changed', filters)
-    }
   }
 
   render () {
