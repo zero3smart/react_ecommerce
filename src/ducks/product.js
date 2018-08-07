@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { PRODUCT_COUNT_PER_PAGE } from 'config/constants'
 import { createCancelableAsyncAction } from 'utils/async'
+import { mapProductFavorites, updateProductFavorite } from './helpers'
 import { Product } from 'models'
 
 // Actions
@@ -34,21 +35,36 @@ export default function reducer (state = defaultState, action = {}) {
     case SET_RELATED_PRODUCTS:
       return {
         ...state,
-        relatedProducts: payload.products,
+        relatedProducts: mapProductFavorites(payload.favoriteProductIds, payload.products),
         relatedProductsFetched: true,
         totalCount: payload.totalCount,
         nextPage: 1
       }
     case APPEND_RELATED_PRODUCTS:
+      let newProductList = mapProductFavorites(payload.favoriteProductIds, payload.products)
       return {
         ...state,
-        relatedProducts: [...state.relatedProducts, ...payload.products],
+        relatedProducts: [...state.relatedProducts, ...newProductList],
         nextPage: state.nextPage + 1
       }
     case LIKE_PRODUCT:
-      return { ...state, data: { ...state.data, favorite: true } }
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          favorite: true
+        },
+        relatedProducts: updateProductFavorite(payload.productId, true, state.relatedProducts)
+      }
     case UNLIKE_PRODUCT:
-      return { ...state, data: { ...state.data, favorite: false } }
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          favorite: false
+        },
+        relatedProducts: updateProductFavorite(payload.productId, false, state.relatedProducts)
+      }
     case RESET_PRODUCT:
       return defaultState
     default: return state
@@ -64,12 +80,12 @@ export function resetProduct () {
   return { type: RESET_PRODUCT }
 }
 
-export function appendRelatedProducts (products = []) {
-  return { type: APPEND_RELATED_PRODUCTS, payload: { products } }
+export function appendRelatedProducts (products = [], favoriteProductIds = []) {
+  return { type: APPEND_RELATED_PRODUCTS, payload: { products, favoriteProductIds } }
 }
 
-export function setRelatedProducts (products = [], totalCount) {
-  return { type: SET_RELATED_PRODUCTS, payload: { products, totalCount } }
+export function setRelatedProducts (products = [], totalCount = 0, favoriteProductIds = []) {
+  return { type: SET_RELATED_PRODUCTS, payload: { products, totalCount, favoriteProductIds } }
 }
 
 // Side effects, only as applicable
@@ -113,14 +129,15 @@ export const fetchRelatedProducts = createCancelableAsyncAction((productId, requ
         }
       })
 
+      const favoriteProductIds = Product.getFavoriteProductIds()
       // if request is not cancelled, save data to store
       if (!requestStatus.isCancelled) {
         // if next page is more than 0, append related products to the list
         // else, reset the product
         if (product.nextPage > 0) {
-          dispatch(appendRelatedProducts(response.data.products))
+          dispatch(appendRelatedProducts(response.data.products, favoriteProductIds))
         } else {
-          dispatch(setRelatedProducts(response.data.products, response.data.total_cnt))
+          dispatch(setRelatedProducts(response.data.products, response.data.total_cnt, favoriteProductIds))
         }
       }
 
