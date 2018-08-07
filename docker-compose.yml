@@ -1,0 +1,12 @@
+version: '3.5'
+
+services:
+
+  yesplz-frontend:
+    container_name: yesplz-frontend
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - '80:80'
+    network_mode: "host"
