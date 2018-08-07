@@ -98,10 +98,17 @@ export const fetchProduct = createCancelableAsyncAction((productId, requestStatu
   return async dispatch => {
     try {
       const response = await axios.get(`/products/woman_top/${productId}`)
+      const favoriteProductIds = Product.getFavoriteProductIds()
+
+      let product = response.data.products[0]
+      product = {
+        ...product,
+        favorite: favoriteProductIds.indexOf(product.product_id) > -1
+      }
 
       //  put it on store as `data`
       if (!requestStatus.isCancelled) {
-        dispatch(setProduct(response.data.products[0]))
+        dispatch(setProduct(product, favoriteProductIds))
       }
 
       return response

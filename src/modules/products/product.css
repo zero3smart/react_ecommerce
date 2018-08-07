@@ -14,6 +14,19 @@
 
 .Product-images {
   grid-area: images;
+  position: relative;
+}
+
+.Product .Product-images > .LikeButton {
+  position: absolute;
+  top: 0px;
+  left: -15px;
+  z-index: 2;
+}
+
+.Product .Product-images > .LikeButton > button {
+  width: 30px;
+  height: 30px;
 }
 
 .Product-images img {

@@ -87,6 +87,8 @@ class TopSingle extends Component {
               price={product.price}
               imgSrc={product.front_img}
               description={product.description}
+              favorite={product.favorite}
+              onToggleLike={this.toggleProductLike}
             />
           ) : (
             <ProductPlaceholder />
