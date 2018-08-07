@@ -23,3 +23,23 @@
 .FilterPanel-close > img {
   vertical-align: top;
 }
+
+.FilterPanel #tap_button {
+  animation-duration: 2s;
+  animation-fill-mode: both;
+  animation-name: flashingTabButton;
+  animation-iteration-count: infinite;
+}
+
+@keyframes flashingTabButton {
+  from,
+  50%,
+  to {
+    opacity: 1;
+  }
+
+  25%,
+  75% {
+    opacity: 0;
+  }
+}
