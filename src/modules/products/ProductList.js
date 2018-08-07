@@ -12,17 +12,20 @@ export default class ProductList extends Component {
     show: PropTypes.bool,
     className: PropTypes.string,
     onFetch: PropTypes.func.isRequired,
-    onToggleLike: PropTypes.func.isRequired
+    onToggleLike: PropTypes.func.isRequired,
+    extraItem: PropTypes.element
   }
 
   static defaultProps = {
     products: [],
     nextPage: 0,
-    show: false
+    show: false,
+    extraItem: undefined,
+    onFetch: (next) => { next() }
   }
 
   render () {
-    const { products, nextPage, show, className, onFetch, onToggleLike } = this.props
+    const { products, nextPage, show, className, extraItem, onFetch, onToggleLike } = this.props
 
     // get loaded products count
     const currentPage = (nextPage - 1)
@@ -30,6 +33,7 @@ export default class ProductList extends Component {
 
     return (
       <ScrollFetcher onFetch={onFetch} className={className} disableInitalFetch>
+        {extraItem}
         <Transition show={show} transition='fadeInUp'>
           {
             products.map((product, index) => (

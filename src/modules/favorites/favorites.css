@@ -1,0 +1,45 @@
+.Favorites {
+  height: calc(100% - 39px);
+}
+
+.Favorites .FlatBanner {
+  flex-basis: 100%;
+  height: 182px;
+  margin-bottom: 10px;
+  margin-top: -10px;
+  box-sizing: border-box;
+}
+
+.Favorites-products {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  padding-top: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.Favorites-products .Product {
+  order: 0;
+  margin: -8px -5px 10px;
+}
+
+.Favorites-products .ProductGrid {
+  width: calc(33.33333% - 10px);
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 10px;
+  order: 1;
+}
+
+/* from ScrollFetcher */
+.Favorites-products .DotLoader {
+  width: 100%;
+  flex-basis: 100%;
+  order: 2;
+}
