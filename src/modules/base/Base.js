@@ -29,7 +29,7 @@ export default class Base extends Component {
             {this.isProductDetailPage ? 'products' : 'tops'}
           </NavLink>
           <NavLink to='/presets'>presets</NavLink>
-          <NavLink to='/favorites'>favorites</NavLink>
+          <NavLink to='/favorites/clothing'>favorites</NavLink>
           <NavLink to='/feedbacks'>feedbacks</NavLink>
         </Tabs>
         {children}
