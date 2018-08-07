@@ -4,6 +4,8 @@ import { ConnectedRouter } from 'connected-react-router'
 import store, { history } from './config/store'
 import routes from './config/routes'
 // import global styles
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 import 'assets/css/reset.css'
 import 'app.css'
 
