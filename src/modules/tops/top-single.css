@@ -1,8 +1,8 @@
-.Tops {
+.TopSingle {
   height: calc(100% - 39px);
 }
 
-.Tops-products {
+.TopSingle-products {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
@@ -10,16 +10,16 @@
   padding-left: 5px;
   padding-right: 5px;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 310px);
   box-sizing: border-box;
 }
 
-.Tops-products .Product {
+.TopSingle-products .Product {
   order: 0;
   margin: -8px -5px 10px;
 }
 
-.Tops-products .ProductGrid {
+.TopSingle-products .ProductGrid {
   width: calc(33.33333% - 10px);
   margin-left: 5px;
   margin-right: 5px;
@@ -28,7 +28,7 @@
 }
 
 /* from ScrollFetcher */
-.Tops-products .DotLoader {
+.TopSingle-products .DotLoader {
   width: 100%;
   flex-basis: 100%;
   order: 2;
