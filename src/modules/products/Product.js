@@ -1,53 +1,65 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { fetchSingleProduct, setActiveProduct } from 'ducks/products'
-import { BASE_API_PATH } from 'config/constants'
-import { Button } from 'ui-kits/buttons'
+import { BASE_IMG_PATH } from 'config/constants'
+import { Button, LikeButton } from 'ui-kits/buttons'
+import Slider from 'react-slick'
 import './product.css'
 
-class Product extends Component {
+export default class Product extends PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     brand: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     imgSrc: PropTypes.string.isRequired,
+    extraImgs: PropTypes.array,
     currency: PropTypes.string,
-    product: PropTypes.object,
-    fetchSingleProduct: PropTypes.func.isRequired,
-    setActiveProduct: PropTypes.func.isRequired
+    favorite: PropTypes.bool,
+    description: PropTypes.string,
+    onToggleLike: PropTypes.func
   }
 
   static defaultProps = {
     currency: '$',
-    product: {}
+    product: {},
+    extraImgs: []
   }
 
-  componentDidMount () {
-    const { id, fetchSingleProduct } = this.props
-
-    // fetch single top data
-    this.fetchRequest = fetchSingleProduct(id)
+  get sliderSettings () {
+    return {
+      dots: true,
+      arrows: false,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1
+    }
   }
 
-  componentWillUnmount () {
-    this.fetchRequest.cancel()
-    this.props.setActiveProduct({})
+  get toggleLike () {
+    const { id, favorite, onToggleLike } = this.props
+    return (e) => {
+      e.preventDefault()
+      onToggleLike(id, !favorite)
+    }
   }
 
   render () {
-    const { id, name, brand, imgSrc, price, currency, product } = this.props
+    const { id, name, brand, imgSrc, extraImgs, price, currency, description, favorite } = this.props
 
     return (
       <div className='Product'>
         <div className='Product-images'>
-          {imgSrc && <img src={`${BASE_API_PATH}imgs/ns_woman_top/${imgSrc}`} alt={name} className='img-responsive' />}
+          <LikeButton active={favorite} onClick={this.toggleLike} />
+          <Slider {...this.sliderSettings}>
+            {imgSrc && <img src={`${BASE_IMG_PATH}imgs/ns_woman_top/${imgSrc}`} alt={name} className='img-responsive' />}
+            {renderExtraImages(extraImgs, name)}
+          </Slider>
         </div>
         <div className='Product-detail'>
           <h3>{brand}</h3>
           <h4>{name}</h4>
-          <p>{product.description}</p>
+          <p>{description}</p>
           <div className='Product-price'>{currency}{price}</div>
         </div>
         <div className='Product-footer'>
@@ -58,14 +70,8 @@ class Product extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  product: state.products.activeProduct
-})
-
-export default connect(
-  mapStateToProps,
-  {
-    fetchSingleProduct,
-    setActiveProduct
-  }
-)(Product)
+const renderExtraImages = (imgs = [], name = '') => (
+  imgs.map((imgSrc, index) => (
+    <img key={imgSrc} src={`${BASE_IMG_PATH}imgs/ns_woman_top/${imgSrc}`} alt={name} className='img-responsive' />
+  ))
+)

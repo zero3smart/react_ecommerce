@@ -2,20 +2,22 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { fetchProducts } from 'ducks/products'
-import { ProductGrid } from 'modules/products'
+import { likeProduct, unlikeProduct } from 'ducks/product'
+import { setFilter, syncFilter } from 'ducks/filters'
+import { ProductList } from 'modules/products'
 import { ProductFilter } from 'modules/filters'
-import Transition from 'ui-kits/transitions/Transition'
-import { ScrollFetcher } from 'ui-kits/fetchers'
-import { PRODUCT_COUNT_PER_PAGE } from 'config/constants'
 import './tops.css'
 
 class Tops extends Component {
   static propTypes = {
     products: PropTypes.array,
     isProductsFetched: PropTypes.bool,
-    productId: PropTypes.string,
     nextPage: PropTypes.number,
-    fetchProducts: PropTypes.func.isRequired
+    fetchProducts: PropTypes.func.isRequired,
+    syncFilter: PropTypes.func.isRequired,
+    setFilter: PropTypes.func.isRequired,
+    likeProduct: PropTypes.func.isRequired,
+    unlikeProduct: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -24,10 +26,11 @@ class Tops extends Component {
   }
 
   componentDidMount () {
-    const { isProductsFetched, fetchProducts } = this.props
+    const { isProductsFetched, syncFilter, fetchProducts } = this.props
 
     // don't need to do initial fetch if products is fetched already
     if (!isProductsFetched) {
+      syncFilter()
       fetchProducts()
     }
   }
@@ -44,37 +47,42 @@ class Tops extends Component {
     }
   }
 
-  render () {
-    const { products, productId, isProductsFetched, nextPage } = this.props
+  get toggleProductLike () {
+    const { likeProduct, unlikeProduct } = this.props
+    return (id, favorite) => {
+      if (favorite) {
+        likeProduct(id)
+      } else {
+        unlikeProduct(id)
+      }
+    }
+  }
 
-    // get loaded products count
-    const currentPage = (nextPage - 1)
-    const loadedProductsCount = PRODUCT_COUNT_PER_PAGE * (currentPage < 0 ? 0 : currentPage)
+  get handleFilterChange () {
+    const { fetchProducts, setFilter } = this.props
+    return (filters) => {
+      // set filter to store
+      setFilter(filters)
+      // fetch products based selected filter
+      // start index 0 / reset product list
+      fetchProducts(0)
+    }
+  }
+
+  render () {
+    const { products, isProductsFetched, nextPage } = this.props
 
     return (
       <div className='Tops'>
-        <ProductFilter />
-        <ScrollFetcher onFetch={this.handleFetch} className='Tops-products' disableInitalFetch>
-          <Transition show={isProductsFetched} transition='fadeInUp' >
-            {
-              products.map((product, index) => (
-                <ProductGrid
-                  key={product.product_id}
-                  id={product.product_id}
-                  name={product.name}
-                  brand={product.brand}
-                  price={product.price}
-                  imgSrc={product.front_img}
-                  active={productId === product.product_id}
-                  style={{
-                    // `ProducGrid` need be showed directly in each page
-                    animationDelay: `${50 * (index - loadedProductsCount)}ms`
-                  }}
-                />
-              ))
-            }
-          </Transition>
-        </ScrollFetcher>
+        <ProductFilter onFilterChange={this.handleFilterChange} />
+        <ProductList
+          show={isProductsFetched}
+          products={products}
+          nextPage={nextPage}
+          onFetch={this.handleFetch}
+          onToggleLike={this.toggleProductLike}
+          className='Tops-products'
+        />
       </div>
     )
   }
@@ -83,8 +91,16 @@ class Tops extends Component {
 const mapStateToProps = (state, props) => ({
   products: state.products.list,
   isProductsFetched: state.products.fetched,
-  nextPage: state.products.nextPage,
-  productId: props.match.params.productId
+  nextPage: state.products.nextPage
 })
 
-export default connect(mapStateToProps, { fetchProducts })(Tops)
+export default connect(
+  mapStateToProps,
+  {
+    fetchProducts,
+    syncFilter,
+    setFilter,
+    likeProduct,
+    unlikeProduct
+  }
+)(Tops)

@@ -9,10 +9,60 @@
   "footer footer";
   grid-gap: 25px 30px;
   padding: 15px 30px 30px;
+  box-sizing: border-box;
 }
 
 .Product-images {
   grid-area: images;
+  position: relative;
+}
+
+.Product .Product-images > .LikeButton {
+  position: absolute;
+  top: 0px;
+  left: -15px;
+  z-index: 2;
+}
+
+.Product .Product-images > .slick-slider {
+  max-width: 128px;
+  margin: auto;
+}
+.Product .Product-images > .slick-slider .slick-dots > li {
+  display: inline-block;
+  width: auto;
+  height: auto;
+  margin: 2px;
+  vertical-align: top;
+}
+.Product .Product-images > .slick-slider .slick-dots > li > button {
+  width: auto;
+  height: auto;
+  padding: 0px;
+  vertical-align: top;
+}
+.Product .Product-images > .slick-slider .slick-dots > li > button::before {
+  content: '';
+  display: inline-block;
+  background: transparent;
+  width: 8px;
+  height: 8px;
+  border: 1px solid #707070;
+  border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  -o-border-radius: 100%;
+  box-sizing: border-box;
+  position: static;
+}
+.Product .Product-images > .slick-slider .slick-dots > li.slick-active > button::before {
+  background: #3D3D3D;
+  border-color: #3D3D3D;
+}
+
+.Product .Product-images > .LikeButton > button {
+  width: 30px;
+  height: 30px;
 }
 
 .Product-images img {
@@ -42,7 +92,10 @@
   /* autoprefixer: on */
 }
 
-
 .Product-footer {
   grid-area: footer;
+}
+
+.Product-placeholder {
+  grid-template-areas: "images detail";
 }

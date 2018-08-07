@@ -1,12 +1,15 @@
 .FilterPanel {
   background: #FFFFFF;
+  max-width: 414px;
   min-height: 385px;
   padding: 10px;
   position: fixed;
   right: 0;
   left: 0;
   bottom: 0;
+  margin: auto;
   z-index: 3;
+  box-sizing: border-box;
 }
 
 .FilterPanel-close {
@@ -19,4 +22,24 @@
 
 .FilterPanel-close > img {
   vertical-align: top;
+}
+
+.FilterPanel #tap_button {
+  animation-duration: 2s;
+  animation-fill-mode: both;
+  animation-name: flashingTabButton;
+  animation-iteration-count: infinite;
+}
+
+@keyframes flashingTabButton {
+  from,
+  50%,
+  to {
+    opacity: 1;
+  }
+
+  25%,
+  75% {
+    opacity: 0;
+  }
 }

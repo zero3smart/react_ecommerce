@@ -2,11 +2,13 @@
   background: white;
   color: #000000;
   text-decoration: none;
+  position: relative;
 }
 
 .ProductGrid-thumbnail {
   padding-left: 15px;
   padding-right: 15px;
+  min-height: 145px;
 }
 
 .ProductGrid-detail {
@@ -26,6 +28,12 @@
   overflow: hidden;
   width: 60px;
   margin-bottom: 0px;
+}
+
+.ProductGrid .LikeButton {
+  position: absolute;
+  top: 4px;
+  left: 4px;
 }
 
 /* misc */
