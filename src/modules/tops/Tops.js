@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { fetchProducts } from 'ducks/products'
 import { likeProduct, unlikeProduct } from 'ducks/product'
-import { setFilter } from 'ducks/filters'
+import { setFilter, syncFilter } from 'ducks/filters'
 import { ProductList } from 'modules/products'
 import { ProductFilter } from 'modules/filters'
 import './tops.css'
@@ -14,6 +14,7 @@ class Tops extends Component {
     isProductsFetched: PropTypes.bool,
     nextPage: PropTypes.number,
     fetchProducts: PropTypes.func.isRequired,
+    syncFilter: PropTypes.func.isRequired,
     setFilter: PropTypes.func.isRequired,
     likeProduct: PropTypes.func.isRequired,
     unlikeProduct: PropTypes.func.isRequired
@@ -25,10 +26,11 @@ class Tops extends Component {
   }
 
   componentDidMount () {
-    const { isProductsFetched, fetchProducts } = this.props
+    const { isProductsFetched, syncFilter, fetchProducts } = this.props
 
     // don't need to do initial fetch if products is fetched already
     if (!isProductsFetched) {
+      syncFilter()
       fetchProducts()
     }
   }
@@ -63,7 +65,7 @@ class Tops extends Component {
       setFilter(filters)
       // fetch products based selected filter
       // start index 0 / reset product list
-      fetchProducts(filters, 0)
+      fetchProducts(0)
     }
   }
 
@@ -96,6 +98,7 @@ export default connect(
   mapStateToProps,
   {
     fetchProducts,
+    syncFilter,
     setFilter,
     likeProduct,
     unlikeProduct

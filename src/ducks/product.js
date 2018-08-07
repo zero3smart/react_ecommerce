@@ -48,23 +48,38 @@ export default function reducer (state = defaultState, action = {}) {
         nextPage: state.nextPage + 1
       }
     case LIKE_PRODUCT:
+      let activeData = state.data
+
+      // if active product matched with liked product, update the favorite value
+      if (activeData.product_id === payload.productId) {
+        activeData = {
+          ...activeData,
+          favorite: true
+        }
+      }
+
       return {
         ...state,
-        data: {
-          ...state.data,
-          favorite: true
-        },
+        data: activeData,
         relatedProducts: updateProductFavorite(payload.productId, true, state.relatedProducts)
       }
-    case UNLIKE_PRODUCT:
+    case UNLIKE_PRODUCT: {
+      activeData = state.data
+
+      // if active product matched with liked product, update the favorite value
+      if (activeData.product_id === payload.productId) {
+        activeData = {
+          ...activeData,
+          favorite: false
+        }
+      }
+
       return {
         ...state,
-        data: {
-          ...state.data,
-          favorite: false
-        },
+        data: activeData,
         relatedProducts: updateProductFavorite(payload.productId, false, state.relatedProducts)
       }
+    }
     case RESET_PRODUCT:
       return defaultState
     default: return state

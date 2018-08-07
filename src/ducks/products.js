@@ -1,4 +1,6 @@
 import axios from 'axios'
+import isNil from 'lodash-es/isNil'
+import omit from 'lodash-es/omit'
 import { PRODUCT_COUNT_PER_PAGE } from 'config/constants'
 import { LIKE_PRODUCT, UNLIKE_PRODUCT } from './product'
 import { mapProductFavorites, updateProductFavorite } from './helpers'
@@ -55,20 +57,19 @@ export function appendProducts (products = [], favoriteProductIds = []) {
 
 /**
  * fetch product list based on specific filter
- * @param {Object} filters
  * @param {number} page
  */
-export function fetchProducts (filters = {}, page = null) {
+export function fetchProducts (page = null) {
   return async (dispatch, getState) => {
     try {
-      const { products } = getState()
-      const nextPage = page || products.nextPage
+      const { products, filters } = getState()
+      const nextPage = isNil(page) ? products.nextPage : page
 
       const response = await axios.get('/products/woman_top', {
         params: {
           page: nextPage,
           cnt_per_page: PRODUCT_COUNT_PER_PAGE,
-          ...filters
+          ...omit(filters, 'page', 'cnt_per_page') // use page and count per page defined from the system
         }
       })
 
