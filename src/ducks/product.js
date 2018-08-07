@@ -1,15 +1,18 @@
 import axios from 'axios'
 import { PRODUCT_COUNT_PER_PAGE } from 'config/constants'
 import { createCancelableAsyncAction } from 'utils/async'
+import { Product } from 'models'
 
 // Actions
 const SET_PRODUCT = 'product/SET_PRODUCT'
 const RESET_PRODUCT = 'product/RESET_PRODUCT'
 const SET_RELATED_PRODUCTS = 'product/SET_RELATED_PRODUCTS'
 const APPEND_RELATED_PRODUCTS = 'product/APPEND_PRODUCTS'
+export const LIKE_PRODUCT = 'product/LIKE_PRODUCT'
+export const UNLIKE_PRODUCT = 'product/UNLIKE_PRODUCT'
 
 const defaultState = {
-  data: {},
+  data: {}, // active product
   fetched: false,
   // related products
   relatedProducts: [],
@@ -42,6 +45,10 @@ export default function reducer (state = defaultState, action = {}) {
         relatedProducts: [...state.relatedProducts, ...payload.products],
         nextPage: state.nextPage + 1
       }
+    case LIKE_PRODUCT:
+      return { ...state, data: { ...state.data, favorite: true } }
+    case UNLIKE_PRODUCT:
+      return { ...state, data: { ...state.data, favorite: false } }
     case RESET_PRODUCT:
       return defaultState
     default: return state
@@ -123,3 +130,17 @@ export const fetchRelatedProducts = createCancelableAsyncAction((productId, requ
     }
   }
 })
+
+export function likeProduct (productId) {
+  return (dispatch) => {
+    Product.like(productId)
+    dispatch({ type: LIKE_PRODUCT, payload: { productId } })
+  }
+}
+
+export function unlikeProduct (productId) {
+  return (dispatch) => {
+    Product.unlike(productId)
+    dispatch({ type: UNLIKE_PRODUCT, payload: { productId } })
+  }
+}
