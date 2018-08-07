@@ -43,7 +43,7 @@ def index():
     agent = request.headers.get('User-Agent')
     phones = ["iphone", "android", "blackberry"]
     if any(phone in agent.lower() for phone in phones):
-        return render_template('mobile/index.html')
+        return redirect('/mobile/', code=302)
     else:
         return render_template('index.html')
 
