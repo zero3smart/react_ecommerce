@@ -43,6 +43,25 @@ class ArchivePath(YpPath):
             l.extend([p.name for p in (self.base_dir / 'swatch'/ s).glob('*.jpg')])
         return l
 
+    def color_swatch_dir(self, stype):
+        return self.base_dir / 'swatch_by_colors'/ stype
+         
+    def color_swatch(self, stype):
+        colors = ['beige', 'black', 'blue', 'brown', 'green', 'grey', 'metal', 'orange', 
+                  'pastel', 'pink', 'purple', 'red', 'white','yellow']
+        if stype == 'sorted':
+            stype = colors
+        elif stype == 'unsorted':
+            ac = self.color_swatch('all') 
+            sc = self.color_swatch('sorted') + self.color_swatch('na')
+            return list(set(ac) - set(sc))
+        else:
+            stype = [stype]
+        l = []
+        for s in stype:
+            l.extend([p.name for p in (self.base_dir / 'swatch_by_colors'/ s).glob('*.jpg')])
+        return list(set(l))
+
 class CrawlPath(YpPath):
     def __init__(self, data_dir, timestamp, postfix=None):
         if timestamp == 'latest':

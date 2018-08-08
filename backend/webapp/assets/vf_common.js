@@ -54,7 +54,7 @@ function find_group_by_id(s, id)
 
 function show_group(s, id)
 {
-    //console.log('Showing', id)
+//    console.log('Showing', id)
     g = find_group_by_id(s, id)
     g.attr({ visibility: "visible" });
 }

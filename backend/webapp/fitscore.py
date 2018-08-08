@@ -92,6 +92,11 @@ class FitRequirement:
             if val>=0:
                 fpr.set_range(val)
             reqs[name] = fpr
+        color = args.get('color', default=None, type=str)
+        if color and color != '0':
+            print('Color', color)
+        if reqs['coretype'] == 0:
+            reqs['top_length'].all = True
         r.reqs = reqs
         selected_product_id = args.get('selected_product_id', default=None, type=str)
         if selected_product_id:
@@ -190,7 +195,7 @@ class FitScorer:
             pid, cid = map(int, fit_req.prior_prds[0].split('_'))
             df = df.drop(df[(df['pid'] == pid) & (df['cid'] == cid)].index)
         df = df[df['score']>self.min_score]
-        return df.reset_index()
+        return df
 
     def score_base_prop(self, df, fit_req, col_name):
         reqs = fit_req.base_body_props()
