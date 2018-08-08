@@ -5,7 +5,7 @@ import './filter-button.css'
 export default class FilterButton extends PureComponent {
   static propTypes = {
     name: PropTypes.string.isRequired,
-    value: PropTypes.number.isRequired,
+    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     onClick: PropTypes.func.isRequired,
     children: PropTypes.string,
     iconSrc: PropTypes.string,

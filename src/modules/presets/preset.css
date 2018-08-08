@@ -1,9 +1,29 @@
 .Preset {
   background: white;
-  padding: 20px;
+  width: 100%;
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: auto;
+  grid-template-areas:
+  "title title"
+  "svg filter";
+  grid-gap: 10px 20px;
+  padding: 10px 20px 15px;
   margin-bottom: 10px;
+  box-sizing: border-box;
 }
 
 .Preset h2 {
+  font-weight: 300;
   color: #9B9B9B;
+}
+
+.Preset svg {
+  grid-area: svg;
+  height: 150px;
+  margin: auto;
+}
+
+.Preset .Preset-filter {
+  grid-area: filter;
 }

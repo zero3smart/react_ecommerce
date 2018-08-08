@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import includes from 'lodash-es/includes'
 import { FilterButton } from 'ui-kits/buttons'
+import { FABRIC_COLORS } from 'config/constants'
 import detailSVGSrc from 'assets/svg/detail.svg'
 import detailActiveSVGSrc from 'assets/svg/detail-active.svg'
 import patternSVGSrc from 'assets/svg/pattern.svg'
@@ -14,7 +16,7 @@ export default class FabricFilters extends PureComponent {
     details: PropTypes.number,
     pattern: PropTypes.number,
     solid: PropTypes.number,
-    color: PropTypes.number,
+    color: PropTypes.string,
     onChange: PropTypes.func,
     disableEvent: PropTypes.bool
   }
@@ -23,7 +25,7 @@ export default class FabricFilters extends PureComponent {
     details: 0,
     pattern: 0,
     solid: 0,
-    color: 0,
+    color: 'black',
     onChange: (filters) => {},
     disableEvent: false
   }
@@ -51,6 +53,8 @@ export default class FabricFilters extends PureComponent {
 
   render () {
     const { details, pattern, solid, color, disableEvent } = this.props
+
+    const colorBackground = FABRIC_COLORS[color]
     return (
       <div className={classNames('FabricFilters', { noEvents: disableEvent })}>
         <FilterButton
@@ -81,7 +85,13 @@ export default class FabricFilters extends PureComponent {
           name='color'
           value={color}
           onClick={this.handleClick}
-          iconSrc={colorSVGSrc}
+          iconSrc={includes(['all', null], color) ? colorSVGSrc : null}
+          iconStyle={{
+            backgroundColor: colorBackground,
+            border: colorBackground && (
+              color === 'white' ? '1px solid #3D3D3D' : '1px solid #D7D0D9'
+            )
+          }}
           style={styles.button}>
           Colors
         </FilterButton>
