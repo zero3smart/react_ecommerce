@@ -1,0 +1,7 @@
+.FabricFilters {
+
+}
+
+.FabricFilters.noEvents .FilterButton:hover {
+  background: none;
+}
