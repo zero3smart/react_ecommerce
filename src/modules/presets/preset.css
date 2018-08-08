@@ -18,10 +18,26 @@
   color: #9B9B9B;
 }
 
-.Preset svg {
+.Preset-svg {
   grid-area: svg;
+  position: relative;
+}
+
+.Preset-svg svg {
   height: 150px;
   margin: auto;
+}
+
+.Preset-svg .LikeButton {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+}
+
+.Preset-svg .LikeButton > button {
+  width: 30px;
+  height: 30px;
 }
 
 .Preset .Preset-filter {

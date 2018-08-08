@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import camelCase from 'lodash-es/camelCase'
-import { fetchPresets } from 'ducks/filters'
+import { history } from 'config/store'
+import { enableInitialFetch } from 'ducks/products'
+import { fetchPresets, setFilter, likePreset, unlikePreset } from 'ducks/filters'
 import Transition from 'ui-kits/transitions/Transition'
 import Preset from './Preset'
 
@@ -10,7 +12,11 @@ class Presets extends Component {
   static propTypes = {
     presets: PropTypes.array,
     isPresetsFetched: PropTypes.bool,
-    fetchPresets: PropTypes.func
+    fetchPresets: PropTypes.func.isRequired,
+    setFilter: PropTypes.func.isRequired,
+    likePreset: PropTypes.func.isRequired,
+    unlikePreset: PropTypes.func.isRequired,
+    enableInitialFetch: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -24,8 +30,24 @@ class Presets extends Component {
   }
 
   get handlePresetClick () {
+    const { setFilter, enableInitialFetch } = this.props
     return (filters) => {
-      console.debug('filters', filters)
+      setFilter(filters)
+      // make products fetched from beginning
+      enableInitialFetch()
+      // redirect to Tops page
+      history.push('/')
+    }
+  }
+
+  get togglePresetLike () {
+    const { likePreset, unlikePreset } = this.props
+    return (presetName, favorite) => {
+      if (favorite) {
+        likePreset(presetName)
+      } else {
+        unlikePreset(presetName)
+      }
     }
   }
 
@@ -50,7 +72,9 @@ class Presets extends Component {
                 solid={preset.solid}
                 details={preset.details}
                 color={preset.color}
+                favorite={preset.favorite}
                 onClick={this.handlePresetClick}
+                onToggleLike={this.togglePresetLike}
                 style={{ animationDelay: `${50 * index}ms` }}
               />
             ))
@@ -66,4 +90,13 @@ const mapStateToProps = state => ({
   isPresetsFetched: state.filters.presetsFetched
 })
 
-export default connect(mapStateToProps, { fetchPresets })(Presets)
+export default connect(
+  mapStateToProps,
+  {
+    fetchPresets,
+    setFilter,
+    likePreset,
+    unlikePreset,
+    enableInitialFetch
+  }
+)(Presets)

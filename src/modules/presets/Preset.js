@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { FabricFilters } from 'modules/filters'
 import { BodyPart } from 'models'
+import { LikeButton } from 'ui-kits/buttons'
 import './preset.css'
 
 export default class Preset extends Component {
@@ -20,8 +21,10 @@ export default class Preset extends Component {
     color: PropTypes.string,
     topLength: PropTypes.number,
     className: PropTypes.string,
+    favorite: PropTypes.bool,
     style: PropTypes.object,
-    onClick: PropTypes.func.isRequired
+    onClick: PropTypes.func.isRequired,
+    onToggleLike: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -35,7 +38,8 @@ export default class Preset extends Component {
     sleeveLength: 0,
     solid: 0,
     topLength: 0,
-    color: null
+    color: null,
+    favorite: false
   }
 
   get bodyPartFilters () {
@@ -70,13 +74,25 @@ export default class Preset extends Component {
     }
   }
 
+  get toggleLike () {
+    const { name, favorite, onToggleLike } = this.props
+    return (e) => {
+      e.preventDefault()
+      e.stopPropagation()
+      onToggleLike(name, !favorite)
+    }
+  }
+
   render () {
-    const { id, name, className, style } = this.props
+    const { id, name, className, favorite, style } = this.props
 
     return (
       <div onClick={this.handleClick} className={classNames('Preset', { [className]: className })} style={style}>
         <h2>{name}</h2>
-        <svg id={id} />
+        <div className='Preset-svg'>
+          <LikeButton active={favorite} onClick={this.toggleLike} />
+          <svg id={id} />
+        </div>
         <div className='Preset-filter'>
           <FabricFilters {...this.fabricFilters} disableEvent />
         </div>
