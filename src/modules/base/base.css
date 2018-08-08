@@ -5,4 +5,5 @@
   height: 100%;
   background: #F6F4F5;
   position: relative;
+  overflow: hidden;
 }

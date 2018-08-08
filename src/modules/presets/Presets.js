@@ -8,8 +8,9 @@ import { fetchPresets, setFilter, likePreset, unlikePreset } from 'ducks/filters
 import Transition from 'ui-kits/transitions/Transition'
 import { DotLoader } from 'ui-kits/loaders'
 import Preset from './Preset'
+import './presets.css'
 
-class Presets extends Component {
+export class Presets extends Component {
   static propTypes = {
     presets: PropTypes.array,
     isPresetsFetched: PropTypes.bool,
@@ -17,7 +18,9 @@ class Presets extends Component {
     setFilter: PropTypes.func.isRequired,
     likePreset: PropTypes.func.isRequired,
     unlikePreset: PropTypes.func.isRequired,
-    enableInitialFetch: PropTypes.func.isRequired
+    enableInitialFetch: PropTypes.func.isRequired,
+    extraItem: PropTypes.element,
+    style: PropTypes.object
   }
 
   static defaultProps = {
@@ -53,15 +56,16 @@ class Presets extends Component {
   }
 
   render () {
-    const { isPresetsFetched, presets } = this.props
+    const { isPresetsFetched, presets, extraItem, style } = this.props
     return (
-      <div>
+      <div className='Presets' style={style}>
+        {extraItem}
         {!isPresetsFetched && <DotLoader visible style={styles.loader} />}
         <Transition show={isPresetsFetched} transition='fadeInUp'>
           {
             presets.map((preset, index) => (
               <Preset
-                key={`${preset.name} ${index}`}
+                key={preset.name}
                 id={`${camelCase(preset.name)}${index}`}
                 name={preset.name}
                 collar={preset.collar}
@@ -87,8 +91,8 @@ class Presets extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  presets: state.filters.presets,
+const mapStateToProps = (state, props) => ({
+  presets: props.presets || state.filters.presets,
   isPresetsFetched: state.filters.presetsFetched
 })
 

@@ -19,6 +19,13 @@ export default class Base extends Component {
     return match => match || this.isProductDetailPage
   }
 
+  get handleFavoritesLinkActive () {
+    return () => {
+      const { location } = this.props
+      return /^\/favorites\/(fits|clothing)$/.test(location.pathname)
+    }
+  }
+
   render () {
     const { children } = this.props
 
@@ -29,7 +36,7 @@ export default class Base extends Component {
             {this.isProductDetailPage ? 'products' : 'tops'}
           </NavLink>
           <NavLink to='/presets'>presets</NavLink>
-          <NavLink to='/favorites/clothing'>favorites</NavLink>
+          <NavLink to='/favorites/clothing' isActive={this.handleFavoritesLinkActive}>favorites</NavLink>
           <NavLink to='/feedbacks'>feedbacks</NavLink>
         </Tabs>
         {children}
