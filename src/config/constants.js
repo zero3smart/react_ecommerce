@@ -4,6 +4,7 @@ export const BASE_IMG_PATH = process.env.REACT_APP_BASE_IMG_PATH || '/'
 
 // local storage
 export const FAVORITE_PRODUCTS = 'favorite_products'
+export const FAVORITE_PRESETS = 'favorite_presets'
 export const FILTERS = 'filters'
 
 // product count that will be showed for each page
