@@ -163,11 +163,15 @@ class ProductDb:
             return None
         return Product(pid, cid, prd_row, prd_col_row, prd_pred_row, prd_col_pred_row, price_rows)
   
-    def pcids_sorted(self, req):
+    def pcids_sorted(self, req, limit_per_pid=0):
         start = time.time()
 
         calc = FitScorer(self.prd_pred_df, self.prd_col_pred_df)
         df = calc.score(req)
+        if limit_per_pid: # Limit # of items per pid
+            before = df.shape[0]
+            df = df.groupby('pid').head(limit_per_pid)
+            print('Lmiting list per pid: %d->%d' % (before, df.shape[0]))
         pcids = list(df['pid'].astype('str')+'_'+df['cid'].astype('str'))
         score = list(df['score'])
         print('pcids_sorted() took %.0fms' % ((time.time()-start)*1000))

@@ -86,12 +86,17 @@ function change_prop_selection(s, prop, sel)
         else if (cur_prop_state[prop] == '0')
         {
             hide_group(s, 'length_0')
+            hide_group(s, 'length_all')
             show_group(s, 'length_'+saved_top_length)
             cur_prop_state['top_length'] = saved_top_length
         }
     }
     if (prop == 'top_length' && cur_prop_state['coretype'] == '0')
     {
+        if (prop != 0)
+        {
+            hide_group(s, 'length_0')
+        }
         hide_group(s, 'top_core_0')
         show_group(s, 'top_core_1')
         cur_prop_state['coretype'] = '1' // Avoid recursion
@@ -340,7 +345,7 @@ window.onload = function () {
                 continue
             }
             prop_grpn = prop_const[prop][3]
-            show_group(s, prop_grpn+'_'+cur_prop_state[prop])
+            change_prop_selection(s, prop, cur_prop_state[prop])
         }
         if (need_onboarding())
         {
@@ -363,7 +368,8 @@ function getRestProductReqStr() {
     http_req = rest_server_url
     http_req += "api/products/woman_top?"
     http_req += "page=0";
-    http_req += "&extra_info=1";
+    //http_req += "&extra_info=1";
+    http_req += "&limit_per_pid=1";
     http_req += "&cnt_per_page=72"
     
     for (var prop in cur_prop_state) 

@@ -56,9 +56,10 @@ def get_woman_top():
     page = request.args.get('page', default=0, type=int)
     cnt_per_page = request.args.get('cnt_per_page', default=9, type=int)
     cnt_per_page = min(cnt_per_page, 256) # Limit max count
+    limit_per_pid = request.args.get('limit_per_pid', default=0, type=int) # 0: No limit
     json_dict = {}
     
-    pcids, scores = db.pcids_sorted(fit_req)
+    pcids, scores = db.pcids_sorted(fit_req, limit_per_pid)
 
     #exact_pids, other_pids = db.pids_prop_sorted(props)
     #pids = exact_pids + other_pids
