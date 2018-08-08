@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import ProductGrid from './ProductGrid'
 import Transition from 'ui-kits/transitions/Transition'
 import { ScrollFetcher } from 'ui-kits/fetchers'
+import { DotLoader } from 'ui-kits/loaders'
 import { PRODUCT_COUNT_PER_PAGE } from 'config/constants'
 
 export default class ProductList extends Component {
@@ -34,6 +35,7 @@ export default class ProductList extends Component {
     return (
       <ScrollFetcher onFetch={onFetch} className={className} disableInitalFetch>
         {extraItem}
+        {!show && <DotLoader visible style={styles.loader} />}
         <Transition show={show} transition='fadeInUp'>
           {
             products.map((product, index) => (
@@ -56,5 +58,18 @@ export default class ProductList extends Component {
         </Transition>
       </ScrollFetcher>
     )
+  }
+}
+
+const styles = {
+  loader: {
+    position: 'absolute',
+    margin: 'auto',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    width: 100,
+    height: 30
   }
 }

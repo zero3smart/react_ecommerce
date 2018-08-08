@@ -6,6 +6,7 @@ import { history } from 'config/store'
 import { enableInitialFetch } from 'ducks/products'
 import { fetchPresets, setFilter, likePreset, unlikePreset } from 'ducks/filters'
 import Transition from 'ui-kits/transitions/Transition'
+import { DotLoader } from 'ui-kits/loaders'
 import Preset from './Preset'
 
 class Presets extends Component {
@@ -55,6 +56,7 @@ class Presets extends Component {
     const { isPresetsFetched, presets } = this.props
     return (
       <div>
+        {!isPresetsFetched && <DotLoader visible style={styles.loader} />}
         <Transition show={isPresetsFetched} transition='fadeInUp'>
           {
             presets.map((preset, index) => (
@@ -100,3 +102,16 @@ export default connect(
     enableInitialFetch
   }
 )(Presets)
+
+const styles = {
+  loader: {
+    position: 'absolute',
+    margin: 'auto',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    width: 100,
+    height: 30
+  }
+}
