@@ -2,7 +2,7 @@
   height: calc(100% - 39px);
 }
 
-.Feedbacks a {
+.Feedbacks .FlatBanner a {
   font-size: 24px;
   font-weight: bold;
   color: white;

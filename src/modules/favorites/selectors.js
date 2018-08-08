@@ -3,9 +3,16 @@ import filter from 'lodash-es/filter'
 
 // getters
 const getProducts = (state) => (state.products.list)
+const getPresets = (state) => (state.filters.presets)
+
+// products
 const getFavoriteProducts = (products) => (
   filter(products, 'favorite')
 )
-
-// selectors
 export const favoriteProductsSelector = createSelector(getProducts, getFavoriteProducts)
+
+// presets
+const getFavoritePresets = (products) => (
+  filter(products, 'favorite')
+)
+export const favoritePresetsSelector = createSelector(getPresets, getFavoritePresets)

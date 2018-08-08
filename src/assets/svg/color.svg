@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="26px" height="25px" viewBox="0 0 26 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>color_0</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="30.51101%" y1="8.35332622%" x2="100%" y2="110.275902%" id="linearGradient-1">
+            <stop stop-color="#FFC543" offset="0%"></stop>
+            <stop stop-color="#E46B60" offset="24.636349%"></stop>
+            <stop stop-color="#7E57CE" offset="71.7398832%"></stop>
+            <stop stop-color="#F76B1C" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="YesPlz-Mobile-Frontend" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="YesPlz_Mobile_6" transform="translate(-267.000000, -486.000000)" fill="url(#linearGradient-1)" stroke="#3D3D3D">
+            <g id="presets_filter_off" transform="translate(262.000000, 365.000000)">
+                <g id="color" transform="translate(0.000000, 117.000000)">
+                    <ellipse id="color_0" cx="17.8804348" cy="16.5" rx="12.2717391" ry="12"></ellipse>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

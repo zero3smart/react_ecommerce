@@ -32,6 +32,7 @@
 }
 
 .LikeButton > button > img {
+  width: 100%;
   max-width: 100%;
   margin: auto;
   vertical-align: top;
