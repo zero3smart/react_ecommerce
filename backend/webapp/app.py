@@ -120,19 +120,19 @@ def get_woman_top_preset(): # This will be per-user configuration
     presets = []
     presets.append( {'name': 'Choker Tank', 
         'coretype': 2, 'sleeve_length':0, 'neckline': 1, 'collar':2, 'shoulder':2, 'top_length':1,
-        'solid': 0, 'pattern':0, 'details': 1})
+        'solid': 0, 'pattern':0, 'details': 1, 'color': 'metal,red,yellow'})
     presets.append( {'name': 'Tunic with Details', 
         'coretype': 2, 'sleeve_length':4, 'neckline': 1, 'collar':0, 'shoulder': 4, 'top_length':2,
-        'solid': 1, 'pattern':0, 'details': 1})
+        'solid': 1, 'pattern':0, 'details': 1, 'color': 'all'})
     presets.append( {'name': 'Summer Crop Tops ', 
         'coretype': 0, 'sleeve_length':2, 'neckline': 1, 'collar':0, 'shoulder':0, 'top_length':0,
-        'solid': 0, 'pattern':0, 'details': 0})
+        'solid': 0, 'pattern':0, 'details': 0, 'color': 'blue,white'})
     presets.append( {'name': 'Work Blouses', 
         'coretype': 2, 'sleeve_length':5, 'neckline': 1, 'collar':1, 'shoulder':4, 'top_length':1,
-        'solid': 0, 'pattern':0, 'details': 0})
+        'solid': 0, 'pattern':0, 'details': 0, 'color': 'black,white'})
     presets.append( {'name': 'Bodysuit', 
         'coretype': 1, 'sleeve_length':0, 'neckline': 1, 'collar':0, 'shoulder':1, 'top_length':0,
-        'solid': 0, 'pattern':0, 'details': 0})
+        'solid': 0, 'pattern':0, 'details': 0, 'color': 'beige,white'})
     presets.append( {'name': 'Cold-Shoulder Top', 
         'coretype': 1, 'sleeve_length':3, 'neckline': 1, 'collar':2, 'shoulder':2, 'top_length':1,
         'solid': 0, 'pattern':0, 'details': 0})
