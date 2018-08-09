@@ -3,12 +3,20 @@
  * contains functions to handle visual filter svg interactions
  */
 // Import Snap from window. Snap is loaded from template.
+import pick from 'lodash-es/pick'
 import { PROP_CONST, THUMBNAIL_IMG_X_OFFSET, THUMBNAIL_Y_OFFSET } from 'config/constants'
 const { Snap, localStorage } = window
 
 export default class VisualFilter {
   currentThumbnail = 'neckline'
-  currentPropState = {}
+  currentPropState = {
+    collar: '0',
+    coretype: '0',
+    neckline: '0',
+    shoulder: '0',
+    sleeve_length: '0',
+    top_length: 'all'
+  }
   onboardingStage = 0
   colorPalletteOpened = 0
 
@@ -19,13 +27,18 @@ export default class VisualFilter {
     }
     this.snap = Snap(selector)
 
-    this.initializeCurrentPropState()
+    if (options.defaultState) {
+      this.currentPropState = this.getbodyPartFilters(options.defaultState)
+    }
+
     this.initialize() // initialize snap
   }
 
-  initialize () {
-    const { enableColorPallete } = this.settings
+  getbodyPartFilters (filters) {
+    return pick(filters, [ 'collar', 'coretype', 'neckline', 'shoulder', 'sleeve_length', 'top_length' ])
+  }
 
+  initialize () {
     this.snap.attr({ viewBox: [0, 0, 480, 440] })
 
     Snap.load('/svg/vf_bundle.svg', (frag) => {
@@ -39,16 +52,11 @@ export default class VisualFilter {
       this.handleBodyPartClick('coretype')
 
       for (let prop in this.currentPropState) {
-        if (prop === 'color') {
-          if (enableColorPallete) {
-            VisualFilter.showGroup(this.snap, 'color_palette_closed')
-          }
-          continue
-        }
         this.propGrpn = PROP_CONST[prop][3]
         VisualFilter.showGroup(this.snap, this.propGrpn + '_' + this.currentPropState[prop])
       }
 
+      // onboarding
       if (VisualFilter.shouldShowOnboarding()) {
         Snap.load('/svg/mini_onboarding.svg', (frag) => {
           this.showOnboarding(frag)
@@ -61,7 +69,6 @@ export default class VisualFilter {
 
   initializeClickHitMap () {
     const self = this
-    const { enableColorPallete } = this.settings
     let group = null
     // This will be touch hit-area
     for (var prop in this.currentPropState) {
@@ -72,27 +79,10 @@ export default class VisualFilter {
         continue
       }
 
-      if (!enableColorPallete && prop === 'color') {
-        continue
-      }
-
       // Just make it not-visible. We still need it for hit-map
       group.attr({ visibility: 'visible' })
       group.attr({ opacity: '0' })
-      if (['solid', 'pattern', 'details', 'color'].includes(prop)) {
-        group.click(function () { self.handleFilterClick(this) }, prop)
-      } else {
-        group.click(function () { self.handleBodyPartClick(this) }, prop)
-      }
-    }
-
-    if (enableColorPallete) {
-      for (var i = 0; i < 15; i++) {
-        group = VisualFilter.findGroupById(this.snap, 'color_palette_touch_' + i)
-        group.attr({ visibility: 'hidden' })
-        group.attr({ opacity: '.0' })
-        group.click(function () { self.handleColorClick(this) }, i.toString())
-      }
+      group.click(function () { self.handleBodyPartClick(this) }, prop)
     }
 
     for (let i = 0; i < 7; i++) {
@@ -101,17 +91,6 @@ export default class VisualFilter {
       group.attr({ visibility: 'visible' })
       group.attr({ opacity: '0' })
       group.click(function () { self.handleThumbnailClick(this) }, i.toString())
-    }
-  }
-
-  initializeCurrentPropState () {
-    for (var i in PROP_CONST) {
-      let val = VisualFilter.loadConfig(i)
-      if (val) {
-        this.currentPropState[i] = val
-      } else {
-        this.currentPropState[i] = PROP_CONST[i][2] // Set current status
-      }
     }
   }
 
@@ -200,41 +179,6 @@ export default class VisualFilter {
     this.changePropSelection(this.currentThumbnail, tnIdx)
   }
 
-  handleColorClick (colorId) {
-    if (colorId === '0') {
-      this.handleFilterClick('color')
-    }
-  }
-
-  handleFilterClick (prop) {
-    if (prop === 'color') {
-      this.openCloseColorPallete(!this.colorPalletteOpened)
-    } else {
-      this.changePropSelection(prop, (this.currentPropState[prop] + 1) % 2)
-    }
-  }
-
-  openCloseColorPallete (open) {
-    if (open) {
-      this.colorPalletteOpened = 1
-      VisualFilter.hideGroup(this.snap, 'color_0')
-      VisualFilter.showGroup(this.snap, 'color_pallete_open')
-    } else {
-      this.colorPalletteOpened = 0
-      VisualFilter.hideGroup(this.snap, 'color_pallete_open')
-      VisualFilter.showGroup(this.snap, 'color_0')
-    }
-
-    for (let i = 0; i < 15; i++) {
-      let group = VisualFilter.findGroupById(this.snap, 'color_palette_touch_' + i)
-      if (this.colorPalletteOpened) {
-        group.attr({ visibility: 'visible' })
-      } else {
-        group.attr({ visibility: 'hidden' })
-      }
-    }
-  }
-
   cyclePropSelection (prop) {
     if (this.currentPropState[prop] === 'all') {
       this.changePropSelection(prop, '0')
@@ -277,42 +221,7 @@ export default class VisualFilter {
     }
 
     this.currentPropState[prop] = sel
-    this.settings.onBodyPartClick(this.getProductFilters())
-
-    for (var i in PROP_CONST) {
-      VisualFilter.saveConfig(i, this.currentPropState[i])
-    }
-  }
-
-  getProductFilters () {
-    let filters = {
-      page: 0,
-      extra_info: 1,
-      cnt_per_page: 72
-    }
-
-    // get filter based on currentPropState
-    for (let prop in this.currentPropState) {
-      let ps = this.currentPropState[prop]
-      if (ps >= 0) {
-        // sleeve_length covers sleeve_length and tightness for UI simplicity
-        if (prop === 'sleeve_length') {
-          if (ps === 5) { // long & wide sleeve
-            filters.sleeve_length = 4
-            filters.sleeve_tightness = 1
-          } else if (ps === 4) { // long & tight sleeve
-            filters.sleeve_length = 4
-            filters.sleeve_tightness = 0
-          } else {
-            filters[prop] = ps
-          }
-        } else {
-          filters[prop] = ps
-        }
-      }
-    }
-
-    return filters
+    this.settings.onFilterChange(this.currentPropState)
   }
 
   /**
@@ -403,6 +312,6 @@ export default class VisualFilter {
 }
 
 const defaultOptions = {
-  enableColorPallete: false,
-  onBodyPartClick: (filters) => { console.debug('body part clicked', filters) }
+  defaultState: {},
+  onFilterChange: (filters) => { console.debug('filter change', filters) }
 }
