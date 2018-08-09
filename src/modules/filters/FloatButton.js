@@ -8,6 +8,7 @@ import './float-button.css'
 export default class FloatButton extends PureComponent {
   static propTypes = {
     filters: PropTypes.object,
+    className: PropTypes.string,
     onClick: PropTypes.func
   }
 
@@ -46,11 +47,11 @@ export default class FloatButton extends PureComponent {
   }
 
   render () {
-    const { onClick } = this.props
+    const { onClick, className } = this.props
     const { svgLoaded } = this.state
 
     return (
-      <div className={classNames('FloatButton', { svgLoaded })} onClick={onClick}>
+      <div className={classNames('FloatButton', { svgLoaded, [className]: className })} onClick={onClick}>
         <svg id='VisualFilterButton' />
       </div>
     )

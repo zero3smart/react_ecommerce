@@ -34,7 +34,7 @@ export default class ProductFilter extends Component {
         <Transition timeout={{ enter: 100, exit: 300 }} show={expanded}>
           <FilterPanel filters={filters} onFilterChange={onFilterChange} onClose={this.handleFilterToggle} />
         </Transition>
-        <Transition show={!expanded}>
+        <Transition timeout={{ enter: 100, exit: 1500 }} show={!expanded} transition='unstyled'>
           <FloatButton filters={filters} onClick={this.handleFilterToggle} />
         </Transition>
       </div>
