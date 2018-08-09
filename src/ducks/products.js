@@ -75,6 +75,7 @@ export function fetchProducts (initialFetch = false) {
         params: {
           page: nextPage,
           cnt_per_page: PRODUCT_COUNT_PER_PAGE,
+          limit_per_pid: 1,
           ...omit(filters.data, 'page', 'cnt_per_page') // use page and count per page defined from the system
         }
       })
