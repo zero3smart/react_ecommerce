@@ -35,7 +35,7 @@ export default class ProductFilter extends Component {
           <FilterPanel filters={filters} onFilterChange={onFilterChange} onClose={this.handleFilterToggle} />
         </Transition>
         <Transition show={!expanded}>
-          <FloatButton onClick={this.handleFilterToggle} />
+          <FloatButton filters={filters} onClick={this.handleFilterToggle} />
         </Transition>
       </div>
     )

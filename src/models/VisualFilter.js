@@ -20,6 +20,7 @@ export default class VisualFilter {
   }
   onboardingStage = 0
   colorPalletteOpened = 0
+  svgLoaded = false
 
   constructor (selector = '#svg', options = {}) {
     this.settings = {
@@ -40,6 +41,8 @@ export default class VisualFilter {
   }
 
   initialize () {
+    const { hideOnboarding, onSVGLoaded } = this.settings
+
     let viewBox = [0, 0, 480, 400]
     if (this.settings.hideThumbnail) {
       viewBox = [0, 0, 480, 320]
@@ -47,6 +50,7 @@ export default class VisualFilter {
     this.snap.attr({ viewBox })
 
     Snap.load('/svg/vf_bundle.svg', (frag) => {
+      this.svgLoaded = true
       this.snapGroup = this.snap.group()
       this.snapGroup.append(frag)
       this.snapGroup.attr({ visibility: 'hidden' })
@@ -62,13 +66,16 @@ export default class VisualFilter {
       }
 
       // onboarding
-      if (!this.settings.hideOnboarding && VisualFilter.shouldShowOnboarding()) {
+      if (!hideOnboarding && VisualFilter.shouldShowOnboarding()) {
         Snap.load('/svg/mini_onboarding.svg', (frag) => {
           this.showOnboarding(frag)
         })
       } else {
         this.initializeClickHitMap()
       }
+
+      // callback
+      onSVGLoaded()
     })
   }
 
@@ -100,6 +107,18 @@ export default class VisualFilter {
         group.attr({ visibility: 'visible' })
         group.attr({ opacity: '0' })
         group.click(function () { self.handleThumbnailClick(this) }, i.toString())
+      }
+    }
+  }
+
+  updateState (filters) {
+    // only update when svg is loaded
+    if (this.svgLoaded) {
+      this.currentPropState = this.getbodyPartFilters(filters)
+
+      for (let prop in this.currentPropState) {
+        this.propGrpn = PROP_CONST[prop][3]
+        VisualFilter.showGroup(this.snap, this.propGrpn + '_' + this.currentPropState[prop])
       }
     }
   }
@@ -341,5 +360,6 @@ const defaultOptions = {
   defaultState: {},
   hideThumbnail: false,
   hideOnboarding: false,
-  onFilterChange: (filters) => { console.debug('filter change', filters) }
+  onFilterChange: (filters) => { console.debug('filter change', filters) },
+  onSVGLoaded: () => {}
 }
