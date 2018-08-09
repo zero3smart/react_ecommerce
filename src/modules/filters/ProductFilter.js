@@ -31,14 +31,11 @@ export default class ProductFilter extends Component {
     const { expanded } = this.state
     return (
       <div className='ProductFilter'>
-        <Transition show>
-          {
-            expanded ? (
-              <FilterPanel filters={filters} onFilterChange={onFilterChange} onClose={this.handleFilterToggle} />
-            ) : (
-              <FloatButton onClick={this.handleFilterToggle} />
-            )
-          }
+        <Transition timeout={{ enter: 100, exit: 300 }} show={expanded}>
+          <FilterPanel filters={filters} onFilterChange={onFilterChange} onClose={this.handleFilterToggle} />
+        </Transition>
+        <Transition show={!expanded}>
+          <FloatButton onClick={this.handleFilterToggle} />
         </Transition>
       </div>
     )

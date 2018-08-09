@@ -1,7 +1,30 @@
-.FabricFilters {
-
+.FabricFilters .FilterButton {
+  max-width: 100px;
+  margin-right: 0px;
+  margin-bottom: 5px;
 }
 
 .FabricFilters.noEvents .FilterButton:hover {
   background: none;
+}
+
+/* inline */
+.FabricFilters.inline {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.FabricFilters.inline .FilterButton {
+  padding: 2px 10px 2px 3px;
+  line-height: 13px;
+  margin-left: 2px;
+  margin-right: 2px;
+  margin-bottom: 0;
+  border-color: #DBDBDB;
+}
+
+.FabricFilters.inline .FilterButton.ColorPicker {
+  background: #F3F3F3;
+  border: 0;
 }

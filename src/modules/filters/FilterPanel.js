@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import closeSvgSrc from 'assets/svg/close.svg'
+import FabricFilters from './FabricFilters'
 import { VisualFilter } from 'models'
 import './filter-panel.css'
 
@@ -20,12 +21,31 @@ export default class FilterPanel extends PureComponent {
   }
 
   componentDidMount () {
-    const { filters, onFilterChange } = this.props
+    const { filters } = this.props
     // initialize visual filter
     this.visualFilter = new VisualFilter('#VisualFilter', {
       defaultState: filters,
-      onFilterChange: onFilterChange
+      onFilterChange: this.handleBodyPartFilter
     })
+  }
+
+  get fabricFilters () {
+    const { details, pattern, solid, color } = this.props.filters
+    return { details, pattern, solid, color }
+  }
+
+  get handleBodyPartFilter () {
+    const { filters, onFilterChange } = this.props
+    return (bodyPartFilters) => {
+      onFilterChange({ ...filters, ...bodyPartFilters })
+    }
+  }
+
+  get handleFabricFilter () {
+    const { filters, onFilterChange } = this.props
+    return (fabricFilters) => {
+      onFilterChange({ ...filters, ...fabricFilters })
+    }
   }
 
   render () {
@@ -37,6 +57,7 @@ export default class FilterPanel extends PureComponent {
           <img src={closeSvgSrc} alt='Close Filter' />
         </div>
         <svg id='VisualFilter' />
+        <FabricFilters kind='inline' onChange={this.handleFabricFilter} {...this.fabricFilters} />
       </div>
     )
   }

@@ -40,7 +40,7 @@ export default class VisualFilter {
   }
 
   initialize () {
-    this.snap.attr({ viewBox: [0, 0, 480, 440] })
+    this.snap.attr({ viewBox: [0, 0, 480, 400] })
 
     Snap.load('/svg/vf_bundle.svg', (frag) => {
       this.snapGroup = this.snap.group()
