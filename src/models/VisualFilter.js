@@ -40,7 +40,11 @@ export default class VisualFilter {
   }
 
   initialize () {
-    this.snap.attr({ viewBox: [0, 0, 480, 400] })
+    let viewBox = [0, 0, 480, 400]
+    if (this.settings.hideThumbnail) {
+      viewBox = [0, 0, 480, 320]
+    }
+    this.snap.attr({ viewBox })
 
     Snap.load('/svg/vf_bundle.svg', (frag) => {
       this.snapGroup = this.snap.group()
@@ -58,7 +62,7 @@ export default class VisualFilter {
       }
 
       // onboarding
-      if (VisualFilter.shouldShowOnboarding()) {
+      if (!this.settings.hideOnboarding && VisualFilter.shouldShowOnboarding()) {
         Snap.load('/svg/mini_onboarding.svg', (frag) => {
           this.showOnboarding(frag)
         })
@@ -83,15 +87,20 @@ export default class VisualFilter {
       // Just make it not-visible. We still need it for hit-map
       group.attr({ visibility: 'visible' })
       group.attr({ opacity: '0' })
-      group.click(function () { self.handleBodyPartClick(this) }, prop)
+
+      if (!this.settings.disableEvent) {
+        group.click(function () { self.handleBodyPartClick(this) }, prop)
+      }
     }
 
-    for (let i = 0; i < 7; i++) {
-      group = VisualFilter.findGroupById(this.snap, 'thumbnail_touch_' + i)
-      group.attr({ width: 68, height: 68 })
-      group.attr({ visibility: 'visible' })
-      group.attr({ opacity: '0' })
-      group.click(function () { self.handleThumbnailClick(this) }, i.toString())
+    if (!this.settings.hideThumbnail) {
+      for (let i = 0; i < 7; i++) {
+        group = VisualFilter.findGroupById(this.snap, 'thumbnail_touch_' + i)
+        group.attr({ width: 68, height: 68 })
+        group.attr({ visibility: 'visible' })
+        group.attr({ opacity: '0' })
+        group.click(function () { self.handleThumbnailClick(this) }, i.toString())
+      }
     }
   }
 
@@ -148,19 +157,21 @@ export default class VisualFilter {
       this.cyclePropSelection(prop)
     }
 
-    VisualFilter.hideGroup(this.snap, PROP_CONST[this.currentThumbnail][3] + '_thumbnails')
-    this.currentThumbnail = prop
-    const newTnGrp = PROP_CONST[this.currentThumbnail][3] + '_thumbnails'
-    VisualFilter.showGroup(this.snap, newTnGrp)
+    if (!this.settings.hideThumbnail) {
+      VisualFilter.hideGroup(this.snap, PROP_CONST[this.currentThumbnail][3] + '_thumbnails')
+      this.currentThumbnail = prop
+      const newTnGrp = PROP_CONST[this.currentThumbnail][3] + '_thumbnails'
+      VisualFilter.showGroup(this.snap, newTnGrp)
 
-    // Move thumbnail hit area
-    const xoffset = VisualFilter.getThumbnailOffset(prop) + 15
-    const yoffset = THUMBNAIL_Y_OFFSET + 15
-    let desc = 't' + xoffset + ',' + yoffset
-    VisualFilter.findGroupById(this.snap, 'Thumbnail_Touch_Area').transform(desc)
+      // Move thumbnail hit area
+      const xoffset = VisualFilter.getThumbnailOffset(prop) + 15
+      const yoffset = THUMBNAIL_Y_OFFSET + 15
+      let desc = 't' + xoffset + ',' + yoffset
+      VisualFilter.findGroupById(this.snap, 'Thumbnail_Touch_Area').transform(desc)
 
-    // Display current one
-    VisualFilter.showSelectionBox(this.snap, prop, this.currentPropState[prop])
+      // Display current one
+      VisualFilter.showSelectionBox(this.snap, prop, this.currentPropState[prop])
+    }
   }
 
   /**
@@ -326,6 +337,9 @@ export default class VisualFilter {
 }
 
 const defaultOptions = {
+  disableEvent: false,
   defaultState: {},
+  hideThumbnail: false,
+  hideOnboarding: false,
   onFilterChange: (filters) => { console.debug('filter change', filters) }
 }

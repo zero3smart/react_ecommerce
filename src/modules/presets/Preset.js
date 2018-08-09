@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { FabricFilters } from 'modules/filters'
-import { BodyPart } from 'models'
+import { VisualFilter } from 'models'
 import { LikeButton } from 'ui-kits/buttons'
 import './preset.css'
 
@@ -57,9 +57,10 @@ export default class Preset extends Component {
   componentDidMount () {
     const { id } = this.props
     // initialize body part
-    this.bodyPart = new BodyPart(`#${id}`, {
+    this.bodyPart = new VisualFilter(`#${id}`, {
       defaultState: this.bodyPartFilters,
-      disableEvent: true
+      disableEvent: true,
+      hideThumbnail: true
     })
   }
 
