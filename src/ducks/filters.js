@@ -12,16 +12,16 @@ const UNLIKE_PRESET = 'filters/UNLIKE_PRESET'
 
 const defaultState = {
   data: {
-    // collar: 2,
-    // coretype: 2,
-    // details: 1,
-    // neckline: 1,
-    // pattern: 0,
-    // shoulder: 2,
-    // sleeve_length: 0,
-    // solid: 0,
-    // top_length: 1,
-    // color: 'black,
+    coretype: 1,
+    collar: 0,
+    top_length: 'all',
+    neckline: 1,
+    shoulder: 3,
+    sleeve_length: 3,
+    solid: 0,
+    pattern: 0,
+    details: 0,
+    color: null
   },
   presets: [],
   presetsFetched: false
@@ -32,6 +32,9 @@ export default function reducer (state = defaultState, action = {}) {
   const { type, payload } = action
   switch (type) {
     case SET_FILTER:
+      if (!payload.filters) {
+        return state
+      }
       return { ...state, data: payload.filters }
     case SET_PRESETS:
       return {
