@@ -10,6 +10,7 @@ import './tops.css'
 
 class Tops extends Component {
   static propTypes = {
+    filters: PropTypes.object,
     products: PropTypes.array,
     isProductsFetched: PropTypes.bool,
     nextPage: PropTypes.number,
@@ -69,11 +70,11 @@ class Tops extends Component {
   }
 
   render () {
-    const { products, isProductsFetched, nextPage } = this.props
+    const { filters, products, isProductsFetched, nextPage } = this.props
 
     return (
       <div className='Tops'>
-        <ProductFilter onFilterChange={this.handleFilterChange} />
+        <ProductFilter filters={filters} onFilterChange={this.handleFilterChange} />
         <ProductList
           show={isProductsFetched}
           products={products}
@@ -88,6 +89,7 @@ class Tops extends Component {
 }
 
 const mapStateToProps = (state, props) => ({
+  filters: state.filters.data,
   products: state.products.list,
   isProductsFetched: state.products.fetched,
   nextPage: state.products.nextPage

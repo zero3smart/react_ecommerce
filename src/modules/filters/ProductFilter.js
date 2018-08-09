@@ -7,6 +7,7 @@ import './product-filter.css'
 
 export default class ProductFilter extends Component {
   static propTypes = {
+    filters: PropTypes.object,
     onFilterChange: PropTypes.func
   }
 
@@ -26,14 +27,14 @@ export default class ProductFilter extends Component {
   }
 
   render () {
-    const { onFilterChange } = this.props
+    const { filters, onFilterChange } = this.props
     const { expanded } = this.state
     return (
       <div className='ProductFilter'>
         <Transition show>
           {
             expanded ? (
-              <FilterPanel onFilterChange={onFilterChange} onClose={this.handleFilterToggle} />
+              <FilterPanel filters={filters} onFilterChange={onFilterChange} onClose={this.handleFilterToggle} />
             ) : (
               <FloatButton onClick={this.handleFilterToggle} />
             )
