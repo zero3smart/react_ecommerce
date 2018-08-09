@@ -4,6 +4,7 @@
  */
 // Import Snap from window. Snap is loaded from template.
 import pick from 'lodash-es/pick'
+import isNil from 'lodash-es/isNil'
 import { PROP_CONST, THUMBNAIL_IMG_X_OFFSET, THUMBNAIL_Y_OFFSET } from 'config/constants'
 const { Snap, localStorage } = window
 
@@ -197,24 +198,37 @@ export default class VisualFilter {
     VisualFilter.hideGroup(this.snap, this.propGrpn + '_' + this.currentPropState[prop])
     VisualFilter.showGroup(this.snap, this.propGrpn + '_' + sel)
 
-    let savedTopLength = this.currentPropState['top_length']
-
+    /**
+     * Special handling for tank top
+     * ---
+     * When coretype is moving to 0, change top_length to 0 (save current top_length value)
+     * When coretype is moving to 1 / 2 / 3 / all, restore saved top_length value
+     * When top_length is moving to 1 / 2 / 3 / all and core type is is 0, change coretype to 1
+     */
     if (prop === 'coretype') {
-      // Special handling for tank top
-      // Hide top-length
-      if (sel === '0') {
-        savedTopLength = this.currentPropState['top_length']
-        this.currentPropState['top_length'] = 'all'
-        VisualFilter.hideGroup(this.snap, 'length_' + savedTopLength)
+      if (sel === '0') { // change top length to 0
+        // save top length when there is no value stored
+        if (isNil(this.savedTopLength)) {
+          this.savedTopLength = this.currentPropState['top_length']
+        }
+        // change top length to 0
+        this.currentPropState['top_length'] = 0
+        // hide saved top length image
+        VisualFilter.hideGroup(this.snap, 'length_' + this.savedTopLength)
+        // show 0 top length image
         VisualFilter.showGroup(this.snap, 'length_0')
-      } else if (this.currentPropState[prop] === '0') {
+      } else { // restore top length
+        // restore saved top length if available
+        if (this.savedTopLength) {
+          this.currentPropState['top_length'] = this.savedTopLength
+          this.savedTopLength = null
+        }
+        // show saved top length image
+        VisualFilter.showGroup(this.snap, 'length_' + this.currentPropState['top_length'])
+        // hide 0 top length image
         VisualFilter.hideGroup(this.snap, 'length_0')
-        VisualFilter.showGroup(this.snap, 'length_' + savedTopLength)
-        this.currentPropState['top_length'] = savedTopLength
       }
-    }
-
-    if (prop === 'top_length' && this.currentPropState['coretype'] === '0') {
+    } else if (prop === 'top_length' && sel !== '0' && this.currentPropState['coretype'] === '0') {
       VisualFilter.hideGroup(this.snap, 'top_core_0')
       VisualFilter.showGroup(this.snap, 'top_core_1')
       this.currentPropState['coretype'] = '1' // Avoid recursion
