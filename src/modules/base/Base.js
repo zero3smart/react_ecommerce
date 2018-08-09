@@ -33,8 +33,8 @@ export default class Base extends Component {
     return (
       <div className='Base'>
         <Tabs>
-          <NavLink exact to='/' isActive={this.handleHomeLinkActive}>
-            {this.isProductDetailPage ? 'products' : 'tops'}
+          <NavLink exact to={this.isProductDetailPage ? '#top' : '/'} isActive={this.handleHomeLinkActive}>
+          tops
           </NavLink>
           <NavLink to='/presets'>presets</NavLink>
           <NavLink to='/favorites/clothing' isActive={this.handleFavoritesLinkActive}>favorites</NavLink>

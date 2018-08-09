@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 import FilterPanel from './FilterPanel'
 import FloatButton from './FloatButton'
 import { history } from 'config/store'
@@ -13,6 +14,7 @@ class ProductFilter extends Component {
   static propTypes = {
     filters: PropTypes.object,
     router: PropTypes.object,
+    scrollBellowTheFold: PropTypes.bool,
     setFilter: PropTypes.func.isRequired,
     fetchProducts: PropTypes.func.isRequired,
     syncFilter: PropTypes.func.isRequired
@@ -52,11 +54,17 @@ class ProductFilter extends Component {
     }
   }
 
+  get isProductDetailPage () {
+    const { router } = this.props
+    return /^\/products\//.test(router.location.pathname)
+  }
+
   render () {
-    const { filters } = this.props
+    const { filters, scrollBellowTheFold } = this.props
     const { expanded } = this.state
+
     return (
-      <div className='ProductFilter'>
+      <div className={classNames('ProductFilter animated', { allowHide: this.isProductDetailPage, pullDown: !scrollBellowTheFold })}>
         <Transition timeout={{ enter: 100, exit: 300 }} show={expanded}>
           <FilterPanel filters={filters} onFilterChange={this.handleFilterChange} onClose={this.handleFilterToggle} />
         </Transition>
@@ -70,6 +78,7 @@ class ProductFilter extends Component {
 
 const mapStateToProps = (state, props) => ({
   filters: state.filters.data,
+  scrollBellowTheFold: state.product.scrollBellowTheFold,
   router: state.router
 })
 
