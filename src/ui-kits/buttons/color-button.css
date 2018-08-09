@@ -1,13 +1,8 @@
-.LikeButton {
-  background: transparent;
-  position: relative;
-}
-
-.LikeButton > button {
+.ColorButton {
   display: inline-block;
   background: transparent;
-  width: 22px;
-  height: 22px;
+  width: 28px;
+  height: 28px;
   padding: 0;
   margin: auto;
   outline: none;
@@ -31,15 +26,7 @@
   cursor: pointer;
 }
 
-.LikeButton > button > img {
-  width: 100%;
-  max-width: 100%;
-  margin: auto;
-  vertical-align: top;
-}
-
-/* click state */
-.LikeButton.active > button:focus:not(:active) {
+.ColorButton:focus:not(:active) {
   -webkit-animation: buttonPulse 0.5s cubic-bezier(0.66, 0, 0, 1);
   -moz-animation: buttonPulse 0.5s cubic-bezier(0.66, 0, 0, 1);
   -ms-animation: buttonPulse 0.5s cubic-bezier(0.66, 0, 0, 1);
