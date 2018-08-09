@@ -1,3 +1,11 @@
+.ProductFilter {
+  animation-name: bounceInUp;
+}
+
+.ProductFilter.allowHide.pullDown {
+  animation-name: bounceOutDown;
+}
+
 /* fadeIn */
 .ProductFilter .FilterPanel:not(.fadeIn-exiting) {
   animation-delay: 500ms!important;

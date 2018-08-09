@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Product, ProductPlaceholder, ProductList } from 'modules/products'
-import { fetchProduct, fetchRelatedProducts, resetProduct, likeProduct, unlikeProduct } from 'ducks/product'
+import { fetchProduct, fetchRelatedProducts, resetProduct, likeProduct, unlikeProduct, setScrollBellowTheFold } from 'ducks/product'
 import './top-single.css'
 
 class TopSingle extends Component {
@@ -13,11 +13,13 @@ class TopSingle extends Component {
     product: PropTypes.object.isRequired,
     relatedProducts: PropTypes.array.isRequired,
     nextPage: PropTypes.number,
+    scrollBellowTheFold: PropTypes.bool,
     fetchProduct: PropTypes.func.isRequired,
     fetchRelatedProducts: PropTypes.func.isRequired,
     resetProduct: PropTypes.func.isRequired,
     likeProduct: PropTypes.func.isRequired,
-    unlikeProduct: PropTypes.func.isRequired
+    unlikeProduct: PropTypes.func.isRequired,
+    setScrollBellowTheFold: PropTypes.func.isRequired
   }
 
   componentDidMount () {
@@ -73,34 +75,46 @@ class TopSingle extends Component {
     }
   }
 
+  get handleScrollBellowTheFold () {
+    const { scrollBellowTheFold, setScrollBellowTheFold } = this.props
+    return (scrollState) => {
+      // boolean can only be compared by casting it to string (js)
+      if (scrollState.toString() !== scrollBellowTheFold.toString()) {
+        setScrollBellowTheFold(scrollState)
+      }
+    }
+  }
+
   render () {
     const { product, relatedProducts, isProductFetched, isRelatedProductsFetched, nextPage } = this.props
+    let productBox = <ProductPlaceholder />
+
+    if (isProductFetched) {
+      productBox = (
+        <Product
+          id={product.product_id}
+          name={product.name}
+          brand={product.brand}
+          price={product.price}
+          imgSrc={product.front_img}
+          extraImgs={product.extra_imgs}
+          description={product.description}
+          favorite={product.favorite}
+          onToggleLike={this.toggleProductLike}
+        />
+      )
+    }
 
     return (
       <div className='TopSingle'>
-        {
-          isProductFetched ? (
-            <Product
-              id={product.product_id}
-              name={product.name}
-              brand={product.brand}
-              price={product.price}
-              imgSrc={product.front_img}
-              extraImgs={product.extra_imgs}
-              description={product.description}
-              favorite={product.favorite}
-              onToggleLike={this.toggleProductLike}
-            />
-          ) : (
-            <ProductPlaceholder />
-          )
-        }
         <ProductList
           show={isRelatedProductsFetched}
           products={relatedProducts}
           nextPage={nextPage}
           onFetch={this.handleFetchNext}
           onToggleLike={this.toggleProductLike}
+          onScrollBellowTheFold={this.handleScrollBellowTheFold}
+          extraItem={productBox}
           className='TopSingle-products'
         />
       </div>
@@ -114,7 +128,8 @@ const mapStateToProps = (state, props) => ({
   isProductFetched: state.product.fetched,
   isRelatedProductsFetched: state.product.relatedProductsFetched,
   relatedProducts: state.product.relatedProducts,
-  nextPage: state.product.nextPage
+  nextPage: state.product.nextPage,
+  scrollBellowTheFold: state.product.scrollBellowTheFold
 })
 
 export default connect(
@@ -124,6 +139,7 @@ export default connect(
     fetchRelatedProducts,
     resetProduct,
     likeProduct,
-    unlikeProduct
+    unlikeProduct,
+    setScrollBellowTheFold
   }
 )(TopSingle)

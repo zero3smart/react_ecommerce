@@ -49,8 +49,8 @@ export default class Product extends PureComponent {
 
     return (
       <div className='Product'>
+        <LikeButton active={favorite} onClick={this.toggleLike} />
         <div className='Product-images'>
-          <LikeButton active={favorite} onClick={this.toggleLike} />
           <Slider {...this.sliderSettings}>
             {imgSrc && <img src={`${BASE_IMG_PATH}imgs/ns_woman_top/${imgSrc}`} alt={name} className='img-responsive' />}
             {renderExtraImages(extraImgs, name)}
