@@ -7,17 +7,21 @@ import DotLoader from 'ui-kits/loaders/DotLoader'
 class ScrollFetcher extends Component {
   static propTypes = {
     children: PropTypes.any,
-    onFetch: PropTypes.func.isRequired,
     className: PropTypes.string,
     style: PropTypes.object,
-    disableInitalFetch: PropTypes.bool
+    disableInitalFetch: PropTypes.bool,
+    offsetScroll: PropTypes.number, // fetch will be triggered before touching this offset
+    onFetch: PropTypes.func.isRequired,
+    onScroll: PropTypes.func
   }
 
   static defaultProps = {
     onFetch: (next) => { next() },
+    onScroll: (top) => {},
     className: '',
     style: {},
-    disableInitalFetch: false
+    disableInitalFetch: false,
+    offsetScroll: window.innerHeight
   }
 
   constructor (props) {
@@ -78,12 +82,14 @@ class ScrollFetcher extends Component {
   }
 
   get handleScrollFrame () {
+    const { offsetScroll, onScroll } = this.props
     const { isFetchingData } = this.state
     return (e) => {
       const currentTarget = e.currentTarget
       const top = currentTarget.scrollTop + currentTarget.offsetHeight
-      // onScrollDown && scroll space left is <= 100, load next post if no previous request is still running
-      if (this.prevTopScroll < top && currentTarget.scrollHeight - top <= 100 && !isFetchingData) {
+      onScroll(top)
+      // onScrollDown && scroll space left is <= offsetScroll, load next post if no previous request is still running
+      if (this.prevTopScroll < top && currentTarget.scrollHeight - top <= offsetScroll && !isFetchingData) {
         this.handleFetch()
       }
       this.prevTopScroll = top

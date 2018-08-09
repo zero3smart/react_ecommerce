@@ -13,8 +13,9 @@ export default class ProductList extends Component {
     show: PropTypes.bool,
     className: PropTypes.string,
     onFetch: PropTypes.func.isRequired,
+    extraItem: PropTypes.element,
     onToggleLike: PropTypes.func.isRequired,
-    extraItem: PropTypes.element
+    onScrollBellowTheFold: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -22,7 +23,20 @@ export default class ProductList extends Component {
     nextPage: 0,
     show: false,
     extraItem: undefined,
-    onFetch: (next) => { next() }
+    onFetch: (next) => { next() },
+    onScrollBellowTheFold: (scrollState) => {}
+  }
+
+  get handleScroll () {
+    const { onScrollBellowTheFold } = this.props
+    return (top) => {
+      // check whether scroll position is going under the fold
+      if (top > window.innerHeight) {
+        onScrollBellowTheFold(true)
+      } else {
+        onScrollBellowTheFold(false)
+      }
+    }
   }
 
   render () {
@@ -33,7 +47,7 @@ export default class ProductList extends Component {
     const loadedProductsCount = PRODUCT_COUNT_PER_PAGE * (currentPage < 0 ? 0 : currentPage)
 
     return (
-      <ScrollFetcher onFetch={onFetch} className={className} disableInitalFetch>
+      <ScrollFetcher id='ProductListScroll' onFetch={onFetch} onScroll={this.handleScroll} className={className} disableInitalFetch>
         {extraItem}
         {!show && <DotLoader visible style={styles.loader} />}
         <Transition show={show} transition='fadeInUp'>
@@ -63,13 +77,5 @@ export default class ProductList extends Component {
 
 const styles = {
   loader: {
-    position: 'absolute',
-    margin: 'auto',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    width: 100,
-    height: 30
   }
 }

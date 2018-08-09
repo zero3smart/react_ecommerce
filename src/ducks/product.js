@@ -11,6 +11,7 @@ const SET_RELATED_PRODUCTS = 'product/SET_RELATED_PRODUCTS'
 const APPEND_RELATED_PRODUCTS = 'product/APPEND_PRODUCTS'
 export const LIKE_PRODUCT = 'product/LIKE_PRODUCT'
 export const UNLIKE_PRODUCT = 'product/UNLIKE_PRODUCT'
+const SET_SCROLL_BELLOW_THE_FOLD = 'products/SET_SCROLL_BELLOW_THE_FOLD'
 
 const defaultState = {
   data: {}, // active product
@@ -19,7 +20,8 @@ const defaultState = {
   relatedProducts: [],
   relatedProductsFetched: false,
   nextPage: 0,
-  totalCount: 0
+  totalCount: 0,
+  scrollBellowTheFold: false // whether products page scroll position is bellow the fold
 }
 
 // Reducer
@@ -80,6 +82,8 @@ export default function reducer (state = defaultState, action = {}) {
         relatedProducts: updateProductFavorite(payload.productId, false, state.relatedProducts)
       }
     }
+    case SET_SCROLL_BELLOW_THE_FOLD:
+      return { ...state, scrollBellowTheFold: payload.scrollState }
     case RESET_PRODUCT:
       return defaultState
     default: return state
@@ -101,6 +105,10 @@ export function appendRelatedProducts (products = [], favoriteProductIds = []) {
 
 export function setRelatedProducts (products = [], totalCount = 0, favoriteProductIds = []) {
   return { type: SET_RELATED_PRODUCTS, payload: { products, totalCount, favoriteProductIds } }
+}
+
+export function setScrollBellowTheFold (scrollState) {
+  return { type: SET_SCROLL_BELLOW_THE_FOLD, payload: { scrollState } }
 }
 
 // Side effects, only as applicable
