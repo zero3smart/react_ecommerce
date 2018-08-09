@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import isEqual from 'lodash-es/isEqual'
 import closeSvgSrc from 'assets/svg/close.svg'
 import FabricFilters from './FabricFilters'
 import { VisualFilter } from 'models'
@@ -20,6 +21,13 @@ export default class FilterPanel extends PureComponent {
     onClose: () => { console.debug('FilterPanel - close button clicked') }
   }
 
+  constructor (props) {
+    super(props)
+    this.state = {
+      svgLoaded: false
+    }
+  }
+
   componentDidMount () {
     const { filters } = this.props
     // initialize visual filter
@@ -27,6 +35,22 @@ export default class FilterPanel extends PureComponent {
       defaultState: filters,
       onFilterChange: this.handleBodyPartFilter
     })
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    const { filters } = this.props
+    const { svgLoaded } = this.state
+    if (!isEqual(svgLoaded, prevState.svgLoaded) || !isEqual(filters, prevProps.filters)) {
+      this.visualFilter.updateState(filters)
+    }
+  }
+
+  get handleSVGLoaded () {
+    return () => {
+      this.setState({
+        svgLoaded: true
+      })
+    }
   }
 
   get fabricFilters () {

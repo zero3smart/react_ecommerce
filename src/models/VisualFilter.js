@@ -5,6 +5,7 @@
 // Import Snap from window. Snap is loaded from template.
 import pick from 'lodash-es/pick'
 import isNil from 'lodash-es/isNil'
+import isEmpty from 'lodash-es/isEmpty'
 import { PROP_CONST, THUMBNAIL_IMG_X_OFFSET, THUMBNAIL_Y_OFFSET } from 'config/constants'
 const { Snap, localStorage } = window
 
@@ -114,11 +115,14 @@ export default class VisualFilter {
   updateState (filters) {
     // only update when svg is loaded
     if (this.svgLoaded) {
-      this.currentPropState = this.getbodyPartFilters(filters)
-
-      for (let prop in this.currentPropState) {
+      const newPropState = this.getbodyPartFilters(filters)
+      // if current propState is empty, assign new filters directly
+      if (isEmpty(this.currentPropState)) {
+        this.currentPropState = newPropState
+      }
+      for (let prop in newPropState) {
         this.propGrpn = PROP_CONST[prop][3]
-        VisualFilter.showGroup(this.snap, this.propGrpn + '_' + this.currentPropState[prop])
+        this.changePropSelection(prop, newPropState[prop])
       }
     }
   }

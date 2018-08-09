@@ -26,7 +26,8 @@ export default class FloatButton extends PureComponent {
       defaultState: filters,
       disableEvent: true,
       hideThumbnail: true,
-      onSVGLoaded: this.handleSVGLoaded
+      onSVGLoaded: this.handleSVGLoaded,
+      onFilterChange: () => {}
     })
   }
 
