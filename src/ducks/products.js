@@ -1,5 +1,6 @@
 import axios from 'axios'
 import omit from 'lodash-es/omit'
+import uniqBy from 'lodash-es/uniqBy'
 import { PRODUCT_COUNT_PER_PAGE } from 'config/constants'
 import { LIKE_PRODUCT, UNLIKE_PRODUCT } from './product'
 import { mapProductFavorites, updateProductFavorite } from './helpers'
@@ -33,7 +34,7 @@ export default function reducer (state = defaultState, action = {}) {
       let newProductList = mapProductFavorites(payload.favoriteProductIds, payload.products)
       return {
         ...state,
-        list: [...state.list, ...newProductList],
+        list: uniqBy([...state.list, ...newProductList], 'product_id'),
         nextPage: state.nextPage + 1
       }
     case LIKE_PRODUCT:
@@ -75,6 +76,7 @@ export function fetchProducts (initialFetch = false) {
         params: {
           page: nextPage,
           cnt_per_page: PRODUCT_COUNT_PER_PAGE,
+          limit_per_pid: 1,
           ...omit(filters.data, 'page', 'cnt_per_page') // use page and count per page defined from the system
         }
       })
