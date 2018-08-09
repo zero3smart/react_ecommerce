@@ -60,7 +60,8 @@ export default class Preset extends Component {
     this.bodyPart = new VisualFilter(`#${id}`, {
       defaultState: this.bodyPartFilters,
       disableEvent: true,
-      hideThumbnail: true
+      hideThumbnail: true,
+      hideOnboarding: true
     })
   }
 
