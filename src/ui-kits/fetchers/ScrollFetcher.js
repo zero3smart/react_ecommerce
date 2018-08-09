@@ -6,6 +6,7 @@ import DotLoader from 'ui-kits/loaders/DotLoader'
 
 class ScrollFetcher extends Component {
   static propTypes = {
+    id: PropTypes.string,
     children: PropTypes.any,
     className: PropTypes.string,
     style: PropTypes.object,
@@ -97,10 +98,10 @@ class ScrollFetcher extends Component {
   }
 
   render () {
-    const { className, style } = this.props
+    const { id, className, style } = this.props
     const { isFetchingData } = this.state
     return (
-      <div ref='scrollFetcher' className={className} onScroll={this.handleScrollFrame} style={{ ...style, ...styles.wrapper }}>
+      <div id={id} ref='scrollFetcher' className={className} onScroll={this.handleScrollFrame} style={{ ...style, ...styles.wrapper }}>
         {this.props.children}
         <DotLoader visible={isFetchingData} />
       </div>

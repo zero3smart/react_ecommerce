@@ -8,6 +8,7 @@ import { PRODUCT_COUNT_PER_PAGE } from 'config/constants'
 
 export default class ProductList extends Component {
   static propTypes = {
+    id: PropTypes.string,
     products: PropTypes.array,
     nextPage: PropTypes.number,
     show: PropTypes.bool,
@@ -40,14 +41,14 @@ export default class ProductList extends Component {
   }
 
   render () {
-    const { products, nextPage, show, className, extraItem, onFetch, onToggleLike } = this.props
+    const { id, products, nextPage, show, className, extraItem, onFetch, onToggleLike } = this.props
 
     // get loaded products count
     const currentPage = (nextPage - 1)
     const loadedProductsCount = PRODUCT_COUNT_PER_PAGE * (currentPage < 0 ? 0 : currentPage)
 
     return (
-      <ScrollFetcher id='ProductListScroll' onFetch={onFetch} onScroll={this.handleScroll} className={className} disableInitalFetch>
+      <ScrollFetcher id={id} onFetch={onFetch} onScroll={this.handleScroll} className={className} disableInitalFetch>
         {extraItem}
         {!show && <DotLoader visible style={styles.loader} />}
         <Transition show={show} transition='fadeInUp'>
