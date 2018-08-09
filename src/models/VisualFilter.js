@@ -122,7 +122,7 @@ export default class VisualFilter {
       }
       for (let prop in newPropState) {
         this.propGrpn = PROP_CONST[prop][3]
-        this.changePropSelection(prop, newPropState[prop])
+        this.changePropSelection(prop, newPropState[prop], false)
       }
     }
   }
@@ -226,7 +226,7 @@ export default class VisualFilter {
     }
   }
 
-  changePropSelection (prop, sel) {
+  changePropSelection (prop, sel, requestChange = true) {
     this.propGrpn = PROP_CONST[prop][3]
 
     VisualFilter.hideGroup(this.snap, this.propGrpn + '_' + this.currentPropState[prop])
@@ -269,7 +269,9 @@ export default class VisualFilter {
     }
 
     this.currentPropState[prop] = sel
-    this.settings.onFilterChange(this.currentPropState)
+    if (requestChange) {
+      this.settings.onFilterChange(this.currentPropState)
+    }
   }
 
   /**
