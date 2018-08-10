@@ -10,9 +10,11 @@ import { Product } from 'models'
 const SET_PRODUCTS = 'products/SET_PRODUCTS'
 const APPEND_PRODUCTS = 'products/APPEND_PRODUCTS'
 const ENABLE_INITIAL_FETCH = 'products/ENABLE_INITIAL_FETCH'
+const SET_FAVORITE_PRODUCTS = 'products/SET_FAVORITE_PRODUCTS'
 
 const defaultState = {
   list: [],
+  favoriteLists: [],
   fetched: false,
   nextPage: 0,
   totalCount: 0
@@ -43,6 +45,8 @@ export default function reducer (state = defaultState, action = {}) {
       return { ...state, list: updateProductFavorite(payload.productId, false, state.list) }
     case ENABLE_INITIAL_FETCH:
       return { ...state, fetched: false }
+    case SET_FAVORITE_PRODUCTS:
+      return { ...state, favoriteLists: payload.favoriteProducts }
     default: return state
   }
 }
@@ -95,4 +99,12 @@ export function fetchProducts (initialFetch = false) {
       console.log('Error!', e)
     }
   }
+}
+
+/**
+ * sync favorite products data from local storage to store
+ */
+export function syncFavoriteProducts () {
+  const favoriteProducts = Product.getFavoriteProducts()
+  return { type: SET_FAVORITE_PRODUCTS, payload: { favoriteProducts } }
 }

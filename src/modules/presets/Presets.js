@@ -46,11 +46,11 @@ export class Presets extends Component {
 
   get togglePresetLike () {
     const { likePreset, unlikePreset } = this.props
-    return (presetName, favorite) => {
+    return (preset, favorite) => {
       if (favorite) {
-        likePreset(presetName)
+        likePreset(preset)
       } else {
-        unlikePreset(presetName)
+        unlikePreset(preset)
       }
     }
   }

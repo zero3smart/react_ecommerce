@@ -1,7 +1,9 @@
 import axios from 'axios'
+import find from 'lodash-es/find'
 import { PRODUCT_COUNT_PER_PAGE } from 'config/constants'
 import { createCancelableAsyncAction } from 'utils/async'
 import { mapProductFavorites, updateProductFavorite } from './helpers'
+import { syncFavoriteProducts } from 'ducks/products'
 import { Product } from 'models'
 
 // Actions
@@ -179,8 +181,15 @@ export const fetchRelatedProducts = createCancelableAsyncAction((productId, requ
 })
 
 export function likeProduct (productId) {
-  return (dispatch) => {
-    Product.like(productId)
+  return (dispatch, getState) => {
+    // instead of rewriting all function usage, we'll find the products inside the action
+    const { products } = getState()
+    const product = find(products.list, { product_id: productId })
+
+    Product.like(product)
+    // sync favorite products from local storage, temporary solutions before api ready
+    dispatch(syncFavoriteProducts())
+
     dispatch({ type: LIKE_PRODUCT, payload: { productId } })
   }
 }
@@ -188,6 +197,9 @@ export function likeProduct (productId) {
 export function unlikeProduct (productId) {
   return (dispatch) => {
     Product.unlike(productId)
+    // sync favorite products from local storage, temporary solutions before api ready
+    dispatch(syncFavoriteProducts())
+
     dispatch({ type: UNLIKE_PRODUCT, payload: { productId } })
   }
 }

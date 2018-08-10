@@ -81,7 +81,14 @@ export default class Preset extends Component {
     return (e) => {
       e.preventDefault()
       e.stopPropagation()
-      onToggleLike(name, !favorite)
+
+      const preset = {
+        name,
+        ...this.bodyPartFilters,
+        ...this.fabricFilters
+      }
+
+      onToggleLike(preset, !favorite)
     }
   }
 
