@@ -1,5 +1,8 @@
 .FilterButton {
   text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
   padding: 3px 10px 3px 5px;
   border: 1px solid #3D3D3D;
   border-radius: 2em;
