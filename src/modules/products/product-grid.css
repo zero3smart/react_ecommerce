@@ -1,4 +1,7 @@
 .ProductGrid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
   background: white;
   color: #000000;
   text-decoration: none;
@@ -8,7 +11,6 @@
 .ProductGrid-thumbnail {
   padding-left: 15px;
   padding-right: 15px;
-  min-height: 145px;
 }
 
 .ProductGrid-detail {

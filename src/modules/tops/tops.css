@@ -5,7 +5,7 @@
 .Tops-products {
   display: flex;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: stretch;
   align-content: flex-start;
   flex-wrap: wrap;
   padding-top: 10px;
