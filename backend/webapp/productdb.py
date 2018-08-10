@@ -34,8 +34,10 @@ class Product:
         
         if price_rows is not None:
             self.price = price_rows.price.min()
+            self.original_price = price_rows.originalPrice.min()
         else:
             self.price = 29.94
+            self.original_price = self.price
         self.sizes = sorted(list(price_rows['size']))
 
     def __repr__(self):
@@ -49,6 +51,7 @@ class Product:
         ext['front_img'] = self.front_img
         ext['name'] = self.name
         ext['price'] = self.price
+        ext['original_price'] = self.original_price
         ext['src_url'] = self.url
 
         if extra_info:

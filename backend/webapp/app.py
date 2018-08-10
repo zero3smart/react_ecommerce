@@ -64,8 +64,10 @@ def get_woman_top():
     #exact_pids, other_pids = db.pids_prop_sorted(props)
     #pids = exact_pids + other_pids
     json_dict['total_cnt'] = len(pcids)
-    pcids = pcids[page*cnt_per_page:(page+1)*cnt_per_page]
-   
+    rng = slice(page*cnt_per_page,(page+1)*cnt_per_page)
+    pcids = pcids[rng]
+    scores = scores[rng]
+
     products = []
     for i, pcid in enumerate(pcids):
         prd = db.get_product_by_pcid(pcid)
