@@ -11,7 +11,7 @@
   padding: 15px 30px 30px;
   box-sizing: border-box;
   position: relative;
-  height: 316px;
+  max-height: 316px;
 }
 
 .Product-images {
