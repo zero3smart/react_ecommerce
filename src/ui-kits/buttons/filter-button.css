@@ -1,0 +1,46 @@
+.FilterButton {
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 3px 10px 3px 5px;
+  border: 1px solid #3D3D3D;
+  border-radius: 2em;
+  -webkit-border-radius: 2em;
+  -moz-border-radius: 2em;
+  -o-border-radius: 2em;
+  margin: auto;
+  user-select: none;
+  -webkit-user-select: none;
+  outline: none;
+}
+
+.FilterButton:hover {
+  background: #F4F4F4;
+}
+
+.FilterButton h5 {
+  font-size: 0.813em; /* 13px */
+  font-weight: bold;
+  color: #000000;
+  margin: auto;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.FilterButton-icon {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  margin-right: 5px;
+  vertical-align: middle;
+  border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  -o-border-radius: 100%;
+  box-sizing: border-box;
+}
+
+.FilterButton-icon > img {
+  max-width: 100%;
+}

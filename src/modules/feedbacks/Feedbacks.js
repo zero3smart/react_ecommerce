@@ -26,7 +26,7 @@ class Feedbacks extends Component {
     // don't need to do initial fetch if products is fetched already
     if (!isProductsFetched) {
       syncFilter()
-      fetchProducts()
+      fetchProducts(true)
     }
   }
 
@@ -71,8 +71,7 @@ class Feedbacks extends Component {
       // set filter to store
       setFilter(filters)
       // fetch products based selected filter
-      // start index 0 / reset product list
-      fetchProducts(0)
+      fetchProducts(true)
     }
   }
 

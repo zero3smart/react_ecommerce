@@ -1,2 +1,42 @@
 .ProductFilter {
+  animation-name: bounceInUp;
+}
+
+.ProductFilter.allowHide.pullDown {
+  animation-name: bounceOutDown;
+}
+
+/* fadeIn */
+.ProductFilter .FilterPanel:not(.fadeIn-exiting) {
+  animation-delay: 500ms!important;
+}
+
+.ProductFilter .FloatButton > svg {
+  animation-duration: 500ms;
+  animation-fill-mode: both;
+}
+
+.ProductFilter .FloatButton.unstyled-entering {
+}
+
+.ProductFilter .FloatButton.unstyled-entered {
+}
+
+.ProductFilter .FloatButton.unstyled-exiting > svg {
+  animation-name: floatExit;
+}
+
+.ProductFilter .FloatButton.unstyled-exited {
+  opacity: 0;
+}
+
+/* filter keyframes */
+@keyframes floatExit {
+  0% {
+    transform: scale(1) translate(0,0);
+  }
+
+  100% {
+    transform: scale(2.67) translate(-30.8%, -54.2%);
+  }
 }

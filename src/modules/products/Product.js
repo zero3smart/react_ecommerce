@@ -16,6 +16,7 @@ export default class Product extends PureComponent {
     currency: PropTypes.string,
     favorite: PropTypes.bool,
     description: PropTypes.string,
+    link: PropTypes.string,
     onToggleLike: PropTypes.func
   }
 
@@ -45,12 +46,12 @@ export default class Product extends PureComponent {
   }
 
   render () {
-    const { id, name, brand, imgSrc, extraImgs, price, currency, description, favorite } = this.props
+    const { id, name, brand, imgSrc, extraImgs, price, currency, description, favorite, link } = this.props
 
     return (
-      <div className='Product'>
+      <div id={id} className='Product'>
+        <LikeButton active={favorite} onClick={this.toggleLike} />
         <div className='Product-images'>
-          <LikeButton active={favorite} onClick={this.toggleLike} />
           <Slider {...this.sliderSettings}>
             {imgSrc && <img src={`${BASE_IMG_PATH}imgs/ns_woman_top/${imgSrc}`} alt={name} className='img-responsive' />}
             {renderExtraImages(extraImgs, name)}
@@ -63,7 +64,7 @@ export default class Product extends PureComponent {
           <div className='Product-price'>{currency}{price}</div>
         </div>
         <div className='Product-footer'>
-          <Button to={`products/${id}/buy`}>Buy Now</Button>
+          <Button to={link}>Buy Now</Button>
         </div>
       </div>
     )

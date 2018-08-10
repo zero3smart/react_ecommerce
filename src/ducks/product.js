@@ -1,7 +1,9 @@
 import axios from 'axios'
+import find from 'lodash-es/find'
 import { PRODUCT_COUNT_PER_PAGE } from 'config/constants'
 import { createCancelableAsyncAction } from 'utils/async'
 import { mapProductFavorites, updateProductFavorite } from './helpers'
+import { syncFavoriteProducts } from 'ducks/products'
 import { Product } from 'models'
 
 // Actions
@@ -11,6 +13,7 @@ const SET_RELATED_PRODUCTS = 'product/SET_RELATED_PRODUCTS'
 const APPEND_RELATED_PRODUCTS = 'product/APPEND_PRODUCTS'
 export const LIKE_PRODUCT = 'product/LIKE_PRODUCT'
 export const UNLIKE_PRODUCT = 'product/UNLIKE_PRODUCT'
+const SET_SCROLL_BELLOW_THE_FOLD = 'products/SET_SCROLL_BELLOW_THE_FOLD'
 
 const defaultState = {
   data: {}, // active product
@@ -19,7 +22,8 @@ const defaultState = {
   relatedProducts: [],
   relatedProductsFetched: false,
   nextPage: 0,
-  totalCount: 0
+  totalCount: 0,
+  scrollBellowTheFold: false // whether products page scroll position is bellow the fold
 }
 
 // Reducer
@@ -80,6 +84,8 @@ export default function reducer (state = defaultState, action = {}) {
         relatedProducts: updateProductFavorite(payload.productId, false, state.relatedProducts)
       }
     }
+    case SET_SCROLL_BELLOW_THE_FOLD:
+      return { ...state, scrollBellowTheFold: payload.scrollState }
     case RESET_PRODUCT:
       return defaultState
     default: return state
@@ -101,6 +107,10 @@ export function appendRelatedProducts (products = [], favoriteProductIds = []) {
 
 export function setRelatedProducts (products = [], totalCount = 0, favoriteProductIds = []) {
   return { type: SET_RELATED_PRODUCTS, payload: { products, totalCount, favoriteProductIds } }
+}
+
+export function setScrollBellowTheFold (scrollState) {
+  return { type: SET_SCROLL_BELLOW_THE_FOLD, payload: { scrollState } }
 }
 
 // Side effects, only as applicable
@@ -171,8 +181,15 @@ export const fetchRelatedProducts = createCancelableAsyncAction((productId, requ
 })
 
 export function likeProduct (productId) {
-  return (dispatch) => {
-    Product.like(productId)
+  return (dispatch, getState) => {
+    // instead of rewriting all function usage, we'll find the products inside the action
+    const { products } = getState()
+    const product = find(products.list, { product_id: productId })
+
+    Product.like(product)
+    // sync favorite products from local storage, temporary solutions before api ready
+    dispatch(syncFavoriteProducts())
+
     dispatch({ type: LIKE_PRODUCT, payload: { productId } })
   }
 }
@@ -180,6 +197,9 @@ export function likeProduct (productId) {
 export function unlikeProduct (productId) {
   return (dispatch) => {
     Product.unlike(productId)
+    // sync favorite products from local storage, temporary solutions before api ready
+    dispatch(syncFavoriteProducts())
+
     dispatch({ type: UNLIKE_PRODUCT, payload: { productId } })
   }
 }

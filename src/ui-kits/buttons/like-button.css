@@ -32,13 +32,10 @@
 }
 
 .LikeButton > button > img {
+  width: 100%;
   max-width: 100%;
   margin: auto;
   vertical-align: top;
-}
-
-.LikeButton.active button {
-  background: #3D3D3D;
 }
 
 /* click state */
@@ -47,26 +44,4 @@
   -moz-animation: buttonPulse 0.5s cubic-bezier(0.66, 0, 0, 1);
   -ms-animation: buttonPulse 0.5s cubic-bezier(0.66, 0, 0, 1);
   animation: buttonPulse 0.5s cubic-bezier(0.66, 0, 0, 1);
-}
-
-/* pulse effect */
-@-webkit-keyframes buttonPulse {
-  to {
-    box-shadow: 0 0 0 15px rgba(61, 61, 61, 0);
-  }
-}
-@-moz-keyframes buttonPulse {
-  to {
-    box-shadow: 0 0 0 15px rgba(61, 61, 61, 0);
-  }
-}
-@-ms-keyframes buttonPulse {
-  to {
-    box-shadow: 0 0 0 15px rgba(61, 61, 61, 0);
-  }
-}
-@keyframes buttonPulse {
-  to {
-    box-shadow: 0 0 0 15px rgba(61, 61, 61, 0);
-  }
 }

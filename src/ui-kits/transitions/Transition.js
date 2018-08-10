@@ -10,8 +10,8 @@ class Transition extends Component {
       PropTypes.arrayOf(PropTypes.element),
       PropTypes.element
     ]).isRequired,
-    transition: PropTypes.oneOf(['fadeIn', 'fadeInUp']),
-    timeout: PropTypes.number,
+    transition: PropTypes.oneOf(['fadeIn', 'fadeInUp', 'unstyled']),
+    timeout: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
     className: PropTypes.string
   }
 
@@ -28,13 +28,18 @@ class Transition extends Component {
     return (
       <RTransition timeout={timeout} in={show} className={className}>
         {
-          state => (
-            React.Children.map(children, element => (
-              React.cloneElement(element, {
-                className: element.props.className + ` animated ${transition}-${state}`
-              })
-            ))
-          )
+          state => {
+            if (state === 'exited') {
+              return null
+            }
+            return (
+              React.Children.map(children, element => (
+                React.cloneElement(element, {
+                  className: element.props.className + ` animated ${transition}-${state}`
+                })
+              ))
+            )
+          }
         }
       </RTransition>
     )

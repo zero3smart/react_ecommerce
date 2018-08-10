@@ -1,0 +1,29 @@
+.ColorPallete {
+  background: #F3F3F3;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  padding: 30px 20px 0px;
+  margin-left: -10px;
+  margin-right: -10px;
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -o-border-radius: 20px;
+}
+
+.ColorPallete .ColorButton {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 28px;
+}
+
+.ColorPallete .ColorButton.white {
+  border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  -o-border-radius: 100%;
+  border: 1px solid #979797;
+}

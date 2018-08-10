@@ -3,14 +3,26 @@
  * contains functions to handle visual filter svg interactions
  */
 // Import Snap from window. Snap is loaded from template.
+import pick from 'lodash-es/pick'
+import isNil from 'lodash-es/isNil'
+import isEmpty from 'lodash-es/isEmpty'
+import isEqual from 'lodash-es/isEqual'
 import { PROP_CONST, THUMBNAIL_IMG_X_OFFSET, THUMBNAIL_Y_OFFSET } from 'config/constants'
 const { Snap, localStorage } = window
 
 export default class VisualFilter {
   currentThumbnail = 'neckline'
-  currentPropState = {}
+  currentPropState = {
+    collar: '0',
+    coretype: '0',
+    neckline: '0',
+    shoulder: '0',
+    sleeve_length: '0',
+    top_length: 'all'
+  }
   onboardingStage = 0
   colorPalletteOpened = 0
+  svgLoaded = false
 
   constructor (selector = '#svg', options = {}) {
     this.settings = {
@@ -19,16 +31,28 @@ export default class VisualFilter {
     }
     this.snap = Snap(selector)
 
-    this.initializeCurrentPropState()
+    if (options.defaultState) {
+      this.currentPropState = this.getbodyPartFilters(options.defaultState)
+    }
+
     this.initialize() // initialize snap
   }
 
-  initialize () {
-    const { enableColorPallete } = this.settings
+  getbodyPartFilters (filters) {
+    return pick(filters, [ 'collar', 'coretype', 'neckline', 'shoulder', 'sleeve_length', 'top_length' ])
+  }
 
-    this.snap.attr({ viewBox: [0, 0, 480, 440] })
+  initialize () {
+    const { hideOnboarding, onSVGLoaded } = this.settings
+
+    let viewBox = [0, 0, 480, 400]
+    if (this.settings.hideThumbnail) {
+      viewBox = [0, 0, 480, 320]
+    }
+    this.snap.attr({ viewBox })
 
     Snap.load('/svg/vf_bundle.svg', (frag) => {
+      this.svgLoaded = true
       this.snapGroup = this.snap.group()
       this.snapGroup.append(frag)
       this.snapGroup.attr({ visibility: 'hidden' })
@@ -39,29 +63,26 @@ export default class VisualFilter {
       this.handleBodyPartClick('coretype')
 
       for (let prop in this.currentPropState) {
-        if (prop === 'color') {
-          if (enableColorPallete) {
-            VisualFilter.showGroup(this.snap, 'color_palette_closed')
-          }
-          continue
-        }
         this.propGrpn = PROP_CONST[prop][3]
         VisualFilter.showGroup(this.snap, this.propGrpn + '_' + this.currentPropState[prop])
       }
 
-      if (VisualFilter.shouldShowOnboarding()) {
+      // onboarding
+      if (!hideOnboarding && VisualFilter.shouldShowOnboarding()) {
         Snap.load('/svg/mini_onboarding.svg', (frag) => {
           this.showOnboarding(frag)
         })
       } else {
         this.initializeClickHitMap()
       }
+
+      // callback
+      onSVGLoaded()
     })
   }
 
   initializeClickHitMap () {
     const self = this
-    const { enableColorPallete } = this.settings
     let group = null
     // This will be touch hit-area
     for (var prop in this.currentPropState) {
@@ -72,45 +93,38 @@ export default class VisualFilter {
         continue
       }
 
-      if (!enableColorPallete && prop === 'color') {
-        continue
-      }
-
       // Just make it not-visible. We still need it for hit-map
       group.attr({ visibility: 'visible' })
       group.attr({ opacity: '0' })
-      if (['solid', 'pattern', 'details', 'color'].includes(prop)) {
-        group.click(function () { self.handleFilterClick(this) }, prop)
-      } else {
+
+      if (!this.settings.disableEvent) {
         group.click(function () { self.handleBodyPartClick(this) }, prop)
       }
     }
 
-    if (enableColorPallete) {
-      for (var i = 0; i < 15; i++) {
-        group = VisualFilter.findGroupById(this.snap, 'color_palette_touch_' + i)
-        group.attr({ visibility: 'hidden' })
-        group.attr({ opacity: '.0' })
-        group.click(function () { self.handleColorClick(this) }, i.toString())
+    if (!this.settings.hideThumbnail) {
+      for (let i = 0; i < 7; i++) {
+        group = VisualFilter.findGroupById(this.snap, 'thumbnail_touch_' + i)
+        group.attr({ width: 68, height: 68 })
+        group.attr({ visibility: 'visible' })
+        group.attr({ opacity: '0' })
+        group.click(function () { self.handleThumbnailClick(this) }, i.toString())
       }
-    }
-
-    for (let i = 0; i < 7; i++) {
-      group = VisualFilter.findGroupById(this.snap, 'thumbnail_touch_' + i)
-      group.attr({ width: 68, height: 68 })
-      group.attr({ visibility: 'visible' })
-      group.attr({ opacity: '0' })
-      group.click(function () { self.handleThumbnailClick(this) }, i.toString())
     }
   }
 
-  initializeCurrentPropState () {
-    for (var i in PROP_CONST) {
-      let val = VisualFilter.loadConfig(i)
-      if (val) {
-        this.currentPropState[i] = val
-      } else {
-        this.currentPropState[i] = PROP_CONST[i][2] // Set current status
+  updateState (filters) {
+    const newPropState = this.getbodyPartFilters(filters)
+    // only update when svg is loaded and has changes on filters
+    if (this.svgLoaded && !isEqual(this.currentPropState, newPropState)) {
+      // if current propState is empty, assign new filters directly
+      if (isEmpty(this.currentPropState)) {
+        this.currentPropState = newPropState
+      }
+
+      for (let prop in newPropState) {
+        this.propGrpn = PROP_CONST[prop][3]
+        this.changePropSelection(prop, newPropState[prop], false)
       }
     }
   }
@@ -168,19 +182,21 @@ export default class VisualFilter {
       this.cyclePropSelection(prop)
     }
 
-    VisualFilter.hideGroup(this.snap, PROP_CONST[this.currentThumbnail][3] + '_thumbnails')
-    this.currentThumbnail = prop
-    const newTnGrp = PROP_CONST[this.currentThumbnail][3] + '_thumbnails'
-    VisualFilter.showGroup(this.snap, newTnGrp)
+    if (!this.settings.hideThumbnail) {
+      VisualFilter.hideGroup(this.snap, PROP_CONST[this.currentThumbnail][3] + '_thumbnails')
+      this.currentThumbnail = prop
+      const newTnGrp = PROP_CONST[this.currentThumbnail][3] + '_thumbnails'
+      VisualFilter.showGroup(this.snap, newTnGrp)
 
-    // Move thumbnail hit area
-    const xoffset = VisualFilter.getThumbnailOffset(prop) + 15
-    const yoffset = THUMBNAIL_Y_OFFSET + 15
-    let desc = 't' + xoffset + ',' + yoffset
-    VisualFilter.findGroupById(this.snap, 'Thumbnail_Touch_Area').transform(desc)
+      // Move thumbnail hit area
+      const xoffset = VisualFilter.getThumbnailOffset(prop) + 15
+      const yoffset = THUMBNAIL_Y_OFFSET + 15
+      let desc = 't' + xoffset + ',' + yoffset
+      VisualFilter.findGroupById(this.snap, 'Thumbnail_Touch_Area').transform(desc)
 
-    // Display current one
-    VisualFilter.showSelectionBox(this.snap, prop, this.currentPropState[prop])
+      // Display current one
+      VisualFilter.showSelectionBox(this.snap, prop, this.currentPropState[prop])
+    }
   }
 
   /**
@@ -200,41 +216,6 @@ export default class VisualFilter {
     this.changePropSelection(this.currentThumbnail, tnIdx)
   }
 
-  handleColorClick (colorId) {
-    if (colorId === '0') {
-      this.handleFilterClick('color')
-    }
-  }
-
-  handleFilterClick (prop) {
-    if (prop === 'color') {
-      this.openCloseColorPallete(!this.colorPalletteOpened)
-    } else {
-      this.changePropSelection(prop, (this.currentPropState[prop] + 1) % 2)
-    }
-  }
-
-  openCloseColorPallete (open) {
-    if (open) {
-      this.colorPalletteOpened = 1
-      VisualFilter.hideGroup(this.snap, 'color_0')
-      VisualFilter.showGroup(this.snap, 'color_pallete_open')
-    } else {
-      this.colorPalletteOpened = 0
-      VisualFilter.hideGroup(this.snap, 'color_pallete_open')
-      VisualFilter.showGroup(this.snap, 'color_0')
-    }
-
-    for (let i = 0; i < 15; i++) {
-      let group = VisualFilter.findGroupById(this.snap, 'color_palette_touch_' + i)
-      if (this.colorPalletteOpened) {
-        group.attr({ visibility: 'visible' })
-      } else {
-        group.attr({ visibility: 'hidden' })
-      }
-    }
-  }
-
   cyclePropSelection (prop) {
     if (this.currentPropState[prop] === 'all') {
       this.changePropSelection(prop, '0')
@@ -247,72 +228,52 @@ export default class VisualFilter {
     }
   }
 
-  changePropSelection (prop, sel) {
+  changePropSelection (prop, sel, requestChange = true) {
     this.propGrpn = PROP_CONST[prop][3]
 
     VisualFilter.hideGroup(this.snap, this.propGrpn + '_' + this.currentPropState[prop])
     VisualFilter.showGroup(this.snap, this.propGrpn + '_' + sel)
 
-    let savedTopLength = this.currentPropState['top_length']
-
+    /**
+     * Special handling for tank top
+     * ---
+     * When coretype is moving to 0, change top_length to 0 (save current top_length value)
+     * When coretype is moving to 1 / 2 / 3 / all, restore saved top_length value
+     * When top_length is moving to 1 / 2 / 3 / all and core type is is 0, change coretype to 1
+     */
     if (prop === 'coretype') {
-      // Special handling for tank top
-      // Hide top-length
-      if (sel === '0') {
-        savedTopLength = this.currentPropState['top_length']
-        this.currentPropState['top_length'] = 'all'
-        VisualFilter.hideGroup(this.snap, 'length_' + savedTopLength)
+      if (sel === '0') { // change top length to 0
+        // save top length when there is no value stored
+        if (isNil(this.savedTopLength)) {
+          this.savedTopLength = this.currentPropState['top_length']
+        }
+        // change top length to 0
+        this.currentPropState['top_length'] = 0
+        // hide saved top length image
+        VisualFilter.hideGroup(this.snap, 'length_' + this.savedTopLength)
+        // show 0 top length image
         VisualFilter.showGroup(this.snap, 'length_0')
-      } else if (this.currentPropState[prop] === '0') {
+      } else { // restore top length
+        // restore saved top length if available
+        if (this.savedTopLength) {
+          this.currentPropState['top_length'] = this.savedTopLength
+          this.savedTopLength = null
+        }
+        // show saved top length image
+        VisualFilter.showGroup(this.snap, 'length_' + this.currentPropState['top_length'])
+        // hide 0 top length image
         VisualFilter.hideGroup(this.snap, 'length_0')
-        VisualFilter.showGroup(this.snap, 'length_' + savedTopLength)
-        this.currentPropState['top_length'] = savedTopLength
       }
-    }
-
-    if (prop === 'top_length' && this.currentPropState['coretype'] === '0') {
+    } else if (prop === 'top_length' && sel !== '0' && this.currentPropState['coretype'] === '0') {
       VisualFilter.hideGroup(this.snap, 'top_core_0')
       VisualFilter.showGroup(this.snap, 'top_core_1')
       this.currentPropState['coretype'] = '1' // Avoid recursion
     }
 
     this.currentPropState[prop] = sel
-    this.settings.onBodyPartClick(this.getProductFilters())
-
-    for (var i in PROP_CONST) {
-      VisualFilter.saveConfig(i, this.currentPropState[i])
+    if (requestChange) {
+      this.settings.onFilterChange(this.currentPropState)
     }
-  }
-
-  getProductFilters () {
-    let filters = {
-      page: 0,
-      extra_info: 1,
-      cnt_per_page: 72
-    }
-
-    // get filter based on currentPropState
-    for (let prop in this.currentPropState) {
-      let ps = this.currentPropState[prop]
-      if (ps >= 0) {
-        // sleeve_length covers sleeve_length and tightness for UI simplicity
-        if (prop === 'sleeve_length') {
-          if (ps === 5) { // long & wide sleeve
-            filters.sleeve_length = 4
-            filters.sleeve_tightness = 1
-          } else if (ps === 4) { // long & tight sleeve
-            filters.sleeve_length = 4
-            filters.sleeve_tightness = 0
-          } else {
-            filters[prop] = ps
-          }
-        } else {
-          filters[prop] = ps
-        }
-      }
-    }
-
-    return filters
   }
 
   /**
@@ -403,6 +364,10 @@ export default class VisualFilter {
 }
 
 const defaultOptions = {
-  enableColorPallete: false,
-  onBodyPartClick: (filters) => { console.debug('body part clicked', filters) }
+  disableEvent: false,
+  defaultState: {},
+  hideThumbnail: false,
+  hideOnboarding: false,
+  onFilterChange: (filters) => { console.debug('filter change', filters) },
+  onSVGLoaded: () => {}
 }

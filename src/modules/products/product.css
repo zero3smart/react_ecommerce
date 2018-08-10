@@ -10,18 +10,26 @@
   grid-gap: 25px 30px;
   padding: 15px 30px 30px;
   box-sizing: border-box;
+  position: relative;
+  max-height: 316px;
 }
 
 .Product-images {
   grid-area: images;
-  position: relative;
+  height: 202px;
+  overflow-y: hidden;
 }
 
-.Product .Product-images > .LikeButton {
+.Product .LikeButton {
   position: absolute;
-  top: 0px;
-  left: -15px;
+  top: 15px;
+  left: 15px;
   z-index: 2;
+}
+
+.Product .LikeButton > button {
+  width: 30px;
+  height: 30px;
 }
 
 .Product .Product-images > .slick-slider {
@@ -58,11 +66,6 @@
 .Product .Product-images > .slick-slider .slick-dots > li.slick-active > button::before {
   background: #3D3D3D;
   border-color: #3D3D3D;
-}
-
-.Product .Product-images > .LikeButton > button {
-  width: 30px;
-  height: 30px;
 }
 
 .Product-images img {

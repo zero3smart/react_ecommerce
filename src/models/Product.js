@@ -1,25 +1,33 @@
 import { FAVORITE_PRODUCTS } from 'config/constants'
-import uniq from 'lodash-es/uniq'
-import without from 'lodash-es/without'
+import uniqBy from 'lodash-es/uniqBy'
+import reject from 'lodash-es/reject'
+import map from 'lodash-es/map'
 
 const { localStorage } = window
 
 export default class Product {
   /**
-   * get favorite product ids from local storage
+   * get favorite products from local storage
    */
-  static getFavoriteProductIds () {
+  static getFavoriteProducts () {
     return JSON.parse(localStorage.getItem(FAVORITE_PRODUCTS)) || []
   }
 
   /**
-   * save productId to list of favorit product in local storage
-   * @param {string} productId
+   * get favorite product ids from local storage
    */
-  static like (productId) {
-    let favoriteProductIds = Product.getFavoriteProductIds()
-    favoriteProductIds = uniq([ ...favoriteProductIds, productId ])
-    localStorage.setItem(FAVORITE_PRODUCTS, JSON.stringify(favoriteProductIds))
+  static getFavoriteProductIds () {
+    return map(Product.getFavoriteProducts(), 'product_id')
+  }
+
+  /**
+   * save productId to list of favorit product in local storage
+   * @param {object} product
+   */
+  static like (product) {
+    let favoriteProducts = Product.getFavoriteProducts()
+    favoriteProducts = uniqBy([ ...favoriteProducts, { ...product, favorite: true } ], 'product_id')
+    localStorage.setItem(FAVORITE_PRODUCTS, JSON.stringify(favoriteProducts))
   }
 
   /**
@@ -27,9 +35,9 @@ export default class Product {
    * @param {string} productId
    */
   static unlike (productId) {
-    let favoriteProductIds = Product.getFavoriteProductIds()
-    favoriteProductIds = without(favoriteProductIds, productId)
+    let favoriteProducts = Product.getFavoriteProducts()
+    favoriteProducts = reject(favoriteProducts, { product_id: productId })
 
-    localStorage.setItem(FAVORITE_PRODUCTS, JSON.stringify(favoriteProductIds))
+    localStorage.setItem(FAVORITE_PRODUCTS, JSON.stringify(favoriteProducts))
   }
 }
