@@ -94,7 +94,7 @@ export default class FabricFilters extends PureComponent {
     const { details, pattern, solid, color, disableEvent, kind } = this.props
     const { collorPalleteVisible } = this.state
 
-    const filterButtonChild = disableEvent ? 'Colors' : <img src={angleSVGSrc} alt='color-picker' />
+    const filterButtonChild = disableEvent ? 'Colors' : <img src={angleSVGSrc} alt='color-picker' className='arrow' />
 
     // color button style
     const colorValue = FABRIC_COLORS[color]
@@ -135,7 +135,7 @@ export default class FabricFilters extends PureComponent {
             backgroundImage: colorBackgroundImage,
             border: colorBorder
           }}
-          className='ColorPicker'>
+          className={classNames('ColorPicker', { open: collorPalleteVisible })}>
           {filterButtonChild}
         </FilterButton>
         <Transition timeout={{ enter: 100, exit: 300 }} show={collorPalleteVisible}>
