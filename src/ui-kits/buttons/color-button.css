@@ -32,3 +32,11 @@
   -ms-animation: buttonPulse 0.5s cubic-bezier(0.66, 0, 0, 1);
   animation: buttonPulse 0.5s cubic-bezier(0.66, 0, 0, 1);
 }
+
+.ColorButton.active {
+  border: 1px solid #3D3D3D;
+  box-shadow: 0 0 0 3px white inset;
+  -webkit-box-shadow: 0 0 0 3px white inset;
+  -moz-box-shadow: 0 0 0 3px white inset;
+  -o-box-shadow: 0 0 0 3px white inset;
+}

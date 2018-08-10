@@ -74,18 +74,16 @@ export default class FabricFilters extends PureComponent {
   }
 
   get handleColorClick () {
-    return (name) => {
+    return (values) => {
       const { details, pattern, solid, disableEvent, onChange } = this.props
       const filters = {
         details,
         pattern,
         solid,
-        color: name
+        color: values && values.join(',')
       }
-
       if (!disableEvent) {
         onChange(filters)
-        this.toggleColorPallete() // close color pallete
       }
     }
   }
@@ -94,12 +92,12 @@ export default class FabricFilters extends PureComponent {
     const { details, pattern, solid, color, disableEvent, kind } = this.props
     const { collorPalleteVisible } = this.state
 
-    const filterButtonChild = disableEvent ? 'Colors' : <img src={angleSVGSrc} alt='color-picker' />
+    const filterButtonChild = disableEvent ? 'Colors' : <img src={angleSVGSrc} alt='color-picker' className='arrow' />
 
     // color button style
-    const colorValue = FABRIC_COLORS[color]
-    const colorBackgroundImage = includes(['pastel', 'metal'], color) && colorValue // background image only applied for gradient color value
-    const colorBorder = colorValue && (color === 'white' ? '1px solid #3D3D3D' : '1px solid #D7D0D9')
+    const colorValues = color ? color.split(',') : []
+    const colorHex = colorValues.length === 1 ? FABRIC_COLORS[color] : null
+    const colorBackgroundImage = includes(['pastel', 'metal'], color) && colorHex // background image only applied for gradient color value
     // end of color button style
 
     return (
@@ -129,17 +127,16 @@ export default class FabricFilters extends PureComponent {
           name='color'
           value={color}
           onClick={this.toggleColorPallete}
-          iconSrc={includes(['all', null], color) ? colorSVGSrc : null}
+          iconSrc={includes(['all', null], color) || !colorHex ? colorSVGSrc : null}
           iconStyle={{
-            backgroundColor: colorValue,
-            backgroundImage: colorBackgroundImage,
-            border: colorBorder
+            backgroundColor: colorHex,
+            backgroundImage: colorBackgroundImage
           }}
-          className='ColorPicker'>
+          className={classNames('ColorPicker', { open: collorPalleteVisible })}>
           {filterButtonChild}
         </FilterButton>
-        <Transition timeout={{ enter: 100, exit: 300 }} show={collorPalleteVisible}>
-          <ColorPallete onColorClick={this.handleColorClick} style={styles.colorPallete} />
+        <Transition timeout={{ enter: 100, exit: 200 }} show={collorPalleteVisible}>
+          <ColorPallete values={colorValues} onColorClick={this.handleColorClick} style={styles.colorPallete} />
         </Transition>
       </div>
     )
