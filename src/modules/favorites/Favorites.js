@@ -5,10 +5,10 @@ import { NavLink } from 'react-router-dom'
 import Tabs from 'ui-kits/navigations/Tabs'
 import { fetchProducts } from 'ducks/products'
 import { likeProduct, unlikeProduct } from 'ducks/product'
-import { setFilter, syncFilter } from 'ducks/filters'
+import { setFilter, syncFilter, syncFavoritePresets } from 'ducks/filters'
 import { ProductList } from 'modules/products'
 import { Presets } from 'modules/presets'
-import { favoriteProductsSelector, favoritePresetsSelector } from './selectors'
+import { favoriteProductsSelector } from './selectors'
 import './favorites.css'
 
 class Favorites extends Component {
@@ -20,19 +20,21 @@ class Favorites extends Component {
     nextPage: PropTypes.number,
     fetchProducts: PropTypes.func.isRequired,
     syncFilter: PropTypes.func.isRequired,
+    syncFavoritePresets: PropTypes.func.isRequired,
     setFilter: PropTypes.func.isRequired,
     likeProduct: PropTypes.func.isRequired,
     unlikeProduct: PropTypes.func.isRequired
   }
 
   componentDidMount () {
-    const { isProductsFetched, syncFilter, fetchProducts } = this.props
+    const { isProductsFetched, syncFilter, syncFavoritePresets, fetchProducts } = this.props
 
     // don't need to do initial fetch if products is fetched already
     if (!isProductsFetched) {
       syncFilter()
       fetchProducts(true)
     }
+    syncFavoritePresets()
   }
 
   /**
@@ -103,7 +105,7 @@ class Favorites extends Component {
 const mapStateToProps = (state, props) => ({
   favoriteType: props.match.params.favoriteType,
   products: favoriteProductsSelector(state),
-  presets: favoritePresetsSelector(state),
+  presets: state.filters.favoritePresets,
   isProductsFetched: state.products.fetched,
   nextPage: state.products.nextPage
 })
@@ -113,6 +115,7 @@ export default connect(
   {
     fetchProducts,
     syncFilter,
+    syncFavoritePresets,
     setFilter,
     likeProduct,
     unlikeProduct

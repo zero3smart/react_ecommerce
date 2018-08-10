@@ -7,6 +7,7 @@ const { localStorage } = window
 // Actions
 const SET_FILTER = 'filters/SET_FILTER'
 const SET_PRESETS = 'filters/SET_PRESETS'
+const SET_FAVORITE_PRESETS = 'filters/SET_FAVORITE_PRESETS'
 const LIKE_PRESET = 'filters/LIKE_PRESET'
 const UNLIKE_PRESET = 'filters/UNLIKE_PRESET'
 
@@ -24,6 +25,7 @@ const defaultState = {
     color: null
   },
   presets: [],
+  favoritePresets: [],
   presetsFetched: false
 }
 
@@ -39,7 +41,7 @@ export default function reducer (state = defaultState, action = {}) {
     case SET_PRESETS:
       return {
         ...state,
-        presets: mapPresetFavorites(payload.favoritePresets, payload.presets),
+        presets: mapPresetFavorites(payload.favoritePresetNames, payload.presets),
         presetsFetched: true
       }
     case LIKE_PRESET:
@@ -51,6 +53,11 @@ export default function reducer (state = defaultState, action = {}) {
       return {
         ...state,
         presets: updatePresetFavorite(payload.presetName, false, state.presets)
+      }
+    case SET_FAVORITE_PRESETS:
+      return {
+        ...state,
+        favoritePresets: payload.favoritePresets
       }
     // do reducer stuff
     default: return state
@@ -64,8 +71,8 @@ export function setFilter (filters) {
   return { type: SET_FILTER, payload: { filters } }
 }
 
-export function setPresets (presets, favoritePresets) {
-  return { type: SET_PRESETS, payload: { presets, favoritePresets } }
+export function setPresets (presets, favoritePresetNames) {
+  return { type: SET_PRESETS, payload: { presets, favoritePresetNames } }
 }
 
 /**
@@ -77,6 +84,14 @@ export function syncFilter () {
 }
 
 /**
+ * sync favorite presets data from local storage to store
+ */
+export function syncFavoritePresets () {
+  const favoritePresets = Preset.getFavoritePresets()
+  return { type: SET_FAVORITE_PRESETS, payload: { favoritePresets } }
+}
+
+/**
  * get list of presets available
  */
 export function fetchPresets () {
@@ -84,8 +99,8 @@ export function fetchPresets () {
     try {
       const response = await axios.get('/products/woman_top/preset')
 
-      const favoritePresets = Preset.getFavoritePresets()
-      dispatch(setPresets(response.data, favoritePresets))
+      const favoritePresetNames = Preset.getFavoritePresetNames()
+      dispatch(setPresets(response.data, favoritePresetNames))
 
       return response
     } catch (e) {
@@ -94,16 +109,22 @@ export function fetchPresets () {
   }
 }
 
-export function likePreset (presetName) {
+export function likePreset (preset) {
   return (dispatch) => {
-    Preset.like(presetName)
-    dispatch({ type: LIKE_PRESET, payload: { presetName } })
+    Preset.like(preset)
+    // sync presets from local storage, temporary solutions before api ready
+    dispatch(syncFavoritePresets())
+
+    dispatch({ type: LIKE_PRESET, payload: { presetName: preset.name } })
   }
 }
 
-export function unlikePreset (presetName) {
+export function unlikePreset (preset) {
   return (dispatch) => {
-    Preset.unlike(presetName)
-    dispatch({ type: UNLIKE_PRESET, payload: { presetName } })
+    Preset.unlike(preset)
+    // sync presets from local storage, temporary solutions before api ready
+    dispatch(syncFavoritePresets())
+
+    dispatch({ type: UNLIKE_PRESET, payload: { presetName: preset.name } })
   }
 }
