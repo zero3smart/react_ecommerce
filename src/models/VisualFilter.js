@@ -6,6 +6,7 @@
 import pick from 'lodash-es/pick'
 import isNil from 'lodash-es/isNil'
 import isEmpty from 'lodash-es/isEmpty'
+import isEqual from 'lodash-es/isEqual'
 import { PROP_CONST, THUMBNAIL_IMG_X_OFFSET, THUMBNAIL_Y_OFFSET } from 'config/constants'
 const { Snap, localStorage } = window
 
@@ -113,13 +114,14 @@ export default class VisualFilter {
   }
 
   updateState (filters) {
-    // only update when svg is loaded
-    if (this.svgLoaded) {
-      const newPropState = this.getbodyPartFilters(filters)
+    const newPropState = this.getbodyPartFilters(filters)
+    // only update when svg is loaded and has changes on filters
+    if (this.svgLoaded && !isEqual(this.currentPropState, newPropState)) {
       // if current propState is empty, assign new filters directly
       if (isEmpty(this.currentPropState)) {
         this.currentPropState = newPropState
       }
+
       for (let prop in newPropState) {
         this.propGrpn = PROP_CONST[prop][3]
         this.changePropSelection(prop, newPropState[prop], false)
