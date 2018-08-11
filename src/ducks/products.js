@@ -44,7 +44,7 @@ export default function reducer (state = defaultState, action = {}) {
     case UNLIKE_PRODUCT:
       return { ...state, list: updateProductFavorite(payload.productId, false, state.list) }
     case ENABLE_INITIAL_FETCH:
-      return { ...state, fetched: false }
+      return { ...state, fetched: false, nextPage: 0 }
     case SET_FAVORITE_PRODUCTS:
       return { ...state, favoriteLists: payload.favoriteProducts }
     default: return state
@@ -74,7 +74,8 @@ export function fetchProducts (initialFetch = false) {
   return async (dispatch, getState) => {
     try {
       const { products, filters } = getState()
-      const nextPage = products.nextPage
+      // on initial fetch, set page should always start from 0
+      const nextPage = initialFetch ? 0 : products.nextPage
 
       const response = await axios.get('/products/woman_top', {
         params: {
