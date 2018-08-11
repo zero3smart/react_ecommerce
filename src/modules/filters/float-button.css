@@ -1,6 +1,8 @@
 .FloatButton {
   width: 35.745vw;
   height: 35.745vw;
+  max-width: 147px;
+  max-height: 147px;
   background: #FB9F84;
   padding-top: 15px;
   border-radius: 100%;
