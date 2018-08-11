@@ -86,6 +86,13 @@ class FitRequirement:
                 else:
                     fpr.set_range(*FitRequirement.map_user_prop_val_to_internal_range(name, val))
             reqs[name] = fpr
+
+        if args.get('sleeve_length', default=-1, type=int) == 5:
+            print('Updating sleeve_tightness')
+            fpr = FitPropRequirement('sleeve_tightness')
+            fpr.set_range(3, 4)
+            reqs['sleeve_tightness'] = fpr
+
         for name in per_prd_col_props:
             fpr = FitPropRequirement(name)
             val = args.get(name, default=-1, type=int)
@@ -128,7 +135,7 @@ class FitRequirement:
                    'waist': {0: 0, 1: [1, 2], 2: [3, 4], 3: [5, 6]},
                    'belly': {0: 0, 1: [1, 2], 2: [3, 4], 3: [5, 6]},
                    'sleeve_tightness': {0: [0, 2], 1: [3, 4]},
-                   'sleeve_length': {0: 0, 1: [1,2], 2:[3,4], 3: 5, 4: [6,7]},
+                   'sleeve_length': {0: 0, 1: [1,2], 2:[3,4], 3: 5, 4: [6,7], 5: [6,7]},
                    'top_length': {0: 0, 1: [1,3], 2: 4},
                    'coretype': {i:i for i in range(4)}
                    }
