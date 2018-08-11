@@ -377,23 +377,7 @@ function getRestProductReqStr() {
         ps = cur_prop_state[prop];
         if (ps >= 0)
         {
-            if (prop=='sleeve_length') // sleeve_length covers sleeve_length and tightness for UI simplicity
-            {
-                if (ps == 5) { // long & wide sleeve
-                    http_req += "&sleeve_length=4&sleeve_tightness=1"
-                } 
-                else if (ps == 4) { // long & tight sleeve
-                    http_req += "&sleeve_length=4&sleeve_tightness=0"
-                }
-                else 
-                {
-                    http_req += "&" + prop + "=" + ps
-                }
-            }
-            else
-            {
-                http_req += "&" + prop + "=" + ps
-            }
+            http_req += "&" + prop + "=" + ps
         }
     }
     return http_req;
