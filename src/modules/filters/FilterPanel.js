@@ -33,7 +33,8 @@ export default class FilterPanel extends PureComponent {
     // initialize visual filter
     this.visualFilter = new VisualFilter('#VisualFilter', {
       defaultState: filters,
-      onFilterChange: this.handleBodyPartFilter
+      onFilterChange: this.handleBodyPartFilter,
+      useVerticalThumb: true
     })
   }
 
