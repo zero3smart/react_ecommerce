@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="153px" height="374px" viewBox="0 0 153 374" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>color_palette_3</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FCF53C" offset="0%"></stop>
+            <stop stop-color="#F89020" offset="49.1939126%"></stop>
+            <stop stop-color="#F8F120" offset="67.2462066%"></stop>
+            <stop stop-color="#F89420" offset="85.9510477%"></stop>
+            <stop stop-color="#F8E71C" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="27.7975031%" y1="8.85233448%" x2="81.399479%" y2="86.4641821%" id="linearGradient-2">
+            <stop stop-color="#FEF7A3" offset="0%"></stop>
+            <stop stop-color="#E8F7AC" offset="18.5665868%"></stop>
+            <stop stop-color="#83F5D7" offset="51.3304857%"></stop>
+            <stop stop-color="#F19EC2" offset="100%"></stop>
+            <stop stop-color="#C683F2" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="30.51101%" y1="8.35332622%" x2="100%" y2="110.275902%" id="linearGradient-3">
+            <stop stop-color="#FFC543" offset="0%"></stop>
+            <stop stop-color="#E46B60" offset="24.636349%"></stop>
+            <stop stop-color="#7E57CE" offset="71.7398832%"></stop>
+            <stop stop-color="#F76B1C" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Color-Palette-&amp;-Filter-Buttons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="iPhone-8-Copy-6" transform="translate(-216.000000, -79.000000)">
+            <g id="color_palette_3" transform="translate(216.000000, 79.000000)">
+                <g id="color_palete_-open">
+                    <path d="M19,0 L134,0 C144.49341,-1.92760819e-15 153,8.50658975 153,19 L153,354.5 C153,364.99341 144.49341,373.5 134,373.5 L75.9416058,373.5 L19,373.5 C8.50658975,373.5 3.3905144e-14,364.99341 0,354.5 L7.93525829e-15,333.164095 L0,19 C-1.28507213e-15,8.50658975 8.50658975,1.92760819e-15 19,0 Z" id="color-pallete" fill="#F3F3F3" fill-rule="nonzero"></path>
+                    <path d="M41.5,277 C48.4035594,277 54,282.596441 54,289.5 C54,296.403559 48.4035594,302 41.5,302 C34.5964406,302 29,296.403559 29,289.5 C29,282.596441 34.5964406,277 41.5,277 Z" id="red_14" fill="#E03E3E" fill-rule="nonzero"></path>
+                    <path d="M41.5,236 C48.4035594,236 54,241.596441 54,248.5 C54,255.403559 48.4035594,261 41.5,261 C34.5964406,261 29,255.403559 29,248.5 C29,241.596441 34.5964406,236 41.5,236 Z" id="orange_13" fill="#E08F3E" fill-rule="nonzero"></path>
+                    <circle id="yellow_12" fill="#E0D03E" fill-rule="nonzero" cx="41.5" cy="207.5" r="12.5"></circle>
+                    <circle id="green_11" fill="#3EE059" fill-rule="nonzero" cx="41.5" cy="166.5" r="12.5"></circle>
+                    <circle id="blue_10" fill="#3E60E0" fill-rule="nonzero" cx="41.5" cy="125.5" r="12.5"></circle>
+                    <circle id="purple_9" fill="#7F3EE0" cx="41.5" cy="84.5" r="12.5"></circle>
+                    <circle id="metal_8" fill="url(#linearGradient-1)" cx="41.5" cy="43.5" r="12.5"></circle>
+                    <circle id="pastel_7" fill="url(#linearGradient-2)" fill-rule="nonzero" cx="104.5" cy="43.5" r="12.5"></circle>
+                    <circle id="beige_6" fill="#ECD5C0" fill-rule="nonzero" cx="105" cy="85.34" r="12.5"></circle>
+                    <circle id="brown_5" fill="#663300" fill-rule="nonzero" cx="105.5" cy="126.5" r="12.5"></circle>
+                    <circle id="pink_4" fill="#F0A4BD" fill-rule="nonzero" cx="105.5" cy="167.5" r="12.5"></circle>
+                    <circle id="white_3" stroke="#979797" fill="#FFFFFF" fill-rule="nonzero" cx="105.5" cy="208.5" r="12.5"></circle>
+                    <circle id="grey_2" fill="#999999" fill-rule="nonzero" cx="105.5" cy="249.5" r="12.5"></circle>
+                    <path d="M105.5,278 C112.403559,278 118,283.596441 118,290.5 C118,297.403559 112.403559,303 105.5,303 C98.5964406,303 93,297.403559 93,290.5 C93,283.596441 98.5964406,278 105.5,278 Z" id="black_1" fill="#000000" fill-rule="nonzero"></path>
+                    <circle id="color_0.5" stroke="#3D3D3D" fill="url(#linearGradient-3)" cx="105.5" cy="350.5" r="12"></circle>
+                    <g id="color_palette_arrow_open" opacity="0.72" transform="translate(134.000000, 352.500000) rotate(90.000000) translate(-134.000000, -352.500000) translate(130.000000, 346.000000)" fill="#000000" fill-rule="nonzero">
+                        <path d="M6.763,6.624 L1.58,11.807 C1.250286,12.136714 0.715714014,12.136714 0.386000031,11.807 C0.0562860472,11.477286 0.0562860334,10.942714 0.386,10.613 L4.972,6.027 L0.386,1.441 C0.172712423,1.22771245 0.0894141349,0.91683905 0.167482797,0.625482816 C0.245551458,0.334126582 0.473126582,0.106551458 0.764482816,0.0284827966 C1.05583905,-0.0495858651 1.36671245,0.033712423 1.58,0.247 L6.763,5.43 C6.92140424,5.58829709 7.01040382,5.80305833 7.01040382,6.027 C7.01040382,6.25094167 6.92140424,6.46570291 6.763,6.624 Z" id="Path_16"></path>
+                    </g>
+                </g>
+                <g id="color_palette_touch_area" transform="translate(10.000000, 20.000000)" fill="#9B9B9B" fill-opacity="0.215449679" stroke="#000000">
+                    <rect id="color_palette_touch_14" x="0.5" y="0.5" width="62" height="41"></rect>
+                    <rect id="color_palette_touch_13" x="0.5" y="41.5" width="62" height="41"></rect>
+                    <rect id="color_palette_touch_12" x="0.5" y="82.5" width="62" height="41"></rect>
+                    <rect id="color_palette_touch_11" x="0.5" y="123.5" width="62" height="41"></rect>
+                    <rect id="color_palette_touch_10" x="0.5" y="164.5" width="62" height="41"></rect>
+                    <rect id="color_palette_touch_9" x="0.5" y="205.5" width="62" height="41"></rect>
+                    <rect id="color_palette_touch_8" x="0.5" y="246.5" width="62" height="41"></rect>
+                    <rect id="color_palette_touch_7" x="69.5" y="1.5" width="62" height="41"></rect>
+                    <rect id="color_palette_touch_6" x="69.5" y="42.5" width="62" height="41"></rect>
+                    <rect id="color_palette_touch_5" x="69.5" y="83.5" width="62" height="41"></rect>
+                    <rect id="color_palette_touch_4" x="69.5" y="124.5" width="62" height="41"></rect>
+                    <rect id="color_palette_touch_3" x="69.5" y="165.5" width="62" height="41"></rect>
+                    <rect id="color_palette_touch_2" x="69.5" y="206.5" width="62" height="41"></rect>
+                    <rect id="color_palette_touch_1" x="69.5" y="247.5" width="62" height="41"></rect>
+                    <rect id="color_palette_touch_0" x="68.5" y="307.5" width="68" height="41"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
