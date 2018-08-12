@@ -52,15 +52,15 @@ class VizFilterSvg:
 def load_svg_fixed(svg_fn):
     id_fixups = {
         #'color_palette_closed' : 'color_0',
-        'color_palete_-open'  : 'color_pallete_open', 
-        'color_palette_3' : 'color-palette',
-        'filter_button_touch_area_0':'solid_touch',
-        'filter_button_touch_area_1':'pattern_touch',
-        'filter_button_touch_area_2':'details_touch',
-        'filter_button_touch_area_3':'color_touch',
-        'patterns_0' : 'pattern_0',
-        'patterns_1' : 'pattern_1',
-        'patterns_touch' :'pattern_touch',
+        # 'color_palete_-open'  : 'color_pallete_open', 
+        # 'color_palette_3' : 'color-palette',
+        # 'filter_button_touch_area_0':'solid_touch',
+        # 'filter_button_touch_area_1':'pattern_touch',
+        # 'filter_button_touch_area_2':'details_touch',
+        # 'filter_button_touch_area_3':'color_touch',
+        # 'patterns_0' : 'pattern_0',
+        # 'patterns_1' : 'pattern_1',
+        # 'patterns_touch' :'pattern_touch',
     }
     tn_y = 320 # Also update vf_common.js:thumbnail_y_offset when this is changed!
     filter_y = -20 #375
@@ -73,9 +73,9 @@ def load_svg_fixed(svg_fn):
         'top_collar_thumbnails': f'110 {tn_y}', # 4 selections
         'top_core_thumbnails': f'72 {tn_y}', # 5 selections
         #'all-about-filter-buttons-v1': f'40 {filter_y}',
-        'all-about-filter-buttons-v1': f'85 {filter_y}',
+        # 'all-about-filter-buttons-v1': f'85 {filter_y}',
         'BodyParts-Touch-Area' : f'-9 -18',
-        'color-palette' : f'40 -31',
+        # 'color-palette' : f'40 -31',
     }
     str_sub_fixes = {
         #'Thumbnail-Highliter.svg' : ['rx="8"', 'rx="8" width="62" height="62"'], 
@@ -109,8 +109,8 @@ def merge_svgs():
         'top_core_thumbnails.svg',
         'filter_buttons.svg',
         'Thumbnail_Touch_Area.svg',
-        'color_highlighter.svg',
-        'color_palette.svg',
+        # 'color_highlighter.svg',
+        # 'color_palette.svg',
     ]
 
 
