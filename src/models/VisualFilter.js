@@ -10,6 +10,9 @@ import isEqual from 'lodash-es/isEqual'
 import { PROP_CONST, THUMBNAIL_IMG_X_OFFSET, THUMBNAIL_X_OFFSET, THUMBNAIL_Y_OFFSET } from 'config/constants'
 const { Snap, localStorage } = window
 
+const HIGHLIGHTED_ATTR_SHOW = { stroke: '#FB9F84', strokeWidth: '3' }
+const HIGHLIGHTED_ATTR_HIDE = { stroke: null, strokeWidth: null }
+
 export default class VisualFilter {
   currentThumbnail = 'neckline'
   currentPropState = {
@@ -206,6 +209,12 @@ export default class VisualFilter {
       VisualFilter.showGroup(this.snap, newTnGrp)
       VisualFilter.adjustHeight(this.snap, newTnGrp)
 
+      // show / hide highlight on initial select (when prop changed)
+      if (this.previousProp !== prop) {
+        this.removeAllHighlight()
+        VisualFilter.highlightGroup(this.snap, PROP_CONST[prop][3] + '_' + this.currentPropState[prop])
+      }
+
       // Display current one
       if (this.settings.useVerticalThumb) {
         // Move thumbnail hit area
@@ -225,6 +234,8 @@ export default class VisualFilter {
         VisualFilter.showHorizontalSelectionBox(this.snap, prop, this.currentPropState[prop])
       }
     }
+
+    this.previousProp = prop
   }
 
   /**
@@ -270,7 +281,7 @@ export default class VisualFilter {
   changePropSelection (prop, sel, requestChange = true) {
     this.propGrpn = PROP_CONST[prop][3]
 
-    VisualFilter.hideGroup(this.snap, this.propGrpn + '_' + this.currentPropState[prop])
+    VisualFilter.hideGroup(this.snap, this.propGrpn + '_' + this.currentPropState[prop], HIGHLIGHTED_ATTR_HIDE)
     VisualFilter.showGroup(this.snap, this.propGrpn + '_' + sel)
 
     /**
@@ -316,6 +327,16 @@ export default class VisualFilter {
   }
 
   /**
+   * remove all highlight
+   */
+  removeAllHighlight () {
+    const group = VisualFilter.findGroupById(this.snap, 'full-body')
+    group.parent().selectAll('g>g').forEach(child => {
+      child.attr(HIGHLIGHTED_ATTR_HIDE)
+    })
+  }
+
+  /**
    * adjust container height based on thumbnails height
    * @param {Object} snap
    * @param {string} id
@@ -332,20 +353,46 @@ export default class VisualFilter {
    * Set svg group to visible
    * @param {Object} snap
    * @param {string} id
+   * @param {Object} extraProps
    */
-  static showGroup (snap, id) {
+  static showGroup (snap, id, extraProps = {}) {
     const group = VisualFilter.findGroupById(snap, id)
-    group.attr({ visibility: 'visible' })
+    group.attr({ visibility: 'visible', ...extraProps })
   }
 
   /**
    * Set svg group to invisible
    * @param {Object} snap
    * @param {string} id
+   * @param {Object} extraProps
    */
-  static hideGroup (snap, id) {
+  static hideGroup (snap, id, extraProps) {
     const group = VisualFilter.findGroupById(snap, id)
-    group.attr({ visibility: 'hidden' })
+    group.attr({ visibility: 'hidden', ...extraProps })
+  }
+
+  /**
+   * Highlight svg group
+   * @param {Object} snap
+   * @param {string} id
+   */
+  static highlightGroup (snap, id) {
+    const group = VisualFilter.findGroupById(snap, id)
+
+    // add highlight mask by moving the component to top
+    group.attr(HIGHLIGHTED_ATTR_SHOW)
+    // it needs to be the last element to show full highlight (z-index)
+    group.appendTo(group.parent())
+  }
+
+  /**
+   * Remove highlighted svg group
+   * @param {Object} snap
+   * @param {string} id
+   */
+  static removeHighlightGroup (snap, id) {
+    const group = VisualFilter.findGroupById(snap, id)
+    group && group.attr(HIGHLIGHTED_ATTR_HIDE)
   }
 
   /**
