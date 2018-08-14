@@ -58,7 +58,7 @@ export class Presets extends Component {
   render () {
     const { isPresetsFetched, presets, extraItem, style } = this.props
     return (
-      <div className='Presets' style={style}>
+      <div id='MainScroll' className='Presets' style={style}>
         {extraItem}
         {!isPresetsFetched && <DotLoader visible style={styles.loader} />}
         <Transition show={isPresetsFetched} transition='fadeInUp'>

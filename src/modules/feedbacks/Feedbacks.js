@@ -89,6 +89,7 @@ class Feedbacks extends Component {
     return (
       <div className='Feedbacks'>
         <ProductList
+          id='MainScroll'
           show={isProductsFetched}
           products={products}
           nextPage={nextPage}

@@ -6,21 +6,25 @@ import { VisualFilter } from 'models'
 import { LikeButton } from 'ui-kits/buttons'
 import './preset.css'
 
+const filterProps = PropTypes.oneOfType([
+  PropTypes.number, PropTypes.string
+])
+
 export default class Preset extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
     name: PropTypes.string,
-    collar: PropTypes.number,
-    coretype: PropTypes.number,
-    details: PropTypes.number,
-    neckline: PropTypes.number,
-    pattern: PropTypes.number,
-    shoulder: PropTypes.number,
-    sleeveLength: PropTypes.number,
-    solid: PropTypes.number,
-    color: PropTypes.string,
-    topLength: PropTypes.number,
-    className: PropTypes.string,
+    collar: filterProps,
+    coretype: filterProps,
+    details: filterProps,
+    neckline: filterProps,
+    pattern: filterProps,
+    shoulder: filterProps,
+    sleeveLength: filterProps,
+    solid: filterProps,
+    color: filterProps,
+    topLength: filterProps,
+    className: filterProps,
     favorite: PropTypes.bool,
     style: PropTypes.object,
     onClick: PropTypes.func.isRequired,

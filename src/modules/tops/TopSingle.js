@@ -15,7 +15,6 @@ class TopSingle extends Component {
     relatedProducts: PropTypes.array.isRequired,
     nextPage: PropTypes.number,
     scrollBellowTheFold: PropTypes.bool,
-    hash: PropTypes.string,
     fetchProduct: PropTypes.func.isRequired,
     fetchRelatedProducts: PropTypes.func.isRequired,
     resetProduct: PropTypes.func.isRequired,
@@ -33,18 +32,13 @@ class TopSingle extends Component {
   }
 
   componentDidUpdate (prevProps) {
-    const { productId, fetchProduct, fetchRelatedProducts, resetProduct, hash } = this.props
+    const { productId, fetchProduct, fetchRelatedProducts, resetProduct } = this.props
 
     // if productId changed, fetch new product and related product data
     if (prevProps.productId !== this.props.productId) {
       resetProduct()
       this.productRequest = fetchProduct(productId)
       this.relatedsRequest = fetchRelatedProducts(productId)
-    }
-
-    // if hash is top, force product list scroll to 0
-    if (hash === '#top') {
-      document.getElementById('ProductListScroll').scrollTop = 0
     }
   }
 
@@ -118,7 +112,7 @@ class TopSingle extends Component {
     return (
       <div className='TopSingle'>
         <ProductList
-          id='ProductListScroll'
+          id='MainScroll'
           show={isRelatedProductsFetched}
           products={relatedProducts}
           nextPage={nextPage}
@@ -136,7 +130,6 @@ class TopSingle extends Component {
 const mapStateToProps = (state, props) => ({
   product: state.product.data,
   productId: props.match.params.productId,
-  hash: state.router.location.hash,
   isProductFetched: state.product.fetched,
   isRelatedProductsFetched: state.product.relatedProductsFetched,
   relatedProducts: state.product.relatedProducts,

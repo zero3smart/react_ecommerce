@@ -89,6 +89,7 @@ class Favorites extends Component {
             <Presets presets={presets} extraItem={banner} style={styles.presets} />
           ) : (
             <ProductList
+              id='MainScroll'
               show={isProductsFetched}
               products={products}
               nextPage={nextPage}

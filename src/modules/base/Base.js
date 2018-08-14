@@ -16,6 +16,11 @@ export default class Base extends Component {
     return /^\/products\//.test(location.pathname)
   }
 
+  get isFavoritesPage () {
+    const { location } = this.props
+    return /^\/favorites\//.test(location.pathname)
+  }
+
   get handleHomeLinkActive () {
     return match => match || this.isProductDetailPage
   }
@@ -27,18 +32,36 @@ export default class Base extends Component {
     }
   }
 
+  get handleLinkClick () {
+    return () => {
+      const scrollWrapper = document.getElementById('MainScroll')
+      if (scrollWrapper) {
+        scrollWrapper.scrollTop = 0
+      }
+    }
+  }
+
   render () {
     const { children } = this.props
 
     return (
       <div className='Base'>
         <Tabs>
-          <NavLink exact to={this.isProductDetailPage ? '#top' : '/'} isActive={this.handleHomeLinkActive}>
-          tops
+          <NavLink
+            exact
+            to={this.isProductDetailPage ? '#' : '/'}
+            onClick={this.handleLinkClick}
+            isActive={this.handleHomeLinkActive}>
+            tops
           </NavLink>
-          <NavLink to='/presets'>presets</NavLink>
-          <NavLink to='/favorites/clothing' isActive={this.handleFavoritesLinkActive}>favorites</NavLink>
-          <NavLink to='/feedbacks'>feedbacks</NavLink>
+          <NavLink to='/presets' onClick={this.handleLinkClick}>presets</NavLink>
+          <NavLink
+            to={this.isFavoritesPage ? '#' : '/favorites/clothing'}
+            onClick={this.handleLinkClick}
+            isActive={this.handleFavoritesLinkActive}>
+            favorites
+          </NavLink>
+          <NavLink to='/feedbacks' onClick={this.handleLinkClick}>feedbacks</NavLink>
         </Tabs>
         {children}
         <ProductFilter />
