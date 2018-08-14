@@ -59,6 +59,7 @@ class Tops extends Component {
     return (
       <div className='Tops'>
         <ProductList
+          id='MainScroll'
           show={isProductsFetched}
           products={products}
           nextPage={nextPage}
