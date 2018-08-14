@@ -128,3 +128,23 @@ export function unlikePreset (preset) {
     dispatch({ type: UNLIKE_PRESET, payload: { presetName: preset.name } })
   }
 }
+
+export function saveFilterAsPreset (preset, name) {
+  return dispatch => {
+    Preset.savePreset(preset, name)
+    // sync presets from local storage, temporary solutions before api ready
+    dispatch(syncFavoritePresets())
+
+    dispatch({ type: LIKE_PRESET, payload: { presetName: preset.name } })
+  }
+}
+
+export function deleteFilterFromPreset (name) {
+  return dispatch => {
+    Preset.removePreset(name)
+    // sync presets from local storage, temporary solutions before api ready
+    dispatch(syncFavoritePresets())
+
+    dispatch({ type: UNLIKE_PRESET, payload: { presetName: name } })
+  }
+}

@@ -7,17 +7,23 @@ import FloatButton from './FloatButton'
 import { history } from 'config/store'
 import Transition from 'ui-kits/transitions/Transition'
 import { fetchProducts } from 'ducks/products'
-import { setFilter, syncFilter } from 'ducks/filters'
+import { setFilter, syncFilter, syncFavoritePresets, saveFilterAsPreset, deleteFilterFromPreset } from 'ducks/filters'
+import { isFilterSavedSelector } from './selectors'
 import './product-filter.css'
 
+const CUSTOM_PRESET_NAME = 'Custom Preset'
 class ProductFilter extends Component {
   static propTypes = {
     filters: PropTypes.object,
+    isFilterSaved: PropTypes.bool,
     router: PropTypes.object,
     scrollBellowTheFold: PropTypes.bool,
     setFilter: PropTypes.func.isRequired,
     fetchProducts: PropTypes.func.isRequired,
-    syncFilter: PropTypes.func.isRequired
+    syncFilter: PropTypes.func.isRequired,
+    syncFavoritePresets: PropTypes.func.isRequired,
+    saveFilterAsPreset: PropTypes.func.isRequired,
+    deleteFilterFromPreset: PropTypes.func.isRequired
   }
 
   constructor (props) {
@@ -28,8 +34,9 @@ class ProductFilter extends Component {
   }
 
   componentDidMount () {
-    const { syncFilter } = this.props
+    const { syncFilter, syncFavoritePresets } = this.props
     syncFilter()
+    syncFavoritePresets()
   }
 
   get handleFilterToggle () {
@@ -59,14 +66,31 @@ class ProductFilter extends Component {
     return /^\/products\//.test(router.location.pathname)
   }
 
+  get handleFilterLike () {
+    const { saveFilterAsPreset, deleteFilterFromPreset } = this.props
+    return (filters, favorite) => {
+      console.debug('favorite', favorite)
+      if (favorite) {
+        saveFilterAsPreset(filters, CUSTOM_PRESET_NAME)
+      } else {
+        deleteFilterFromPreset(CUSTOM_PRESET_NAME)
+      }
+    }
+  }
+
   render () {
-    const { filters, scrollBellowTheFold } = this.props
+    const { filters, scrollBellowTheFold, isFilterSaved } = this.props
     const { expanded } = this.state
 
     return (
       <div className={classNames('ProductFilter animated', { allowHide: this.isProductDetailPage, pullDown: !scrollBellowTheFold })}>
         <Transition timeout={{ enter: 100, exit: 300 }} show={expanded}>
-          <FilterPanel filters={filters} onFilterChange={this.handleFilterChange} onClose={this.handleFilterToggle} />
+          <FilterPanel
+            favorite={isFilterSaved}
+            filters={filters}
+            onFilterChange={this.handleFilterChange}
+            onClose={this.handleFilterToggle}
+            onFilterLike={this.handleFilterLike} />
         </Transition>
         <Transition timeout={{ enter: 100, exit: 1500 }} show={!expanded} transition='unstyled'>
           <FloatButton filters={filters} onClick={this.handleFilterToggle} />
@@ -76,8 +100,9 @@ class ProductFilter extends Component {
   }
 }
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = state => ({
   filters: state.filters.data,
+  isFilterSaved: isFilterSavedSelector(state, { customPresetName: CUSTOM_PRESET_NAME }),
   scrollBellowTheFold: state.product.scrollBellowTheFold,
   router: state.router
 })
@@ -87,6 +112,9 @@ export default connect(
   {
     fetchProducts,
     syncFilter,
-    setFilter
+    syncFavoritePresets,
+    setFilter,
+    saveFilterAsPreset,
+    deleteFilterFromPreset
   }
 )(ProductFilter)

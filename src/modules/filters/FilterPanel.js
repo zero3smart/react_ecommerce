@@ -4,20 +4,25 @@ import isEqual from 'lodash-es/isEqual'
 import closeSvgSrc from 'assets/svg/close.svg'
 import FabricFilters from './FabricFilters'
 import { VisualFilter } from 'models'
+import { LikeButton } from 'ui-kits/buttons'
 import './filter-panel.css'
 
 export default class FilterPanel extends PureComponent {
   static propTypes = {
     filters: PropTypes.object,
+    favorite: PropTypes.bool,
     className: PropTypes.string,
     onFilterChange: PropTypes.func,
+    onFilterLike: PropTypes.func,
     onClose: PropTypes.func
   }
 
   static defaultProps = {
     filters: {},
+    favorite: false,
     className: '',
     onFilterChange: (filters) => { console.debug('FilterPanel - filter changed', filters) },
+    onFilterLike: (filters, favorite) => { console.debug('FilterPanel - filter like changed', filters, favorite) },
     onClose: () => { console.debug('FilterPanel - close button clicked') }
   }
 
@@ -73,11 +78,22 @@ export default class FilterPanel extends PureComponent {
     }
   }
 
+  get toggleLike () {
+    const { filters, onFilterLike, favorite } = this.props
+    return (e) => {
+      e.preventDefault()
+      e.stopPropagation()
+
+      onFilterLike(filters, !favorite)
+    }
+  }
+
   render () {
-    const { onClose, className } = this.props
+    const { favorite, onClose, className } = this.props
 
     return (
       <div className={`FilterPanel ${className}`}>
+        <LikeButton active={favorite} onClick={this.toggleLike} />
         <div className='FilterPanel-close' onClick={onClose}>
           <img src={closeSvgSrc} alt='Close Filter' />
         </div>

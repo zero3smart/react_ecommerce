@@ -50,6 +50,17 @@
   height: 5.5vw;
 }
 
+.FilterPanel .LikeButton {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.FilterPanel .LikeButton > button {
+  width: 30px;
+  height: 30px;
+}
+
 @media (min-width: 415px) {
   .FilterPanel .FabricFilters {
     font-size: inherit;
