@@ -209,9 +209,11 @@ export default class VisualFilter {
       VisualFilter.showGroup(this.snap, newTnGrp)
       VisualFilter.adjustHeight(this.snap, newTnGrp)
 
-      // show / hide highlight
-      this.removeAllHighlight()
-      VisualFilter.highlightGroup(this.snap, PROP_CONST[prop][3] + '_' + this.currentPropState[prop])
+      // show / hide highlight on initial select (when prop changed)
+      if (this.previousProp !== prop) {
+        this.removeAllHighlight()
+        VisualFilter.highlightGroup(this.snap, PROP_CONST[prop][3] + '_' + this.currentPropState[prop])
+      }
 
       // Display current one
       if (this.settings.useVerticalThumb) {
@@ -232,6 +234,8 @@ export default class VisualFilter {
         VisualFilter.showHorizontalSelectionBox(this.snap, prop, this.currentPropState[prop])
       }
     }
+
+    this.previousProp = prop
   }
 
   /**
@@ -275,16 +279,10 @@ export default class VisualFilter {
   }
 
   changePropSelection (prop, sel, requestChange = true) {
-    this.removePreviousGroup()
-
     this.propGrpn = PROP_CONST[prop][3]
 
     VisualFilter.hideGroup(this.snap, this.propGrpn + '_' + this.currentPropState[prop], HIGHLIGHTED_ATTR_HIDE)
     VisualFilter.showGroup(this.snap, this.propGrpn + '_' + sel)
-
-    if (requestChange) {
-      VisualFilter.highlightGroup(this.snap, this.propGrpn + '_' + sel)
-    }
 
     /**
      * Special handling for tank top
@@ -325,17 +323,6 @@ export default class VisualFilter {
     this.currentPropState[prop] = sel
     if (requestChange) {
       this.settings.onFilterChange(this.currentPropState)
-    }
-    this.previousProp = prop
-  }
-
-  /**
-   * remove highlight from previous selection, checked available
-   */
-  removePreviousGroup () {
-    if (!isNil(this.previousProp)) {
-      // HIGHLIGHTED_ATTR_HIDE
-      VisualFilter.removeHighlightGroup(this.snap, this.propGrpn + '_' + this.currentPropState[this.previousProp])
     }
   }
 
