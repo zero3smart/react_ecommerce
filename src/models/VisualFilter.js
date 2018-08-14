@@ -46,15 +46,19 @@ export default class VisualFilter {
     const { hideOnboarding, onSVGLoaded, hideThumbnail, useVerticalThumb } = this.settings
 
     let viewBox = [0, 0, 490, 400]
+    let svgSource = ''
+    let svgOnboardingSource = ''
     if (useVerticalThumb) {
       viewBox = [0, 0, 480, 500]
+      svgSource = '/svg/vf_bundle_thumb_vertical.svg'
+      svgOnboardingSource = '/svg/mini_onboarding_thumb_vertical.svg'
     } else if (hideThumbnail) {
       viewBox = [0, 0, 480, 320]
+      svgSource = '/svg/vf_bundle.svg'
+      svgOnboardingSource = '/svg/mini_onboarding.svg'
     }
 
     this.snap.attr({ viewBox })
-
-    const svgSource = useVerticalThumb ? '/svg/vf_bundle_thumb_vertical.svg' : '/svg/vf_bundle.svg'
 
     Snap.load(svgSource, (frag) => {
       this.svgLoaded = true
@@ -74,7 +78,7 @@ export default class VisualFilter {
 
       // onboarding
       if (!hideOnboarding && VisualFilter.shouldShowOnboarding()) {
-        Snap.load('/svg/mini_onboarding.svg', (frag) => {
+        Snap.load(svgOnboardingSource, (frag) => {
           this.showOnboarding(frag)
         })
       } else {
@@ -142,6 +146,10 @@ export default class VisualFilter {
     this.snapGroup = this.snap.group()
     this.snapGroup.append(frag)
     this.snapGroup.attr({ visibility: 'hidden' })
+
+    if (this.settings.useVerticalThumb) {
+      this.snapGroup.select('svg').attr({ viewBox: [-10, 0, 439, 393] })
+    }
 
     const group = VisualFilter.findGroupById(this.snap, 'mini_onboarding_touch')
     group.click(() => {
