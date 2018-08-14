@@ -21,7 +21,29 @@ export default class Preset {
   }
 
   /**
-   * save preset name to list of favorit presets in local storage
+   * create a new preset and save it to list of favorit presets in local storage
+   * @param {Object} preset
+   * @param {string} string
+   */
+  static savePreset (preset, name) {
+    let favoritePresets = Preset.getFavoritePresets()
+    favoritePresets = uniqBy([ { ...preset, name, favorite: true }, ...favoritePresets ], 'name')
+    localStorage.setItem(FAVORITE_PRESETS, JSON.stringify(favoritePresets))
+  }
+
+  /**
+   * remove preset from list of favorit presets in local storage
+   * this function is similar to `unlike`, but it uses only the name of the preset
+   * @param {string} string
+   */
+  static removePreset (name) {
+    let favoritePresets = Preset.getFavoritePresets()
+    favoritePresets = reject(favoritePresets, { name })
+    localStorage.setItem(FAVORITE_PRESETS, JSON.stringify(favoritePresets))
+  }
+
+  /**
+   * save preset to list of favorit presets in local storage
    * @param {Object} preset
    */
   static like (preset) {
@@ -31,7 +53,7 @@ export default class Preset {
   }
 
   /**
-   * remove preset name from list of favorit presets in local storage
+   * remove preset from list of favorit presets in local storage
    * @param {Object} preset
    */
   static unlike (preset) {

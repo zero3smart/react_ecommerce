@@ -23,6 +23,7 @@ export default class FabricFilters extends PureComponent {
     solid: PropTypes.number,
     color: PropTypes.string,
     kind: PropTypes.oneOf(['default', 'inline']),
+    style: PropTypes.object,
     onChange: PropTypes.func,
     disableEvent: PropTypes.bool
   }
@@ -89,7 +90,7 @@ export default class FabricFilters extends PureComponent {
   }
 
   render () {
-    const { details, pattern, solid, color, disableEvent, kind } = this.props
+    const { details, pattern, solid, color, disableEvent, kind, style } = this.props
     const { collorPalleteVisible } = this.state
 
     const filterButtonChild = disableEvent ? 'Colors' : <img src={angleSVGSrc} alt='color-picker' className='arrow' />
@@ -101,7 +102,7 @@ export default class FabricFilters extends PureComponent {
     // end of color button style
 
     return (
-      <div className={classNames('FabricFilters', { noEvents: disableEvent, [kind]: kind })}>
+      <div className={classNames('FabricFilters', { noEvents: disableEvent, [kind]: kind })} style={style}>
         <FilterButton
           name='solid'
           value={solid}
@@ -152,7 +153,7 @@ const styles = {
     border: '1px solid #3D3D3D'
   },
   colorPallete: {
-    position: 'absolute',
+    position: 'fixed',
     bottom: 60,
     left: 10,
     right: 10,

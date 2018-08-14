@@ -8,7 +8,7 @@ import re
 class VizFilterSvg:
     def __init__(self, svg_fn):
         self.svg_fn = svg_fn
-        svg_fn = Path('svg') / svg_fn
+        svg_fn = Path('svg-thumb-vertical') / svg_fn
         with open(svg_fn, 'r') as f:
             self.contents = f.read()
         self.basic_cleanup()
@@ -26,7 +26,7 @@ class VizFilterSvg:
         for i in ['title', 'desc']:
             self.contents = re.sub(f'<{i}>[^<]*</{i}>','', self.contents)
         self.remove_viewbox()
-        
+
     def rename_id(self, frm, to):
         g_frm, g_to = f' id=\"{frm}\"', f' id=\"{to}\"'
         cnt = self.contents.count(g_frm)
@@ -35,9 +35,9 @@ class VizFilterSvg:
         assert(cnt == 1)
         self.contents = self.contents.replace(g_frm, g_to)
 
-    def translate(self, id, trans):
+    def translate(self, id, trans, scale):
         if re.search(f'<[^>]*id="{id}"[^>]*transform[^>]*>', self.contents):
-            self.contents = re.sub('transform=\"[^\"]*\"',f'transform="translate({trans})"', self.contents, count=1)
+            self.contents = re.sub('transform=\"[^\"]*\"',f'transform="translate({trans}) scale({scale})"', self.contents, count=1)
         elif re.search(f'<[^>]*id="{id}"[^>]*>', self.contents):
             self.contents = self.contents.replace(f'id="{id}"', f'id="{id}" transform="translate({trans})"')
         else:
@@ -62,16 +62,17 @@ def load_svg_fixed(svg_fn):
         # 'patterns_1' : 'pattern_1',
         # 'patterns_touch' :'pattern_touch',
     }
-    tn_y = 320 # Also update vf_common.js:thumbnail_y_offset when this is changed!
+    tn_x = 400 # Also update vf_common.js:thumbnail_x_offset when this is changed!
+    tn_y = 20 # Also update vf_common.js:thumbnail_y_offset when this is changed!
     filter_y = -20 #375
     pos_fixes = {
         # 'BodyParts-Touch-Area': 'translate(110, -17)',
-        'length_thumbnails': f'110 {tn_y}', # 4 selections
-        'neckline_thumbnails': f'110 {tn_y}', # 4 selections
-        'shoulder_thumbnails': f'50 {tn_y}', # 6 selections
-        'sleeves_thumbnails': f'10 {tn_y}', # 7 selections
-        'top_collar_thumbnails': f'110 {tn_y}', # 4 selections
-        'top_core_thumbnails': f'72 {tn_y}', # 5 selections
+        'length_thumbnails': f'{tn_x} {tn_y}', # 4 selections
+        'neckline_thumbnails': f'{tn_x} {tn_y}', # 4 selections
+        'shoulder_thumbnails': f'{tn_x} {tn_y}', # 6 selections
+        'sleeves_thumbnails': f'{tn_x} {tn_y}', # 7 selections
+        'top_collar_thumbnails': f'{tn_x} {tn_y}', # 4 selections
+        'top_core_thumbnails': f'{tn_x} {tn_y}', # 5 selections
         #'all-about-filter-buttons-v1': f'40 {filter_y}',
         # 'all-about-filter-buttons-v1': f'85 {filter_y}',
         'BodyParts-Touch-Area' : f'-9 -18',
@@ -89,7 +90,7 @@ def load_svg_fixed(svg_fn):
             svg.rename_id(k, v)
     for k, v in pos_fixes.items():
         if re.search(f'id="{k}"', svg.contents):
-            svg.translate(k, v)
+            svg.translate(k, v, '1.4')
     for k, v in str_sub_fixes.items():
         if re.search(k, svg_fn):
             svg.str_sub(*v)
@@ -115,9 +116,9 @@ def merge_svgs():
 
 
     print('Writing into bundle')
-    with open('vf_bundle.svg', 'w') as f:
+    with open('vf_bundle_thumb_vertical.svg', 'w') as f:
         f.write('<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n')
-        f.write('<svg><g id="bodypart_area" transform="scale(1.35) translate(50, 15)">')
+        f.write('<svg><g id="bodypart_area" transform="scale(1.35) translate(30, 15)">')
         for svg in upper_svgs:
             f.write(load_svg_fixed(svg))
         f.write('</g>')

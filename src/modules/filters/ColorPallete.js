@@ -46,7 +46,6 @@ export default class ColorPallete extends Component {
         newValues = [ ...values, name ]
       }
 
-      console.debug('newValues', values, name, newValues)
       this.setState({
         values: newValues
       })

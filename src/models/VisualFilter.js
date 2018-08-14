@@ -7,7 +7,7 @@ import pick from 'lodash-es/pick'
 import isNil from 'lodash-es/isNil'
 import isEmpty from 'lodash-es/isEmpty'
 import isEqual from 'lodash-es/isEqual'
-import { PROP_CONST, THUMBNAIL_IMG_X_OFFSET, THUMBNAIL_Y_OFFSET } from 'config/constants'
+import { PROP_CONST, THUMBNAIL_IMG_X_OFFSET, THUMBNAIL_X_OFFSET, THUMBNAIL_Y_OFFSET } from 'config/constants'
 const { Snap, localStorage } = window
 
 export default class VisualFilter {
@@ -43,15 +43,24 @@ export default class VisualFilter {
   }
 
   initialize () {
-    const { hideOnboarding, onSVGLoaded } = this.settings
+    const { hideOnboarding, onSVGLoaded, hideThumbnail, useVerticalThumb } = this.settings
 
-    let viewBox = [0, 0, 480, 400]
-    if (this.settings.hideThumbnail) {
+    let viewBox = [0, 0, 490, 400]
+    let svgSource = ''
+    let svgOnboardingSource = ''
+    if (useVerticalThumb) {
+      viewBox = [0, 0, 480, 500]
+      svgSource = '/svg/vf_bundle_thumb_vertical.svg'
+      svgOnboardingSource = '/svg/mini_onboarding_thumb_vertical.svg'
+    } else if (hideThumbnail) {
       viewBox = [0, 0, 480, 320]
+      svgSource = '/svg/vf_bundle.svg'
+      svgOnboardingSource = '/svg/mini_onboarding.svg'
     }
+
     this.snap.attr({ viewBox })
 
-    Snap.load('/svg/vf_bundle.svg', (frag) => {
+    Snap.load(svgSource, (frag) => {
       this.svgLoaded = true
       this.snapGroup = this.snap.group()
       this.snapGroup.append(frag)
@@ -69,7 +78,7 @@ export default class VisualFilter {
 
       // onboarding
       if (!hideOnboarding && VisualFilter.shouldShowOnboarding()) {
-        Snap.load('/svg/mini_onboarding.svg', (frag) => {
+        Snap.load(svgOnboardingSource, (frag) => {
           this.showOnboarding(frag)
         })
       } else {
@@ -84,6 +93,10 @@ export default class VisualFilter {
   initializeClickHitMap () {
     const self = this
     let group = null
+    let thumbTouchSize = { width: 68, height: 68 }
+    if (this.settings.useVerticalThumb) {
+      thumbTouchSize = { width: 62, height: 62 }
+    }
     // This will be touch hit-area
     for (var prop in this.currentPropState) {
       group = VisualFilter.findGroupById(this.snap, PROP_CONST[prop][3] + '_touch')
@@ -105,7 +118,7 @@ export default class VisualFilter {
     if (!this.settings.hideThumbnail) {
       for (let i = 0; i < 7; i++) {
         group = VisualFilter.findGroupById(this.snap, 'thumbnail_touch_' + i)
-        group.attr({ width: 68, height: 68 })
+        group.attr(thumbTouchSize)
         group.attr({ visibility: 'visible' })
         group.attr({ opacity: '0' })
         group.click(function () { self.handleThumbnailClick(this) }, i.toString())
@@ -133,6 +146,10 @@ export default class VisualFilter {
     this.snapGroup = this.snap.group()
     this.snapGroup.append(frag)
     this.snapGroup.attr({ visibility: 'hidden' })
+
+    if (this.settings.useVerticalThumb) {
+      this.snapGroup.select('svg').attr({ viewBox: [-10, 0, 439, 393] })
+    }
 
     const group = VisualFilter.findGroupById(this.snap, 'mini_onboarding_touch')
     group.click(() => {
@@ -187,15 +204,26 @@ export default class VisualFilter {
       this.currentThumbnail = prop
       const newTnGrp = PROP_CONST[this.currentThumbnail][3] + '_thumbnails'
       VisualFilter.showGroup(this.snap, newTnGrp)
-
-      // Move thumbnail hit area
-      const xoffset = VisualFilter.getThumbnailOffset(prop) + 15
-      const yoffset = THUMBNAIL_Y_OFFSET + 15
-      let desc = 't' + xoffset + ',' + yoffset
-      VisualFilter.findGroupById(this.snap, 'Thumbnail_Touch_Area').transform(desc)
+      VisualFilter.adjustHeight(this.snap, newTnGrp)
 
       // Display current one
-      VisualFilter.showSelectionBox(this.snap, prop, this.currentPropState[prop])
+      if (this.settings.useVerticalThumb) {
+        // Move thumbnail hit area
+        const xoffset = THUMBNAIL_X_OFFSET
+        const yoffset = 0
+        let desc = 't' + xoffset + ',' + yoffset
+        VisualFilter.findGroupById(this.snap, 'Thumbnail_Touch_Area').transform(desc)
+
+        VisualFilter.showVerticalSelectionBox(this.snap, prop, this.currentPropState[prop])
+      } else {
+        // Move thumbnail hit area
+        const xoffset = VisualFilter.getThumbnailXOffset(prop) + 15
+        const yoffset = THUMBNAIL_Y_OFFSET + 15
+        let desc = 't' + xoffset + ',' + yoffset
+        VisualFilter.findGroupById(this.snap, 'Thumbnail_Touch_Area').transform(desc)
+
+        VisualFilter.showHorizontalSelectionBox(this.snap, prop, this.currentPropState[prop])
+      }
     }
   }
 
@@ -203,17 +231,28 @@ export default class VisualFilter {
    * @todo: data mutation from argument should be removed
    */
   handleThumbnailClick (tnIdx) {
+    let thumbIndex = tnIdx
     if (tnIdx > PROP_CONST[this.currentThumbnail][1] + 1) {
       return
     }
 
-    VisualFilter.showSelectionBox(this.snap, this.currentThumbnail, parseInt(tnIdx))
-
-    if (parseInt(tnIdx) === PROP_CONST[this.currentThumbnail][1] + 1) {
-      tnIdx = 'all'
+    if (this.settings.useVerticalThumb) {
+      // on vertical thumbnails view, all should be at first
+      if (parseInt(tnIdx) === 0) {
+        thumbIndex = 'all'
+      } else {
+        thumbIndex = parseInt(tnIdx) - 1
+      }
+      VisualFilter.showVerticalSelectionBox(this.snap, this.currentThumbnail, thumbIndex)
+    } else {
+      // on horizontal thumbnails view, all should be at last
+      if (parseInt(tnIdx) === PROP_CONST[this.currentThumbnail][1] + 1) {
+        thumbIndex = 'all'
+      }
+      VisualFilter.showHorizontalSelectionBox(this.snap, this.currentThumbnail, parseInt(tnIdx))
     }
 
-    this.changePropSelection(this.currentThumbnail, tnIdx)
+    this.changePropSelection(this.currentThumbnail, thumbIndex)
   }
 
   cyclePropSelection (prop) {
@@ -277,6 +316,19 @@ export default class VisualFilter {
   }
 
   /**
+   * adjust container height based on thumbnails height
+   * @param {Object} snap
+   * @param {string} id
+   */
+  static adjustHeight (snap, id) {
+    const group = VisualFilter.findGroupById(snap, id)
+    const componentHeight = group.node.getBBox(0).height + 150
+    // set minimum height of 400
+    const viewBox = [0, 0, 490, componentHeight < 380 ? 380 : componentHeight]
+    snap.attr({ viewBox })
+  }
+
+  /**
    * Set svg group to visible
    * @param {Object} snap
    * @param {string} id
@@ -311,18 +363,33 @@ export default class VisualFilter {
     return group
   }
 
-  static getThumbnailOffset (prop) {
+  static getThumbnailXOffset (prop) {
     let tnCnt = PROP_CONST[prop][1] + 2
     return THUMBNAIL_IMG_X_OFFSET[tnCnt]
   }
 
-  static showSelectionBox (snap, prop, sel) {
+  static showHorizontalSelectionBox (snap, prop, sel) {
     const group = VisualFilter.findGroupById(snap, 'Thumbnail-Highliter')
     if (sel === 'all') {
       sel = PROP_CONST[prop][1] + 1
     }
-    const x = sel * 68 + VisualFilter.getThumbnailOffset(prop)
+    const x = sel * 68 + VisualFilter.getThumbnailXOffset(prop)
     const desc = 't' + x + ',' + THUMBNAIL_Y_OFFSET
+
+    group.transform(desc)
+    VisualFilter.showGroup(snap, 'Thumbnail-Highliter')
+  }
+
+  static showVerticalSelectionBox (snap, prop, sel) {
+    const group = VisualFilter.findGroupById(snap, 'Thumbnail-Highliter')
+    if (sel === 'all') {
+      sel = 0
+    } else {
+      sel = sel + 1
+    }
+    const y = sel * 63
+
+    const desc = 't' + (THUMBNAIL_X_OFFSET - 1) + ',' + y
 
     group.transform(desc)
     VisualFilter.showGroup(snap, 'Thumbnail-Highliter')
@@ -368,6 +435,7 @@ const defaultOptions = {
   defaultState: {},
   hideThumbnail: false,
   hideOnboarding: false,
+  useVerticalThumb: false,
   onFilterChange: (filters) => { console.debug('filter change', filters) },
   onSVGLoaded: () => {}
 }

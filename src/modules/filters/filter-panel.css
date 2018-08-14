@@ -1,22 +1,26 @@
 .FilterPanel {
   background: #FFFFFF;
   max-width: 414px;
-  padding: 10px 10px 20px;
+  padding: 0px 10px 15px;
   position: fixed;
   right: 0;
   left: 0;
-  bottom: 0;
+  bottom: -1px;
   margin: auto;
   box-sizing: border-box;
   z-index: 999;
+}
+
+.FilterPanel .VisualFilter {
+  vertical-align: top;
 }
 
 .FilterPanel-close {
   background: #9B9B9B;
   padding: 5px;
   position: absolute;
-  top: 0;
   right: 0;
+  bottom: 100%;
 }
 
 .FilterPanel-close > img {
@@ -28,6 +32,39 @@
   animation-fill-mode: both;
   animation-name: flashingTabButton;
   animation-iteration-count: infinite;
+}
+
+.FilterPanel .FabricFilters {
+  font-size: 3.2vw;
+  width: calc(100% - 100px);
+  justify-content: flex-start;
+  position: absolute;
+  left: 10px;
+  bottom: 15px;
+}
+
+.FilterPanel .FilterButton-icon {
+  max-width: 25px;
+  max-height: 25px;
+  width: 5.5vw;
+  height: 5.5vw;
+}
+
+.FilterPanel .LikeButton {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.FilterPanel .LikeButton > button {
+  width: 30px;
+  height: 30px;
+}
+
+@media (min-width: 415px) {
+  .FilterPanel .FabricFilters {
+    font-size: inherit;
+  }
 }
 
 @keyframes flashingTabButton {
