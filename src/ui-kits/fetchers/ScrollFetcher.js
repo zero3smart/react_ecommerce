@@ -57,7 +57,7 @@ class ScrollFetcher extends Component {
     // If not, then we need to do a fetch to fill more items.
     // We need the scroll to be available, so onScroll callback can be triggered.
     this.scrollCheckTimeout = setTimeout(() => { // need to have setTimeout, waiting for this component to complete rendering
-      const scrollFetcher = this.refs.scrollFetcher
+      const scrollFetcher = this.scrollFetcher
       if (scrollFetcher) {
         const contentHeight = reduce((scrollFetcher.children), (totalHeight, child) => (totalHeight + child.clientHeight), 0)
         // This will check whether the container has scroll or not
@@ -97,11 +97,17 @@ class ScrollFetcher extends Component {
     }
   }
 
+  get loadRef () {
+    return (element) => {
+      this.scrollFetcher = element
+    }
+  }
+
   render () {
     const { id, className, style } = this.props
     const { isFetchingData } = this.state
     return (
-      <div id={id} ref='scrollFetcher' className={className} onScroll={this.handleScrollFrame} style={{ ...style, ...styles.wrapper }}>
+      <div id={id} ref={this.loadRef} className={className} onScroll={this.handleScrollFrame} style={{ ...style, ...styles.wrapper }}>
         {this.props.children}
         <DotLoader visible={isFetchingData} />
       </div>
