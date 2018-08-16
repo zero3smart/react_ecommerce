@@ -78,7 +78,7 @@ module.exports = {
     // We placed these paths second because we want `node_modules` to "win"
     // if there are any conflicts. This matches Node resolution mechanism.
     // https://github.com/facebookincubator/create-react-app/issues/253
-    modules: ['node_modules', paths.appNodeModules, paths.mobileSrc].concat(
+    modules: ['node_modules', paths.appNodeModules, paths.appSrc, paths.mobileSrc].concat(
       // It is guaranteed to exist because we tweak it in `env.js`
       process.env.NODE_PATH.split(path.delimiter).filter(Boolean)
     ),
@@ -90,7 +90,13 @@ module.exports = {
     // for React Native Web.
     extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],
     alias: {
-      
+      'yesplz@config': path.join(paths.mobileSrc, 'config'),
+      'yesplz@assets': path.join(paths.mobileSrc, 'assets'),
+      'yesplz@ducks': path.join(paths.mobileSrc, 'ducks'),
+      'yesplz@models': path.join(paths.mobileSrc, 'models'),
+      'yesplz@modules': path.join(paths.mobileSrc, 'modules'),
+      'yesplz@ui-kits': path.join(paths.mobileSrc, 'ui-kits'),
+      'yesplz@utils': path.join(paths.mobileSrc, 'utils'),
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
