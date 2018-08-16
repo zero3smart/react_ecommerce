@@ -137,7 +137,7 @@ export default class FabricFilters extends PureComponent {
           {filterButtonChild}
         </FilterButton>
         <Transition timeout={{ enter: 100, exit: 200 }} show={collorPalleteVisible}>
-          <ColorPallete values={colorValues} onColorClick={this.handleColorClick} style={styles.colorPallete} />
+          <ColorPallete values={colorValues} onColorClick={this.handleColorClick} />
         </Transition>
       </div>
     )
@@ -151,12 +151,5 @@ const styles = {
   solidIconActive: {
     background: '#3D3D3D',
     border: '1px solid #3D3D3D'
-  },
-  colorPallete: {
-    position: 'fixed',
-    bottom: 60,
-    left: 10,
-    right: 10,
-    margin: 'auto'
   }
 }

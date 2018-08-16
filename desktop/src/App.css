@@ -41,6 +41,10 @@ h5, p {
   font-size: 0.875em; /* 14px */
 }
 
+button, a {
+  cursor: pointer;
+}
+
 /* Misc */
 .img-responsive {
   display: block;

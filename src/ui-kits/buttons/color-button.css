@@ -34,9 +34,33 @@
 }
 
 .ColorButton.active {
-  border: 1px solid #3D3D3D;
+  position: relative;
+}
+
+.ColorButton.active:before {
+  content: '';
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+
+  border: 1px solid #979797;
+  border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  -o-border-radius: 100%;
+
   box-shadow: 0 0 0 3px white inset;
   -webkit-box-shadow: 0 0 0 3px white inset;
   -moz-box-shadow: 0 0 0 3px white inset;
   -o-box-shadow: 0 0 0 3px white inset;
+
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  z-index: -1;
+
+  pointer-events: none;
+}
+
+.ColorButton.white {
+  border: 1px solid #979797;
 }

@@ -46,3 +46,11 @@
   -moz-transform: rotate(180deg);
   -o-transform: rotate(180deg);
 }
+
+.FabricFilters .ColorPallete {
+  position: fixed;
+  bottom: 60px;
+  left: 10px;
+  right: 10px;
+  margin: auto;
+}

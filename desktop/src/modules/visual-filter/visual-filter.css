@@ -33,14 +33,22 @@
 }
 
 /* fabric filters */
-.VisualFilter .FilterPanel .FabricFilters.inline {
+.VisualFilter .FabricFilters.inline {
   justify-content: center;
   position: relative;
   width: auto;
+  max-width: 600px;
+  margin: auto;
   left: 0;
   bottom: 0;
 }
 .VisualFilter .FabricFilters.inline .FilterButton {
   margin-left: 4px;
   margin-right: 4px;
+}
+
+.VisualFilter .FabricFilters.inline .ColorPallete {
+  position: absolute;
+  top: calc(100% + 15px);
+  bottom: auto;
 }
