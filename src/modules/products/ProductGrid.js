@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 import { Link } from 'react-router-dom'
 import { BASE_IMG_PATH } from 'config/constants'
 import { LikeButton } from 'ui-kits/buttons'
@@ -11,9 +12,9 @@ export default class ProductGrid extends PureComponent {
     name: PropTypes.string.isRequired,
     brand: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
+    originalPrice: PropTypes.number,
     imgSrc: PropTypes.string.isRequired,
     currency: PropTypes.string,
-    transition: PropTypes.string,
     className: PropTypes.string,
     favorite: PropTypes.bool,
     onToggleLike: PropTypes.func,
@@ -44,10 +45,12 @@ export default class ProductGrid extends PureComponent {
   }
 
   render () {
-    const { id, name, brand, imgSrc, price, currency, transition, className, favorite, style } = this.props
+    const { id, name, brand, imgSrc, price, originalPrice, currency, className, favorite, style } = this.props
 
+    // sale is available if original price is different with price
+    const isSale = originalPrice && originalPrice !== price
     return (
-      <Link to={`/products/${id}`} className={`ProductGrid ${className}`} style={style}>
+      <Link to={`/products/${id}`} className={`ProductGrid ${className}`} style={style} title={`${name} - ${brand}`}>
         <LikeButton active={favorite} onClick={this.toggleLike} />
         <div className='ProductGrid-thumbnail'>
           {
@@ -60,8 +63,12 @@ export default class ProductGrid extends PureComponent {
         </div>
         <div className='ProductGrid-detail'>
           <h5>{brand}</h5>
-          <div className='ProductGrid-price'>{currency}{price}</div>
-          <p>{transition}</p>
+          <div className='ProductGrid-price-tag'>
+            {isSale && <div className='ProductGrid-original-price'>{currency}{originalPrice}</div>}
+            <div className={classNames('ProductGrid-price', { sale: isSale })}>
+              {currency}{price}
+            </div>
+          </div>
         </div>
       </Link>
     )

@@ -65,9 +65,10 @@ class Tops extends Component {
           show={isProductsFetched}
           products={products}
           nextPage={nextPage}
+          showSalePrice
+          className='Tops-products'
           onFetch={this.handleFetch}
           onToggleLike={this.toggleProductLike}
-          className='Tops-products'
         />
       </div>
     )

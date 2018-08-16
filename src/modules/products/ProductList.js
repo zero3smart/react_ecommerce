@@ -14,8 +14,9 @@ export default class ProductList extends Component {
     nextPage: PropTypes.number,
     show: PropTypes.bool,
     className: PropTypes.string,
-    onFetch: PropTypes.func.isRequired,
     extraItem: PropTypes.element,
+    showSalePrice: PropTypes.bool,
+    onFetch: PropTypes.func.isRequired,
     onToggleLike: PropTypes.func.isRequired,
     onScrollBellowTheFold: PropTypes.func.isRequired
   }
@@ -25,6 +26,7 @@ export default class ProductList extends Component {
     nextPage: 0,
     show: false,
     extraItem: undefined,
+    showSalePrice: false,
     onFetch: (next) => { next() },
     onScrollBellowTheFold: (scrollState) => {}
   }
@@ -63,7 +65,7 @@ export default class ProductList extends Component {
   }
 
   render () {
-    const { id, products, nextPage, show, className, extraItem, onFetch, onToggleLike } = this.props
+    const { id, products, nextPage, show, className, extraItem, showSalePrice, onFetch, onToggleLike } = this.props
     const { useMinimumAnimation } = this.state
 
     // get loaded products count
@@ -83,6 +85,7 @@ export default class ProductList extends Component {
                 name={product.name}
                 brand={product.brand}
                 price={product.price}
+                originalPrice={showSalePrice ? product.original_price : undefined}
                 favorite={product.favorite}
                 imgSrc={product.front_img}
                 onToggleLike={onToggleLike}
@@ -101,5 +104,6 @@ export default class ProductList extends Component {
 
 const styles = {
   loader: {
+    marginTop: '2vh'
   }
 }

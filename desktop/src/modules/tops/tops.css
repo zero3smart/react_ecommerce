@@ -42,6 +42,10 @@
   order: 1;
 }
 
+.Tops-products .ProductGrid .ProductGrid-detail h5 {
+  width: 50%;
+}
+
 /* from ScrollFetcher */
 .Tops-products .DotLoader {
   width: 100%;
