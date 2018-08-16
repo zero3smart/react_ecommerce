@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FlatBanner } from 'ui-kits/banners'
+import { FlatBanner } from 'yesplz@ui-kits/banners'
 
 export default class NotFound extends Component {
   render () {

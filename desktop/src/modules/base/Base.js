@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
-import Tabs from 'ui-kits/navigations/Tabs'
-import { ProductFilter } from 'modules/filters'
+import Tabs from 'yesplz@ui-kits/navigations/Tabs'
 import './base.css'
 
 export default class Base extends Component {
@@ -64,7 +63,6 @@ export default class Base extends Component {
           <NavLink to='/feedbacks' onClick={this.handleLinkClick}>feedbacks</NavLink>
         </Tabs>
         {children}
-        <ProductFilter />
       </div>
     )
   }
