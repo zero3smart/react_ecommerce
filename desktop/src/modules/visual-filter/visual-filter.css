@@ -1,9 +1,9 @@
-.ProductFilter {
+.VisualFilter {
   padding-top: 10px;
 }
 
 /* filter panel */
-.ProductFilter .FilterPanel {
+.VisualFilter .FilterPanel {
   position: static;
   max-width: none;
   width: 100%;
@@ -12,14 +12,14 @@
 }
 
 /* main svg */
-.ProductFilter .FilterPanel svg {
+.VisualFilter .FilterPanel svg {
   display: block;
   max-width: 500px;
   margin: 0 auto 20px;
 }
 
 /* filter like button */
-.ProductFilter .FilterPanel .LikeButton {
+.VisualFilter .FilterPanel .LikeButton {
   position: relative;
   display: block;
   max-width: 500px;
@@ -27,20 +27,20 @@
   top: auto;
   bottom: -40px;
 }
-.ProductFilter .FilterPanel .LikeButton > button {
+.VisualFilter .FilterPanel .LikeButton > button {
   width: 40px;
   height: 40px;
 }
 
 /* fabric filters */
-.ProductFilter .FilterPanel .FabricFilters.inline {
+.VisualFilter .FilterPanel .FabricFilters.inline {
   justify-content: center;
   position: relative;
   width: auto;
   left: 0;
   bottom: 0;
 }
-.ProductFilter .FabricFilters.inline .FilterButton {
+.VisualFilter .FabricFilters.inline .FilterButton {
   margin-left: 4px;
   margin-right: 4px;
 }

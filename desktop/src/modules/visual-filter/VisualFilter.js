@@ -7,9 +7,9 @@ import { fetchProducts } from 'yesplz@ducks/products'
 import { setFilter, syncFilter, syncFavoritePresets, saveFilterAsPreset, deleteFilterFromPreset } from 'yesplz@ducks/filters'
 import { CUSTOM_PRESET_NAME } from 'yesplz@config/constants'
 import { isFilterSavedSelector } from 'yesplz@modules/filters/selectors'
-import './product-filter.css'
+import './visual-filter.css'
 
-class ProductFilter extends Component {
+class VisualFilter extends Component {
   static propTypes = {
     filters: PropTypes.object,
     isFilterSaved: PropTypes.bool,
@@ -61,7 +61,7 @@ class ProductFilter extends Component {
   render () {
     const { filters, isFilterSaved } = this.props
     return (
-      <div className='ProductFilter'>
+      <div className='VisualFilter'>
         <FilterPanel
           favorite={isFilterSaved}
           filters={filters}
@@ -90,4 +90,4 @@ export default connect(
     saveFilterAsPreset,
     deleteFilterFromPreset
   }
-)(ProductFilter)
+)(VisualFilter)

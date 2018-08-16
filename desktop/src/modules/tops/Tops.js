@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { fetchProducts } from 'yesplz@ducks/products'
 import { likeProduct, unlikeProduct } from 'yesplz@ducks/product'
 import { ProductList } from 'yesplz@modules/products'
-import { ProductFilter } from 'modules/filters'
+import { VisualFilter } from 'modules/visual-filter'
 import './tops.css'
 
 class Tops extends Component {
@@ -59,7 +59,7 @@ class Tops extends Component {
 
     return (
       <div className='Tops'>
-        <ProductFilter />
+        <VisualFilter />
         <ProductList
           id='MainScroll'
           show={isProductsFetched}
