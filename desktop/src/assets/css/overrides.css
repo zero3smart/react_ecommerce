@@ -1,0 +1,6 @@
+/* override mobile module settings */
+
+/* buttons */
+.FilterButton {
+  cursor: pointer;
+}

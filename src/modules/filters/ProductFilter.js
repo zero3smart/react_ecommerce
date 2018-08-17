@@ -9,9 +9,9 @@ import Transition from 'ui-kits/transitions/Transition'
 import { fetchProducts } from 'ducks/products'
 import { setFilter, syncFilter, syncFavoritePresets, saveFilterAsPreset, deleteFilterFromPreset } from 'ducks/filters'
 import { isFilterSavedSelector } from './selectors'
+import { CUSTOM_PRESET_NAME } from 'config/constants'
 import './product-filter.css'
 
-const CUSTOM_PRESET_NAME = 'Custom Preset'
 class ProductFilter extends Component {
   static propTypes = {
     filters: PropTypes.object,
@@ -69,7 +69,6 @@ class ProductFilter extends Component {
   get handleFilterLike () {
     const { saveFilterAsPreset, deleteFilterFromPreset } = this.props
     return (filters, favorite) => {
-      console.debug('favorite', favorite)
       if (favorite) {
         saveFilterAsPreset(filters, CUSTOM_PRESET_NAME)
       } else {

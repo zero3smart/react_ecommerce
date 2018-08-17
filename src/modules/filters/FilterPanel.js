@@ -14,13 +14,17 @@ export default class FilterPanel extends PureComponent {
     className: PropTypes.string,
     onFilterChange: PropTypes.func,
     onFilterLike: PropTypes.func,
-    onClose: PropTypes.func
+    onClose: PropTypes.func,
+    useVerticalThumb: PropTypes.bool,
+    closable: PropTypes.bool
   }
 
   static defaultProps = {
     filters: {},
     favorite: false,
     className: '',
+    useVerticalThumb: true,
+    closable: true,
     onFilterChange: (filters) => { console.debug('FilterPanel - filter changed', filters) },
     onFilterLike: (filters, favorite) => { console.debug('FilterPanel - filter like changed', filters, favorite) },
     onClose: () => { console.debug('FilterPanel - close button clicked') }
@@ -34,12 +38,12 @@ export default class FilterPanel extends PureComponent {
   }
 
   componentDidMount () {
-    const { filters } = this.props
+    const { filters, useVerticalThumb } = this.props
     // initialize visual filter
     this.visualFilter = new VisualFilter('#VisualFilter', {
       defaultState: filters,
       onFilterChange: this.handleBodyPartFilter,
-      useVerticalThumb: true
+      useVerticalThumb: useVerticalThumb
     })
   }
 
@@ -89,14 +93,18 @@ export default class FilterPanel extends PureComponent {
   }
 
   render () {
-    const { favorite, onClose, className } = this.props
+    const { favorite, onClose, className, closable } = this.props
 
     return (
       <div className={`FilterPanel ${className}`}>
         <LikeButton active={favorite} onClick={this.toggleLike} />
-        <div className='FilterPanel-close' onClick={onClose}>
-          <img src={closeSvgSrc} alt='Close Filter' />
-        </div>
+        {
+          !closable ? null : (
+            <div className='FilterPanel-close' onClick={onClose}>
+              <img src={closeSvgSrc} alt='Close Filter' />
+            </div>
+          )
+        }
         <svg id='VisualFilter' />
         <FabricFilters kind='inline' onChange={this.handleFabricFilter} {...this.fabricFilters} />
       </div>

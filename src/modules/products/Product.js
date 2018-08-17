@@ -17,19 +17,24 @@ export default class Product extends PureComponent {
     favorite: PropTypes.bool,
     description: PropTypes.string,
     link: PropTypes.string,
+    showArrows: PropTypes.bool,
+    showDots: PropTypes.bool,
     onToggleLike: PropTypes.func
   }
 
   static defaultProps = {
     currency: '$',
     product: {},
-    extraImgs: []
+    extraImgs: [],
+    showArrows: false,
+    showDots: false
   }
 
   get sliderSettings () {
+    const { showArrows, showDots } = this.props
     return {
-      dots: true,
-      arrows: false,
+      dots: showDots,
+      arrows: showArrows,
       infinite: true,
       speed: 500,
       slidesToShow: 1,

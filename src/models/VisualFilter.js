@@ -53,12 +53,15 @@ export default class VisualFilter {
     let svgOnboardingSource = ''
     if (useVerticalThumb) {
       viewBox = [0, 0, 480, 500]
-      svgSource = '/svg/vf_bundle_thumb_vertical.svg'
-      svgOnboardingSource = '/svg/mini_onboarding_thumb_vertical.svg'
-    } else if (hideThumbnail) {
+      svgSource = `${process.env.PUBLIC_URL}/svg/vf_bundle_thumb_vertical.svg`
+      svgOnboardingSource = `${process.env.PUBLIC_URL}/svg/mini_onboarding_thumb_vertical.svg`
+    } else {
+      svgSource = `${process.env.PUBLIC_URL}/svg/vf_bundle.svg`
+      svgOnboardingSource = `${process.env.PUBLIC_URL}/svg/mini_onboarding.svg`
+    }
+
+    if (hideThumbnail) {
       viewBox = [0, 0, 480, 320]
-      svgSource = '/svg/vf_bundle.svg'
-      svgOnboardingSource = '/svg/mini_onboarding.svg'
     }
 
     this.snap.attr({ viewBox })
@@ -207,7 +210,9 @@ export default class VisualFilter {
       this.currentThumbnail = prop
       const newTnGrp = PROP_CONST[this.currentThumbnail][3] + '_thumbnails'
       VisualFilter.showGroup(this.snap, newTnGrp)
-      VisualFilter.adjustHeight(this.snap, newTnGrp)
+      if (this.settings.useVerticalThumb) {
+        VisualFilter.adjustHeight(this.snap, newTnGrp)
+      }
 
       // show / hide highlight on initial select (when prop changed)
       if (this.previousProp !== prop) {

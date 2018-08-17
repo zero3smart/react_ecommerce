@@ -7,6 +7,9 @@ export const FAVORITE_PRODUCTS = 'favorite_products'
 export const FAVORITE_PRESETS = 'favorite_presets'
 export const FILTERS = 'filters'
 
+// presets
+export const CUSTOM_PRESET_NAME = 'Custom Preset'
+
 // product count that will be showed for each page
 export const PRODUCT_COUNT_PER_PAGE = process.env.REACT_APP_PRODUCT_PER_PAGE || 10
 

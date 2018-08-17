@@ -1,0 +1,23 @@
+.Base {
+  display: block;
+  margin: auto;
+  height: 100%;
+  background: #F6F4F5;
+  position: relative;
+  overflow: hidden;
+  /* make it fullscreen */
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.Base > .Tabs {
+  padding-top: 30px;
+  justify-content: center;
+}
+
+.Base > .Tabs a {
+  flex-basis: 195px;
+}

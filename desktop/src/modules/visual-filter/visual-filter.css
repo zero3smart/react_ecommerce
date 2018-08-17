@@ -1,0 +1,54 @@
+.VisualFilter {
+  background: white;
+  margin-top: 10px;
+}
+
+/* filter panel */
+.VisualFilter .FilterPanel {
+  position: static;
+  max-width: none;
+  width: 100%;
+  position: relative;
+}
+
+/* main svg */
+.VisualFilter .FilterPanel svg {
+  display: block;
+  max-width: 500px;
+  margin: 0 auto 20px;
+}
+
+/* filter like button */
+.VisualFilter .FilterPanel .LikeButton {
+  position: relative;
+  display: block;
+  max-width: 500px;
+  margin: auto;
+  top: auto;
+  bottom: -40px;
+}
+.VisualFilter .FilterPanel .LikeButton > button {
+  width: 40px;
+  height: 40px;
+}
+
+/* fabric filters */
+.VisualFilter .FabricFilters.inline {
+  justify-content: center;
+  position: relative;
+  width: auto;
+  max-width: 600px;
+  margin: auto;
+  left: 0;
+  bottom: 0;
+}
+.VisualFilter .FabricFilters.inline .FilterButton {
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+.VisualFilter .FabricFilters.inline .ColorPallete {
+  position: absolute;
+  top: calc(100% + 15px);
+  bottom: auto;
+}

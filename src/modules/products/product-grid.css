@@ -18,11 +18,13 @@
 .ProductGrid-detail {
   display: flex;
   justify-content: space-between;
+  width: 100%;
   padding: 8px 8px 10px 8px;
 }
 
 .ProductGrid-detail h5,
-.ProductGrid-price {
+.ProductGrid-price,
+.ProductGrid-original-price {
   font-size: 0.875em; /* 14px */
 }
 
@@ -32,6 +34,19 @@
   overflow: hidden;
   width: 60px;
   margin-bottom: 0px;
+}
+
+.ProductGrid-price-tag > * {
+  display: inline;
+  margin-left: 3px;
+}
+
+.ProductGrid-original-price {
+  text-decoration: line-through;
+}
+
+.ProductGrid-price.sale {
+  color: #D0021B;
 }
 
 .ProductGrid .LikeButton {
