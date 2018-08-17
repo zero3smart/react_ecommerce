@@ -1,6 +1,5 @@
 .TopSingle {
   height: calc(100% - 69px);
-  overflow: auto;
 }
 
 .TopSingle h2 {
@@ -14,6 +13,12 @@
   max-height: none;
   grid-template-areas: "images detail" "images footer";
   grid-gap: 20px 30px;
+  padding-top: 30px;
+}
+
+.TopSingle .Product > .LikeButton {
+  top: 30px;
+  left: 7%;
 }
 
 .TopSingle .Product .Product-images {
@@ -25,18 +30,28 @@
 }
 
 .TopSingle .Product .Product-images .slick-dots {
+  position: static;
   bottom: 0;
   z-index: 2;
 }
 
+.TopSingle .Product .Product-images > .slick-slider .slick-prev {
+  left: -20%;
+}
+
+.TopSingle .Product .Product-images > .slick-slider .slick-next {
+  right: -20%;
+}
+
 .TopSingle .Product-detail {
   width: 340px;
-  padding-left: 80px;
+  padding-left: 10%;
   justify-content: flex-end;
 }
 
 .TopSingle .Product-detail h3 {
   text-transform: capitalize;
+  margin-bottom: 30px;
 }
 
 .TopSingle .Product-detail .Product-price {
@@ -45,7 +60,7 @@
 }
 
 .TopSingle .Product-footer {
-  padding-left: 80px;
+  padding-left: 10%;
 }
 
 .TopSingle .Product-footer .Button {
@@ -56,7 +71,7 @@
 
 .TopSingle-products {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   flex-wrap: wrap;
   padding-top: 10px;
   padding-left: 5px;
@@ -66,10 +81,10 @@
   box-sizing: border-box;
 }
 
-.TopSingle-products .Product {
+.TopSingle-products .TopSingle-top-wrapper {
   order: 0;
   width: calc(100% + 10px);
-  margin: -8px -5px 10px;
+  margin: -10px -5px 0px;
 }
 
 .TopSingle-products .ProductGrid {
@@ -80,14 +95,29 @@
   order: 1;
 }
 
-.TopSingle-relateds {
-  display: flex;
-  align-items: stretch;
-  justify-content: center;
-  margin-bottom: 10px;
-}
-
-.TopSingle-relateds .ProductGrid {
+.TopSingle-products .ProductGrid {
   max-width: 200px;
   margin: 6px;
+}
+
+/* from ScrollFetcher */
+.TopSingle-products .DotLoader {
+  width: 100%;
+  flex-basis: 100%;
+  order: 2;
+}
+
+
+@media (min-width: 1025px) {
+  .TopSingle .Product > .LikeButton {
+    left: 12%;
+  }
+
+  .TopSingle .Product .Product-images > .slick-slider .slick-prev {
+    left: -100px;
+  }
+
+  .TopSingle .Product .Product-images > .slick-slider .slick-next {
+    right: -100px;
+  }
 }

@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Product, ProductPlaceholder, ProductGrid } from 'yesplz@modules/products'
-import { fetchProduct, fetchRelatedProducts, resetProduct, likeProduct, unlikeProduct } from 'yesplz@ducks/product'
-import Transition from 'yesplz@ui-kits/transitions/Transition'
+import { Product, ProductPlaceholder, ProductList } from 'yesplz@modules/products'
+import { fetchProduct, fetchRelatedProducts, resetProduct } from 'yesplz@ducks/product'
 import './top-single.css'
 
 class TopSingle extends Component {
@@ -13,11 +12,10 @@ class TopSingle extends Component {
     productId: PropTypes.string.isRequired,
     product: PropTypes.object.isRequired,
     relatedProducts: PropTypes.array.isRequired,
+    nextPage: PropTypes.number,
     fetchProduct: PropTypes.func.isRequired,
     fetchRelatedProducts: PropTypes.func.isRequired,
-    resetProduct: PropTypes.func.isRequired,
-    likeProduct: PropTypes.func.isRequired,
-    unlikeProduct: PropTypes.func.isRequired
+    resetProduct: PropTypes.func.isRequired
   }
 
   componentDidMount () {
@@ -63,66 +61,45 @@ class TopSingle extends Component {
     }
   }
 
-  get toggleProductLike () {
-    const { likeProduct, unlikeProduct } = this.props
-    return (id, favorite) => {
-      if (favorite) {
-        likeProduct(id)
-      } else {
-        unlikeProduct(id)
-      }
-    }
-  }
-
   render () {
-    const { product, relatedProducts, isProductFetched, isRelatedProductsFetched } = this.props
+    const { product, relatedProducts, nextPage, isProductFetched, isRelatedProductsFetched } = this.props
     let productBox = <ProductPlaceholder />
 
     if (isProductFetched) {
       productBox = (
-        <Product
-          id={product.product_id}
-          name={product.name}
-          brand={product.brand}
-          price={product.price}
-          imgSrc={product.front_img}
-          extraImgs={product.extra_imgs}
-          description={product.description}
-          favorite={product.favorite}
-          link={product.src_url}
-          onToggleLike={this.toggleProductLike}
-          showArrows
-        />
+        <div className='TopSingle-top-wrapper'>
+          <Product
+            id={product.product_id}
+            name={product.name}
+            brand={product.brand}
+            price={product.price}
+            imgSrc={product.front_img}
+            extraImgs={product.extra_imgs}
+            description={product.description}
+            favorite={product.favorite}
+            link={product.src_url}
+            rawData={product}
+            showArrows
+            showDots
+          />
+          <h2>You might also like this.</h2>
+        </div>
       )
     }
 
     return (
       <div id='MainScroll' className='TopSingle'>
-        {productBox}
-        <h2>You might also like this.</h2>
-        <div className='TopSingle-relateds'>
-          <Transition show={isRelatedProductsFetched} transition='fadeInUp'>
-            {
-              relatedProducts.map((product, index) => (
-                <ProductGrid
-                  key={product.product_id}
-                  id={product.product_id}
-                  name={product.name}
-                  brand={product.brand}
-                  price={product.price}
-                  originalPrice={product.original_price}
-                  favorite={product.favorite}
-                  imgSrc={product.front_img}
-                  onToggleLike={this.toggleProductLike}
-                  style={{
-                    // `ProducGrid` need be showed directly in each page
-                    animationDelay: `${50 * index}ms`
-                  }}
-                />
-              ))
-            }
-          </Transition>
-        </div>
+        <ProductList
+          id='MainScroll'
+          show={isRelatedProductsFetched}
+          products={relatedProducts}
+          nextPage={nextPage}
+          extraItem={productBox}
+          showSalePrice
+          onFetch={this.handleFetchNext}
+          onScrollBellowTheFold={this.handleScrollBellowTheFold}
+          className='TopSingle-products'
+        />
       </div>
     )
   }
@@ -133,7 +110,8 @@ const mapStateToProps = (state, props) => ({
   productId: props.match.params.productId,
   isProductFetched: state.product.fetched,
   isRelatedProductsFetched: state.product.relatedProductsFetched,
-  relatedProducts: (state.product.relatedProducts || []).slice(0, 5)
+  relatedProducts: state.product.relatedProducts,
+  nextPage: state.product.nextPage
 })
 
 export default connect(
@@ -141,8 +119,6 @@ export default connect(
   {
     fetchProduct,
     fetchRelatedProducts,
-    resetProduct,
-    likeProduct,
-    unlikeProduct
+    resetProduct
   }
 )(TopSingle)
