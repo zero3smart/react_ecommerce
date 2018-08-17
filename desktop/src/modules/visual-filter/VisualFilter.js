@@ -7,6 +7,7 @@ import { fetchProducts } from 'yesplz@ducks/products'
 import { setFilter, syncFilter, syncFavoritePresets, saveFilterAsPreset, deleteFilterFromPreset } from 'yesplz@ducks/filters'
 import { CUSTOM_PRESET_NAME } from 'yesplz@config/constants'
 import { isFilterSavedSelector } from 'yesplz@modules/filters/selectors'
+import TopPresets from './TopPresets'
 import './visual-filter.css'
 
 class VisualFilter extends Component {
@@ -69,6 +70,7 @@ class VisualFilter extends Component {
           onFilterLike={this.handleFilterLike}
           closable={Boolean(false)}
           useVerticalThumb={Boolean(false)} />
+        <TopPresets />
       </div>
     )
   }
