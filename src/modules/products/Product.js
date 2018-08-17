@@ -1,11 +1,13 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { BASE_IMG_PATH } from 'config/constants'
 import { Button, LikeButton } from 'ui-kits/buttons'
+import { likeProduct, unlikeProduct } from 'ducks/product'
 import Slider from 'react-slick'
 import './product.css'
 
-export default class Product extends PureComponent {
+class Product extends PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
@@ -17,9 +19,11 @@ export default class Product extends PureComponent {
     favorite: PropTypes.bool,
     description: PropTypes.string,
     link: PropTypes.string,
+    rawData: PropTypes.object,
     showArrows: PropTypes.bool,
     showDots: PropTypes.bool,
-    onToggleLike: PropTypes.func
+    likeProduct: PropTypes.func.isRequired,
+    unlikeProduct: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -43,10 +47,16 @@ export default class Product extends PureComponent {
   }
 
   get toggleLike () {
-    const { id, favorite, onToggleLike } = this.props
+    const { id, rawData, favorite, likeProduct, unlikeProduct } = this.props
     return (e) => {
       e.preventDefault()
-      onToggleLike(id, !favorite)
+      const willLike = !favorite
+
+      if (willLike) {
+        likeProduct(rawData)
+      } else {
+        unlikeProduct(id)
+      }
     }
   }
 
@@ -75,6 +85,8 @@ export default class Product extends PureComponent {
     )
   }
 }
+
+export default connect(null, { likeProduct, unlikeProduct })(Product)
 
 const renderExtraImages = (imgs = [], name = '') => (
   imgs.map((imgSrc, index) => (

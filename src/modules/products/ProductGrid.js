@@ -17,6 +17,7 @@ export default class ProductGrid extends PureComponent {
     currency: PropTypes.string,
     className: PropTypes.string,
     favorite: PropTypes.bool,
+    rawData: PropTypes.object,
     onToggleLike: PropTypes.func,
     style: PropTypes.object
   }
@@ -26,7 +27,7 @@ export default class ProductGrid extends PureComponent {
     active: false,
     favorite: false,
     className: '',
-    onToggleLike: (id, favorite) => { console.debug('ProductGrid - favorite', favorite) }
+    onToggleLike: (data, favorite) => { console.debug('ProductGrid - favorite', data) }
   }
 
   constructor (props) {
@@ -37,10 +38,10 @@ export default class ProductGrid extends PureComponent {
   }
 
   get toggleLike () {
-    const { id, favorite, onToggleLike } = this.props
+    const { rawData, favorite, onToggleLike } = this.props
     return (e) => {
       e.preventDefault()
-      onToggleLike(id, !favorite)
+      onToggleLike(rawData, !favorite)
     }
   }
 

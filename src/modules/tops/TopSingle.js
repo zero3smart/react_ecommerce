@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Product, ProductPlaceholder, ProductList } from 'modules/products'
-import { fetchProduct, fetchRelatedProducts, resetProduct, likeProduct, unlikeProduct, setScrollBellowTheFold } from 'ducks/product'
+import { fetchProduct, fetchRelatedProducts, resetProduct, setScrollBellowTheFold } from 'ducks/product'
 import { history } from 'config/store'
 import './top-single.css'
 
@@ -18,8 +18,6 @@ class TopSingle extends Component {
     fetchProduct: PropTypes.func.isRequired,
     fetchRelatedProducts: PropTypes.func.isRequired,
     resetProduct: PropTypes.func.isRequired,
-    likeProduct: PropTypes.func.isRequired,
-    unlikeProduct: PropTypes.func.isRequired,
     setScrollBellowTheFold: PropTypes.func.isRequired
   }
 
@@ -66,17 +64,6 @@ class TopSingle extends Component {
     }
   }
 
-  get toggleProductLike () {
-    const { likeProduct, unlikeProduct } = this.props
-    return (id, favorite) => {
-      if (favorite) {
-        likeProduct(id)
-      } else {
-        unlikeProduct(id)
-      }
-    }
-  }
-
   get handleScrollBellowTheFold () {
     const { scrollBellowTheFold, setScrollBellowTheFold } = this.props
     return (scrollState) => {
@@ -104,7 +91,7 @@ class TopSingle extends Component {
           description={product.description}
           favorite={product.favorite}
           link={product.src_url}
-          onToggleLike={this.toggleProductLike}
+          rawData={product}
           showDots
         />
       )
@@ -118,7 +105,6 @@ class TopSingle extends Component {
           products={relatedProducts}
           nextPage={nextPage}
           onFetch={this.handleFetchNext}
-          onToggleLike={this.toggleProductLike}
           onScrollBellowTheFold={this.handleScrollBellowTheFold}
           extraItem={productBox}
           className='TopSingle-products'
@@ -144,8 +130,6 @@ export default connect(
     fetchProduct,
     fetchRelatedProducts,
     resetProduct,
-    likeProduct,
-    unlikeProduct,
     setScrollBellowTheFold
   }
 )(TopSingle)
