@@ -7,7 +7,7 @@
   grid-template-areas:
   "images detail"
   "footer footer";
-  grid-gap: 25px 30px;
+  grid-gap: 20px 30px;
   padding: 15px 30px 30px;
   box-sizing: border-box;
   position: relative;
@@ -16,7 +16,7 @@
 
 .Product-images {
   grid-area: images;
-  height: 202px;
+  height: 215px;
   overflow-y: hidden;
 }
 
@@ -66,6 +66,30 @@
 .Product .Product-images > .slick-slider .slick-dots > li.slick-active > button::before {
   background: #3D3D3D;
   border-color: #3D3D3D;
+}
+
+.Product .Product-images > .slick-slider .slick-prev:before,
+.Product .Product-images > .slick-slider .slick-next:before {
+  content: '';
+  background: url('../../../src/assets/svg/angle.svg') center center no-repeat;
+  background-size: 100%;
+  display: inline-block;
+  width: 16px;
+  height: 10px;
+}
+
+.Product .Product-images > .slick-slider .slick-prev:before {
+  transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+}
+
+.Product .Product-images > .slick-slider .slick-next:before {
+  transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
 }
 
 .Product-images img {

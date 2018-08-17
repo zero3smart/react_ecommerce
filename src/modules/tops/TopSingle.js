@@ -105,6 +105,7 @@ class TopSingle extends Component {
           favorite={product.favorite}
           link={product.src_url}
           onToggleLike={this.toggleProductLike}
+          showDots
         />
       )
     }

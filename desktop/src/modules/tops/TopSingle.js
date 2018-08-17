@@ -105,12 +105,14 @@ class TopSingle extends Component {
           favorite={product.favorite}
           link={product.src_url}
           onToggleLike={this.toggleProductLike}
+          showArrows
         />
       )
     }
 
     return (
       <div className='TopSingle'>
+        {productBox}
         <ProductList
           id='MainScroll'
           show={isRelatedProductsFetched}
@@ -119,7 +121,6 @@ class TopSingle extends Component {
           onFetch={this.handleFetchNext}
           onToggleLike={this.toggleProductLike}
           onScrollBellowTheFold={this.handleScrollBellowTheFold}
-          extraItem={productBox}
           className='TopSingle-products'
         />
       </div>
