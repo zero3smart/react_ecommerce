@@ -1,5 +1,13 @@
 .TopSingle {
-  height: calc(100% - 39px);
+  height: calc(100% - 69px);
+  overflow: auto;
+}
+
+.TopSingle h2 {
+  font-weight: normal;
+  color: #000000;
+  text-align: center;
+  margin-top: 20px;
 }
 
 .TopSingle .Product {
@@ -72,9 +80,14 @@
   order: 1;
 }
 
-/* from ScrollFetcher */
-.TopSingle-products .DotLoader {
-  width: 100%;
-  flex-basis: 100%;
-  order: 2;
+.TopSingle-relateds {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.TopSingle-relateds .ProductGrid {
+  max-width: 200px;
+  margin: 6px;
 }
