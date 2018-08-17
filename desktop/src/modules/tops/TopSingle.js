@@ -88,7 +88,7 @@ class TopSingle extends Component {
     }
 
     return (
-      <div id='MainScroll' className='TopSingle'>
+      <div className='TopSingle'>
         <ProductList
           id='MainScroll'
           show={isRelatedProductsFetched}
