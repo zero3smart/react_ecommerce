@@ -435,7 +435,6 @@ export default class VisualFilter {
   }
 
   static showHorizontalSelectionBox (snap, prop, sel) {
-    console.debug('thumb update', prop, sel)
     const group = VisualFilter.findGroupById(snap, 'Thumbnail-Highliter')
     if (sel === 'all') {
       sel = PROP_CONST[prop][1] + 1

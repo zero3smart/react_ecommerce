@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { FlatBanner } from 'ui-kits/banners'
-import instagramSvgSrc from 'assets/svg/instagram.svg'
-import './feedbacks.css'
+import { FlatBanner } from 'yesplz@ui-kits/banners'
+import instagramSvgSrc from 'yesplz@assets/svg/instagram.svg'
+import 'yesplz@modules/feedbacks/feedbacks.css'
+import './feedbacks.css' // override default style
 
 class Feedbacks extends Component {
   render () {
@@ -32,7 +33,7 @@ const styles = {
     justifyContent: 'flex-start',
     alignItems: 'center',
     flexWrap: 'wrap',
-    padding: 30
+    padding: '60px 80px 100px'
   },
   bannerContent: {
     textAlign: 'left'

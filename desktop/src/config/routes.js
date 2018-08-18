@@ -3,9 +3,9 @@ import { Route, Switch } from 'react-router'
 // pages
 import { Base, NotFound } from 'modules/base'
 import { Tops, TopSingle } from 'modules/tops'
-import { Favorites } from 'yesplz@modules/favorites'
-import { Feedbacks } from 'yesplz@modules/feedbacks'
+import { Feedbacks } from 'modules/feedbacks'
 import Presets from 'modules/presets/Presets'
+import { Favorites } from 'yesplz@modules/favorites'
 
 const createRoutes = () => (
   <Switch>
