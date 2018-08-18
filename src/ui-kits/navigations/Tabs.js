@@ -3,12 +3,13 @@
  */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import isNil from 'lodash-es/isNil'
 import './tabs.css'
 
 export default class Tabs extends Component {
   static propTypes = {
     children: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.element),
+      PropTypes.arrayOf(PropTypes.any),
       PropTypes.element
     ]),
     kind: PropTypes.oneOf(['default', 'capsule']),
@@ -36,7 +37,10 @@ export default class Tabs extends Component {
  * @returns {Object[]} managed children
  */
 const manageChildren = (children) => (
-  React.Children.map(children, (element) => (
-    React.cloneElement(element, { activeClassName: 'active' })
-  ))
+  React.Children.map(children, (element) => {
+    if (isNil(element)) {
+      return null
+    }
+    return React.cloneElement(element, { activeClassName: 'active' })
+  })
 )

@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { fetchProducts } from 'yesplz@ducks/products'
-import { likeProduct, unlikeProduct } from 'yesplz@ducks/product'
 import { ProductList } from 'yesplz@modules/products'
 import { VisualFilter } from 'modules/visual-filter'
 import './tops.css'
@@ -12,9 +11,7 @@ class Tops extends Component {
     products: PropTypes.array,
     isProductsFetched: PropTypes.bool,
     nextPage: PropTypes.number,
-    fetchProducts: PropTypes.func.isRequired,
-    likeProduct: PropTypes.func.isRequired,
-    unlikeProduct: PropTypes.func.isRequired
+    fetchProducts: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -43,17 +40,6 @@ class Tops extends Component {
     }
   }
 
-  get toggleProductLike () {
-    const { likeProduct, unlikeProduct } = this.props
-    return (id, favorite) => {
-      if (favorite) {
-        likeProduct(id)
-      } else {
-        unlikeProduct(id)
-      }
-    }
-  }
-
   render () {
     const { products, isProductsFetched, nextPage } = this.props
 
@@ -68,7 +54,6 @@ class Tops extends Component {
           showSalePrice
           className='Tops-products'
           onFetch={this.handleFetch}
-          onToggleLike={this.toggleProductLike}
         />
       </div>
     )
@@ -82,11 +67,4 @@ const mapStateToProps = (state, props) => ({
   nextPage: state.products.nextPage
 })
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchProducts,
-    likeProduct,
-    unlikeProduct
-  }
-)(Tops)
+export default connect(mapStateToProps, { fetchProducts })(Tops)

@@ -44,3 +44,12 @@
 .FilterButton-icon > img {
   max-width: 100%;
 }
+
+/* active */
+.FilterButton.active {
+  background: #6D6D6D!important;
+}
+
+.FilterButton.active h5 {
+  color: white;
+}

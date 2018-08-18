@@ -2,9 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import camelCase from 'lodash-es/camelCase'
-// import { history } from 'config/store'
-import { fetchPresets, setFilter } from 'ducks/filters'
-import { enableInitialFetch } from 'ducks/products'
+import { history } from 'config/store'
+import { fetchPresets } from 'ducks/filters'
 import SimplePreset from 'yesplz@modules/presets/SimplePreset'
 import './top-presets.css'
 
@@ -13,8 +12,6 @@ class TopPresets extends Component {
     presets: PropTypes.array,
     isPresetsFetched: PropTypes.bool,
     fetchPresets: PropTypes.func.isRequired
-    // enableInitialFetch: PropTypes.func.isRequired,
-    // setFilter: PropTypes.func.isRequired
   }
 
   componentDidMount () {
@@ -25,13 +22,9 @@ class TopPresets extends Component {
   }
 
   get handlePresetClick () {
-    // const { setFilter, enableInitialFetch } = this.props
-    return (filters) => {
-      // setFilter(filters)
-      // // make products fetched from beginning
-      // enableInitialFetch()
-      // // redirect to Tops page
-      // history.push('/')
+    return (_, presetName) => {
+      // redirect to presets page
+      history.push(`/presets/${presetName}`)
     }
   }
 
@@ -72,11 +65,4 @@ const mapStateToProps = (state) => ({
   isPresetsFetched: state.filters.presetsFetched
 })
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchPresets,
-    setFilter,
-    enableInitialFetch
-  }
-)(TopPresets)
+export default connect(mapStateToProps, { fetchPresets })(TopPresets)

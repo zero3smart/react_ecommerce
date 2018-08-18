@@ -20,7 +20,7 @@ export default class Base extends Component {
     return /^\/favorites\//.test(location.pathname)
   }
 
-  get handleHomeLinkActive () {
+  get handleProductPageLinkActive () {
     return match => match || this.isProductDetailPage
   }
 
@@ -46,13 +46,18 @@ export default class Base extends Component {
     return (
       <div className='Base'>
         <Tabs>
-          <NavLink
-            exact
-            to={this.isProductDetailPage ? '#' : '/'}
-            onClick={this.handleLinkClick}
-            isActive={this.handleHomeLinkActive}>
-            tops
-          </NavLink>
+          <NavLink exact to='/' onClick={this.handleLinkClick}>tops</NavLink>
+          {
+            this.isProductDetailPage && (
+              <NavLink
+                exact
+                to='#'
+                onClick={this.handleLinkClick}
+                isActive={this.handleProductPageLinkActive}>
+                products
+              </NavLink>
+            )
+          }
           <NavLink to='/presets' onClick={this.handleLinkClick}>presets</NavLink>
           <NavLink
             to={this.isFavoritesPage ? '#' : '/favorites/clothing'}

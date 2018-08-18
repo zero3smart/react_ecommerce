@@ -109,7 +109,7 @@ class ScrollFetcher extends Component {
     return (
       <div id={id} ref={this.loadRef} className={className} onScroll={this.handleScrollFrame} style={{ ...style, ...styles.wrapper }}>
         {this.props.children}
-        <DotLoader visible={isFetchingData} />
+        <DotLoader visible={isFetchingData} style={styles.loader} />
       </div>
     )
   }
@@ -120,5 +120,10 @@ export default ScrollFetcher
 const styles = {
   wrapper: {
     overflow: 'auto'
+  },
+  loader: {
+    width: '100%',
+    flexBasis: '100%',
+    order: 999 // place at the end
   }
 }

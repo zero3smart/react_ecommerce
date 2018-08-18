@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import isEqual from 'lodash-es/isEqual'
 import ProductGrid from './ProductGrid'
 import Transition from 'ui-kits/transitions/Transition'
 import { ScrollFetcher } from 'ui-kits/fetchers'
 import { DotLoader } from 'ui-kits/loaders'
+import { likeProduct, unlikeProduct } from 'ducks/product'
 import { PRODUCT_COUNT_PER_PAGE } from 'config/constants'
 
-export default class ProductList extends Component {
+class ProductList extends Component {
   static propTypes = {
     id: PropTypes.string,
     products: PropTypes.array,
@@ -17,7 +19,8 @@ export default class ProductList extends Component {
     extraItem: PropTypes.element,
     showSalePrice: PropTypes.bool,
     onFetch: PropTypes.func.isRequired,
-    onToggleLike: PropTypes.func.isRequired,
+    likeProduct: PropTypes.func.isRequired,
+    unlikeProduct: PropTypes.func.isRequired,
     onScrollBellowTheFold: PropTypes.func.isRequired
   }
 
@@ -64,8 +67,19 @@ export default class ProductList extends Component {
     }
   }
 
+  get toggleProductLike () {
+    const { likeProduct, unlikeProduct } = this.props
+    return (data, favorite) => {
+      if (favorite) {
+        likeProduct(data)
+      } else {
+        unlikeProduct(data.product_id)
+      }
+    }
+  }
+
   render () {
-    const { id, products, nextPage, show, className, extraItem, showSalePrice, onFetch, onToggleLike } = this.props
+    const { id, products, nextPage, show, className, extraItem, showSalePrice, onFetch } = this.props
     const { useMinimumAnimation } = this.state
 
     // get loaded products count
@@ -88,7 +102,8 @@ export default class ProductList extends Component {
                 originalPrice={showSalePrice ? product.original_price : undefined}
                 favorite={product.favorite}
                 imgSrc={product.front_img}
-                onToggleLike={onToggleLike}
+                rawData={product}
+                onToggleLike={this.toggleProductLike}
                 style={{
                   // `ProducGrid` need be showed directly in each page
                   animationDelay: `${useMinimumAnimation ? 0 : 50 * (index - loadedProductsCount)}ms`
@@ -102,8 +117,12 @@ export default class ProductList extends Component {
   }
 }
 
+export default connect(null, { likeProduct, unlikeProduct })(ProductList)
+
 const styles = {
   loader: {
-    marginTop: '2vh'
+    marginTop: '2vh',
+    width: '100%',
+    flexBasis: '100%'
   }
 }

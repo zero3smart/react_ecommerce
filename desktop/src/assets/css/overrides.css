@@ -4,3 +4,16 @@
 .FilterButton {
   cursor: pointer;
 }
+
+
+/* product grid */
+.ProductGrid .LikeButton {
+  top: 15px;
+  left: 7px;
+}
+
+.ProductGrid-thumbnail {
+  padding-top: 25px;
+  padding-left: 20px;
+  padding-right: 20px;
+}

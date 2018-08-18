@@ -70,13 +70,13 @@ export default class Preset extends Component {
   }
 
   get handleClick () {
-    const { onClick } = this.props
+    const { name, onClick } = this.props
     return () => {
       const filters = {
         ...this.bodyPartFilters,
         ...this.fabricFilters
       }
-      onClick(filters)
+      onClick(filters, name)
     }
   }
 

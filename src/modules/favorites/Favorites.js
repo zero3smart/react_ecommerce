@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import Tabs from 'ui-kits/navigations/Tabs'
 import { fetchProducts, syncFavoriteProducts } from 'ducks/products'
-import { likeProduct, unlikeProduct } from 'ducks/product'
 import { setFilter, syncFilter, syncFavoritePresets } from 'ducks/filters'
 import { ProductList } from 'modules/products'
 import { Presets } from 'modules/presets'
@@ -21,9 +20,7 @@ class Favorites extends Component {
     syncFilter: PropTypes.func.isRequired,
     syncFavoritePresets: PropTypes.func.isRequired,
     syncFavoriteProducts: PropTypes.func.isRequired,
-    setFilter: PropTypes.func.isRequired,
-    likeProduct: PropTypes.func.isRequired,
-    unlikeProduct: PropTypes.func.isRequired
+    setFilter: PropTypes.func.isRequired
   }
 
   componentDidMount () {
@@ -47,17 +44,6 @@ class Favorites extends Component {
       fetchProducts().then(() => {
         next()
       })
-    }
-  }
-
-  get toggleProductLike () {
-    const { likeProduct, unlikeProduct } = this.props
-    return (id, favorite) => {
-      if (favorite) {
-        likeProduct(id)
-      } else {
-        unlikeProduct(id)
-      }
     }
   }
 
@@ -93,7 +79,6 @@ class Favorites extends Component {
               show={isProductsFetched}
               products={products}
               nextPage={nextPage}
-              onToggleLike={this.toggleProductLike}
               extraItem={banner}
               className='Favorites-products'
             />
@@ -119,9 +104,7 @@ export default connect(
     syncFilter,
     syncFavoritePresets,
     syncFavoriteProducts,
-    setFilter,
-    likeProduct,
-    unlikeProduct
+    setFilter
   }
 )(Favorites)
 

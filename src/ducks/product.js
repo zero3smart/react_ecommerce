@@ -1,5 +1,4 @@
 import axios from 'axios'
-import find from 'lodash-es/find'
 import { PRODUCT_COUNT_PER_PAGE } from 'config/constants'
 import { createCancelableAsyncAction } from 'utils/async'
 import { mapProductFavorites, updateProductFavorite } from './helpers'
@@ -180,17 +179,13 @@ export const fetchRelatedProducts = createCancelableAsyncAction((productId, requ
   }
 })
 
-export function likeProduct (productId) {
-  return (dispatch, getState) => {
-    // instead of rewriting all function usage, we'll find the products inside the action
-    const { products } = getState()
-    const product = find(products.list, { product_id: productId })
-
+export function likeProduct (product) {
+  return dispatch => {
     Product.like(product)
     // sync favorite products from local storage, temporary solutions before api ready
     dispatch(syncFavoriteProducts())
 
-    dispatch({ type: LIKE_PRODUCT, payload: { productId } })
+    dispatch({ type: LIKE_PRODUCT, payload: { productId: product.product_id } })
   }
 }
 

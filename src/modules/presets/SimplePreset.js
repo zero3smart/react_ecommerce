@@ -70,13 +70,13 @@ export default class SimplePreset extends PureComponent {
   }
 
   get handleClick () {
-    const { onClick } = this.props
+    const { name, onClick } = this.props
     return () => {
       const filters = {
         ...this.bodyPartFilters,
         ...this.fabricFilters
       }
-      onClick(filters)
+      onClick(filters, name)
     }
   }
 

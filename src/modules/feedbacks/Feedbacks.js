@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { fetchProducts } from 'ducks/products'
-import { likeProduct, unlikeProduct } from 'ducks/product'
 import { setFilter, syncFilter } from 'ducks/filters'
 import { ProductList } from 'modules/products'
 import { FlatBanner } from 'ui-kits/banners'
@@ -15,9 +14,7 @@ class Feedbacks extends Component {
     nextPage: PropTypes.number,
     fetchProducts: PropTypes.func.isRequired,
     syncFilter: PropTypes.func.isRequired,
-    setFilter: PropTypes.func.isRequired,
-    likeProduct: PropTypes.func.isRequired,
-    unlikeProduct: PropTypes.func.isRequired
+    setFilter: PropTypes.func.isRequired
   }
 
   componentDidMount () {
@@ -39,17 +36,6 @@ class Feedbacks extends Component {
       fetchProducts().then(() => {
         next()
       })
-    }
-  }
-
-  get toggleProductLike () {
-    const { likeProduct, unlikeProduct } = this.props
-    return (id, favorite) => {
-      if (favorite) {
-        likeProduct(id)
-      } else {
-        unlikeProduct(id)
-      }
     }
   }
 
@@ -94,7 +80,6 @@ class Feedbacks extends Component {
           products={products}
           nextPage={nextPage}
           onFetch={this.handleFetchNext}
-          onToggleLike={this.toggleProductLike}
           extraItem={banner}
           className='Feedbacks-products'
         />
@@ -114,9 +99,7 @@ export default connect(
   {
     fetchProducts,
     syncFilter,
-    setFilter,
-    likeProduct,
-    unlikeProduct
+    setFilter
   }
 )(Feedbacks)
 
