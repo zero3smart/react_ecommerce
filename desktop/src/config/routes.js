@@ -5,7 +5,7 @@ import { Base, NotFound } from 'modules/base'
 import { Tops, TopSingle } from 'modules/tops'
 import { Feedbacks } from 'modules/feedbacks'
 import Presets from 'modules/presets/Presets'
-import { Favorites } from 'yesplz@modules/favorites'
+import { Favorites } from 'modules/favorites'
 
 const createRoutes = () => (
   <Switch>
@@ -22,6 +22,7 @@ const BasePlatform = (props) => (
       <Route exact path='/presets' component={Presets} />
       <Route path='/presets/:presetName' component={Presets} />
       <Route exact path='/favorites/:favoriteType' component={Favorites} />
+      <Route exact path='/favorites/:favoriteType/:presetName' component={Favorites} />
       <Route exact path='/feedbacks' component={Feedbacks} />
       <Route component={NotFound} />
     </Switch>

@@ -27,7 +27,7 @@ export default class Base extends Component {
   get handleFavoritesLinkActive () {
     return () => {
       const { location } = this.props
-      return /^\/favorites\/(fits|clothing)$/.test(location.pathname)
+      return /^\/favorites\/(fits|clothing)(.*)/.test(location.pathname)
     }
   }
 

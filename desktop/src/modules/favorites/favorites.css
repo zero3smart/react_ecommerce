@@ -1,0 +1,115 @@
+.Favorites {
+  max-width: 1228px;
+  height: calc(100% - 69px);
+  margin: auto;
+}
+
+.Favorites .Favorites-tab-nav {
+  display: flex;
+  justify-content: center;
+  flex-basis: 100%;
+}
+
+.Favorites .Tabs {
+  font-size: 14px;
+  max-width: 400px;
+}
+
+.Favorites .Tabs > a {
+  font-weight: normal;
+}
+
+.Favorites .FlatBanner {
+  flex-basis: 100%;
+  height: 182px;
+  margin-bottom: 10px;
+  margin-top: -10px;
+  box-sizing: border-box;
+}
+
+/* products */
+.Favorites-products {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  padding-top: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.Favorites-products .Product {
+  order: 0;
+  margin: -8px -5px 10px;
+}
+
+.Favorites-products .ProductGridCompact {
+  width: calc(33.3333% - 10px);
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 10px;
+  order: 1;
+  min-height: 221px;
+}
+
+/* presets */
+.Favorites .Presets .Preset {
+  width: calc(33.3333% - 16px);
+  margin: 0px 8px 10px;
+  grid-template-columns: calc(100% - 120px) 100px;
+  padding: 20px;
+}
+
+.Favorites .PresetsInnerHead {
+  margin-top: -45px;
+  pointer-events: none;
+}
+
+.Favorites .PresetsInnerHead > * {
+  pointer-events: all;
+}
+
+.Favorites .PresetsInnerWrapper .Preset-svg > svg {
+  max-width: 100%;
+  height: 100%;
+  transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -o-transform: scale(1.2);
+}
+
+.Favorites .PresetsInnerWrapper .FilterButton {
+  max-width: 100px;
+  padding: 2px 5px 2px 3px;
+}
+
+.Favorites .PresetsInnerWrapper .FilterButton-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 7px;
+}
+
+/* presets split view */
+.Favorites .PresetsInnerWrapper.splitView {
+  height: calc(100% - 77px);
+  grid-template-columns: calc(35% - 10px) calc(65% - 10px);
+}
+
+.Favorites .PresetsInnerWrapper.splitView .Preset {
+  width: 100%;
+}
+
+.Favorites .PresetsInnerWrapper.splitView .PresetsInnerWrapper-productList .ProductGrid {
+  width: calc(25% - 10px);
+}
+
+/* from ScrollFetcher */
+.Favorites-products .DotLoader {
+  width: 100%;
+  flex-basis: 100%;
+  order: 2;
+}

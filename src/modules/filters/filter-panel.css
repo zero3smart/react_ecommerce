@@ -48,6 +48,7 @@
   max-height: 25px;
   width: 5.5vw;
   height: 5.5vw;
+  flex-shrink: 0;
 }
 
 .FilterPanel .LikeButton {

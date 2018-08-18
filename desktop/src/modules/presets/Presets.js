@@ -20,6 +20,7 @@ export class Presets extends Component {
     presets: PropTypes.array,
     isPresetsFetched: PropTypes.bool,
     activePresetName: PropTypes.string,
+    presetBaseURI: PropTypes.string,
     // products
     products: PropTypes.array,
     isProductsFetched: PropTypes.bool,
@@ -39,7 +40,8 @@ export class Presets extends Component {
 
   static defaultProps = {
     presets: [],
-    isPresetsFetched: false
+    isPresetsFetched: false,
+    presetBaseURI: '/presets'
   }
 
   constructor (props) {
@@ -66,22 +68,32 @@ export class Presets extends Component {
     }
   }
 
+  componentWillUnmount () {
+    if (this.scrollTopTimeout) {
+      clearTimeout(this.scrollTopTimeout)
+    }
+  }
+
   get handlePresetClick () {
-    const { setFilter, fetchProducts, enableInitialFetch } = this.props
+    const { presetBaseURI, setFilter, fetchProducts, enableInitialFetch } = this.props
     return (filters, filterName) => {
       setFilter(filters)
       // fetch products from the beginning after filter applied
       enableInitialFetch()
       fetchProducts(true)
       // enable split view to show product list
-      history.push(`/presets/${filterName}`)
+      history.push(`${presetBaseURI}/${filterName}`)
 
       // scroll preset list to top
-      if (this.presetList) {
-        setTimeout(() => {
-          this.presetList.scrollTop = 0
-        }, 300)
-      }
+      this.scrollWrapperTo(0)
+    }
+  }
+
+  scrollWrapperTo (scrollTop) {
+    if (this.presetList) {
+      this.scrollTopTimeout = setTimeout(() => {
+        this.presetList.scrollTop = scrollTop
+      }, 300)
     }
   }
 
@@ -109,8 +121,9 @@ export class Presets extends Component {
   }
 
   get handleSplitViewClose () {
+    const { presetBaseURI } = this.props
     return () => {
-      history.push('/presets')
+      history.push(presetBaseURI)
     }
   }
 
@@ -190,7 +203,7 @@ export class Presets extends Component {
 const mapStateToProps = (state, props) => ({
   // presets
   presets: props.presets || state.filters.presets,
-  isPresetsFetched: state.filters.presetsFetched,
+  isPresetsFetched: props.show || state.filters.presetsFetched,
   activePresetName: props.match.params.presetName,
   // products
   filters: state.filters.data,
