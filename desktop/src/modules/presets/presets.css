@@ -1,0 +1,93 @@
+.Presets {
+  width: 100%;
+  height: calc(100% - 69px);
+  padding-top: 10px;
+  overflow: auto;
+}
+
+.PresetsInnerHead {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  max-width: 1285px;
+  margin: 10px auto 5px;
+}
+
+.PresetsInnerWrapper {
+  height: 100%;
+}
+
+/* preset list */
+.PresetsInnerWrapper-presets {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  max-width: 1179px;
+  margin: 0 auto;
+  padding-bottom: 10px;
+  grid-area: presetList;
+}
+.PresetsInnerWrapper .Preset {
+  width: calc(50% - 16px);
+  margin: 0px 8px 10px;
+  padding: 20px 30px;
+  transition: all 0.3s ease-in;
+}
+.PresetsInnerWrapper .Preset-svg svg {
+  width: 21.875vw;
+  height: auto;
+}
+.PresetsInnerWrapper .FabricFilters .FilterButton {
+  max-width: none;
+  margin-bottom: 10px;
+}
+.PresetsInnerWrapper .FilterButton-icon {
+  width: 2.986vw;
+  height: 2.986vw;
+}
+
+/* product list */
+.PresetsInnerWrapper-productList {
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  justify-content: space-between;
+}
+.PresetsInnerWrapper-productList .ProductGrid {
+  width: calc(33.33333% - 10px);
+  margin-bottom: 10px;
+  order: 1;
+}
+.PresetsInnerWrapper-productList .ProductGrid .ProductGrid-detail h5 {
+  width: 50%;
+}
+
+/* split view */
+.PresetsInnerWrapper.splitView {
+  display: grid;
+  grid-template-rows: 100% 100%;
+  grid-template-columns: calc(50% - 10px) calc(50% - 10px);
+  grid-template-areas: "presetList productList";
+  grid-gap: 0px 20px;
+  max-width: 1285px;
+  height: calc(100% - 65px); /* reduced by PresetsInnerHead */
+  margin: auto;
+}
+
+.PresetsInnerWrapper.splitView .PresetsInnerWrapper-presets {
+  overflow: auto;
+  margin-left: -5px;
+  margin-right: -5px;
+}
+
+.PresetsInnerWrapper.splitView .Preset {
+  width: 100%;
+  margin: 0px 5px 10px;
+  animation: none!important;
+}
