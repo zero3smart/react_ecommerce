@@ -1,107 +1,29 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { fetchProducts } from 'ducks/products'
-import { setFilter, syncFilter } from 'ducks/filters'
-import { ProductList } from 'modules/products'
 import { FlatBanner } from 'ui-kits/banners'
+import instagramSvgSrc from 'assets/svg/instagram.svg'
 import './feedbacks.css'
 
 class Feedbacks extends Component {
-  static propTypes = {
-    products: PropTypes.array,
-    isProductsFetched: PropTypes.bool,
-    nextPage: PropTypes.number,
-    fetchProducts: PropTypes.func.isRequired,
-    syncFilter: PropTypes.func.isRequired,
-    setFilter: PropTypes.func.isRequired
-  }
-
-  componentDidMount () {
-    const { isProductsFetched, syncFilter, fetchProducts } = this.props
-
-    // don't need to do initial fetch if products is fetched already
-    if (!isProductsFetched) {
-      syncFilter()
-      fetchProducts(true)
-    }
-  }
-
-  /**
-   * only applicable on next fetch, if available
-   */
-  get handleFetch () {
-    const { fetchProducts } = this.props
-    return (next) => {
-      fetchProducts().then(() => {
-        next()
-      })
-    }
-  }
-
-  /**
-   * only applicable on next fetch, if available
-   */
-  get handleFetchNext () {
-    const { fetchProducts } = this.props
-    return (next) => {
-      fetchProducts().then(() => {
-        next()
-      })
-    }
-  }
-
-  get handleFilterChange () {
-    const { fetchProducts, setFilter } = this.props
-    return (filters) => {
-      // set filter to store
-      setFilter(filters)
-      // fetch products based selected filter
-      fetchProducts(true)
-    }
-  }
-
   render () {
-    const { products, isProductsFetched, nextPage } = this.props
-    const banner = (
-      <FlatBanner style={styles.banner}>
-        <div style={styles.bannerContent}>
-          <h2>Tell us how we can do better!</h2>
-          <p><a href='mailto:hello@yesplz.us'>hello@yesplz.us</a></p>
-        </div>
-      </FlatBanner>
-    )
-
     return (
       <div className='Feedbacks'>
-        <ProductList
-          id='MainScroll'
-          show={isProductsFetched}
-          products={products}
-          nextPage={nextPage}
-          onFetch={this.handleFetchNext}
-          extraItem={banner}
-          className='Feedbacks-products'
-        />
+        <FlatBanner style={styles.banner}>
+          <div style={styles.bannerContent}>
+            <h2>Tell us how we can do better!</h2>
+            <p>
+              <a href='mailto:hello@yesplz.us'>hello@yesplz.us</a>
+              <a href='https://www.instagram.com/yesplz_fashion/' target='_blank' className='SocialLink'>
+                Follow Us <img src={instagramSvgSrc} alt='Yesplz Instagram' />
+              </a>
+            </p>
+          </div>
+        </FlatBanner>
       </div>
     )
   }
 }
 
-const mapStateToProps = (state) => ({
-  products: state.products.list,
-  isProductsFetched: state.products.fetched,
-  nextPage: state.products.nextPage
-})
-
-export default connect(
-  mapStateToProps,
-  {
-    fetchProducts,
-    syncFilter,
-    setFilter
-  }
-)(Feedbacks)
+export default Feedbacks
 
 const styles = {
   banner: {
