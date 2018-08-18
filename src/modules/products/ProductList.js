@@ -9,12 +9,17 @@ import { DotLoader } from 'ui-kits/loaders'
 import { likeProduct, unlikeProduct } from 'ducks/product'
 import { PRODUCT_COUNT_PER_PAGE } from 'config/constants'
 
+const childRenderer = (props) => (
+  <ProductGrid {...props} />
+)
+
 class ProductList extends Component {
   static propTypes = {
     id: PropTypes.string,
     products: PropTypes.array,
     nextPage: PropTypes.number,
     show: PropTypes.bool,
+    children: PropTypes.func,
     className: PropTypes.string,
     extraItem: PropTypes.element,
     showSalePrice: PropTypes.bool,
@@ -28,6 +33,7 @@ class ProductList extends Component {
     products: [],
     nextPage: 0,
     show: false,
+    children: childRenderer,
     extraItem: undefined,
     showSalePrice: false,
     onFetch: (next) => { next() },
@@ -79,7 +85,7 @@ class ProductList extends Component {
   }
 
   render () {
-    const { id, products, nextPage, show, className, extraItem, showSalePrice, onFetch } = this.props
+    const { id, products, nextPage, show, children, className, extraItem, showSalePrice, onFetch } = this.props
     const { useMinimumAnimation } = this.state
 
     // get loaded products count
@@ -92,24 +98,25 @@ class ProductList extends Component {
         {!show && <DotLoader visible style={styles.loader} />}
         <Transition show={show} transition={useMinimumAnimation ? 'fadeIn' : 'fadeInUp'}>
           {
-            products.map((product, index) => (
-              <ProductGrid
-                key={product.product_id}
-                id={product.product_id}
-                name={product.name}
-                brand={product.brand}
-                price={product.price}
-                originalPrice={showSalePrice ? product.original_price : undefined}
-                favorite={product.favorite}
-                imgSrc={product.front_img}
-                rawData={product}
-                onToggleLike={this.toggleProductLike}
-                style={{
+            products.map((product, index) => {
+              const props = {
+                key: product.product_id,
+                id: product.product_id,
+                name: product.name,
+                brand: product.brand,
+                price: product.price,
+                originalPrice: showSalePrice ? product.original_price : undefined,
+                favorite: product.favorite,
+                imgSrc: product.front_img,
+                rawData: product,
+                onToggleLike: this.toggleProductLike,
+                style: {
                   // `ProducGrid` need be showed directly in each page
                   animationDelay: `${useMinimumAnimation ? 0 : 50 * (index - loadedProductsCount)}ms`
-                }}
-              />
-            ))
+                }
+              }
+              return children(props)
+            })
           }
         </Transition>
       </ScrollFetcher>
