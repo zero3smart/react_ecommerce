@@ -23,7 +23,7 @@
   font-size: 0.813em; /* 13px */
   font-weight: bold;
   color: #000000;
-  margin: auto;
+  margin: auto 0;
   display: inline-block;
   vertical-align: middle;
 }

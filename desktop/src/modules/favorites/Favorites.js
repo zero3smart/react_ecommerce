@@ -6,7 +6,7 @@ import Tabs from 'ui-kits/navigations/Tabs'
 import { fetchProducts, syncFavoriteProducts } from 'yesplz@ducks/products'
 import { setFilter, syncFilter, syncFavoritePresets } from 'yesplz@ducks/filters'
 import { ProductList, ProductGridCompact } from 'yesplz@modules/products'
-import { Presets } from 'modules/presets'
+import Presets from 'modules/presets/Presets'
 import './favorites.css'
 
 class Favorites extends Component {
@@ -16,6 +16,7 @@ class Favorites extends Component {
     presets: PropTypes.array,
     isProductsFetched: PropTypes.bool,
     nextPage: PropTypes.number,
+    match: PropTypes.object,
     fetchProducts: PropTypes.func.isRequired,
     syncFilter: PropTypes.func.isRequired,
     syncFavoritePresets: PropTypes.func.isRequired,
@@ -58,7 +59,7 @@ class Favorites extends Component {
   }
 
   render () {
-    const { products, presets, isProductsFetched, nextPage, favoriteType } = this.props
+    const { products, presets, isProductsFetched, nextPage, favoriteType, match } = this.props
 
     const showFits = favoriteType === 'fits'
     const tabNav = (
@@ -74,7 +75,7 @@ class Favorites extends Component {
       <div className='Favorites'>
         {
           showFits ? (
-            <Presets presets={presets} extraItem={tabNav} style={styles.presets} />
+            <Presets presets={presets} extraItem={tabNav} style={styles.presets} match={match} />
           ) : (
             <ProductList
               id='MainScroll'
@@ -118,7 +119,7 @@ const styles = {
     marginBottom: 25
   },
   fitsTabs: {
-    marginTop: 20,
+    marginTop: 10,
     marginRight: 5,
     marginBottom: 25,
     marginLeft: 5

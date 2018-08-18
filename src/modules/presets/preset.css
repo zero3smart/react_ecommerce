@@ -13,9 +13,10 @@
   box-sizing: border-box;
 }
 
-.Preset h2 {
+.Preset > h2 {
   font-weight: 300;
   color: #9B9B9B;
+  grid-area: title;
 }
 
 .Preset-svg {
@@ -23,10 +24,14 @@
   position: relative;
 }
 
-.Preset-svg svg {
+.Preset-svg > svg {
   height: 150px;
   margin: auto;
   max-width: 50vw;
+  transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -o-transform: scale(1.1);
 }
 
 .Preset-svg svg #bodypart_area {

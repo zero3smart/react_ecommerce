@@ -66,6 +66,12 @@ export class Presets extends Component {
     }
   }
 
+  componentWillUnmount () {
+    if (this.scrollTopTimeout) {
+      clearTimeout(this.scrollTopTimeout)
+    }
+  }
+
   get handlePresetClick () {
     const { setFilter, fetchProducts, enableInitialFetch } = this.props
     return (filters, filterName) => {
@@ -77,11 +83,15 @@ export class Presets extends Component {
       history.push(`/presets/${filterName}`)
 
       // scroll preset list to top
-      if (this.presetList) {
-        setTimeout(() => {
-          this.presetList.scrollTop = 0
-        }, 300)
-      }
+      this.scrollWrapperTo(0)
+    }
+  }
+
+  scrollWrapperTo (scrollTop) {
+    if (this.presetList) {
+      this.scrollTopTimeout = setTimeout(() => {
+        this.presetList.scrollTop = scrollTop
+      }, 300)
     }
   }
 
