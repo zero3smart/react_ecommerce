@@ -21,8 +21,17 @@
   left: 7%;
 }
 
+.TopSingle .Product > .LikeButton > button {
+  width: 40px;
+  height: 40px;
+}
+
 .TopSingle .Product .Product-images {
   height: auto;
+}
+
+.TopSingle .Product .Product-images .slick-slide {
+  min-height: 400px;
 }
 
 .TopSingle .Product .Product-images > .slick-slider {

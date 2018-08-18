@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Product, ProductPlaceholder, ProductList } from 'yesplz@modules/products'
+import { ProductPlaceholder } from 'modules/products'
+import { Product, ProductList } from 'yesplz@modules/products'
 import { fetchProduct, fetchRelatedProducts, resetProduct } from 'yesplz@ducks/product'
 import './top-single.css'
 
