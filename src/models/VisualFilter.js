@@ -183,12 +183,8 @@ export default class VisualFilter {
         this.handleBodyPartClick('shoulder')
         break
       case 3:
-        VisualFilter.hideGroup(this.snap, 'mini_onboarding_3')
-        VisualFilter.showGroup(this.snap, 'mini_onboarding_4')
-        break
-      case 4:
         VisualFilter.hideGroup(this.snap, 'mini_onboarding_touch')
-        VisualFilter.hideGroup(this.snap, 'mini_onboarding_4')
+        VisualFilter.hideGroup(this.snap, 'mini_onboarding_3')
         this.handleOnboardingFinished()
         this.initializeClickHitMap() // Delay late to avoid Conflict with onboarding hitmap
         break
