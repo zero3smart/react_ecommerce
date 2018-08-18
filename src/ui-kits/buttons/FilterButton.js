@@ -9,10 +9,15 @@ export default class FilterButton extends PureComponent {
     value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     onClick: PropTypes.func.isRequired,
     children: PropTypes.any,
+    active: PropTypes.bool,
     iconSrc: PropTypes.string,
     iconStyle: PropTypes.object,
     className: PropTypes.string,
     style: PropTypes.object
+  }
+
+  static defaultProps = {
+    active: false
   }
 
   get handleClick () {
@@ -23,9 +28,9 @@ export default class FilterButton extends PureComponent {
   }
 
   render () {
-    const { iconSrc, children, iconStyle, className, style } = this.props
+    const { iconSrc, children, iconStyle, className, active, style } = this.props
     return (
-      <div className={classNames('FilterButton', { [className]: className })} onClick={this.handleClick} style={style}>
+      <div className={classNames('FilterButton', { [className]: className, active })} onClick={this.handleClick} style={style}>
         <div className='FilterButton-icon' style={iconStyle}>
           {iconSrc && <img src={iconSrc} alt={children} />}
         </div>

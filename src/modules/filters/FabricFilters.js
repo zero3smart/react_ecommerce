@@ -107,6 +107,7 @@ export default class FabricFilters extends PureComponent {
           name='solid'
           value={solid}
           onClick={this.handleClick}
+          active={this.isActive(solid)}
           iconStyle={this.isActive(solid) ? styles.solidIconActive : styles.solidIcon}>
           Solid
         </FilterButton>
@@ -114,6 +115,7 @@ export default class FabricFilters extends PureComponent {
           name='pattern'
           value={pattern}
           onClick={this.handleClick}
+          active={this.isActive(pattern)}
           iconSrc={this.isActive(pattern) ? patternActiveSVGSrc : patternSVGSrc}>
           Patterns
         </FilterButton>
@@ -121,6 +123,7 @@ export default class FabricFilters extends PureComponent {
           name='details'
           value={details}
           onClick={this.handleClick}
+          active={this.isActive(details)}
           iconSrc={this.isActive(details) ? detailActiveSVGSrc : detailSVGSrc}>
           Details
         </FilterButton>
