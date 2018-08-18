@@ -5,7 +5,7 @@ import camelCase from 'lodash-es/camelCase'
 import isNil from 'lodash-es/isNil'
 import classNames from 'classnames'
 import { history } from 'config/store'
-import { fetchPresets, setFilter, likePreset, unlikePreset } from 'yesplz@ducks/filters'
+import { fetchPresets, setFilter, likePreset, unlikePreset, syncFilter } from 'yesplz@ducks/filters'
 import { fetchProducts, enableInitialFetch } from 'yesplz@ducks/products'
 import Transition from 'yesplz@ui-kits/transitions/Transition'
 import { DotLoader } from 'yesplz@ui-kits/loaders'
@@ -32,6 +32,7 @@ export class Presets extends Component {
     setFilter: PropTypes.func.isRequired,
     likePreset: PropTypes.func.isRequired,
     unlikePreset: PropTypes.func.isRequired,
+    syncFilter: PropTypes.func.isRequired,
     fetchProducts: PropTypes.func.isRequired,
     enableInitialFetch: PropTypes.func.isRequired
   }
@@ -49,11 +50,18 @@ export class Presets extends Component {
   }
 
   componentDidMount () {
-    const { fetchPresets, isProductsFetched, fetchProducts } = this.props
+    const { fetchPresets, activePresetName, isProductsFetched, syncFilter, fetchProducts } = this.props
     fetchPresets()
 
     // don't need to do initial fetch if products is fetched already
     if (!isProductsFetched) {
+      // make sure the filter is synced with localStorage data
+      syncFilter()
+      fetchProducts(true)
+    }
+
+    // if active preset name exist, fetch product with new data
+    if (!isNil(activePresetName)) {
       fetchProducts(true)
     }
   }
@@ -133,7 +141,7 @@ export class Presets extends Component {
             <Transition show transition='fadeInUp'>
               {
                 presets.map((preset, index) => {
-                  const fade = splitView && preset.name !== activePresetName
+                  const fade = splitView && preset.name.trim() !== (activePresetName || '').trim()
                   return (
                     <Preset
                       key={preset.name}
@@ -198,6 +206,7 @@ export default connect(
     setFilter,
     likePreset,
     unlikePreset,
+    syncFilter,
     fetchProducts,
     enableInitialFetch
   }

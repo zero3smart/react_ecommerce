@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { fetchProducts } from 'yesplz@ducks/products'
 import { ProductList } from 'yesplz@modules/products'
+import { syncFilter } from 'yesplz@ducks/filters'
 import { VisualFilter } from 'modules/visual-filter'
 import './tops.css'
 
@@ -11,6 +12,7 @@ class Tops extends Component {
     products: PropTypes.array,
     isProductsFetched: PropTypes.bool,
     nextPage: PropTypes.number,
+    syncFilter: PropTypes.func.isRequired,
     fetchProducts: PropTypes.func.isRequired
   }
 
@@ -20,10 +22,12 @@ class Tops extends Component {
   }
 
   componentDidMount () {
-    const { isProductsFetched, fetchProducts } = this.props
+    const { isProductsFetched, syncFilter, fetchProducts } = this.props
 
     // don't need to do initial fetch if products is fetched already
     if (!isProductsFetched) {
+      // make sure the filter is synced with localStorage data
+      syncFilter()
       fetchProducts(true)
     }
   }
@@ -67,4 +71,4 @@ const mapStateToProps = (state, props) => ({
   nextPage: state.products.nextPage
 })
 
-export default connect(mapStateToProps, { fetchProducts })(Tops)
+export default connect(mapStateToProps, { fetchProducts, syncFilter })(Tops)

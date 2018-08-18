@@ -5,7 +5,6 @@
 // Import Snap from window. Snap is loaded from template.
 import pick from 'lodash-es/pick'
 import isNil from 'lodash-es/isNil'
-import isEmpty from 'lodash-es/isEmpty'
 import isEqual from 'lodash-es/isEqual'
 import { PROP_CONST, THUMBNAIL_IMG_X_OFFSET, THUMBNAIL_X_OFFSET, THUMBNAIL_Y_OFFSET } from 'config/constants'
 const { Snap, localStorage } = window
@@ -136,14 +135,25 @@ export default class VisualFilter {
     const newPropState = this.getbodyPartFilters(filters)
     // only update when svg is loaded and has changes on filters
     if (this.svgLoaded && !isEqual(this.currentPropState, newPropState)) {
-      // if current propState is empty, assign new filters directly
-      if (isEmpty(this.currentPropState)) {
-        this.currentPropState = newPropState
-      }
-
+      // body part visibility handler
       for (let prop in newPropState) {
         this.propGrpn = PROP_CONST[prop][3]
-        this.changePropSelection(prop, newPropState[prop], false)
+
+        // hide previous bodypart
+        VisualFilter.hideGroup(this.snap, this.propGrpn + '_' + this.currentPropState[prop], HIGHLIGHTED_ATTR_HIDE)
+        // show next bodypart
+        VisualFilter.showGroup(this.snap, this.propGrpn + '_' + newPropState[prop])
+      }
+
+      // update current prop state after body part visibility handler done
+      this.currentPropState = newPropState
+
+      if (!this.settings.hideThumbnail) {
+        // highlight coretype on state update
+        this.removeAllHighlight()
+        VisualFilter.highlightGroup(this.snap, PROP_CONST['coretype'][3] + '_' + newPropState['coretype'])
+        // update thumbnail selection box
+        this.updateThumbnailSelectionBox('coretype')
       }
     }
   }
@@ -220,27 +230,31 @@ export default class VisualFilter {
         VisualFilter.highlightGroup(this.snap, PROP_CONST[prop][3] + '_' + this.currentPropState[prop])
       }
 
-      // Display current one
-      if (this.settings.useVerticalThumb) {
-        // Move thumbnail hit area
-        const xoffset = THUMBNAIL_X_OFFSET
-        const yoffset = 0
-        let desc = 't' + xoffset + ',' + yoffset
-        VisualFilter.findGroupById(this.snap, 'Thumbnail_Touch_Area').transform(desc)
-
-        VisualFilter.showVerticalSelectionBox(this.snap, prop, this.currentPropState[prop])
-      } else {
-        // Move thumbnail hit area
-        const xoffset = VisualFilter.getThumbnailXOffset(prop) + 15
-        const yoffset = THUMBNAIL_Y_OFFSET + 15
-        let desc = 't' + xoffset + ',' + yoffset
-        VisualFilter.findGroupById(this.snap, 'Thumbnail_Touch_Area').transform(desc)
-
-        VisualFilter.showHorizontalSelectionBox(this.snap, prop, this.currentPropState[prop])
-      }
+      this.updateThumbnailSelectionBox(prop)
     }
 
     this.previousProp = prop
+  }
+
+  updateThumbnailSelectionBox (prop) {
+    // Display current one
+    if (this.settings.useVerticalThumb) {
+      // Move thumbnail hit area
+      const xoffset = THUMBNAIL_X_OFFSET
+      const yoffset = 0
+      let desc = 't' + xoffset + ',' + yoffset
+      VisualFilter.findGroupById(this.snap, 'Thumbnail_Touch_Area').transform(desc)
+
+      VisualFilter.showVerticalSelectionBox(this.snap, prop, this.currentPropState[prop])
+    } else {
+      // Move thumbnail hit area
+      const xoffset = VisualFilter.getThumbnailXOffset(prop) + 15
+      const yoffset = THUMBNAIL_Y_OFFSET + 15
+      let desc = 't' + xoffset + ',' + yoffset
+      VisualFilter.findGroupById(this.snap, 'Thumbnail_Touch_Area').transform(desc)
+
+      VisualFilter.showHorizontalSelectionBox(this.snap, prop, this.currentPropState[prop])
+    }
   }
 
   /**
@@ -421,6 +435,7 @@ export default class VisualFilter {
   }
 
   static showHorizontalSelectionBox (snap, prop, sel) {
+    console.debug('thumb update', prop, sel)
     const group = VisualFilter.findGroupById(snap, 'Thumbnail-Highliter')
     if (sel === 'all') {
       sel = PROP_CONST[prop][1] + 1

@@ -61,6 +61,7 @@ class VisualFilter extends Component {
 
   render () {
     const { filters, isFilterSaved } = this.props
+
     return (
       <div className='VisualFilter'>
         <FilterPanel
@@ -69,7 +70,8 @@ class VisualFilter extends Component {
           onFilterChange={this.handleFilterChange}
           onFilterLike={this.handleFilterLike}
           closable={Boolean(false)}
-          useVerticalThumb={Boolean(false)} />
+          useVerticalThumb={Boolean(false)}
+        />
         <TopPresets />
       </div>
     )

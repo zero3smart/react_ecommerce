@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import camelCase from 'lodash-es/camelCase'
 import { history } from 'config/store'
-import { fetchPresets } from 'ducks/filters'
+import { fetchPresets, setFilter } from 'yesplz@ducks/filters'
 import SimplePreset from 'yesplz@modules/presets/SimplePreset'
 import './top-presets.css'
 
@@ -11,7 +11,8 @@ class TopPresets extends Component {
   static propTypes = {
     presets: PropTypes.array,
     isPresetsFetched: PropTypes.bool,
-    fetchPresets: PropTypes.func.isRequired
+    fetchPresets: PropTypes.func.isRequired,
+    setFilter: PropTypes.func.isRequired
   }
 
   componentDidMount () {
@@ -22,7 +23,10 @@ class TopPresets extends Component {
   }
 
   get handlePresetClick () {
-    return (_, presetName) => {
+    const { setFilter } = this.props
+    return (filters, presetName) => {
+      // set filter
+      setFilter(filters)
       // redirect to presets page
       history.push(`/presets/${presetName}`)
     }
@@ -65,4 +69,4 @@ const mapStateToProps = (state) => ({
   isPresetsFetched: state.filters.presetsFetched
 })
 
-export default connect(mapStateToProps, { fetchPresets })(TopPresets)
+export default connect(mapStateToProps, { fetchPresets, setFilter })(TopPresets)
