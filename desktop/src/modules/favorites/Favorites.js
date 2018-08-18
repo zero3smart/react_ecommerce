@@ -75,7 +75,7 @@ class Favorites extends Component {
       <div className='Favorites'>
         {
           showFits ? (
-            <Presets presets={presets} extraItem={tabNav} style={styles.presets} match={match} />
+            <Presets presets={presets} show presetBaseURI='/favorites/fits' extraItem={tabNav} style={styles.presets} match={match} />
           ) : (
             <ProductList
               id='MainScroll'

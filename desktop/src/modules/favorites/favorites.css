@@ -63,6 +63,15 @@
   padding: 20px;
 }
 
+.Favorites .PresetsInnerHead {
+  margin-top: -45px;
+  pointer-events: none;
+}
+
+.Favorites .PresetsInnerHead > * {
+  pointer-events: all;
+}
+
 .Favorites .PresetsInnerWrapper .Preset-svg > svg {
   max-width: 100%;
   height: 100%;
@@ -81,6 +90,20 @@
   width: 30px;
   height: 30px;
   margin-right: 7px;
+}
+
+/* presets split view */
+.Favorites .PresetsInnerWrapper.splitView {
+  height: calc(100% - 77px);
+  grid-template-columns: calc(35% - 10px) calc(65% - 10px);
+}
+
+.Favorites .PresetsInnerWrapper.splitView .Preset {
+  width: 100%;
+}
+
+.Favorites .PresetsInnerWrapper.splitView .PresetsInnerWrapper-productList .ProductGrid {
+  width: calc(25% - 10px);
 }
 
 /* from ScrollFetcher */

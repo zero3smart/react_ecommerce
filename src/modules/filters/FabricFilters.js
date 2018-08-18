@@ -50,9 +50,12 @@ export default class FabricFilters extends PureComponent {
   }
 
   get toggleColorPallete () {
+    const { disableEvent } = this.props
     const { collorPalleteVisible } = this.state
     return () => {
-      this.setState({ collorPalleteVisible: !collorPalleteVisible })
+      if (!disableEvent) {
+        this.setState({ collorPalleteVisible: !collorPalleteVisible })
+      }
     }
   }
 

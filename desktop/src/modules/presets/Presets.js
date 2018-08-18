@@ -20,6 +20,7 @@ export class Presets extends Component {
     presets: PropTypes.array,
     isPresetsFetched: PropTypes.bool,
     activePresetName: PropTypes.string,
+    presetBaseURI: PropTypes.string,
     // products
     products: PropTypes.array,
     isProductsFetched: PropTypes.bool,
@@ -39,7 +40,8 @@ export class Presets extends Component {
 
   static defaultProps = {
     presets: [],
-    isPresetsFetched: false
+    isPresetsFetched: false,
+    presetBaseURI: '/presets'
   }
 
   constructor (props) {
@@ -73,14 +75,14 @@ export class Presets extends Component {
   }
 
   get handlePresetClick () {
-    const { setFilter, fetchProducts, enableInitialFetch } = this.props
+    const { presetBaseURI, setFilter, fetchProducts, enableInitialFetch } = this.props
     return (filters, filterName) => {
       setFilter(filters)
       // fetch products from the beginning after filter applied
       enableInitialFetch()
       fetchProducts(true)
       // enable split view to show product list
-      history.push(`/presets/${filterName}`)
+      history.push(`${presetBaseURI}/${filterName}`)
 
       // scroll preset list to top
       this.scrollWrapperTo(0)
@@ -119,8 +121,9 @@ export class Presets extends Component {
   }
 
   get handleSplitViewClose () {
+    const { presetBaseURI } = this.props
     return () => {
-      history.push('/presets')
+      history.push(presetBaseURI)
     }
   }
 
@@ -200,7 +203,7 @@ export class Presets extends Component {
 const mapStateToProps = (state, props) => ({
   // presets
   presets: props.presets || state.filters.presets,
-  isPresetsFetched: state.filters.presetsFetched,
+  isPresetsFetched: props.show || state.filters.presetsFetched,
   activePresetName: props.match.params.presetName,
   // products
   filters: state.filters.data,

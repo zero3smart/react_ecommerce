@@ -22,6 +22,7 @@ const BasePlatform = (props) => (
       <Route exact path='/presets' component={Presets} />
       <Route path='/presets/:presetName' component={Presets} />
       <Route exact path='/favorites/:favoriteType' component={Favorites} />
+      <Route exact path='/favorites/:favoriteType/:presetName' component={Favorites} />
       <Route exact path='/feedbacks' component={Feedbacks} />
       <Route component={NotFound} />
     </Switch>
