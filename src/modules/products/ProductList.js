@@ -121,6 +121,8 @@ export default connect(null, { likeProduct, unlikeProduct })(ProductList)
 
 const styles = {
   loader: {
-    marginTop: '2vh'
+    marginTop: '2vh',
+    width: '100%',
+    flexBasis: '100%'
   }
 }
