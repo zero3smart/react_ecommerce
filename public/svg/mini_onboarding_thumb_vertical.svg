@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="439px" height="393px" viewBox="0 0 439 393" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="450px" height="393px" viewBox="0 0 450 393" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
     <title>mini_onboarding_thumb_vertical</title>
     <desc>Created with Sketch.</desc>
-    <defs></defs>
+    <defs>
+        <!--
+        <filter x="-4.1%" y="-7.3%" width="108.2%" height="122.9%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="4" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="3" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    -->
+        <filter x="-4.1%" y="-17.8%" width="107.5%" height="127.6%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="-1" dy="-3" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="3" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+
+
+
+    </defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="mini_onboarding_thumb_vertical" transform="translate(-1.000000, 0.000000)">
             <g id="mini_onboarding_1" transform="translate(7.000000, 63.000000)">
                 <g id="popup" transform="translate(0.000000, 43.000000)">
                     <g id="popup-2" transform="translate(180.628426, 55.500000) scale(-1, 1) translate(-180.628426, -55.500000) translate(0.128426, 0.000000)">
-                        <g id="path-onb-1-link" fill="#000000" fill-rule="nonzero">
+                        <g id="path-onb-1-link" fill="#000000" fill-rule="nonzero" filter="url(#filter-2)">
                             <path d="M20.2429907,17.2292838 C23.616825,17.2292838 111.701947,17.2305171 111.701947,17.2305171 L124.399925,-1.13686838e-13 L137.45553,17.2292838 L339.885436,17.2292838 C351.065331,17.2292838 360.128427,27.1683415 360.128427,39.4287905 L360.128427,88.8004933 C360.128427,101.060942 351.065331,111 339.885436,111 L20.2429907,111 C9.06309562,111 -8.31335001e-13,101.060942 -8.31335001e-13,88.8004933 L-8.31335001e-13,39.4287905 C-8.31335001e-13,27.1684963 13.4953271,17.2292838 20.2429907,17.2292838 Z" id="path-onb-1"></path>
                         </g>
                         <g id="path-onb-1-link" fill="#FFFFFF">
@@ -25,7 +41,7 @@
                         </text>
                     </g>
                 </g>
-                <g id="tap_button" transform="translate(219.000000, 0.000000)">
+                <g id="tap_button" transform="translate(210.000000, 0.000000)">
                     <g id="Group">
                         <g id="Ellipse_17-2">
                             <g id="path-3-link" fill="#000000" fill-rule="nonzero">
@@ -52,8 +68,8 @@
             </g>
             <g id="mini_onboarding_2" transform="translate(15.000000, 195.000000)">
                 <g id="popup">
-                    <g id="popup-2" transform="translate(185.500000, 47.000000) rotate(180.000000) translate(-185.500000, -47.000000) ">
-                        <g id="path-5-link" fill="#000000" fill-rule="nonzero">
+                    <g id="popup-2" transform="translate(185.500000, 47.000000) scale(-1, 1) translate(-185.500000, -47.000000) ">
+                        <g id="path-5-link" fill="#000000" fill-rule="nonzero" filter="url(#filter-2)">
                             <path d="M30.2919822,0.2292838 C33.6739818,0.2292838 141.136935,0.2305171 141.136935,0.2305171 L166.952846,0.2292838 L350.708018,0.2292838 C361.91497,0.2292838 371,10.1683415 371,22.4287905 L371,71.8004933 C371,84.060942 361.91497,94 350.708018,94 L30.2919822,94 C19.0850299,94 10,84.060942 10,71.8004933 C10,65.2224963 10,60.2889985 10,57 L0.5,47.634531 L10,37.0118794 C10,34.0784079 10,29.2173783 10,22.4287905 C10,10.1684963 23.5279881,0.2292838 30.2919822,0.2292838 Z" id="path-5"></path>
                         </g>
                         <g id="path-5-link" transform="translate(1.000000, 0.000000)" fill="#FFFFFF">
@@ -67,10 +83,10 @@
                         <tspan x="75" y="62.4">tap these thumbnails.</tspan>
                     </text>
                 </g>
-                <g id="tap_button" transform="translate(390.000000, 25.000000)">
+                <g id="tap_button" transform="translate(382.000000, 25.000000)">
                     <g id="Group">
                         <g id="Ellipse_17-2">
-                            <g id="path-7-link" fill="#000000" fill-rule="nonzero">
+                            <g id="path-7-link" fill="#000000" fill-rule="nonzero" filter="url(#filter-2)">
                                 <circle id="path-7" cx="17.5" cy="17.5" r="17.5"></circle>
                             </g>
                             <g id="path-7-link" fill="#FFFFFF">
@@ -92,187 +108,9 @@
                     </g>
                 </g>
             </g>
-            <g id="mini_onboarding_3">
-                <g id="Group-2" transform="translate(182.000000, 0.000000)">
-                    <g id="part_button">
-                        <g id="Group">
-                            <g id="Ellipse_17-2">
-                                <g id="path-9-link" fill="#000000" fill-rule="nonzero">
-                                    <circle id="path-9" cx="15.5" cy="15.5" r="15.5"></circle>
-                                </g>
-                                <g id="path-9-link" fill="#FFFFFF">
-                                    <circle id="path-9" cx="15.5" cy="15.5" r="15.5"></circle>
-                                </g>
-                            </g>
-                        </g>
-                        <g id="Group">
-                            <g id="Ellipse_17-2">
-                                <g id="path-11-link" fill="#000000" fill-rule="nonzero">
-                                    <circle id="path-11" cx="15.5" cy="15.5" r="15.5"></circle>
-                                </g>
-                                <g id="path-11-link" fill="#FFFFFF">
-                                    <circle id="path-11" cx="15.5" cy="15.5" r="15.5"></circle>
-                                </g>
-                            </g>
-                        </g>
-                        <g id="Ellipse_19" transform="translate(4.592593, 4.592593)">
-                            <circle id="Oval" cx="10.9074074" cy="10.9074074" r="10.9074074"></circle>
-                            <circle id="Oval" stroke="#707070" cx="10.9074074" cy="10.9074074" r="10.3333333"></circle>
-                        </g>
-                    </g>
-                    <g id="part_button" transform="translate(0.000000, 53.000000)">
-                        <g id="Group">
-                            <g id="Ellipse_17-2">
-                                <g id="path-13-link" fill="#000000" fill-rule="nonzero">
-                                    <circle id="path-13" cx="15.5" cy="15.5" r="15.5"></circle>
-                                </g>
-                                <g id="path-13-link" fill="#FFFFFF">
-                                    <circle id="path-13" cx="15.5" cy="15.5" r="15.5"></circle>
-                                </g>
-                            </g>
-                        </g>
-                        <g id="Group">
-                            <g id="Ellipse_17-2">
-                                <g id="path-15-link" fill="#000000" fill-rule="nonzero">
-                                    <circle id="path-15" cx="15.5" cy="15.5" r="15.5"></circle>
-                                </g>
-                                <g id="path-15-link" fill="#FFFFFF">
-                                    <circle id="path-15" cx="15.5" cy="15.5" r="15.5"></circle>
-                                </g>
-                            </g>
-                        </g>
-                        <g id="Ellipse_19" transform="translate(4.592593, 4.592593)">
-                            <circle id="Oval" cx="10.9074074" cy="10.9074074" r="10.9074074"></circle>
-                            <circle id="Oval" stroke="#707070" cx="10.9074074" cy="10.9074074" r="10.3333333"></circle>
-                        </g>
-                    </g>
-                    <g id="part_button" transform="translate(0.000000, 165.000000)">
-                        <g id="Group">
-                            <g id="Ellipse_17-2">
-                                <g id="path-17-link" fill="#000000" fill-rule="nonzero">
-                                    <circle id="path-17" cx="15.5" cy="15.5" r="15.5"></circle>
-                                </g>
-                                <g id="path-17-link" fill="#FFFFFF">
-                                    <circle id="path-17" cx="15.5" cy="15.5" r="15.5"></circle>
-                                </g>
-                            </g>
-                        </g>
-                        <g id="Group">
-                            <g id="Ellipse_17-2">
-                                <g id="path-19-link" fill="#000000" fill-rule="nonzero">
-                                    <circle id="path-19" cx="15.5" cy="15.5" r="15.5"></circle>
-                                </g>
-                                <g id="path-19-link" fill="#FFFFFF">
-                                    <circle id="path-19" cx="15.5" cy="15.5" r="15.5"></circle>
-                                </g>
-                            </g>
-                        </g>
-                        <g id="Ellipse_19" transform="translate(4.592593, 4.592593)">
-                            <circle id="Oval" cx="10.9074074" cy="10.9074074" r="10.9074074"></circle>
-                            <circle id="Oval" stroke="#707070" cx="10.9074074" cy="10.9074074" r="10.3333333"></circle>
-                        </g>
-                    </g>
-                    <g id="part_button" transform="translate(0.000000, 238.000000)">
-                        <g id="Group">
-                            <g id="Ellipse_17-2">
-                                <g id="path-21-link" fill="#000000" fill-rule="nonzero">
-                                    <circle id="path-21" cx="15.5" cy="15.5" r="15.5"></circle>
-                                </g>
-                                <g id="path-21-link" fill="#FFFFFF">
-                                    <circle id="path-21" cx="15.5" cy="15.5" r="15.5"></circle>
-                                </g>
-                            </g>
-                        </g>
-                        <g id="Group">
-                            <g id="Ellipse_17-2">
-                                <g id="path-23-link" fill="#000000" fill-rule="nonzero">
-                                    <circle id="path-23" cx="15.5" cy="15.5" r="15.5"></circle>
-                                </g>
-                                <g id="path-23-link" fill="#FFFFFF">
-                                    <circle id="path-23" cx="15.5" cy="15.5" r="15.5"></circle>
-                                </g>
-                            </g>
-                        </g>
-                        <g id="Ellipse_19" transform="translate(4.592593, 4.592593)">
-                            <circle id="Oval" cx="10.9074074" cy="10.9074074" r="10.9074074"></circle>
-                            <circle id="Oval" stroke="#707070" cx="10.9074074" cy="10.9074074" r="10.3333333"></circle>
-                        </g>
-                    </g>
-                    <g id="part_button" transform="translate(85.000000, 161.000000)">
-                        <g id="Group">
-                            <g id="Ellipse_17-2">
-                                <g id="path-25-link" fill="#000000" fill-rule="nonzero">
-                                    <circle id="path-25" cx="15.5" cy="15.5" r="15.5"></circle>
-                                </g>
-                                <g id="path-25-link" fill="#FFFFFF">
-                                    <circle id="path-25" cx="15.5" cy="15.5" r="15.5"></circle>
-                                </g>
-                            </g>
-                        </g>
-                        <g id="Group">
-                            <g id="Ellipse_17-2">
-                                <g id="path-27-link" fill="#000000" fill-rule="nonzero">
-                                    <circle id="path-27" cx="15.5" cy="15.5" r="15.5"></circle>
-                                </g>
-                                <g id="path-27-link" fill="#FFFFFF">
-                                    <circle id="path-27" cx="15.5" cy="15.5" r="15.5"></circle>
-                                </g>
-                            </g>
-                        </g>
-                        <g id="Ellipse_19" transform="translate(4.592593, 4.592593)">
-                            <circle id="Oval" cx="10.9074074" cy="10.9074074" r="10.9074074"></circle>
-                            <circle id="Oval" stroke="#707070" cx="10.9074074" cy="10.9074074" r="10.3333333"></circle>
-                        </g>
-                    </g>
-                    <g id="part_button" transform="translate(54.000000, 44.000000)">
-                        <g id="Group">
-                            <g id="Ellipse_17-2">
-                                <g id="path-29-link" fill="#000000" fill-rule="nonzero">
-                                    <circle id="path-29" cx="15.5" cy="15.5" r="15.5"></circle>
-                                </g>
-                                <g id="path-29-link" fill="#FFFFFF">
-                                    <circle id="path-29" cx="15.5" cy="15.5" r="15.5"></circle>
-                                </g>
-                            </g>
-                        </g>
-                        <g id="Group">
-                            <g id="Ellipse_17-2">
-                                <g id="path-31-link" fill="#000000" fill-rule="nonzero">
-                                    <circle id="path-31" cx="15.5" cy="15.5" r="15.5"></circle>
-                                </g>
-                                <g id="path-31-link" fill="#FFFFFF">
-                                    <circle id="path-31" cx="15.5" cy="15.5" r="15.5"></circle>
-                                </g>
-                            </g>
-                        </g>
-                        <g id="Ellipse_19" transform="translate(4.592593, 4.592593)">
-                            <circle id="Oval" cx="10.9074074" cy="10.9074074" r="10.9074074"></circle>
-                            <circle id="Oval" stroke="#707070" cx="10.9074074" cy="10.9074074" r="10.3333333"></circle>
-                        </g>
-                    </g>
-                </g>
-                <g id="popup" transform="translate(0.000000, 278.000000)">
-                    <g id="popup-2" transform="translate(180.628426, 57.500000) scale(-1, 1) translate(-180.628426, -57.500000) translate(0.128426, 0.000000)">
-                        <g id="path-33-link" fill="#000000" fill-rule="nonzero">
-                            <path d="M20.2429907,22.0403297 C23.616825,22.0403297 145.440265,22.0415495 145.440265,22.0415495 L158.128427,0 L171.193847,22.0403297 L339.885436,22.0403297 C351.065331,22.0403297 360.128427,31.8703854 360.128427,43.9963736 L360.128427,92.8266154 C360.128427,104.952604 351.065331,114.782659 339.885436,114.782659 L20.2429907,114.782659 C9.06309562,114.782659 -8.31335001e-13,104.952604 -8.31335001e-13,92.8266154 L-8.31335001e-13,43.9963736 C-8.31335001e-13,31.8705385 13.4953271,22.0403297 20.2429907,22.0403297 Z" id="path-33"></path>
-                        </g>
-                        <g id="path-33-link" fill="#FFFFFF">
-                            <path d="M20.2429907,22.0403297 C23.616825,22.0403297 145.440265,22.0415495 145.440265,22.0415495 L158.128427,0 L171.193847,22.0403297 L339.885436,22.0403297 C351.065331,22.0403297 359.628426,31.8703854 359.628426,43.9963736 L359.628426,92.8266154 C359.628426,104.952604 351.065331,114.782659 339.885436,114.782659 L20.2429907,114.782659 C9.06309562,114.782659 -8.31335001e-13,104.952604 -8.31335001e-13,92.8266154 L-8.31335001e-13,43.9963736 C-8.31335001e-13,31.8705385 13.4953271,22.0403297 20.2429907,22.0403297 Z" id="path-33"></path>
-                        </g>
-                    </g>
-                    <g id="We-have-six-differen" transform="translate(61.000000, 43.000000)" fill="#4A4A4A" font-family="Muli-Regular, Muli" font-size="18" font-weight="normal">
-                        <text id="We-have-six-different-body">
-                            <tspan x="0" y="18.989011">We have six different body</tspan>
-                        </text>
-                        <text id="parts-you-can-change-too!">
-                            <tspan x="0" y="43.989011">parts you can change too!</tspan>
-                        </text>
-                    </g>
-                </g>
-            </g>
-            <g id="mini_onboarding_4" transform="translate(21.000000, 109.000000)">
-                <g id="popup-2" transform="translate(180.500000, 55.500000) rotate(180.000000) translate(-180.500000, -55.500000) translate(0.000000, -0.000000)">
-                    <g id="path-35-link" fill="#000000" fill-rule="nonzero">
+            <g id="mini_onboarding_3" transform="translate(21.000000, 109.000000)">
+                <g id="popup-2" transform="translate(180.500000, 55.500000) translate(-180.500000, -55.500000) translate(0.000000, -0.000000)">
+                    <g id="path-35-link" fill="#000000" fill-rule="nonzero" filter="url(#filter-2)">
                         <path d="M20.2919822,1.13686838e-13 C22.5466486,1.13686838e-13 129.351994,1.5476509e-13 340.708018,2.36921593e-13 C351.91497,2.33840725e-13 361,11.7652445 361,26.2784091 L361,84.7215909 C361,99.2347555 351.91497,111 340.708018,111 L20.2919822,111 C9.08502989,111 -8.52651283e-13,99.2347555 -8.52651283e-13,84.7215909 L-8.52651283e-13,26.2784091 C-8.52651283e-13,11.7654277 13.5279881,1.13686838e-13 20.2919822,1.13686838e-13 Z" id="path-35"></path>
                     </g>
                     <g id="path-35-link" fill="#FFFFFF">

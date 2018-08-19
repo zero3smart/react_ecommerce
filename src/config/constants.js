@@ -39,7 +39,7 @@ export const PROP_CONST = {
   top_length: [0, 2, 1, 'length'],
   neckline: [0, 2, 1, 'neckline'],
   shoulder: [0, 4, 1, 'shoulder'],
-  sleeve_length: [0, 5, 3, 'sleeves'], // Actual max value to pass to REST is 4. length 5 means length 4 & tightness 1
+  sleeve_length: [0, 5, 3, 'sleeves'],
   solid: [0, 1, 0, 'solid'],
   pattern: [0, 1, 0, 'pattern'],
   details: [0, 1, 0, 'details'],

@@ -13,11 +13,11 @@ const UNLIKE_PRESET = 'filters/UNLIKE_PRESET'
 
 const defaultState = {
   data: {
-    coretype: 1,
+    coretype: 2,
     collar: 0,
     top_length: 'all',
     neckline: 1,
-    shoulder: 3,
+    shoulder: 1,
     sleeve_length: 3,
     solid: 0,
     pattern: 0,
