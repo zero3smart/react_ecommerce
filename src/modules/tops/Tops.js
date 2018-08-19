@@ -9,6 +9,7 @@ import './tops.css'
 class Tops extends Component {
   static propTypes = {
     products: PropTypes.array,
+    totalCount: PropTypes.number,
     isProductsFetched: PropTypes.bool,
     nextPage: PropTypes.number,
     syncFilter: PropTypes.func.isRequired,
@@ -35,11 +36,15 @@ class Tops extends Component {
    * only applicable on next fetch, if available
    */
   get handleFetch () {
-    const { fetchProducts } = this.props
+    const { products, totalCount, fetchProducts } = this.props
     return (next) => {
-      fetchProducts().then(() => {
+      if (products.length < totalCount) {
+        fetchProducts().then(() => {
+          next()
+        })
+      } else {
         next()
-      })
+      }
     }
   }
 
@@ -64,6 +69,7 @@ class Tops extends Component {
 const mapStateToProps = (state, props) => ({
   filters: state.filters.data,
   products: state.products.list,
+  totalCount: state.products.totalCount,
   isProductsFetched: state.products.fetched,
   nextPage: state.products.nextPage
 })
