@@ -23,6 +23,7 @@ export class Presets extends Component {
     presetBaseURI: PropTypes.string,
     // products
     products: PropTypes.array,
+    totalCount: PropTypes.number,
     isProductsFetched: PropTypes.bool,
     nextPage: PropTypes.number,
     // misc
@@ -52,15 +53,14 @@ export class Presets extends Component {
   }
 
   componentDidMount () {
-    const { fetchPresets, activePresetName, isProductsFetched, syncFilter, fetchProducts } = this.props
-    fetchPresets()
-
-    // don't need to do initial fetch if products is fetched already
-    if (!isProductsFetched) {
-      // make sure the filter is synced with localStorage data
-      syncFilter()
-      fetchProducts(true)
+    const { fetchPresets, activePresetName, syncFilter, fetchProducts, isPresetsFetched } = this.props
+    // don't need to do initial fetch if presets is fetched already
+    if (!isPresetsFetched) {
+      fetchPresets()
     }
+
+    // make sure the filter is synced with localStorage data
+    syncFilter()
 
     // if active preset name exist, fetch product with new data
     if (!isNil(activePresetName)) {
@@ -112,11 +112,15 @@ export class Presets extends Component {
    * only applicable on next fetch, if available
    */
   get handleFetch () {
-    const { fetchProducts } = this.props
+    const { products, totalCount, fetchProducts } = this.props
     return (next) => {
-      fetchProducts().then(() => {
+      if (products.length < totalCount) {
+        fetchProducts().then(() => {
+          next()
+        })
+      } else {
         next()
-      })
+      }
     }
   }
 
@@ -208,6 +212,7 @@ const mapStateToProps = (state, props) => ({
   // products
   filters: state.filters.data,
   products: state.products.list,
+  totalCount: state.products.totalCount,
   isProductsFetched: state.products.fetched,
   nextPage: state.products.nextPage
 })
