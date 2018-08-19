@@ -114,8 +114,9 @@ def merge_svgs():
     ]
 
 
-    print('Writing into bundle')
-    with open('vf_bundle.svg', 'w') as f:
+    fn = '../../../public/svg/vf_bundle.svg'
+    print('Combining svgs into', fn)
+    with open(fn, 'w') as f:
         f.write('<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n')
         f.write('<svg><g id="bodypart_area" transform="scale(1.35) translate(50, 15)">')
         for svg in upper_svgs:

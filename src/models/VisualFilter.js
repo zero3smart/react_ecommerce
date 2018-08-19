@@ -70,7 +70,7 @@ export default class VisualFilter {
       this.snapGroup.attr({ visibility: 'hidden' })
 
       VisualFilter.showGroup(this.snap, 'full-body')
- 
+
       this.handleBodyPartClick('coretype')
 
       for (let prop in this.currentPropState) {
@@ -150,12 +150,11 @@ export default class VisualFilter {
         this.updateThumbnailSelectionBox('coretype')
       }
     }
-    if (newPropState['coretype'].toString() === '0')
-    {
+    if (newPropState['coretype'].toString() === '0') {
       VisualFilter.hideGroup(this.snap, 'length_0')
       VisualFilter.hideGroup(this.snap, 'length_1')
       VisualFilter.hideGroup(this.snap, 'length_2')
-      VisualFilter.hideGroup(this.snap, 'length_all')        
+      VisualFilter.hideGroup(this.snap, 'length_all')
     }
   }
 
@@ -226,9 +225,7 @@ export default class VisualFilter {
       }
 
       this.updateThumbnailSelectionBox(prop)
-    }
-    else
-    {
+    } else {
       VisualFilter.removeHighlight(this.snap)
     }
     this.previousProp = prop
@@ -397,8 +394,7 @@ export default class VisualFilter {
   }
 
   static removeHighlight (snap) {
-    if (!isNil(VisualFilter.lastHighlightId))
-    {
+    if (!isNil(VisualFilter.lastHighlightId)) {
       VisualFilter.hideGroup(snap, VisualFilter.lastHighlightId)
       VisualFilter.lastHighlightId = null
     }
