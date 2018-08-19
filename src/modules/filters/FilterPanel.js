@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import isEqual from 'lodash-es/isEqual'
 import closeSvgSrc from 'assets/svg/close.svg'
@@ -7,7 +7,7 @@ import { VisualFilter } from 'models'
 import { LikeButton } from 'ui-kits/buttons'
 import './filter-panel.css'
 
-export default class FilterPanel extends PureComponent {
+export default class FilterPanel extends Component {
   static propTypes = {
     filters: PropTypes.object,
     favorite: PropTypes.bool,
@@ -70,8 +70,8 @@ export default class FilterPanel extends PureComponent {
   }
 
   get handleBodyPartFilter () {
-    const { filters, onFilterChange } = this.props
     return (bodyPartFilters) => {
+      const { filters, onFilterChange } = this.props
       onFilterChange({ ...filters, ...bodyPartFilters })
     }
   }
