@@ -2,7 +2,7 @@
   width: 100%;
   height: calc(100% - 69px);
   padding-top: 10px;
-  overflow: auto;
+  overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -91,7 +91,7 @@
 }
 
 .PresetsInnerWrapper.splitView .PresetsInnerWrapper-presets {
-  overflow: auto;
+  overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   margin-left: -5px;
   margin-right: -5px;

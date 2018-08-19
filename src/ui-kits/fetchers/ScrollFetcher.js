@@ -119,7 +119,7 @@ export default ScrollFetcher
 
 const styles = {
   wrapper: {
-    overflow: 'auto',
+    overflowY: 'scroll',
     overflowScrolling: 'touch',
     WebkitOverflowScrolling: 'touch'
   },
