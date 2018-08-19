@@ -45,3 +45,15 @@ To avoid conflict and better imports readability, aliases were provided by using
 - To update docker script, go to `/docker/` directory and modify `Dockerfile`. Docker compose file is located on root directory.
 - There are environment variable configurations for mobile web (`/docker/.env`) and desktop web (`/docker/.env.desktop`). (PRODUCTION)
 - You can also modify the nginx configuration at `/docker/nginx.conf` to change routing / redirect rules.
+
+# Tips
+Add these extension in your **chrome** browser to help with debugging:
+- [React DevTools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en)
+- [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)
+
+For vscode users, please install [eslint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) addons and add this to vscode user settings:
+```
+"eslint.options": {
+    "configFile": ".eslintrc"
+}
+```
