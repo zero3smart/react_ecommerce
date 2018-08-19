@@ -9,9 +9,6 @@ import isEqual from 'lodash-es/isEqual'
 import { PROP_CONST, THUMBNAIL_IMG_X_OFFSET, THUMBNAIL_X_OFFSET, THUMBNAIL_Y_OFFSET } from 'config/constants'
 const { Snap, localStorage } = window
 
-const HIGHLIGHTED_ATTR_SHOW = { stroke: '#FB9F84', strokeWidth: '3' }
-const HIGHLIGHTED_ATTR_HIDE = { stroke: null, strokeWidth: null }
-
 export default class VisualFilter {
   currentThumbnail = 'neckline'
   currentPropState = {
@@ -25,7 +22,7 @@ export default class VisualFilter {
   onboardingStage = 0
   colorPalletteOpened = 0
   svgLoaded = false
-
+  lastHighlightId = null
   constructor (selector = '#svg', options = {}) {
     this.settings = {
       ...defaultOptions,
@@ -69,18 +66,17 @@ export default class VisualFilter {
       this.svgLoaded = true
       this.snapGroup = this.snap.group()
       this.snapGroup.append(frag)
+      // Hide all object and show what we want only later
       this.snapGroup.attr({ visibility: 'hidden' })
 
       VisualFilter.showGroup(this.snap, 'full-body')
-
-      // init_filter_buttons(s)
+ 
       this.handleBodyPartClick('coretype')
 
       for (let prop in this.currentPropState) {
         this.propGrpn = PROP_CONST[prop][3]
         VisualFilter.showGroup(this.snap, this.propGrpn + '_' + this.currentPropState[prop])
       }
-
       // onboarding
       if (!hideOnboarding && VisualFilter.shouldShowOnboarding()) {
         Snap.load(svgOnboardingSource, (frag) => {
@@ -132,29 +128,34 @@ export default class VisualFilter {
   }
 
   updateState (filters) {
+    if (!this.svgLoaded) {
+      return
+    }
     const newPropState = this.getbodyPartFilters(filters)
     // only update when svg is loaded and has changes on filters
-    if (this.svgLoaded && !isEqual(this.currentPropState, newPropState)) {
+    if (!isEqual(this.currentPropState, newPropState)) {
       // body part visibility handler
       for (let prop in newPropState) {
         this.propGrpn = PROP_CONST[prop][3]
 
         // hide previous bodypart
-        VisualFilter.hideGroup(this.snap, this.propGrpn + '_' + this.currentPropState[prop], HIGHLIGHTED_ATTR_HIDE)
+        VisualFilter.hideGroup(this.snap, this.propGrpn + '_' + this.currentPropState[prop])
         // show next bodypart
         VisualFilter.showGroup(this.snap, this.propGrpn + '_' + newPropState[prop])
       }
-
       // update current prop state after body part visibility handler done
       this.currentPropState = newPropState
 
       if (!this.settings.hideThumbnail) {
-        // highlight coretype on state update
-        this.removeAllHighlight()
-        VisualFilter.highlightGroup(this.snap, PROP_CONST['coretype'][3] + '_' + newPropState['coretype'])
-        // update thumbnail selection box
         this.updateThumbnailSelectionBox('coretype')
       }
+    }
+    if (newPropState['coretype'].toString() === '0')
+    {
+      VisualFilter.hideGroup(this.snap, 'length_0')
+      VisualFilter.hideGroup(this.snap, 'length_1')
+      VisualFilter.hideGroup(this.snap, 'length_2')
+      VisualFilter.hideGroup(this.snap, 'length_all')        
     }
   }
 
@@ -193,6 +194,7 @@ export default class VisualFilter {
         this.handleBodyPartClick('shoulder')
         break
       case 3:
+      default:
         VisualFilter.hideGroup(this.snap, 'mini_onboarding_touch')
         VisualFilter.hideGroup(this.snap, 'mini_onboarding_3')
         this.handleOnboardingFinished()
@@ -209,6 +211,9 @@ export default class VisualFilter {
   handleBodyPartClick (prop) {
     if (this.currentThumbnail.valueOf() === prop.valueOf()) {
       this.cyclePropSelection(prop)
+    } else {
+      VisualFilter.removeHighlight(this.snap)
+      VisualFilter.highlightGroup(this.snap, PROP_CONST[prop][3] + '_' + this.currentPropState[prop])
     }
 
     if (!this.settings.hideThumbnail) {
@@ -220,15 +225,12 @@ export default class VisualFilter {
         VisualFilter.adjustHeight(this.snap, newTnGrp)
       }
 
-      // show / hide highlight on initial select (when prop changed)
-      if (this.previousProp !== prop) {
-        this.removeAllHighlight()
-        VisualFilter.highlightGroup(this.snap, PROP_CONST[prop][3] + '_' + this.currentPropState[prop])
-      }
-
       this.updateThumbnailSelectionBox(prop)
     }
-
+    else
+    {
+      VisualFilter.removeHighlight(this.snap)
+    }
     this.previousProp = prop
   }
 
@@ -264,18 +266,18 @@ export default class VisualFilter {
 
     if (this.settings.useVerticalThumb) {
       // on vertical thumbnails view, all should be at first
-      if (parseInt(tnIdx) === 0) {
+      if (parseInt(tnIdx, 10) === 0) {
         thumbIndex = 'all'
       } else {
-        thumbIndex = parseInt(tnIdx) - 1
+        thumbIndex = parseInt(tnIdx, 10) - 1
       }
       VisualFilter.showVerticalSelectionBox(this.snap, this.currentThumbnail, thumbIndex)
     } else {
       // on horizontal thumbnails view, all should be at last
-      if (parseInt(tnIdx) === PROP_CONST[this.currentThumbnail][1] + 1) {
+      if (parseInt(tnIdx, 10) === PROP_CONST[this.currentThumbnail][1] + 1) {
         thumbIndex = 'all'
       }
-      VisualFilter.showHorizontalSelectionBox(this.snap, this.currentThumbnail, parseInt(tnIdx))
+      VisualFilter.showHorizontalSelectionBox(this.snap, this.currentThumbnail, parseInt(tnIdx, 10))
     }
 
     this.changePropSelection(this.currentThumbnail, thumbIndex)
@@ -285,7 +287,7 @@ export default class VisualFilter {
     if (this.currentPropState[prop] === 'all') {
       this.changePropSelection(prop, '0')
     } else {
-      let next = parseInt(this.currentPropState[prop]) + 1
+      let next = parseInt(this.currentPropState[prop], 10) + 1
       if (next === PROP_CONST[this.currentThumbnail][1] + 1) {
         next = 'all'
       }
@@ -296,7 +298,7 @@ export default class VisualFilter {
   changePropSelection (prop, sel, requestChange = true) {
     this.propGrpn = PROP_CONST[prop][3]
 
-    VisualFilter.hideGroup(this.snap, this.propGrpn + '_' + this.currentPropState[prop], HIGHLIGHTED_ATTR_HIDE)
+    VisualFilter.hideGroup(this.snap, this.propGrpn + '_' + this.currentPropState[prop])
     VisualFilter.showGroup(this.snap, this.propGrpn + '_' + sel)
 
     /**
@@ -307,48 +309,40 @@ export default class VisualFilter {
      * When top_length is moving to 1 / 2 / 3 / all and core type is is 0, change coretype to 1
      */
     if (prop === 'coretype') {
-      if (sel === '0') { // change top length to 0
-        // save top length when there is no value stored
-        if (isNil(this.savedTopLength)) {
-          this.savedTopLength = this.currentPropState['top_length']
-        }
+      if (sel === 0) { // coretype is moving to 0. Change top length to 0 also
+        this.savedTopLength = this.currentPropState['top_length']
+        VisualFilter.hideGroup(this.snap, 'length_' + this.currentPropState['top_length'])
         // change top length to 0
         this.currentPropState['top_length'] = 0
-        // hide saved top length image
-        VisualFilter.hideGroup(this.snap, 'length_' + this.savedTopLength)
         // show 0 top length image
         VisualFilter.showGroup(this.snap, 'length_0')
-      } else { // restore top length
-        // restore saved top length if available
-        if (this.savedTopLength) {
+      } else if (this.currentPropState['coretype'] === 0) { // coretype is moving away from 0. Restore top length
+        VisualFilter.hideGroup(this.snap, 'length_0')
+        VisualFilter.hideGroup(this.snap, 'length_1')
+        VisualFilter.hideGroup(this.snap, 'length_2')
+        VisualFilter.hideGroup(this.snap, 'length_all')
+        if (isNil(this.savedTopLength)) {
+          VisualFilter.showGroup(this.snap, 'length_0')
+        } else {
+          VisualFilter.showGroup(this.snap, 'length_' + this.savedTopLength)
           this.currentPropState['top_length'] = this.savedTopLength
           this.savedTopLength = null
         }
-        // show saved top length image
-        VisualFilter.showGroup(this.snap, 'length_' + this.currentPropState['top_length'])
-        // hide 0 top length image
-        VisualFilter.hideGroup(this.snap, 'length_0')
       }
-    } else if (prop === 'top_length' && sel !== '0' && this.currentPropState['coretype'] === '0') {
+    }
+    if (prop === 'top_length' && this.currentPropState['coretype'] === 0) {
       VisualFilter.hideGroup(this.snap, 'top_core_0')
       VisualFilter.showGroup(this.snap, 'top_core_1')
-      this.currentPropState['coretype'] = '1' // Avoid recursion
+      this.currentPropState['coretype'] = 1 // Avoid recursion
     }
+
+    VisualFilter.removeHighlight(this.snap)
+    VisualFilter.highlightGroup(this.snap, this.propGrpn + '_' + sel)
 
     this.currentPropState[prop] = sel
     if (requestChange) {
       this.settings.onFilterChange(this.currentPropState)
     }
-  }
-
-  /**
-   * remove all highlight
-   */
-  removeAllHighlight () {
-    const group = VisualFilter.findGroupById(this.snap, 'full-body')
-    group.parent().selectAll('g>g').forEach(child => {
-      child.attr(HIGHLIGHTED_ATTR_HIDE)
-    })
   }
 
   /**
@@ -373,6 +367,7 @@ export default class VisualFilter {
   static showGroup (snap, id, extraProps = {}) {
     const group = VisualFilter.findGroupById(snap, id)
     group.attr({ visibility: 'visible', ...extraProps })
+    return group
   }
 
   /**
@@ -392,22 +387,21 @@ export default class VisualFilter {
    * @param {string} id
    */
   static highlightGroup (snap, id) {
+    id = id + '_HL'
     const group = VisualFilter.findGroupById(snap, id)
-
     // add highlight mask by moving the component to top
-    group.attr(HIGHLIGHTED_ATTR_SHOW)
     // it needs to be the last element to show full highlight (z-index)
     group.appendTo(group.parent())
+    VisualFilter.showGroup(snap, id)
+    VisualFilter.lastHighlightId = id
   }
 
-  /**
-   * Remove highlighted svg group
-   * @param {Object} snap
-   * @param {string} id
-   */
-  static removeHighlightGroup (snap, id) {
-    const group = VisualFilter.findGroupById(snap, id)
-    group && group.attr(HIGHLIGHTED_ATTR_HIDE)
+  static removeHighlight (snap) {
+    if (!isNil(VisualFilter.lastHighlightId))
+    {
+      VisualFilter.hideGroup(snap, VisualFilter.lastHighlightId)
+      VisualFilter.lastHighlightId = null
+    }
   }
 
   /**
