@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import Tabs from 'ui-kits/navigations/Tabs'
-import { fetchProducts, syncFavoriteProducts } from 'yesplz@ducks/products'
-import { setFilter, syncFilter, syncFavoritePresets } from 'yesplz@ducks/filters'
+import { syncFavoriteProducts } from 'yesplz@ducks/products'
+import { syncFilter, syncFavoritePresets } from 'yesplz@ducks/filters'
 import { ProductList, ProductGridCompact } from 'yesplz@modules/products'
 import Presets from 'modules/presets/Presets'
 import './favorites.css'
@@ -14,52 +14,23 @@ class Favorites extends Component {
     favoriteType: PropTypes.string,
     products: PropTypes.array,
     presets: PropTypes.array,
-    isProductsFetched: PropTypes.bool,
     nextPage: PropTypes.number,
     match: PropTypes.object,
-    fetchProducts: PropTypes.func.isRequired,
     syncFilter: PropTypes.func.isRequired,
     syncFavoritePresets: PropTypes.func.isRequired,
-    syncFavoriteProducts: PropTypes.func.isRequired,
-    setFilter: PropTypes.func.isRequired
+    syncFavoriteProducts: PropTypes.func.isRequired
   }
 
   componentDidMount () {
-    const { isProductsFetched, syncFilter, syncFavoritePresets, syncFavoriteProducts, fetchProducts } = this.props
+    const { syncFilter, syncFavoritePresets, syncFavoriteProducts } = this.props
 
-    // don't need to do initial fetch if products is fetched already
-    if (!isProductsFetched) {
-      syncFilter()
-      fetchProducts(true)
-    }
+    syncFilter()
     syncFavoritePresets()
     syncFavoriteProducts()
   }
 
-  /**
-   * only applicable on next fetch, if available
-   */
-  get handleFetch () {
-    const { fetchProducts } = this.props
-    return (next) => {
-      fetchProducts().then(() => {
-        next()
-      })
-    }
-  }
-
-  get handleFilterChange () {
-    const { fetchProducts, setFilter } = this.props
-    return (filters) => {
-      // set filter to store
-      setFilter(filters)
-      // fetch products based selected filter
-      fetchProducts(true)
-    }
-  }
-
   render () {
-    const { products, presets, isProductsFetched, nextPage, favoriteType, match } = this.props
+    const { products, presets, nextPage, favoriteType, match } = this.props
 
     const showFits = favoriteType === 'fits'
     const tabNav = (
@@ -75,16 +46,22 @@ class Favorites extends Component {
       <div className='Favorites'>
         {
           showFits ? (
-            <Presets presets={presets} show presetBaseURI='/favorites/fits' extraItem={tabNav} style={styles.presets} match={match} />
+            <Presets
+              presets={presets}
+              presetBaseURI='/favorites/fits'
+              extraItem={tabNav}
+              style={styles.presets}
+              match={match}
+              show />
           ) : (
             <ProductList
               id='MainScroll'
-              show={isProductsFetched}
               products={products}
               nextPage={nextPage}
               extraItem={tabNav}
               className='Favorites-products'
-              showSalePrice>
+              showSalePrice
+              show>
               {props => <ProductGridCompact {...props} />}
             </ProductList>
           )
@@ -98,18 +75,15 @@ const mapStateToProps = (state, props) => ({
   favoriteType: props.match.params.favoriteType,
   products: state.products.favoriteLists,
   presets: state.filters.favoritePresets,
-  isProductsFetched: state.products.fetched,
   nextPage: state.products.nextPage
 })
 
 export default connect(
   mapStateToProps,
   {
-    fetchProducts,
     syncFilter,
     syncFavoritePresets,
-    syncFavoriteProducts,
-    setFilter
+    syncFavoriteProducts
   }
 )(Favorites)
 
