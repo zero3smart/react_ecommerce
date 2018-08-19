@@ -54,6 +54,11 @@ class ProductFilter extends Component {
       setFilter(filters)
       // fetch products based selected filter
       fetchProducts(true)
+      // set wrapper scrolltop to 0
+      const scrollWrapper = document.getElementById('MainScroll')
+      if (scrollWrapper) {
+        scrollWrapper.scrollTop = 0
+      }
       // if it's not in Tops page, redirect to Tops page
       if (this.props.router.location.pathname !== '/') {
         history.push('/')

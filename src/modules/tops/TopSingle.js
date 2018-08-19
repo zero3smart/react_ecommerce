@@ -13,6 +13,7 @@ class TopSingle extends Component {
     productId: PropTypes.string.isRequired,
     product: PropTypes.object.isRequired,
     relatedProducts: PropTypes.array.isRequired,
+    totalCount: PropTypes.number.isRequired,
     nextPage: PropTypes.number,
     scrollBellowTheFold: PropTypes.bool,
     fetchProduct: PropTypes.func.isRequired,
@@ -54,13 +55,17 @@ class TopSingle extends Component {
    * only applicable on next fetch, if available
    */
   get handleFetchNext () {
-    const { productId, fetchRelatedProducts } = this.props
+    const { productId, relatedProducts, fetchRelatedProducts, totalCount } = this.props
     return (next) => {
-      // fetch next related products
-      this.relatedsRequest = fetchRelatedProducts(productId)
-      this.relatedsRequest.then(() => {
+      if (relatedProducts.length < totalCount) {
+        // fetch next related products
+        this.relatedsRequest = fetchRelatedProducts(productId)
+        this.relatedsRequest.then(() => {
+          next()
+        })
+      } else {
         next()
-      })
+      }
     }
   }
 
@@ -120,6 +125,7 @@ const mapStateToProps = (state, props) => ({
   isProductFetched: state.product.fetched,
   isRelatedProductsFetched: state.product.relatedProductsFetched,
   relatedProducts: state.product.relatedProducts,
+  totalCount: state.product.totalCount,
   nextPage: state.product.nextPage,
   scrollBellowTheFold: state.product.scrollBellowTheFold
 })

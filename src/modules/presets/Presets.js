@@ -29,8 +29,11 @@ export class Presets extends Component {
   }
 
   componentDidMount () {
-    const { fetchPresets } = this.props
-    fetchPresets()
+    const { fetchPresets, isPresetsFetched } = this.props
+    // don't need to do initial fetch if presets is fetched already
+    if (!isPresetsFetched) {
+      fetchPresets()
+    }
   }
 
   get handlePresetClick () {
@@ -93,7 +96,7 @@ export class Presets extends Component {
 
 const mapStateToProps = (state, props) => ({
   presets: props.presets || state.filters.presets,
-  isPresetsFetched: state.filters.presetsFetched
+  isPresetsFetched: props.show || state.filters.presetsFetched
 })
 
 export default connect(
