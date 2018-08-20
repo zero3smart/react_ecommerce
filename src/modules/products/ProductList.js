@@ -96,29 +96,31 @@ class ProductList extends Component {
       <ScrollFetcher id={id} onFetch={onFetch} onScroll={this.handleScroll} className={className} style={styles.wrapper} disableInitalFetch>
         {extraItem}
         {!show && <DotLoader visible style={styles.loader} />}
-        <Transition show={show} transition={useMinimumAnimation ? 'fadeIn' : 'fadeInUp'}>
-          {
-            products.map((product, index) => {
-              const props = {
-                key: product.product_id,
-                id: product.product_id,
-                name: product.name,
-                brand: product.brand,
-                price: product.price,
-                originalPrice: showSalePrice ? product.original_price : undefined,
-                favorite: product.favorite,
-                imgSrc: product.front_img,
-                rawData: product,
-                onToggleLike: this.toggleProductLike,
-                style: {
-                  // `ProducGrid` need be showed directly in each page
-                  animationDelay: `${useMinimumAnimation ? 0 : 50 * (index - loadedProductsCount)}ms`
+        <div className='ProductList-wrapper'>
+          <Transition show={show} transition={useMinimumAnimation ? 'fadeIn' : 'fadeInUp'}>
+            {
+              products.map((product, index) => {
+                const props = {
+                  key: product.product_id,
+                  id: product.product_id,
+                  name: product.name,
+                  brand: product.brand,
+                  price: product.price,
+                  originalPrice: showSalePrice ? product.original_price : undefined,
+                  favorite: product.favorite,
+                  imgSrc: product.front_img,
+                  rawData: product,
+                  onToggleLike: this.toggleProductLike,
+                  style: {
+                    // `ProducGrid` need be showed directly in each page
+                    animationDelay: `${useMinimumAnimation ? 0 : 50 * (index - loadedProductsCount)}ms`
+                  }
                 }
-              }
-              return children(props)
-            })
-          }
-        </Transition>
+                return children(props)
+              })
+            }
+          </Transition>
+        </div>
       </ScrollFetcher>
     )
   }
