@@ -61,7 +61,7 @@ export default class Preset extends Component {
   componentDidMount () {
     const { id } = this.props
     // initialize body part
-    this.bodyPart = new VisualFilter(`#${id}`, {
+    this.bodyPart = new VisualFilter(`#${id}-svg`, {
       defaultState: this.bodyPartFilters,
       disableEvent: true,
       hideThumbnail: true,
@@ -100,11 +100,11 @@ export default class Preset extends Component {
     const { id, name, className, favorite, style } = this.props
 
     return (
-      <div onClick={this.handleClick} className={classNames('Preset', { [className]: className })} style={style}>
+      <div id={id} onClick={this.handleClick} className={classNames('Preset', { [className]: className })} style={style}>
         <h2>{name}</h2>
         <div className='Preset-svg'>
           <LikeButton active={favorite} onClick={this.toggleLike} />
-          <svg id={id} />
+          <svg id={`${id}-svg`} />
         </div>
         <div className='Preset-filter'>
           <FabricFilters {...this.fabricFilters} disableEvent />
