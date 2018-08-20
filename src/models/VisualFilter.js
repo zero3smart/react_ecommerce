@@ -49,7 +49,7 @@ export default class VisualFilter {
     let svgSource = ''
     let svgOnboardingSource = ''
     if (useVerticalThumb) {
-      viewBox = [0, 0, 480, 500]
+      viewBox = [0, 0, 480, 380]
       svgSource = `${process.env.PUBLIC_URL}/svg/vf_bundle_thumb_vertical.svg`
       svgOnboardingSource = `${process.env.PUBLIC_URL}/svg/mini_onboarding_thumb_vertical.svg`
     } else {
@@ -220,9 +220,6 @@ export default class VisualFilter {
     this.currentThumbnail = prop
     const newTnGrp = PROP_CONST[prop][3] + '_thumbnails'
     VisualFilter.showGroup(this.snap, newTnGrp)
-    if (this.settings.useVerticalThumb) {
-      VisualFilter.adjustHeight(this.snap, newTnGrp)
-    }
 
     this.updateThumbnailSelectionBox(prop)
   }
