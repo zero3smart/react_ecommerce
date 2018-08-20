@@ -10,7 +10,7 @@ import { PROP_CONST, THUMBNAIL_IMG_X_OFFSET, THUMBNAIL_X_OFFSET, THUMBNAIL_Y_OFF
 const { Snap, localStorage } = window
 
 export default class VisualFilter {
-  currentThumbnail = 'neckline'
+  currentThumbnail = null
   currentPropState = {
     collar: '0',
     coretype: '0',
@@ -72,12 +72,11 @@ export default class VisualFilter {
 
       VisualFilter.showGroup(this.snap, 'full-body')
 
-      this.handleBodyPartClick(this.lastBodyPart)
-
       for (let prop in this.currentPropState) {
         this.propGrpn = PROP_CONST[prop][3]
         VisualFilter.showGroup(this.snap, this.propGrpn + '_' + this.currentPropState[prop])
       }
+
       // onboarding
       if (!hideOnboarding && VisualFilter.shouldShowOnboarding()) {
         Snap.load(svgOnboardingSource, (frag) => {
@@ -132,6 +131,11 @@ export default class VisualFilter {
     if (!this.svgLoaded) {
       return
     }
+
+    if (!this.settings.hideThumbnail && isNil(this.currentThumbnail)) { // Initial update
+      this.switchBodypartThumbnail(this.lastBodyPart)
+    }
+
     const newPropState = this.getbodyPartFilters(filters)
     // only update when svg is loaded and has changes on filters
     if (!isEqual(this.currentPropState, newPropState)) {
@@ -208,31 +212,38 @@ export default class VisualFilter {
     VisualFilter.saveConfig('onboarding_completed', 1)
   }
 
+  switchBodypartThumbnail (prop) {
+    console.log('switchBodypartThumbnail', prop)
+    if (!isNil(this.currentThumbnail)) {
+      VisualFilter.hideGroup(this.snap, PROP_CONST[this.currentThumbnail][3] + '_thumbnails')
+    }
+    this.currentThumbnail = prop
+    const newTnGrp = PROP_CONST[prop][3] + '_thumbnails'
+    VisualFilter.showGroup(this.snap, newTnGrp)
+    if (this.settings.useVerticalThumb) {
+      VisualFilter.adjustHeight(this.snap, newTnGrp)
+    }
+
+    this.updateThumbnailSelectionBox(prop)
+  }
+
   handleBodyPartClick (prop) {
     if (this.currentThumbnail.valueOf() === prop.valueOf()) {
       this.cyclePropSelection(prop)
-    } else {
-      VisualFilter.removeHighlight(this.snap)
-      VisualFilter.highlightGroup(this.snap, PROP_CONST[prop][3] + '_' + this.currentPropState[prop])
     }
-    this.lastBodyPart = prop
-    
-    if (!this.settings.hideThumbnail) {
-      VisualFilter.hideGroup(this.snap, PROP_CONST[this.currentThumbnail][3] + '_thumbnails')
-      this.currentThumbnail = prop
-      const newTnGrp = PROP_CONST[this.currentThumbnail][3] + '_thumbnails'
-      VisualFilter.showGroup(this.snap, newTnGrp)
-      if (this.settings.useVerticalThumb) {
-        VisualFilter.adjustHeight(this.snap, newTnGrp)
-      }
 
-      this.updateThumbnailSelectionBox(prop)
-    } else {
-      VisualFilter.removeHighlight(this.snap)
+    this.lastBodyPart = prop
+
+    if (!this.settings.hideThumbnail) {
+      this.switchBodypartThumbnail(prop)
     }
+    // else {
+    //  VisualFilter.removeHighlight(this.snap)
+    // }
   }
 
   updateThumbnailSelectionBox (prop) {
+    console.log('updateThumbnailSelectionBox', prop)
     // Display current one
     if (this.settings.useVerticalThumb) {
       // Move thumbnail hit area
@@ -251,6 +262,9 @@ export default class VisualFilter {
 
       VisualFilter.showHorizontalSelectionBox(this.snap, prop, this.currentPropState[prop])
     }
+
+    VisualFilter.removeHighlight(this.snap)
+    VisualFilter.highlightGroup(this.snap, PROP_CONST[prop][3] + '_' + this.currentPropState[prop])
   }
 
   /**
@@ -279,6 +293,8 @@ export default class VisualFilter {
     }
 
     this.changePropSelection(this.currentThumbnail, thumbIndex)
+    VisualFilter.removeHighlight(this.snap)
+    VisualFilter.highlightGroup(this.snap, PROP_CONST[this.currentThumbnail][3] + '_' + this.currentPropState[this.currentThumbnail])
   }
 
   cyclePropSelection (prop) {
@@ -333,9 +349,6 @@ export default class VisualFilter {
       VisualFilter.showGroup(this.snap, 'top_core_1')
       this.currentPropState['coretype'] = 1 // Avoid recursion
     }
-
-    VisualFilter.removeHighlight(this.snap)
-    VisualFilter.highlightGroup(this.snap, this.propGrpn + '_' + sel)
 
     this.currentPropState[prop] = sel
     if (requestChange) {
@@ -392,6 +405,7 @@ export default class VisualFilter {
     group.appendTo(group.parent())
     VisualFilter.showGroup(snap, id)
     VisualFilter.lastHighlightId = id
+    console.log('highlightGroup', id)
   }
 
   static removeHighlight (snap) {
