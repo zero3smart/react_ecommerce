@@ -11,17 +11,20 @@
 }
 
 .Favorites-products {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  align-content: flex-start;
-  flex-wrap: wrap;
   padding-top: 10px;
   padding-left: 5px;
   padding-right: 5px;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
+}
+
+.Favorites-products .ProductList-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
 }
 
 .Favorites-products .Product {
