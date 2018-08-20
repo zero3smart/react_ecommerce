@@ -349,7 +349,7 @@ export default class VisualFilter {
    */
   static adjustHeight (snap, id) {
     const group = VisualFilter.findGroupById(snap, id)
-    const componentHeight = group.node.getBBox(0).height + 150
+    const componentHeight = group.node.getBBox().height + 150
     // set minimum height of 400
     const viewBox = [0, 0, 490, componentHeight < 380 ? 380 : componentHeight]
     snap.attr({ viewBox })
