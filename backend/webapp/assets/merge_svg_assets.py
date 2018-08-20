@@ -18,6 +18,7 @@ class VizFilterSvg:
 
     def basic_cleanup(self):
         self.contents = self.contents.replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?>','')
+        self.contents = self.contents.replace('<?xml version="1.0" encoding="UTF-8"?>','')
         self.contents = re.sub(r'<svg width="[0-9]+px" height="[0-9]+px" ', '<svg ', self.contents)
         # Remove unnecessary attributes
         for i in ['data-name']: #, 'width', 'height']:
@@ -26,7 +27,7 @@ class VizFilterSvg:
         for i in ['title', 'desc']:
             self.contents = re.sub(f'<{i}>[^<]*</{i}>','', self.contents)
         self.remove_viewbox()
-        
+       
     def rename_id(self, frm, to):
         g_frm, g_to = f' id=\"{frm}\"', f' id=\"{to}\"'
         cnt = self.contents.count(g_frm)
@@ -35,11 +36,15 @@ class VizFilterSvg:
         assert(cnt == 1)
         self.contents = self.contents.replace(g_frm, g_to)
 
-    def translate(self, id, trans):
+    def translate(self, id, trans, scale=None):
         if re.search(f'<[^>]*id="{id}"[^>]*transform[^>]*>', self.contents):
-            self.contents = re.sub('transform=\"[^\"]*\"',f'transform="translate({trans})"', self.contents, count=1)
+            if scale: dst = f'transform="translate({trans}) scale({scale})"'
+            else:     dst = f'transform="translate({trans})"'
+            self.contents = re.sub('transform=\"[^\"]*\"', dst, self.contents, count=1)
         elif re.search(f'<[^>]*id="{id}"[^>]*>', self.contents):
-            self.contents = self.contents.replace(f'id="{id}"', f'id="{id}" transform="translate({trans})"')
+            if scale: dst = f'id="{id}" transform="translate({trans}) scale({scale})"'
+            else:     dst = f'id="{id}" transform="translate({trans})"'
+            self.contents = self.contents.replace(f'id="{id}"', dst)
         else:
             print('Failed to find entry to transform', self.svg_fn)
 
@@ -49,39 +54,39 @@ class VizFilterSvg:
     def svg(self):
         return self.contents + '\n'
 
-def load_svg_fixed(svg_fn):
+def load_svg_fixed(svg_fn, vertical):
+    # Fix incorrectly ids - fix these in sketch
     id_fixups = {
         #'color_palette_closed' : 'color_0',
-        # 'color_palete_-open'  : 'color_pallete_open', 
-        # 'color_palette_3' : 'color-palette',
-        # 'filter_button_touch_area_0':'solid_touch',
-        # 'filter_button_touch_area_1':'pattern_touch',
-        # 'filter_button_touch_area_2':'details_touch',
-        # 'filter_button_touch_area_3':'color_touch',
-        # 'patterns_0' : 'pattern_0',
-        # 'patterns_1' : 'pattern_1',
-        # 'patterns_touch' :'pattern_touch',
     }
-    tn_y = 320 # Also update vf_common.js:thumbnail_y_offset when this is changed!
-    filter_y = -20 #375
-    pos_fixes = {
-        # 'BodyParts-Touch-Area': 'translate(110, -17)',
-        'length_thumbnails': f'110 {tn_y}', # 4 selections
-        'neckline_thumbnails': f'110 {tn_y}', # 4 selections
-        'shoulder_thumbnails': f'50 {tn_y}', # 6 selections
-        'sleeves_thumbnails': f'10 {tn_y}', # 7 selections
-        'top_collar_thumbnails': f'110 {tn_y}', # 4 selections
-        'top_core_thumbnails': f'72 {tn_y}', # 5 selections
-        #'all-about-filter-buttons-v1': f'40 {filter_y}',
-        # 'all-about-filter-buttons-v1': f'85 {filter_y}',
-        'BodyParts-Touch-Area' : f'-9 -18',
-        # 'color-palette' : f'40 -31',
-    }
+    # Adjust positions
+    if vertical:
+        tn_xy = f'400 20'
+        scale = '1.4'
+        pos_fixes = { i : [tn_xy, scale] for i in [
+            'length_thumbnails',
+            'neckline_thumbnails',
+            'shoulder_thumbnails',
+            'sleeves_thumbnails',
+            'top_collar_thumbnails',
+            'top_core_thumbnails'
+        ] }
+    else:
+        tn_y = 320
+        scale = None
+        pos_fixes = {
+            'length_thumbnails': [f'110 {tn_y}', scale], # 4 selections
+            'neckline_thumbnails': [f'110 {tn_y}', scale], # 4 selections
+            'shoulder_thumbnails': [f'50 {tn_y}', scale], # 6 selections
+            'sleeves_thumbnails': [f'10 {tn_y}', scale], # 7 selections
+            'top_collar_thumbnails': [f'110 {tn_y}', scale], # 4 selections
+            'top_core_thumbnails': [f'72 {tn_y}', scale], # 5 selections
+        }
+    pos_fixes.update({'BodyParts-Touch-Area' : [f'-9 -18', None]})
+
+    # Misc fixes
     str_sub_fixes = {
         #'Thumbnail-Highliter.svg' : ['rx="8"', 'rx="8" width="62" height="62"'], 
-        # '.*_0.svg' : ['cls-1', 'cls-0'], # Change cls id for 0 - cls id conflicts with length_x.svg
-        # 'top_core_0.svg' : ['cls-0', 'cls-1'],
-        # '.*_all.svg' : ['cls-1', 'cls-all'], # Change cls id for all - cls id conflicts with length_x.svg
     }
     svg = VizFilterSvg(svg_fn)
     for k, v in id_fixups.items():
@@ -89,43 +94,49 @@ def load_svg_fixed(svg_fn):
             svg.rename_id(k, v)
     for k, v in pos_fixes.items():
         if re.search(f'id="{k}"', svg.contents):
-            svg.translate(k, v)
+            xy, scale = v[0], v[1]
+            svg.translate(k, xy, scale)
     for k, v in str_sub_fixes.items():
         if re.search(k, svg_fn):
             svg.str_sub(*v)
     return svg.contents
 
-def merge_svgs():
+def merge_svgs(fn, vertical=False):
     upper_svgs = ['full_body.svg']
     upper_svgs += ['BodyParts-Touch-Area.svg']
+    
+    lower_svgs = ['Thumbnail-Highliter.svg', 'filter_buttons.svg']
 
-    lower_svgs = [
-        'Thumbnail-Highliter.svg',
-        'length_thumbnails.svg', 
-        'neckline_thumbnails.svg',
-        'shoulder_thumbnails.svg',
-        'sleeves_thumbnails.svg',
-        'top_collar_thumbnails.svg',
-        'top_core_thumbnails.svg',
-        'filter_buttons.svg',
-        'Thumbnail_Touch_Area.svg',
-        # 'color_highlighter.svg',
-        # 'color_palette.svg',
-    ]
+    hv_svgs = [
+            'length_thumbnails.svg', 
+            'neckline_thumbnails.svg',
+            'shoulder_thumbnails.svg',
+            'sleeves_thumbnails.svg',
+            'top_collar_thumbnails.svg',
+            'top_core_thumbnails.svg',
+            'Thumbnail_Touch_Area.svg'] # Thumbnail_Touch_Area.svg should be at the bottom
+    lower_svgs += [s.replace('.svg', '_vert.svg') for s in hv_svgs]
 
+    if vertical:
+        bodypart_mod = '<svg><g id="bodypart_area" transform="scale(1.35) translate(30, 15)">'
+    else:
+        bodypart_mod = '<svg><g id="bodypart_area" transform="scale(1.35) translate(50, 15)">'
 
-    fn = '../../../public/svg/vf_bundle.svg'
     print('Combining svgs into', fn)
     with open(fn, 'w') as f:
         f.write('<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n')
-        f.write('<svg><g id="bodypart_area" transform="scale(1.35) translate(50, 15)">')
+        f.write(bodypart_mod)
         for svg in upper_svgs:
-            f.write(load_svg_fixed(svg))
+            f.write(load_svg_fixed(svg, vertical))
         f.write('</g>')
         f.write('<g id="thumbnail_area" transform="translate(0, 10)">')
         for svg in lower_svgs:
-            f.write(load_svg_fixed(svg))
+            f.write(load_svg_fixed(svg, vertical))
         f.write('</g>')
         f.write('</svg>')
+
 if __name__ == '__main__':
-    merge_svgs()
+    outdir = Path('../../../public/svg')
+    merge_svgs(outdir / 'vf_bundle.svg', vertical=False)
+    merge_svgs(outdir / 'vf_bundle_thumb_vertical.svg', vertical=True)
+
