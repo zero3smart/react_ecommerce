@@ -48,7 +48,8 @@ export class Presets extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      splitView: false
+      splitView: false,
+      scrollUpdated: false
     }
   }
 
@@ -74,18 +75,49 @@ export class Presets extends Component {
     }
   }
 
+  componentDidUpdate () {
+    const { scrollUpdated } = this.state
+    // set scroll position to active preset. Only run once.
+    if (!scrollUpdated && this.activePreset) {
+      this.moveScrollToPreset(this.activePreset, 100)
+      // set scroll updated flag
+      this.setState({
+        scrollUpdated: true
+      })
+    }
+  }
+
+  /**
+   * will move presets scroll position to active preset
+   * @param {Object} preset preset element
+   * @param {number} offsetTop relative top position to the scroll wrapper
+   */
+  moveScrollToPreset (preset, offsetTop = 0) {
+    // get active preset top position
+    const activePresetId = preset.props.id
+    const activePresetTop = document.getElementById(activePresetId).getBoundingClientRect().top
+    // get presets wrapper top position
+    const presetsWrapperTop = this.presetList.getBoundingClientRect().top
+
+    // move scroll to active preset position
+    this.scrollWrapperTo(activePresetTop - presetsWrapperTop - offsetTop)
+  }
+
   get handlePresetClick () {
-    const { presetBaseURI, setFilter, fetchProducts, enableInitialFetch } = this.props
+    const { presetBaseURI, setFilter, fetchProducts, enableInitialFetch, activePresetName } = this.props
     return (filters, filterName) => {
       setFilter(filters)
       // fetch products from the beginning after filter applied
       enableInitialFetch()
       fetchProducts(true)
-      // enable split view to show product list
-      history.push(`${presetBaseURI}/${filterName}`)
 
-      // scroll preset list to top
-      this.scrollWrapperTo(0)
+      // if user click on active preset, close the split view
+      if (activePresetName === filterName) {
+        history.push(presetBaseURI)
+      } else {
+        // enable split view to show product list
+        history.push(`${presetBaseURI}/${filterName}`)
+      }
     }
   }
 
@@ -137,6 +169,16 @@ export class Presets extends Component {
     }
   }
 
+  makeGetPresetActivePresetRef (presetName) {
+    const { activePresetName } = this.props
+    return element => {
+      // get only active preset ref
+      if (presetName.trim() === (activePresetName || '').trim()) {
+        this.activePreset = element
+      }
+    }
+  }
+
   render () {
     const { isPresetsFetched, presets, extraItem, isProductsFetched, products, nextPage, activePresetName, style } = this.props
     const splitView = !isNil(activePresetName)
@@ -161,6 +203,7 @@ export class Presets extends Component {
                   const fade = splitView && preset.name.trim() !== (activePresetName || '').trim()
                   return (
                     <Preset
+                      ref={this.makeGetPresetActivePresetRef(preset.name)}
                       key={preset.name}
                       id={`${camelCase(preset.name)}${index}`}
                       name={preset.name}
@@ -177,7 +220,7 @@ export class Presets extends Component {
                       favorite={preset.favorite}
                       onClick={this.handlePresetClick}
                       onToggleLike={this.togglePresetLike}
-                      style={{ animationDelay: `${50 * index}ms`, opacity: fade ? 0.25 : 1, order: fade ? 1 : 0 }}
+                      style={{ animationDelay: `${50 * index}ms`, opacity: fade ? 0.25 : 1 }}
                     />
                   )
                 })
