@@ -23,6 +23,7 @@ export default class VisualFilter {
   colorPalletteOpened = 0
   svgLoaded = false
   lastHighlightId = null
+  lastBodyPart = 'shoulder' // Select shoulder by default
   constructor (selector = '#svg', options = {}) {
     this.settings = {
       ...defaultOptions,
@@ -71,7 +72,7 @@ export default class VisualFilter {
 
       VisualFilter.showGroup(this.snap, 'full-body')
 
-      this.handleBodyPartClick('coretype')
+      this.handleBodyPartClick(this.lastBodyPart)
 
       for (let prop in this.currentPropState) {
         this.propGrpn = PROP_CONST[prop][3]
@@ -147,7 +148,7 @@ export default class VisualFilter {
       this.currentPropState = newPropState
 
       if (!this.settings.hideThumbnail) {
-        this.updateThumbnailSelectionBox('coretype')
+        this.updateThumbnailSelectionBox(this.lastBodyPart)
       }
     }
     if (newPropState['coretype'].toString() === '0') {
@@ -214,7 +215,8 @@ export default class VisualFilter {
       VisualFilter.removeHighlight(this.snap)
       VisualFilter.highlightGroup(this.snap, PROP_CONST[prop][3] + '_' + this.currentPropState[prop])
     }
-
+    this.lastBodyPart = prop
+    
     if (!this.settings.hideThumbnail) {
       VisualFilter.hideGroup(this.snap, PROP_CONST[this.currentThumbnail][3] + '_thumbnails')
       this.currentThumbnail = prop
@@ -228,7 +230,6 @@ export default class VisualFilter {
     } else {
       VisualFilter.removeHighlight(this.snap)
     }
-    this.previousProp = prop
   }
 
   updateThumbnailSelectionBox (prop) {
