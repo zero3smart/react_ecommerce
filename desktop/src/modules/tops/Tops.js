@@ -60,7 +60,7 @@ class Tops extends Component {
           show={isProductsFetched}
           products={products}
           nextPage={nextPage}
-          showSalePrice
+          showOriginalPrice
           className='Tops-products'
           onFetch={this.handleFetch}
         />

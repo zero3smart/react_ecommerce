@@ -60,7 +60,7 @@ class Favorites extends Component {
               nextPage={nextPage}
               extraItem={tabNav}
               className='Favorites-products'
-              showSalePrice
+              showOriginalPrice
               show>
               {props => <ProductGridCompact {...props} />}
             </ProductList>
