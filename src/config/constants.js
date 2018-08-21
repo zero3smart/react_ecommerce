@@ -55,6 +55,10 @@ export const THUMBNAIL_IMG_X_OFFSET = {
 
 export const THUMBNAIL_X_OFFSET = 400 - 6 // Affected by tn_x in merge_svg_asset.py
 export const THUMBNAIL_Y_OFFSET = 320 - 5 // Affected by tn_y in merge_svg_asset.py
+export const THUMBNAIL_TOUCH_AREA_SIZE = {
+  width: 62,
+  height: 62
+}
 export const THUMBNAIL_HIGHLITER_SIZE = {
   width: 62,
   height: 61

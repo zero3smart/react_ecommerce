@@ -6,7 +6,7 @@
 import pick from 'lodash-es/pick'
 import isNil from 'lodash-es/isNil'
 import isEqual from 'lodash-es/isEqual'
-import { PROP_CONST, THUMBNAIL_IMG_X_OFFSET, THUMBNAIL_X_OFFSET, THUMBNAIL_Y_OFFSET, THUMBNAIL_HIGHLITER_SIZE, THUMBNAIL_PADDING } from 'config/constants'
+import { PROP_CONST, THUMBNAIL_IMG_X_OFFSET, THUMBNAIL_X_OFFSET, THUMBNAIL_Y_OFFSET, THUMBNAIL_HIGHLITER_SIZE, THUMBNAIL_TOUCH_AREA_SIZE, THUMBNAIL_PADDING } from 'config/constants'
 const { Snap, localStorage } = window
 
 export default class VisualFilter {
@@ -240,23 +240,54 @@ export default class VisualFilter {
   }
 
   updateThumbnailSelectionBox (prop) {
-    console.log('updateThumbnailSelectionBox', prop)
+    const touchArea = VisualFilter.findGroupById(this.snap, 'Thumbnail_Touch_Area')
     // Display current one
     if (this.settings.useVerticalThumb) {
       // Move thumbnail hit area
       const xoffset = THUMBNAIL_X_OFFSET
       const yoffset = 0
-      let desc = 't' + xoffset + ',' + yoffset
-      VisualFilter.findGroupById(this.snap, 'Thumbnail_Touch_Area').transform(desc)
+      // get target thumbnail
+      const thumbnailGroupWrapper = VisualFilter.findGroupById(this.snap, `${PROP_CONST[prop][3]}_thumbnails`)
+      const thumbnailGroup = VisualFilter.findGroupById(this.snap, `${PROP_CONST[prop][3]}_thumbnails_0`)
+      const thumbnailRect = thumbnailGroup.node.getBoundingClientRect()
 
-      console.debug(prop, this.currentPropState)
+      // get scale value based on thumbnail size, add padding to get more volume.
+      const scale = (thumbnailRect.width + 10) / THUMBNAIL_TOUCH_AREA_SIZE.width
+
+      let desc = `t${xoffset},${yoffset}s${scale},${thumbnailRect.width},0`
+
+      const viewBoxHeight = this.viewBox[3]
+      const svgHeight = this.snap.node.getBoundingClientRect().height
+      const touchAreaRect = touchArea.node.getBoundingClientRect()
+      const thumbnailWrapperRect = thumbnailGroupWrapper.node.getBoundingClientRect()
+      const touchAndThumbnailGap = Math.abs(touchAreaRect.top - thumbnailWrapperRect.top) * viewBoxHeight / svgHeight
+
+      // adjust top position of touch area
+      touchArea.selectAll('g > rect').items.forEach((el, index) => {
+        // for non "ALL" thumbnail, highliter size and position should be adjusted based on thumbnail
+        let thumbnailGroup = VisualFilter.findGroupById(this.snap, `${PROP_CONST[prop][3]}_thumbnails_${index - 1}`)
+
+        // if thumbnail for current index is available, adjust touch area to its position
+        if (thumbnailGroup) {
+          const thumbnailRect = thumbnailGroup.node.getBoundingClientRect()
+          // get y value based on thumbnail position.
+          // the y value should be compared between the original svg size (viewbox) and current svg size (after resize).
+          // get only half padding width, to make it centered.
+          const y = (thumbnailRect.y - thumbnailWrapperRect.y + touchAndThumbnailGap) / scale * viewBoxHeight / svgHeight
+
+          el.attr({ y })
+        }
+      })
+
+      touchArea.transform(desc)
+
       this.showVerticalSelectionBox(prop, this.currentPropState[prop])
     } else {
       // Move thumbnail hit area
       const xoffset = VisualFilter.getThumbnailXOffset(prop) + 15
       const yoffset = THUMBNAIL_Y_OFFSET + 15
       let desc = 't' + xoffset + ',' + yoffset
-      VisualFilter.findGroupById(this.snap, 'Thumbnail_Touch_Area').transform(desc)
+      touchArea.transform(desc)
 
       VisualFilter.showHorizontalSelectionBox(this.snap, prop, this.currentPropState[prop])
     }
