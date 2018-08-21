@@ -91,6 +91,7 @@ class TopSingle extends Component {
           name={product.name}
           brand={product.brand}
           price={product.price}
+          originalPrice={product.original_price}
           imgSrc={product.front_img}
           extraImgs={product.extra_imgs}
           description={product.description}

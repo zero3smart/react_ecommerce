@@ -14,12 +14,6 @@
   max-height: 316px;
 }
 
-.Product-images {
-  grid-area: images;
-  height: 215px;
-  overflow-y: hidden;
-}
-
 .Product .LikeButton {
   position: absolute;
   top: 15px;
@@ -30,6 +24,27 @@
 .Product .LikeButton > button {
   width: 30px;
   height: 30px;
+}
+
+.Product-pricing {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.Product-original-price {
+  text-decoration: line-through;
+  margin-right: 10px;
+}
+
+.Product-price.sale {
+  color: #D0021B;
+}
+
+.Product-images {
+  grid-area: images;
+  height: 215px;
+  overflow-y: hidden;
 }
 
 .Product .Product-images > .slick-slider {

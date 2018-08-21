@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 import { BASE_IMG_PATH } from 'config/constants'
 import { Button, LikeButton } from 'ui-kits/buttons'
 import { likeProduct, unlikeProduct } from 'ducks/product'
@@ -13,6 +14,7 @@ class Product extends PureComponent {
     name: PropTypes.string.isRequired,
     brand: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
+    originalPrice: PropTypes.number,
     imgSrc: PropTypes.string.isRequired,
     extraImgs: PropTypes.array,
     currency: PropTypes.string,
@@ -61,8 +63,10 @@ class Product extends PureComponent {
   }
 
   render () {
-    const { id, name, brand, imgSrc, extraImgs, price, currency, description, favorite, link } = this.props
+    const { id, name, brand, imgSrc, extraImgs, price, originalPrice, currency, description, favorite, link } = this.props
 
+    // sale is available if original price is different with price
+    const isSale = originalPrice && originalPrice !== price
     return (
       <div id={id} className='Product'>
         <LikeButton active={favorite} onClick={this.toggleLike} />
@@ -76,7 +80,10 @@ class Product extends PureComponent {
           <h3>{brand}</h3>
           <h4>{name}</h4>
           <p>{description}</p>
-          <div className='Product-price'>{currency}{price}</div>
+          <div className='Product-pricing'>
+            {isSale && <div className='Product-original-price'>{currency}{originalPrice}</div>}
+            <div className={classNames('Product-price', { sale: isSale })}>{currency}{price}</div>
+          </div>
         </div>
         <div className='Product-footer'>
           <Button to={link}>Buy Now</Button>
