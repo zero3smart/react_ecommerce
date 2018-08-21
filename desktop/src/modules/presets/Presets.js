@@ -235,7 +235,7 @@ export class Presets extends Component {
                 show={isProductsFetched}
                 products={products}
                 nextPage={nextPage}
-                showSalePrice
+                showOriginalPrice
                 className='PresetsInnerWrapper-productList'
                 onFetch={this.handleFetch}
               />

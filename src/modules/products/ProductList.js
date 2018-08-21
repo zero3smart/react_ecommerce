@@ -22,7 +22,7 @@ class ProductList extends Component {
     children: PropTypes.func,
     className: PropTypes.string,
     extraItem: PropTypes.element,
-    showSalePrice: PropTypes.bool,
+    showOriginalPrice: PropTypes.bool,
     onFetch: PropTypes.func.isRequired,
     likeProduct: PropTypes.func.isRequired,
     unlikeProduct: PropTypes.func.isRequired,
@@ -35,7 +35,7 @@ class ProductList extends Component {
     show: false,
     children: childRenderer,
     extraItem: undefined,
-    showSalePrice: false,
+    showOriginalPrice: false,
     onFetch: (next) => { next() },
     onScrollBellowTheFold: (scrollState) => {}
   }
@@ -85,7 +85,7 @@ class ProductList extends Component {
   }
 
   render () {
-    const { id, products, nextPage, show, children, className, extraItem, showSalePrice, onFetch } = this.props
+    const { id, products, nextPage, show, children, className, extraItem, showOriginalPrice, onFetch } = this.props
     const { useMinimumAnimation } = this.state
 
     // get loaded products count
@@ -106,7 +106,8 @@ class ProductList extends Component {
                   name: product.name,
                   brand: product.brand,
                   price: product.price,
-                  originalPrice: showSalePrice ? product.original_price : undefined,
+                  originalPrice: product.original_price,
+                  showOriginalPrice: showOriginalPrice,
                   favorite: product.favorite,
                   imgSrc: product.front_img,
                   rawData: product,

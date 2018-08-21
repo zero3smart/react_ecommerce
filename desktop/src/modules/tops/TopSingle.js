@@ -102,7 +102,7 @@ class TopSingle extends Component {
           products={relatedProducts}
           nextPage={nextPage}
           extraItem={productBox}
-          showSalePrice
+          showOriginalPrice
           onFetch={this.handleFetchNext}
           onScrollBellowTheFold={this.handleScrollBellowTheFold}
           className='TopSingle-products'

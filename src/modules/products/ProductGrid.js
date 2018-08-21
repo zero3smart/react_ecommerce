@@ -13,6 +13,7 @@ export default class ProductGrid extends PureComponent {
     brand: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     originalPrice: PropTypes.number,
+    showOriginalPrice: PropTypes.bool,
     imgSrc: PropTypes.string.isRequired,
     currency: PropTypes.string,
     className: PropTypes.string,
@@ -26,6 +27,7 @@ export default class ProductGrid extends PureComponent {
     currency: '$',
     active: false,
     favorite: false,
+    showOriginalPrice: false,
     className: '',
     onToggleLike: (data, favorite) => { console.debug('ProductGrid - favorite', data) }
   }
@@ -46,7 +48,7 @@ export default class ProductGrid extends PureComponent {
   }
 
   render () {
-    const { id, name, brand, imgSrc, price, originalPrice, currency, className, favorite, style } = this.props
+    const { id, name, brand, imgSrc, price, originalPrice, currency, className, favorite, showOriginalPrice, style } = this.props
 
     // sale is available if original price is different with price
     const isSale = originalPrice && originalPrice !== price
@@ -65,7 +67,7 @@ export default class ProductGrid extends PureComponent {
         <div className='ProductGrid-detail'>
           <h5>{brand}</h5>
           <div className='ProductGrid-price-tag'>
-            {isSale && <div className='ProductGrid-original-price'>{currency}{originalPrice}</div>}
+            {isSale && showOriginalPrice && <div className='ProductGrid-original-price'>{currency}{originalPrice}</div>}
             <div className={classNames('ProductGrid-price', { sale: isSale })}>
               {currency}{price}
             </div>
