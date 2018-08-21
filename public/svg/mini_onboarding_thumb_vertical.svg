@@ -23,11 +23,8 @@
                         </g>
                     </g>
                     <g id="Let’s-change-the-sho" transform="translate(52.000000, 40.000000)" fill="#4A4A4A" font-family="Muli-Regular, Muli" font-size="18" font-weight="normal">
-                        <text id="Let’s-change-the-shoulder-fit.">
-                            <tspan x="0.2582353" y="18.105919">Let’s change the shoulder fit.</tspan>
-                        </text>
                         <text id="Go-ahead,-tap-the-shoulder.">
-                            <tspan x="3.0732462" y="43.105919">Go ahead, tap the shoulder.</tspan>
+                            <tspan x="10" y="33">Go ahead, tap the shoulder.</tspan>
                         </text>
                     </g>
                 </g>
@@ -56,7 +53,7 @@
                     </g>
                 </g>
             </g>
-            <g id="mini_onboarding_2" transform="translate(15.000000, 195.000000)">
+            <g id="mini_onboarding_2" transform="translate(15.000000, 240)">
                 <g id="popup">
                     <g id="popup-2" transform="translate(185.500000, 47.000000) scale(-1, 1) translate(-185.500000, -47.000000) ">
                         <g id="onb-path-5-link" fill="#000000" fill-rule="nonzero" filter="url(#onb-filter-1)">
@@ -66,11 +63,8 @@
                             <path d="M29.2919822,0.2292838 C32.6739818,0.2292838 140.136935,0.2305171 140.136935,0.2305171 L165.952846,0.2292838 L349.708018,0.2292838 C360.91497,0.2292838 369.5,9.1683415 369.5,21.4287905 L369.5,70.8004933 C369.5,83.060942 360.91497,93.5 349.708018,93.5 L29.2919822,93.5 C18.0850299,93.5 9,84.060942 9,71.8004933 C9.33333333,65.2224963 9.5,60.2889985 9.5,57 L0,47.5 L9,36.8824195 C9,33.9717268 9.16666667,29.1538504 9.5,22.4287905 C9.5,10.1684963 22.5279881,0.2292838 29.2919822,0.2292838 Z" id="onb-path-5"></path>
                         </g>
                     </g>
-                    <text id="Tap-shoulder-again-or" fill="#4A4A4A" font-family="Muli-Regular, Muli" font-size="18" font-weight="normal">
-                        <tspan x="75" y="37.4">Tap shoulder again or</tspan>
-                    </text>
                     <text id="tap-these-thumbnails." fill="#4A4A4A" font-family="Muli-Regular, Muli" font-size="18" font-weight="normal">
-                        <tspan x="75" y="62.4">tap these thumbnails.</tspan>
+                        <tspan x="75" y="52.4">Or tap the thumbnail.</tspan>
                     </text>
                 </g>
                 <g id="tap_button" transform="translate(382.000000, 25.000000)">

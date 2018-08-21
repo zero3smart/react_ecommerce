@@ -184,7 +184,7 @@ export default class VisualFilter {
       case 0:
         VisualFilter.showGroup(this.snap, 'mini_onboarding_touch')
         VisualFilter.showGroup(this.snap, 'mini_onboarding_1')
-        this.changePropSelection('shoulder', 1)
+        this.changePropSelection('shoulder', 0)
         this.handleBodyPartClick('shoulder')
         break
       case 1:
