@@ -63,9 +63,17 @@
   margin-bottom: 30px;
 }
 
-.TopSingle .Product-detail .Product-price {
-  font-size: 30px;
+.TopSingle .Product-detail .Product-pricing {
   margin-top: 50px;
+}
+
+.TopSingle .Product-detail .Product-price,
+.TopSingle .Product-detail .Product-original-price {
+  font-size: 30px;
+}
+
+.TopSingle .Product-detail .Product-original-price {
+  margin-right: 15px;
 }
 
 .TopSingle .Product-footer {
