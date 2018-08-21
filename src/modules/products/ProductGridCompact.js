@@ -13,6 +13,7 @@ export default class ProductGridCompact extends PureComponent {
     brand: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     originalPrice: PropTypes.number,
+    showOriginalPrice: PropTypes.bool,
     imgSrc: PropTypes.string.isRequired,
     currency: PropTypes.string,
     className: PropTypes.string,
@@ -26,6 +27,7 @@ export default class ProductGridCompact extends PureComponent {
     currency: '$',
     active: false,
     favorite: false,
+    showOriginalPrice: false,
     className: '',
     onToggleLike: (data, favorite) => { console.debug('ProductGridCompact - favorite', data) }
   }
@@ -46,7 +48,7 @@ export default class ProductGridCompact extends PureComponent {
   }
 
   render () {
-    const { id, name, brand, imgSrc, price, originalPrice, currency, className, favorite, style } = this.props
+    const { id, name, brand, imgSrc, price, originalPrice, showOriginalPrice, currency, className, favorite, style } = this.props
 
     // sale is available if original price is different with price
     const isSale = originalPrice && originalPrice !== price
@@ -69,7 +71,7 @@ export default class ProductGridCompact extends PureComponent {
             <div className={classNames('ProductGridCompact-price', { sale: isSale })}>
               {currency}{price}
             </div>
-            {isSale && <div className='ProductGridCompact-original-price'>{currency}{originalPrice}</div>}
+            {isSale && showOriginalPrice && <div className='ProductGridCompact-original-price'>{currency}{originalPrice}</div>}
           </div>
         </div>
       </Link>
