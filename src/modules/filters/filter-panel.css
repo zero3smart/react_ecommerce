@@ -9,6 +9,10 @@
   margin: auto;
   box-sizing: border-box;
   z-index: 999;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
 }
 
 .FilterPanel .VisualFilter {
