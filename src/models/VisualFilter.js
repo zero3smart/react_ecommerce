@@ -23,7 +23,7 @@ export default class VisualFilter {
   colorPalletteOpened = 0
   svgLoaded = false
   lastHighlightId = null
-  lastBodyPart = 'shoulder' // Select shoulder by default
+  lastBodyPart = 'shoulder'
   constructor (selector = '#svg', options = {}) {
     this.settings = {
       ...defaultOptions,
@@ -213,7 +213,6 @@ export default class VisualFilter {
   }
 
   switchBodypartThumbnail (prop) {
-    console.log('switchBodypartThumbnail', prop)
     if (!isNil(this.currentThumbnail)) {
       VisualFilter.hideGroup(this.snap, PROP_CONST[this.currentThumbnail][3] + '_thumbnails')
     }
@@ -260,6 +259,7 @@ export default class VisualFilter {
       const svgHeight = this.snap.node.getBoundingClientRect().height
       const touchAreaRect = touchArea.node.getBoundingClientRect()
       const thumbnailWrapperRect = thumbnailGroupWrapper.node.getBoundingClientRect()
+      // Use Rect.top instead of .y due to compatibility issue
       const touchAndThumbnailGap = Math.abs(touchAreaRect.top - thumbnailWrapperRect.top) * viewBoxHeight / svgHeight
 
       // adjust top position of touch area
@@ -273,8 +273,7 @@ export default class VisualFilter {
           // get y value based on thumbnail position.
           // the y value should be compared between the original svg size (viewbox) and current svg size (after resize).
           // get only half padding width, to make it centered.
-          const y = (thumbnailRect.y - thumbnailWrapperRect.y + touchAndThumbnailGap) / scale * viewBoxHeight / svgHeight
-
+          const y = (thumbnailRect.top - thumbnailWrapperRect.top + touchAndThumbnailGap) / scale * viewBoxHeight / svgHeight
           el.attr({ y })
         }
       })
@@ -406,7 +405,7 @@ export default class VisualFilter {
       // get y value based on thumbnail position.
       // the y value should be compared between the original svg size (viewbox) and current svg size (after resize).
       // get only half padding width, to make it centered.
-      const y = (thumbnailRect.y - thumbnailWrapperRect.y + (THUMBNAIL_PADDING / 2)) * viewBoxHeight / svgHeight
+      const y = (thumbnailRect.top - thumbnailWrapperRect.top + (THUMBNAIL_PADDING / 2)) * viewBoxHeight / svgHeight
 
       desc = `t${(THUMBNAIL_X_OFFSET - 1)},${y}s${scale}`
     }
@@ -458,13 +457,10 @@ export default class VisualFilter {
    */
   static highlightGroup (snap, id) {
     id = id + '_HL'
-    const group = VisualFilter.findGroupById(snap, id)
-    // add highlight mask by moving the component to top
-    // it needs to be the last element to show full highlight (z-index)
-    group.appendTo(group.parent())
+    // group.appendTo(group.parent()) // not needed
+    // Assume highlight objects are after body parts in svg file
     VisualFilter.showGroup(snap, id)
     VisualFilter.lastHighlightId = id
-    console.log('highlightGroup', id)
   }
 
   static removeHighlight (snap) {
