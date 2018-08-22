@@ -157,13 +157,7 @@ export default class VisualFilter {
       const currentPropIndex = PROP_ORDERS.indexOf(this.currentThumbnail)
       const nextPropIndex = currentPropIndex < PROP_ORDERS.length - 1 ? currentPropIndex + 1 : 0
       const nextProp = PROP_ORDERS[nextPropIndex]
-      const MAX = PROP_CONST[nextProp][1]
-      let nextThumb = this.currentPropState[this.currentThumbnail]
-
-      // make sure nextThumb is still <= MAX
-      if (nextThumb !== 'all' && nextThumb > MAX) {
-        nextThumb = MAX
-      }
+      const nextThumb = this.currentPropState[nextProp]
 
       this.animateThumbnail(this.currentThumbnail, nextProp, true, () => {
         // change visual filter after animation finished
@@ -181,13 +175,7 @@ export default class VisualFilter {
       const currentPropIndex = PROP_ORDERS.indexOf(this.currentThumbnail)
       const nextPropIndex = currentPropIndex > 0 ? currentPropIndex - 1 : PROP_ORDERS.length - 1
       const nextProp = PROP_ORDERS[nextPropIndex]
-      const MAX = PROP_CONST[nextProp][1]
-      let nextThumb = this.currentPropState[this.currentThumbnail]
-
-      // make sure nextThumb is still <= MAX
-      if (nextThumb !== 'all' && nextThumb > MAX) {
-        nextThumb = MAX
-      }
+      const nextThumb = this.currentPropState[nextProp]
 
       this.animateThumbnail(this.currentThumbnail, nextProp, false, () => {
         // change visual filter after animation finished
