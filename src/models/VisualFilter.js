@@ -144,10 +144,8 @@ export default class VisualFilter {
   }
 
   initializeSwipableThumbnail () {
-    const touchArea = VisualFilter.findGroupById(this.snap, 'Thumbnail_Touch_Area')
-
     // initialize hammerjs manager
-    const hmThumb = new Hammer.Manager(touchArea.node, {
+    const hmThumb = new Hammer.Manager(this.snap.node, {
       recognizers: [
         [Hammer.Swipe, { direction: Hammer.DIRECTION_VERTICAL }]
       ],
@@ -170,7 +168,7 @@ export default class VisualFilter {
       this.animateThumbnail(this.currentThumbnail, nextProp, true, () => {
         // change visual filter after animation finished
         this.switchBodypartThumbnail(nextProp)
-        this.showVerticalSelectionBox(nextProp, nextThumb, 200)
+        this.showVerticalSelectionBox(nextProp, nextThumb)
         this.changePropSelection(nextProp, nextThumb)
 
         VisualFilter.removeHighlight(this.snap)
@@ -194,7 +192,7 @@ export default class VisualFilter {
       this.animateThumbnail(this.currentThumbnail, nextProp, false, () => {
         // change visual filter after animation finished
         this.switchBodypartThumbnail(nextProp)
-        this.showVerticalSelectionBox(nextProp, nextThumb, 200)
+        this.showVerticalSelectionBox(nextProp, nextThumb)
         this.changePropSelection(nextProp, nextThumb)
 
         VisualFilter.removeHighlight(this.snap)
@@ -221,24 +219,24 @@ export default class VisualFilter {
 
     if (movingUp) {
       // move current thumbs from thumbnails position to top
-      currentThumb.stop().animate({ transform: `translate(${currentThumbBBox.x},${currentThumbBBox.y - currentThumbBBox.height}) scale(1.4)` }, animationDuration, () => {
-        currentThumb.attr({ visibility: 'hidden', transform: `translate(${currentThumbBBox.x},${currentThumbInitialY}) scale(1.4)` })
+      currentThumb.stop().animate({ transform: `translate(400,${currentThumbBBox.y - currentThumbBBox.height}) scale(1.4)` }, animationDuration, () => {
+        currentThumb.attr({ visibility: 'hidden', transform: `translate(400,${currentThumbInitialY}) scale(1.4)` })
       })
 
       // move next thumbs from bottom to thumbnails position
-      nextThumbs.attr({ visibility: 'visible', transform: `translate(${currentThumbBBox.x},${currentThumbBBox.y + currentThumbBBox.height}) scale(1.4)` })
-      nextThumbs.stop().animate({ transform: `translate(${currentThumbBBox.x},${nextThumbInitialY}) scale(1.4)` }, animationDuration, () => {
+      nextThumbs.attr({ visibility: 'visible', transform: `translate(400,${nextThumbBBox.y + currentThumbBBox.height}) scale(1.4)` })
+      nextThumbs.stop().animate({ transform: `translate(400,${nextThumbInitialY}) scale(1.4)` }, animationDuration, () => {
         onAnimationFinish()
       })
     } else {
       // move current thumbs from thumbnails position to bottom
-      currentThumb.stop().animate({ transform: `translate(${currentThumbBBox.x},${currentThumbBBox.y + nextThumbBBox.height}) scale(1.4)` }, animationDuration, () => {
-        currentThumb.attr({ visibility: 'hidden', transform: `translate(${currentThumbBBox.x},${currentThumbInitialY}) scale(1.4)` })
+      currentThumb.stop().animate({ transform: `translate(400,${currentThumbBBox.y + nextThumbBBox.height}) scale(1.4)` }, animationDuration, () => {
+        currentThumb.attr({ visibility: 'hidden', transform: `translate(400,${currentThumbInitialY}) scale(1.4)` })
       })
 
       // move next thumbs from top to thumbnails position and fadeIn
-      nextThumbs.attr({ visibility: 'visible', transform: `translate(${currentThumbBBox.x},${currentThumbBBox.y - nextThumbBBox.height}) scale(1.4)` })
-      nextThumbs.stop().animate({ transform: `translate(${currentThumbBBox.x},${currentThumbInitialY}) scale(1.4)` }, animationDuration, () => {
+      nextThumbs.attr({ visibility: 'visible', transform: `translate(400,${nextThumbInitialY - nextThumbBBox.height}) scale(1.4)` })
+      nextThumbs.stop().animate({ transform: `translate(400,${nextThumbInitialY}) scale(1.4)` }, animationDuration, () => {
         onAnimationFinish()
       })
     }
@@ -385,13 +383,16 @@ export default class VisualFilter {
         let thumbnailGroup = VisualFilter.findGroupById(this.snap, `${PROP_CONST[prop][3]}_thumbnails_${index - 1}`)
 
         // if thumbnail for current index is available, adjust touch area to its position
+        // else hide the touch area
         if (thumbnailGroup) {
           const thumbnailRect = thumbnailGroup.node.getBoundingClientRect()
           // get y value based on thumbnail position.
           // the y value should be compared between the original svg size (viewbox) and current svg size (after resize).
           // get only half padding width, to make it centered.
           const y = (thumbnailRect.top - thumbnailWrapperRect.top + touchAndThumbnailGap) / scale * viewBoxHeight / svgHeight
-          el.attr({ y })
+          el.attr({ visibility: 'visible', y })
+        } else if (index > 1) {
+          el.attr({ visibility: 'hidden' })
         }
       })
 
