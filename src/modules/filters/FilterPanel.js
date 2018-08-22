@@ -10,10 +10,12 @@ export default class FilterPanel extends Component {
   static propTypes = {
     filters: PropTypes.object,
     favorite: PropTypes.bool,
+    lastBodyPart: PropTypes.string,
     className: PropTypes.string,
     onFilterChange: PropTypes.func,
     onFilterLike: PropTypes.func,
     onClose: PropTypes.func,
+    onBodyPartChange: PropTypes.func,
     useVerticalThumb: PropTypes.bool,
     closable: PropTypes.bool
   }
@@ -37,22 +39,30 @@ export default class FilterPanel extends Component {
   }
 
   componentDidMount () {
-    const { filters, useVerticalThumb } = this.props
+    const { filters, useVerticalThumb, lastBodyPart, onBodyPartChange } = this.props
     // initialize visual filter
     this.visualFilter = new VisualFilter('#VisualFilter', {
       defaultState: filters,
       swipeable: true,
       onFilterChange: this.handleBodyPartFilter,
+      onPropChange: onBodyPartChange,
       onSVGLoaded: this.handleSVGLoaded,
       useVerticalThumb: useVerticalThumb
     })
+
+    console.debug('lastBodyPart', lastBodyPart)
+    this.visualFilter.setLastBodyPart(lastBodyPart)
   }
 
   componentDidUpdate (prevProps, prevState) {
-    const { filters } = this.props
+    const { filters, lastBodyPart } = this.props
     const { svgLoaded } = this.state
     if (!isEqual(svgLoaded, prevState.svgLoaded) || !isEqual(filters, prevProps.filters)) {
       this.visualFilter.updateState(filters)
+    }
+    // when body part changed update visual filter lastBodyPart
+    if (lastBodyPart !== prevProps.lastBodyPart) {
+      this.visualFilter.setLastBodyPart(lastBodyPart)
     }
   }
 
