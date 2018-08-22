@@ -168,7 +168,7 @@ export default class VisualFilter {
       this.animateThumbnail(this.currentThumbnail, nextProp, true, () => {
         // change visual filter after animation finished
         this.switchBodypartThumbnail(nextProp)
-        this.showVerticalSelectionBox(nextProp, nextThumb, 200)
+        this.showVerticalSelectionBox(nextProp, nextThumb)
         this.changePropSelection(nextProp, nextThumb)
 
         VisualFilter.removeHighlight(this.snap)
@@ -192,7 +192,7 @@ export default class VisualFilter {
       this.animateThumbnail(this.currentThumbnail, nextProp, false, () => {
         // change visual filter after animation finished
         this.switchBodypartThumbnail(nextProp)
-        this.showVerticalSelectionBox(nextProp, nextThumb, 200)
+        this.showVerticalSelectionBox(nextProp, nextThumb)
         this.changePropSelection(nextProp, nextThumb)
 
         VisualFilter.removeHighlight(this.snap)
