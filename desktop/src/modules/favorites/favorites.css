@@ -108,6 +108,8 @@
 .Favorites .FilterButton .FilterButton-icon {
   width: 2.986vw;
   height: 2.986vw;
+  max-width: 33px;
+  max-height: 33px;
   flex-shrink: 0;
   margin-right: 8px;
 }
