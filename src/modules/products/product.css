@@ -14,13 +14,14 @@
   max-height: 316px;
 }
 
-.Product .LikeButton {
+.LikeButton-wrapper {
   position: absolute;
-  top: 15px;
-  left: 15px;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
   z-index: 2;
 }
-
 .Product .LikeButton > button {
   width: 30px;
   height: 30px;
@@ -43,8 +44,9 @@
 
 .Product-images {
   grid-area: images;
-  height: 215px;
-  overflow-y: hidden;
+  min-width: 125px;
+  min-height: 215px;
+  position: relative;
 }
 
 .Product .Product-images > .slick-slider {
@@ -115,7 +117,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 160px;
+  max-width: 160px;
+  width: 100%;
   grid-area: detail;
 }
 
