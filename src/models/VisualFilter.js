@@ -383,13 +383,16 @@ export default class VisualFilter {
         let thumbnailGroup = VisualFilter.findGroupById(this.snap, `${PROP_CONST[prop][3]}_thumbnails_${index - 1}`)
 
         // if thumbnail for current index is available, adjust touch area to its position
+        // else hide the touch area
         if (thumbnailGroup) {
           const thumbnailRect = thumbnailGroup.node.getBoundingClientRect()
           // get y value based on thumbnail position.
           // the y value should be compared between the original svg size (viewbox) and current svg size (after resize).
           // get only half padding width, to make it centered.
           const y = (thumbnailRect.top - thumbnailWrapperRect.top + touchAndThumbnailGap) / scale * viewBoxHeight / svgHeight
-          el.attr({ y })
+          el.attr({ visibility: 'visible', y })
+        } else {
+          el.attr({ visibility: 'hidden' })
         }
       })
 
