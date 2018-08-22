@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import isNil from 'lodash-es/isNil'
 import FilterPanel from './FilterPanel'
 import FloatButton from './FloatButton'
 import { history } from 'config/store'
@@ -29,7 +30,7 @@ class ProductFilter extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      expanded: false
+      expanded: isNil(window.localStorage.getItem('onboarding_completed')) || false
     }
   }
 
