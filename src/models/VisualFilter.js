@@ -6,7 +6,17 @@
 import pick from 'lodash-es/pick'
 import isNil from 'lodash-es/isNil'
 import isEqual from 'lodash-es/isEqual'
-import { PROP_CONST, THUMBNAIL_IMG_X_OFFSET, THUMBNAIL_X_OFFSET, THUMBNAIL_Y_OFFSET, THUMBNAIL_HIGHLITER_SIZE, THUMBNAIL_TOUCH_AREA_SIZE, THUMBNAIL_PADDING } from 'config/constants'
+import Hammer from 'hammerjs'
+import {
+  PROP_CONST,
+  PROP_ORDERS,
+  THUMBNAIL_IMG_X_OFFSET,
+  THUMBNAIL_X_OFFSET,
+  THUMBNAIL_Y_OFFSET,
+  THUMBNAIL_HIGHLITER_SIZE,
+  THUMBNAIL_TOUCH_AREA_SIZE,
+  THUMBNAIL_PADDING
+} from 'config/constants'
 const { Snap, localStorage } = window
 
 export default class VisualFilter {
@@ -24,6 +34,7 @@ export default class VisualFilter {
   svgLoaded = false
   lastHighlightId = null
   lastBodyPart = 'shoulder'
+  swipeView = false
   constructor (selector = '#svg', options = {}) {
     this.settings = {
       ...defaultOptions,
@@ -43,7 +54,7 @@ export default class VisualFilter {
   }
 
   initialize () {
-    const { hideOnboarding, onSVGLoaded, hideThumbnail, useVerticalThumb } = this.settings
+    const { hideOnboarding, onSVGLoaded, hideThumbnail, useVerticalThumb, swipeable } = this.settings
 
     this.viewBox = [0, 0, 490, 400]
     let svgSource = ''
@@ -86,6 +97,11 @@ export default class VisualFilter {
         this.initializeClickHitMap()
       }
 
+      // activate swipeable thumbnails, only supported for mobile
+      if (swipeable && useVerticalThumb) {
+        this.initializeSwipableThumbnail()
+      }
+
       // callback
       onSVGLoaded()
     })
@@ -124,6 +140,107 @@ export default class VisualFilter {
         group.attr({ opacity: '0' })
         group.click(function () { self.handleThumbnailClick(this) }, i.toString())
       }
+    }
+  }
+
+  initializeSwipableThumbnail () {
+    const touchArea = VisualFilter.findGroupById(this.snap, 'Thumbnail_Touch_Area')
+
+    // initialize hammerjs manager
+    const hmThumb = new Hammer.Manager(touchArea.node, {
+      recognizers: [
+        [Hammer.Swipe, { direction: Hammer.DIRECTION_VERTICAL }]
+      ],
+      inputClass: Hammer.TouchMouseInput
+    })
+
+    // on swipeup, move to next thumbnail
+    hmThumb.on('swipeup', (event) => {
+      const currentPropIndex = PROP_ORDERS.indexOf(this.currentThumbnail)
+      const nextPropIndex = currentPropIndex < PROP_ORDERS.length - 1 ? currentPropIndex + 1 : 0
+      const nextProp = PROP_ORDERS[nextPropIndex]
+      const MAX = PROP_CONST[nextProp][1]
+      let nextThumb = this.currentPropState[this.currentThumbnail]
+
+      // make sure nextThumb is still <= MAX
+      if (nextThumb !== 'all' && nextThumb > MAX) {
+        nextThumb = MAX
+      }
+
+      this.animateThumbnail(this.currentThumbnail, nextProp, true, () => {
+        // change visual filter after animation finished
+        this.switchBodypartThumbnail(nextProp)
+        this.showVerticalSelectionBox(nextProp, nextThumb, 200)
+        this.changePropSelection(nextProp, nextThumb)
+
+        VisualFilter.removeHighlight(this.snap)
+        VisualFilter.highlightGroup(this.snap, PROP_CONST[nextProp][3] + '_' + this.currentPropState[nextProp])
+      })
+    })
+
+    // on swipedown, move to prev thumbnail
+    hmThumb.on('swipedown', (event) => {
+      const currentPropIndex = PROP_ORDERS.indexOf(this.currentThumbnail)
+      const nextPropIndex = currentPropIndex > 0 ? currentPropIndex - 1 : PROP_ORDERS.length - 1
+      const nextProp = PROP_ORDERS[nextPropIndex]
+      const MAX = PROP_CONST[nextProp][1]
+      let nextThumb = this.currentPropState[this.currentThumbnail]
+
+      // make sure nextThumb is still <= MAX
+      if (nextThumb !== 'all' && nextThumb > MAX) {
+        nextThumb = MAX
+      }
+
+      this.animateThumbnail(this.currentThumbnail, nextProp, false, () => {
+        // change visual filter after animation finished
+        this.switchBodypartThumbnail(nextProp)
+        this.showVerticalSelectionBox(nextProp, nextThumb, 200)
+        this.changePropSelection(nextProp, nextThumb)
+
+        VisualFilter.removeHighlight(this.snap)
+        VisualFilter.highlightGroup(this.snap, PROP_CONST[nextProp][3] + '_' + this.currentPropState[nextProp])
+      })
+    })
+  }
+
+  /**
+   * animate thumbnail up / down
+   * @param {string} prop
+   * @param {string} nextProp
+   * @param {boolean} movingUp // moving down = false
+   * @param {function} onAnimationFinish callback
+   * @param {number} animationDuration
+   */
+  animateThumbnail (prop, nextProp, movingUp = true, onAnimationFinish = () => {}, animationDuration = 300) {
+    const currentThumb = VisualFilter.findGroupById(this.snap, `${PROP_CONST[prop][3]}_thumbnails`)
+    const nextThumbs = VisualFilter.findGroupById(this.snap, `${PROP_CONST[nextProp][3]}_thumbnails`)
+    const currentThumbBBox = currentThumb.getBBox()
+    const nextThumbBBox = nextThumbs.getBBox()
+    const currentThumbInitialY = currentThumbBBox.y
+    const nextThumbInitialY = nextThumbBBox.y
+
+    if (movingUp) {
+      // move current thumbs from thumbnails position to top
+      currentThumb.stop().animate({ transform: `translate(${currentThumbBBox.x},${currentThumbBBox.y - currentThumbBBox.height}) scale(1.4)` }, animationDuration, () => {
+        currentThumb.attr({ visibility: 'hidden', transform: `translate(${currentThumbBBox.x},${currentThumbInitialY}) scale(1.4)` })
+      })
+
+      // move next thumbs from bottom to thumbnails position
+      nextThumbs.attr({ visibility: 'visible', transform: `translate(${currentThumbBBox.x},${currentThumbBBox.y + currentThumbBBox.height}) scale(1.4)` })
+      nextThumbs.stop().animate({ transform: `translate(${currentThumbBBox.x},${nextThumbInitialY}) scale(1.4)` }, animationDuration, () => {
+        onAnimationFinish()
+      })
+    } else {
+      // move current thumbs from thumbnails position to bottom
+      currentThumb.stop().animate({ transform: `translate(${currentThumbBBox.x},${currentThumbBBox.y + nextThumbBBox.height}) scale(1.4)` }, animationDuration, () => {
+        currentThumb.attr({ visibility: 'hidden', transform: `translate(${currentThumbBBox.x},${currentThumbInitialY}) scale(1.4)` })
+      })
+
+      // move next thumbs from top to thumbnails position and fadeIn
+      nextThumbs.attr({ visibility: 'visible', transform: `translate(${currentThumbBBox.x},${currentThumbBBox.y - nextThumbBBox.height}) scale(1.4)` })
+      nextThumbs.stop().animate({ transform: `translate(${currentThumbBBox.x},${currentThumbInitialY}) scale(1.4)` }, animationDuration, () => {
+        onAnimationFinish()
+      })
     }
   }
 
@@ -384,7 +501,7 @@ export default class VisualFilter {
     }
   }
 
-  showVerticalSelectionBox (prop, sel) {
+  showVerticalSelectionBox (prop, sel, animationDuration = null) {
     const thumbnailHighlighterGroup = VisualFilter.findGroupById(this.snap, 'Thumbnail-Highliter')
     const thumbnailGroupWrapper = VisualFilter.findGroupById(this.snap, `${PROP_CONST[prop][3]}_thumbnails`)
     let desc = ''
@@ -407,10 +524,14 @@ export default class VisualFilter {
       // get only half padding width, to make it centered.
       const y = (thumbnailRect.top - thumbnailWrapperRect.top + (THUMBNAIL_PADDING / 2)) * viewBoxHeight / svgHeight
 
-      desc = `t${(THUMBNAIL_X_OFFSET - 1)},${y}s${scale}`
+      desc = `t${(THUMBNAIL_X_OFFSET - 1)},${y}s${scale},${thumbnailRect.width},0`
     }
 
-    thumbnailHighlighterGroup.transform(desc)
+    if (!isNil(animationDuration)) {
+      thumbnailHighlighterGroup.stop().animate({ transform: desc }, animationDuration)
+    } else {
+      thumbnailHighlighterGroup.transform(desc)
+    }
     VisualFilter.showGroup(this.snap, 'Thumbnail-Highliter')
   }
 
@@ -539,6 +660,7 @@ export default class VisualFilter {
 
 const defaultOptions = {
   disableEvent: false,
+  swipeable: false,
   defaultState: {},
   hideThumbnail: false,
   hideOnboarding: false,
