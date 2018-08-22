@@ -45,6 +45,7 @@ export const PROP_CONST = {
   details: [0, 1, 0, 'details'],
   color: [0, 1, 0, 'color']
 }
+export const PROP_ORDERS = ['collar', 'shoulder', 'neckline', 'sleeve_length', 'coretype', 'top_length']
 
 export const THUMBNAIL_IMG_X_OFFSET = {
   4: 103,

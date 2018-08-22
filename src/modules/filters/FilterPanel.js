@@ -42,6 +42,7 @@ export default class FilterPanel extends Component {
     // initialize visual filter
     this.visualFilter = new VisualFilter('#VisualFilter', {
       defaultState: filters,
+      swipeable: true,
       onFilterChange: this.handleBodyPartFilter,
       onSVGLoaded: this.handleSVGLoaded,
       useVerticalThumb: useVerticalThumb
