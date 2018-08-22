@@ -390,9 +390,9 @@ export default class VisualFilter {
           // the y value should be compared between the original svg size (viewbox) and current svg size (after resize).
           // get only half padding width, to make it centered.
           const y = (thumbnailRect.top - thumbnailWrapperRect.top + touchAndThumbnailGap) / scale * viewBoxHeight / svgHeight
-          el.attr({ visibility: 'visible', y })
+          el.attr({ visibility: 'visible', opacity: 0, y })
         } else if (index > 1) {
-          el.attr({ visibility: 'hidden' })
+          el.attr({ visibility: 'hidden', opacity: 0 })
         }
       })
 
