@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { FILTERS } from 'config/constants'
-import { Preset } from 'models'
+import { Preset, VisualFilter } from 'models'
 import { updatePresetFavorite, mapPresetFavorites } from './helpers'
 const { localStorage } = window
 
@@ -25,7 +25,7 @@ const defaultState = {
     details: 0,
     color: null
   },
-  lastBodyPart: '',
+  lastBodyPart: VisualFilter.getLastBodyPart(),
   presets: [],
   favoritePresets: [],
   presetsFetched: false
@@ -83,6 +83,8 @@ export function setPresets (presets, favoritePresetNames) {
 }
 
 export function setLastBodyPart (lastBodyPart) {
+  // set to localStorage
+  VisualFilter.saveLastBodyPart(lastBodyPart)
   return { type: SET_LAST_BODY_PART, payload: { lastBodyPart } }
 }
 
