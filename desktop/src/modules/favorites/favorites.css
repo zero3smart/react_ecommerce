@@ -90,10 +90,26 @@
   padding: 2px 5px 2px 3px;
 }
 
-.Favorites .PresetsInnerWrapper .FilterButton-icon {
-  width: 30px;
-  height: 30px;
-  margin-right: 7px;
+/* filter buttons */
+.Favorites .FilterButton {
+  max-width: 118px;
+  cursor: pointer;
+  padding: 3px 8px 3px 3px;
+  margin-bottom: 9px;
+}
+.Favorites .FilterButton  h5 {
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: normal;
+}
+.Presets .FilterButton:not(.active)  h5 {
+  color: #707070;
+}
+.Favorites .FilterButton .FilterButton-icon {
+  width: 2.986vw;
+  height: 2.986vw;
+  flex-shrink: 0;
+  margin-right: 8px;
 }
 
 /* presets split view */

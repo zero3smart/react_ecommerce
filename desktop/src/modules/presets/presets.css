@@ -45,14 +45,29 @@
   -o-transform: scale(1.15) translate(0, 10px);
 }
 .PresetsInnerWrapper .FabricFilters .FilterButton {
-  max-width: 152px;
   margin-bottom: 10px;
 }
-.PresetsInnerWrapper .FilterButton-icon {
+
+/* filter buttons */
+.Presets .FilterButton {
+  max-width: 118px;
+  cursor: pointer;
+  padding: 3px 8px 3px 3px;
+  margin-bottom: 9px;
+}
+.Presets .FilterButton  h5 {
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: normal;
+}
+.Presets .FilterButton:not(.active)  h5 {
+  color: #707070;
+}
+.Presets .FilterButton .FilterButton-icon {
   width: 2.986vw;
   height: 2.986vw;
   flex-shrink: 0;
-  margin-right: 15px;
+  margin-right: 10px;
 }
 
 /* product list */
