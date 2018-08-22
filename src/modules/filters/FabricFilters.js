@@ -111,7 +111,7 @@ export default class FabricFilters extends PureComponent {
           value={solid}
           onClick={this.handleClick}
           active={this.isActive(solid)}
-          iconStyle={this.isActive(solid) ? styles.solidIconActive : styles.solidIcon}>
+          iconStyle={this.isActive(solid) ? styles.solidIcon : styles.solidIconActive}>
           Solid
         </FilterButton>
         <FilterButton
@@ -152,10 +152,9 @@ export default class FabricFilters extends PureComponent {
 
 const styles = {
   solidIcon: {
-    border: '1px solid #3D3D3D'
+    background: 'white'
   },
   solidIconActive: {
-    background: '#3D3D3D',
-    border: '1px solid #3D3D3D'
+    background: '#3D3D3D'
   }
 }
