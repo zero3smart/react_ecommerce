@@ -69,8 +69,10 @@ class Product extends PureComponent {
     const isSale = originalPrice && originalPrice !== price
     return (
       <div id={id} className='Product'>
-        <LikeButton active={favorite} onClick={this.toggleLike} />
         <div className='Product-images'>
+          <div className='LikeButton-wrapper'>
+            <LikeButton active={favorite} onClick={this.toggleLike} />
+          </div>
           <Slider {...this.sliderSettings}>
             {imgSrc && <img src={`${BASE_IMG_PATH}imgs/ns_woman_top/${imgSrc}`} alt={name} className='img-responsive' />}
             {renderExtraImages(extraImgs, name)}
