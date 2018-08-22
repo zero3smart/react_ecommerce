@@ -65,8 +65,8 @@ export default class ProductGridCompact extends PureComponent {
           }
         </div>
         <div className='ProductGridCompact-detail'>
-          <h4>{brand}</h4>
-          <h5>{name}</h5>
+          <h4 dangerouslySetInnerHTML={{ __html: brand }} />
+          <h5 dangerouslySetInnerHTML={{ __html: name }} />
           <div className='ProductGridCompact-price-tag'>
             <div className={classNames('ProductGridCompact-price', { sale: isSale })}>
               {currency}{price}

@@ -79,9 +79,9 @@ class Product extends PureComponent {
           </Slider>
         </div>
         <div className='Product-detail'>
-          <h3>{brand}</h3>
-          <h4>{name}</h4>
-          <p>{description}</p>
+          <h3 dangerouslySetInnerHTML={{ __html: brand }} />
+          <h4 dangerouslySetInnerHTML={{ __html: name }} />
+          <p dangerouslySetInnerHTML={{ __html: description }} />
           <div className='Product-pricing'>
             {isSale && <div className='Product-original-price'>{currency}{originalPrice}</div>}
             <div className={classNames('Product-price', { sale: isSale })}>{currency}{price}</div>
