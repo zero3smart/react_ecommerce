@@ -391,7 +391,7 @@ export default class VisualFilter {
           // get only half padding width, to make it centered.
           const y = (thumbnailRect.top - thumbnailWrapperRect.top + touchAndThumbnailGap) / scale * viewBoxHeight / svgHeight
           el.attr({ visibility: 'visible', y })
-        } else {
+        } else if (index > 1) {
           el.attr({ visibility: 'hidden' })
         }
       })
