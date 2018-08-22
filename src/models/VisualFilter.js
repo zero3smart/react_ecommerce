@@ -219,24 +219,24 @@ export default class VisualFilter {
 
     if (movingUp) {
       // move current thumbs from thumbnails position to top
-      currentThumb.stop().animate({ transform: `translate(${currentThumbBBox.x},${currentThumbBBox.y - currentThumbBBox.height}) scale(1.4)` }, animationDuration, () => {
-        currentThumb.attr({ visibility: 'hidden', transform: `translate(${currentThumbBBox.x},${currentThumbInitialY}) scale(1.4)` })
+      currentThumb.stop().animate({ transform: `translate(400,${currentThumbBBox.y - currentThumbBBox.height}) scale(1.4)` }, animationDuration, () => {
+        currentThumb.attr({ visibility: 'hidden', transform: `translate(400,${currentThumbInitialY}) scale(1.4)` })
       })
 
       // move next thumbs from bottom to thumbnails position
-      nextThumbs.attr({ visibility: 'visible', transform: `translate(${currentThumbBBox.x},${currentThumbBBox.y + currentThumbBBox.height}) scale(1.4)` })
-      nextThumbs.stop().animate({ transform: `translate(${currentThumbBBox.x},${nextThumbInitialY}) scale(1.4)` }, animationDuration, () => {
+      nextThumbs.attr({ visibility: 'visible', transform: `translate(400,${nextThumbBBox.y + currentThumbBBox.height}) scale(1.4)` })
+      nextThumbs.stop().animate({ transform: `translate(400,${nextThumbInitialY}) scale(1.4)` }, animationDuration, () => {
         onAnimationFinish()
       })
     } else {
       // move current thumbs from thumbnails position to bottom
-      currentThumb.stop().animate({ transform: `translate(${currentThumbBBox.x},${currentThumbBBox.y + nextThumbBBox.height}) scale(1.4)` }, animationDuration, () => {
-        currentThumb.attr({ visibility: 'hidden', transform: `translate(${currentThumbBBox.x},${currentThumbInitialY}) scale(1.4)` })
+      currentThumb.stop().animate({ transform: `translate(400,${currentThumbBBox.y + nextThumbBBox.height}) scale(1.4)` }, animationDuration, () => {
+        currentThumb.attr({ visibility: 'hidden', transform: `translate(400,${currentThumbInitialY}) scale(1.4)` })
       })
 
       // move next thumbs from top to thumbnails position and fadeIn
-      nextThumbs.attr({ visibility: 'visible', transform: `translate(${currentThumbBBox.x},${currentThumbBBox.y - nextThumbBBox.height}) scale(1.4)` })
-      nextThumbs.stop().animate({ transform: `translate(${currentThumbBBox.x},${currentThumbInitialY}) scale(1.4)` }, animationDuration, () => {
+      nextThumbs.attr({ visibility: 'visible', transform: `translate(400,${nextThumbInitialY - nextThumbBBox.height}) scale(1.4)` })
+      nextThumbs.stop().animate({ transform: `translate(400,${nextThumbInitialY}) scale(1.4)` }, animationDuration, () => {
         onAnimationFinish()
       })
     }
