@@ -106,6 +106,7 @@ class TopSingle extends Component {
           onFetch={this.handleFetchNext}
           onScrollBellowTheFold={this.handleScrollBellowTheFold}
           className='TopSingle-products'
+          loaderStyle={styles.productsLoader}
         />
       </div>
     )
@@ -130,3 +131,11 @@ export default connect(
     resetProduct
   }
 )(TopSingle)
+
+const styles = {
+  productsLoader: {
+    position: 'static',
+    marginTop: '10%',
+    marginBottom: '10%'
+  }
+}

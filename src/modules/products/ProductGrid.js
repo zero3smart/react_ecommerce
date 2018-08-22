@@ -65,7 +65,7 @@ export default class ProductGrid extends PureComponent {
           }
         </div>
         <div className='ProductGrid-detail'>
-          <h5>{brand}</h5>
+          <h5 dangerouslySetInnerHTML={{ __html: brand }} />
           <div className='ProductGrid-price-tag'>
             {isSale && showOriginalPrice && <div className='ProductGrid-original-price'>{currency}{originalPrice}</div>}
             <div className={classNames('ProductGrid-price', { sale: isSale })}>

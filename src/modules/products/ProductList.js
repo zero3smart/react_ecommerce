@@ -26,7 +26,8 @@ class ProductList extends Component {
     onFetch: PropTypes.func.isRequired,
     likeProduct: PropTypes.func.isRequired,
     unlikeProduct: PropTypes.func.isRequired,
-    onScrollBellowTheFold: PropTypes.func.isRequired
+    onScrollBellowTheFold: PropTypes.func.isRequired,
+    loaderStyle: PropTypes.object
   }
 
   static defaultProps = {
@@ -85,7 +86,7 @@ class ProductList extends Component {
   }
 
   render () {
-    const { id, products, nextPage, show, children, className, extraItem, showOriginalPrice, onFetch } = this.props
+    const { id, products, nextPage, show, children, className, extraItem, showOriginalPrice, onFetch, loaderStyle } = this.props
     const { useMinimumAnimation } = this.state
 
     // get loaded products count
@@ -95,7 +96,7 @@ class ProductList extends Component {
     return (
       <ScrollFetcher id={id} onFetch={onFetch} onScroll={this.handleScroll} className={className} style={styles.wrapper} disableInitalFetch>
         {extraItem}
-        {!show && <DotLoader visible style={styles.loader} />}
+        {!show && <DotLoader visible style={loaderStyle || styles.loader} />}
         <div className='ProductList-wrapper'>
           <Transition show={show} transition={useMinimumAnimation ? 'fadeIn' : 'fadeInUp'}>
             {
