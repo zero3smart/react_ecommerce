@@ -57,16 +57,19 @@
   -o-transform: scale(1.4)!important;
 }
 
-/* edge support */
-@supports (-ms-ime-align: auto) {
-  .SimplePreset-svg > svg {
-    transform: scale(1)!important;
-  }
-}
-
 .SimplePreset-svg svg #bodypart_area {
   transform: scale(1.4) translate(50px, 0)!important;
   -webkit-transform: scale(1.4) translate(50px, 0)!important;
   -moz-transform: scale(1.4) translate(50px, 0)!important;
   -o-transform: scale(1.4) translate(50px, 0)!important;
+}
+
+/* edge support */
+@supports (-ms-ime-align: auto) {
+  .SimplePreset-svg > svg {
+    transform: scale(1)!important;
+  }
+  .SimplePreset-svg svg #bodypart_area {
+    transform: scale(1.4) translate(25, 0)!important;
+  }
 }
