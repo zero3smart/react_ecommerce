@@ -144,10 +144,8 @@ export default class VisualFilter {
   }
 
   initializeSwipableThumbnail () {
-    const touchArea = VisualFilter.findGroupById(this.snap, 'Thumbnail_Touch_Area')
-
     // initialize hammerjs manager
-    const hmThumb = new Hammer.Manager(touchArea.node, {
+    const hmThumb = new Hammer.Manager(this.snap.node, {
       recognizers: [
         [Hammer.Swipe, { direction: Hammer.DIRECTION_VERTICAL }]
       ],
