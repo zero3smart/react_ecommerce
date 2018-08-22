@@ -64,7 +64,7 @@
                         </g>
                     </g>
                     <text id="tap-these-thumbnails." fill="#4A4A4A" font-family="Muli-Regular, Muli" font-size="18" font-weight="normal">
-                        <tspan x="75" y="52.4">Or tap the thumbnail.</tspan>
+                        <tspan x="88" y="52.4">Or tap the thumbnail.</tspan>
                     </text>
                 </g>
                 <g id="tap_button" transform="translate(382.000000, 25.000000)">

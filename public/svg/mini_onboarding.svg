@@ -154,7 +154,7 @@
                             <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#onb-path-5"></use>
                         </g>
                         <text id="Alternatively,-you-c" font-family="Muli-Regular, Muli" font-size="18" font-weight="normal" line-spacing="25" letter-spacing="1.285714" fill="#4A4A4A">
-                            <tspan x="95" y="52.4">Or tap the thumbnail.</tspan>
+                            <tspan x="105" y="52.4">Or tap the thumbnail.</tspan>
                         </text>
                     </g>
                     <g id="tap_button" transform="translate(223.000000, 130.000000)" fill-rule="nonzero">
