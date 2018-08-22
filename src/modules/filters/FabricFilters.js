@@ -102,6 +102,7 @@ export default class FabricFilters extends PureComponent {
     const colorValues = color ? color.split(',') : []
     const colorHex = colorValues.length === 1 ? FABRIC_COLORS[color] : null
     const colorBackgroundImage = includes(['pastel', 'metal'], color) && colorHex // background image only applied for gradient color value
+    const colorBorder = color === 'white' && '1px solid #3D3D3D'
     // end of color button style
 
     return (
@@ -137,7 +138,8 @@ export default class FabricFilters extends PureComponent {
           iconSrc={includes(['all', null], color) || !colorHex ? colorSVGSrc : null}
           iconStyle={{
             backgroundColor: colorHex,
-            backgroundImage: colorBackgroundImage
+            backgroundImage: colorBackgroundImage,
+            border: colorBorder
           }}
           className={classNames('ColorPicker', { open: collorPalleteVisible })}>
           {filterButtonChild}
