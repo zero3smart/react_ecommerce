@@ -50,7 +50,6 @@ export default class FilterPanel extends Component {
       useVerticalThumb: useVerticalThumb
     })
 
-    console.debug('lastBodyPart', lastBodyPart)
     this.visualFilter.setLastBodyPart(lastBodyPart)
   }
 

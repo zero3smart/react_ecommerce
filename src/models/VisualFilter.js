@@ -544,7 +544,7 @@ export default class VisualFilter {
   }
 
   /**
-   * save last body part to localStorage
+   * get last body part to localStorage
    * @returns {string} last body part (prop)
    */
   static getLastBodyPart () {
