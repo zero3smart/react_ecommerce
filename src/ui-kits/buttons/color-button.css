@@ -26,13 +26,6 @@
   cursor: pointer;
 }
 
-.ColorButton:focus:not(:active) {
-  -webkit-animation: buttonPulse 0.5s cubic-bezier(0.66, 0, 0, 1);
-  -moz-animation: buttonPulse 0.5s cubic-bezier(0.66, 0, 0, 1);
-  -ms-animation: buttonPulse 0.5s cubic-bezier(0.66, 0, 0, 1);
-  animation: buttonPulse 0.5s cubic-bezier(0.66, 0, 0, 1);
-}
-
 .ColorButton.active {
   position: relative;
 }
