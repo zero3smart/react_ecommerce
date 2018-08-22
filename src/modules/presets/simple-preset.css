@@ -70,6 +70,6 @@
     transform: scale(1)!important;
   }
   .SimplePreset-svg svg #bodypart_area {
-    transform: scale(1.4) translate(25, 0)!important;
+    transform: scale(1.4) translate(0, 0)!important;
   }
 }
