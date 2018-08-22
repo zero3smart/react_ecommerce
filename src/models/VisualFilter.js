@@ -5,6 +5,7 @@
 // Import Snap from window. Snap is loaded from template.
 import pick from 'lodash-es/pick'
 import isNil from 'lodash-es/isNil'
+import isEmpty from 'lodash-es/isEmpty'
 import isEqual from 'lodash-es/isEqual'
 import Hammer from 'hammerjs'
 import {
@@ -15,7 +16,8 @@ import {
   THUMBNAIL_Y_OFFSET,
   THUMBNAIL_HIGHLITER_SIZE,
   THUMBNAIL_TOUCH_AREA_SIZE,
-  THUMBNAIL_PADDING
+  THUMBNAIL_PADDING,
+  LAST_BODY_PART
 } from 'config/constants'
 const { Snap, localStorage } = window
 
@@ -35,6 +37,7 @@ export default class VisualFilter {
   lastHighlightId = null
   lastBodyPart = 'shoulder'
   swipeView = false
+
   constructor (selector = '#svg', options = {}) {
     this.settings = {
       ...defaultOptions,
@@ -47,6 +50,12 @@ export default class VisualFilter {
     }
 
     this.initialize() // initialize snap
+  }
+
+  setLastBodyPart (lastBodyPart) {
+    if (!isEmpty(lastBodyPart) && this.lastBodyPart !== lastBodyPart) {
+      this.lastBodyPart = lastBodyPart
+    }
   }
 
   getbodyPartFilters (filters) {
@@ -160,13 +169,7 @@ export default class VisualFilter {
       const nextThumb = this.currentPropState[nextProp]
 
       this.animateThumbnail(this.currentThumbnail, nextProp, true, () => {
-        // change visual filter after animation finished
-        this.switchBodypartThumbnail(nextProp)
-        this.showVerticalSelectionBox(nextProp, nextThumb)
-        this.changePropSelection(nextProp, nextThumb)
-
-        VisualFilter.removeHighlight(this.snap)
-        VisualFilter.highlightGroup(this.snap, PROP_CONST[nextProp][3] + '_' + this.currentPropState[nextProp])
+        this.handleAfterSwipeThumbnail(nextProp, nextThumb)
       })
     })
 
@@ -178,15 +181,24 @@ export default class VisualFilter {
       const nextThumb = this.currentPropState[nextProp]
 
       this.animateThumbnail(this.currentThumbnail, nextProp, false, () => {
-        // change visual filter after animation finished
-        this.switchBodypartThumbnail(nextProp)
-        this.showVerticalSelectionBox(nextProp, nextThumb)
-        this.changePropSelection(nextProp, nextThumb)
-
-        VisualFilter.removeHighlight(this.snap)
-        VisualFilter.highlightGroup(this.snap, PROP_CONST[nextProp][3] + '_' + this.currentPropState[nextProp])
+        this.handleAfterSwipeThumbnail(nextProp, nextThumb)
       })
     })
+  }
+
+  handleAfterSwipeThumbnail (prop, sel) {
+    // change visual filter after animation finished
+    this.switchBodypartThumbnail(prop)
+    this.showVerticalSelectionBox(prop, sel)
+    this.changePropSelection(prop, sel)
+
+    // show / hide highlight
+    VisualFilter.removeHighlight(this.snap)
+    VisualFilter.highlightGroup(this.snap, PROP_CONST[prop][3] + '_' + this.currentPropState[prop])
+
+    // set last body part when its changed
+    this.lastBodyPart = prop
+    this.settings.onPropChange(prop)
   }
 
   /**
@@ -331,14 +343,13 @@ export default class VisualFilter {
       this.cyclePropSelection(prop)
     }
 
+    // set last body part when its changed
     this.lastBodyPart = prop
+    this.settings.onPropChange(prop)
 
     if (!this.settings.hideThumbnail) {
       this.switchBodypartThumbnail(prop)
     }
-    // else {
-    //  VisualFilter.removeHighlight(this.snap)
-    // }
   }
 
   updateThumbnailSelectionBox (prop) {
@@ -525,6 +536,29 @@ export default class VisualFilter {
   }
 
   /**
+   * save last body part to localStorage
+   * @param {string} prop
+   */
+  static saveLastBodyPart (prop) {
+    localStorage.setItem(LAST_BODY_PART, prop)
+  }
+
+  /**
+   * get last body part to localStorage
+   * @returns {string} last body part (prop)
+   */
+  static getLastBodyPart () {
+    return localStorage.getItem(LAST_BODY_PART)
+  }
+
+  /**
+   * remove last body part from localStorage
+   */
+  static removeLastBodyPart () {
+    localStorage.removeItem(LAST_BODY_PART)
+  }
+
+  /**
    * adjust container height based on thumbnails height
    * @param {Object} snap
    * @param {string} id
@@ -655,5 +689,6 @@ const defaultOptions = {
   hideOnboarding: false,
   useVerticalThumb: false,
   onFilterChange: (filters) => { console.debug('filter change', filters) },
+  onPropChange: (prop) => { console.debug('prop change', prop) },
   onSVGLoaded: () => {}
 }

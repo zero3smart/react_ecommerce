@@ -6,6 +6,7 @@ export const BASE_IMG_PATH = process.env.REACT_APP_BASE_IMG_PATH || '/'
 export const FAVORITE_PRODUCTS = 'favorite_products'
 export const FAVORITE_PRESETS = 'favorite_presets'
 export const FILTERS = 'filters'
+export const LAST_BODY_PART = 'last_body_part'
 
 // presets
 export const CUSTOM_PRESET_NAME = 'Custom Preset'

@@ -8,7 +8,7 @@ import FloatButton from './FloatButton'
 import { history } from 'config/store'
 import Transition from 'ui-kits/transitions/Transition'
 import { fetchProducts } from 'ducks/products'
-import { setFilter, syncFilter, syncFavoritePresets, saveFilterAsPreset, deleteFilterFromPreset } from 'ducks/filters'
+import { setFilter, syncFilter, syncFavoritePresets, saveFilterAsPreset, deleteFilterFromPreset, setLastBodyPart } from 'ducks/filters'
 import { isFilterSavedSelector } from './selectors'
 import { CUSTOM_PRESET_NAME } from 'config/constants'
 import './product-filter.css'
@@ -17,6 +17,7 @@ class ProductFilter extends Component {
   static propTypes = {
     filters: PropTypes.object,
     isFilterSaved: PropTypes.bool,
+    lastBodyPart: PropTypes.string,
     router: PropTypes.object,
     scrollBellowTheFold: PropTypes.bool,
     setFilter: PropTypes.func.isRequired,
@@ -24,7 +25,8 @@ class ProductFilter extends Component {
     syncFilter: PropTypes.func.isRequired,
     syncFavoritePresets: PropTypes.func.isRequired,
     saveFilterAsPreset: PropTypes.func.isRequired,
-    deleteFilterFromPreset: PropTypes.func.isRequired
+    deleteFilterFromPreset: PropTypes.func.isRequired,
+    setLastBodyPart: PropTypes.func.isRequired
   }
 
   constructor (props) {
@@ -83,8 +85,15 @@ class ProductFilter extends Component {
     }
   }
 
+  get handleBodyPartChange () {
+    const { setLastBodyPart } = this.props
+    return (bodyPart) => {
+      setLastBodyPart(bodyPart)
+    }
+  }
+
   render () {
-    const { filters, scrollBellowTheFold, isFilterSaved } = this.props
+    const { filters, scrollBellowTheFold, isFilterSaved, lastBodyPart } = this.props
     const { expanded } = this.state
 
     return (
@@ -93,9 +102,11 @@ class ProductFilter extends Component {
           <FilterPanel
             favorite={isFilterSaved}
             filters={filters}
+            lastBodyPart={lastBodyPart}
             onFilterChange={this.handleFilterChange}
             onClose={this.handleFilterToggle}
-            onFilterLike={this.handleFilterLike} />
+            onFilterLike={this.handleFilterLike}
+            onBodyPartChange={this.handleBodyPartChange} />
         </Transition>
         <Transition timeout={{ enter: 100, exit: 1500 }} show={!expanded} transition='unstyled'>
           <FloatButton filters={filters} onClick={this.handleFilterToggle} />
@@ -108,6 +119,7 @@ class ProductFilter extends Component {
 const mapStateToProps = state => ({
   filters: state.filters.data,
   isFilterSaved: isFilterSavedSelector(state, { customPresetName: CUSTOM_PRESET_NAME }),
+  lastBodyPart: state.filters.lastBodyPart,
   scrollBellowTheFold: state.product.scrollBellowTheFold,
   router: state.router
 })
@@ -120,6 +132,7 @@ export default connect(
     syncFavoritePresets,
     setFilter,
     saveFilterAsPreset,
-    deleteFilterFromPreset
+    deleteFilterFromPreset,
+    setLastBodyPart
   }
 )(ProductFilter)

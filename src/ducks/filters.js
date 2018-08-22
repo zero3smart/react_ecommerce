@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { FILTERS } from 'config/constants'
-import { Preset } from 'models'
+import { Preset, VisualFilter } from 'models'
 import { updatePresetFavorite, mapPresetFavorites } from './helpers'
 const { localStorage } = window
 
@@ -10,6 +10,7 @@ const SET_PRESETS = 'filters/SET_PRESETS'
 const SET_FAVORITE_PRESETS = 'filters/SET_FAVORITE_PRESETS'
 const LIKE_PRESET = 'filters/LIKE_PRESET'
 const UNLIKE_PRESET = 'filters/UNLIKE_PRESET'
+const SET_LAST_BODY_PART = 'filters/SET_LAST_BODY_PART'
 
 const defaultState = {
   data: {
@@ -24,6 +25,7 @@ const defaultState = {
     details: 0,
     color: null
   },
+  lastBodyPart: VisualFilter.getLastBodyPart(),
   presets: [],
   favoritePresets: [],
   presetsFetched: false
@@ -43,6 +45,11 @@ export default function reducer (state = defaultState, action = {}) {
         ...state,
         presets: mapPresetFavorites(payload.favoritePresetNames, payload.presets),
         presetsFetched: true
+      }
+    case SET_LAST_BODY_PART:
+      return {
+        ...state,
+        lastBodyPart: payload.lastBodyPart
       }
     case LIKE_PRESET:
       return {
@@ -73,6 +80,12 @@ export function setFilter (filters) {
 
 export function setPresets (presets, favoritePresetNames) {
   return { type: SET_PRESETS, payload: { presets, favoritePresetNames } }
+}
+
+export function setLastBodyPart (lastBodyPart) {
+  // set to localStorage
+  VisualFilter.saveLastBodyPart(lastBodyPart)
+  return { type: SET_LAST_BODY_PART, payload: { lastBodyPart } }
 }
 
 /**
