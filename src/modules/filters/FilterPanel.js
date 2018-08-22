@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import isEqual from 'lodash-es/isEqual'
-import closeSvgSrc from 'assets/svg/close.svg'
 import FabricFilters from './FabricFilters'
 import { VisualFilter } from 'models'
-import { LikeButton } from 'ui-kits/buttons'
+import { LikeButton, CloseButton } from 'ui-kits/buttons'
 import './filter-panel.css'
 
 export default class FilterPanel extends Component {
@@ -103,7 +102,7 @@ export default class FilterPanel extends Component {
         {
           !closable ? null : (
             <div className='FilterPanel-close' onClick={onClose}>
-              <img src={closeSvgSrc} alt='Close Filter' />
+              <CloseButton />
             </div>
           )
         }
