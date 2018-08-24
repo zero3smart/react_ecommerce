@@ -22,7 +22,7 @@ export default class Base extends Component {
   }
 
   get handleHomeLinkActive () {
-    return match => match || this.isProductDetailPage
+    return match => match // || this.isProductDetailPage
   }
 
   get handleFavoritesLinkActive () {
@@ -49,12 +49,12 @@ export default class Base extends Component {
         <Tabs>
           <NavLink
             exact
-            to={this.isProductDetailPage ? '#' : '/'}
+            to={'/'}
             onClick={this.handleLinkClick}
             isActive={this.handleHomeLinkActive}>
-            tops
+            YesPlz!
           </NavLink>
-          <NavLink to='/presets' onClick={this.handleLinkClick}>presets</NavLink>
+          <NavLink to='/presets' onClick={this.handleLinkClick}>fits</NavLink>
           <NavLink
             to={this.isFavoritesPage ? '#' : '/favorites/clothing'}
             onClick={this.handleLinkClick}

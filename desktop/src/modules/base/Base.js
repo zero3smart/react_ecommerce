@@ -46,7 +46,7 @@ export default class Base extends Component {
     return (
       <div className='Base'>
         <Tabs>
-          <NavLink exact to='/' onClick={this.handleLinkClick}>tops</NavLink>
+          <NavLink exact to='/' onClick={this.handleLinkClick}>YesPlz!</NavLink>
           {
             this.isProductDetailPage && (
               <NavLink
@@ -58,7 +58,7 @@ export default class Base extends Component {
               </NavLink>
             )
           }
-          <NavLink to='/presets' onClick={this.handleLinkClick}>presets</NavLink>
+          <NavLink to='/presets' onClick={this.handleLinkClick}>fits</NavLink>
           <NavLink
             to={this.isFavoritesPage ? '#' : '/favorites/clothing'}
             onClick={this.handleLinkClick}

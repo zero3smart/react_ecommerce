@@ -13,7 +13,7 @@
   line-height: 20px;
   text-align: center;
   text-decoration: none;
-  text-transform: lowercase;
+  /* text-transform: lowercase; */
   flex-basis: 100%;
   padding: 10px 5px 7px;
   border-bottom: 2px solid transparent;

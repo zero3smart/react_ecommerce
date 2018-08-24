@@ -86,20 +86,23 @@ class TopSingle extends Component {
 
     if (isProductFetched) {
       productBox = (
-        <Product
-          id={product.product_id}
-          name={product.name}
-          brand={product.brand}
-          price={product.price}
-          originalPrice={product.original_price}
-          imgSrc={product.front_img}
-          extraImgs={product.extra_imgs}
-          description={product.description}
-          favorite={product.favorite}
-          link={product.src_url}
-          rawData={product}
-          showDots
-        />
+        <div className='TopSingle-top-wrapper'>
+          <Product
+            id={product.product_id}
+            name={product.name}
+            brand={product.brand}
+            price={product.price}
+            originalPrice={product.original_price}
+            imgSrc={product.front_img}
+            extraImgs={product.extra_imgs}
+            description={product.description}
+            favorite={product.favorite}
+            link={product.src_url}
+            rawData={product}
+            showDots
+          />
+          <h4 align='center'>You might also like this.</h4>
+        </div>
       )
     }
 
