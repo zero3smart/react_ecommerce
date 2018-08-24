@@ -1,1 +1,0 @@
-../assets/vf_common.js
