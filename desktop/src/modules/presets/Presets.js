@@ -14,6 +14,7 @@ import Preset from 'yesplz@modules/presets/Preset'
 import { ProductList } from 'yesplz@modules/products'
 import './presets.css'
 
+// Shown as fits
 export class Presets extends Component {
   static propTypes = {
     // presets
@@ -185,6 +186,8 @@ export class Presets extends Component {
 
     return (
       <div id={splitView ? undefined : 'MainScroll'} className='Presets' style={style}>
+        <br />
+        <h2 align='center'>Editors' Pick - Click for the Shortcuts!</h2>
         {extraItem}
         {!isPresetsFetched && <DotLoader visible style={styles.loader} />}
         {/* presets list */}

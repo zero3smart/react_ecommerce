@@ -601,9 +601,10 @@ export default class VisualFilter {
    */
   static highlightGroup (snap, id) {
     id = id + '_HL'
-    // group.appendTo(group.parent()) // not needed
     // Assume highlight objects are after body parts in svg file
-    VisualFilter.showGroup(snap, id)
+    const group = VisualFilter.findGroupById(snap, id)
+    group.attr({visibility: 'visible', opacity: '1'})
+    group.animate({opacity: '.5'}, 250, null, function () { VisualFilter.hideGroup(snap, id) })
     VisualFilter.lastHighlightId = id
   }
 
