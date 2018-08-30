@@ -188,109 +188,94 @@
                     <path d="M72,23 C65.6878773,16.4899798 62.995439,9.04813288 62.4,1.0658141e-14 C57.2416463,5.09258215 50.501594,8.01683763 43.4,8.3 C36.3028657,7.99737849 29.0695173,4.97603155 24,1.0658141e-14 C23,9 21,15 15,23 C18.2,49.6666667 27.7,63 43.5,63 C58.4333333,63 67.9333333,49.6666667 72,23 Z" id="neckline_top_0" stroke="#686868" fill="#F4F4F4"></path>
                 </g>
             </g>
-            <g id="sleeves_0_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
+            <g id="sleeves_0_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
                 <use filter="url(#filter-2)" xlink:href="#path-1"></use>
             </g>
-            <g id="sleeves_1_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
+            <g id="sleeves_1_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
                 <use filter="url(#filter-4)" xlink:href="#path-3"></use>
             </g>
-            <g id="sleeves_2_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
+            <g id="sleeves_2_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
                 <use filter="url(#filter-6)" xlink:href="#path-5"></use>
             </g>
-            <g id="sleeves_3_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
+            <g id="sleeves_3_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
                 <use filter="url(#filter-8)" xlink:href="#path-7"></use>
             </g>
-            <g id="sleeves_4_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
+            <g id="sleeves_4_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
                 <use filter="url(#filter-10)" xlink:href="#path-9"></use>
             </g>
-            <g id="sleeves_5_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
+            <g id="sleeves_5_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
                 <use filter="url(#filter-12)" xlink:href="#path-11"></use>
             </g>
-            <g id="sleeves_all_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
+            <g id="sleeves_all_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
                 <use filter="url(#filter-14)" xlink:href="#path-13"></use>
             </g>
-            <g id="top_core_0_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
+            <g id="top_core_0_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
                 <use filter="url(#filter-16)" xlink:href="#path-15"></use>
             </g>
-            <g id="top_core_1_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
+            <g id="top_core_1_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
                 <use filter="url(#filter-18)" xlink:href="#path-17"></use>
             </g>
-            <g id="top_core_2_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
+            <g id="top_core_2_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
                 <use filter="url(#filter-20)" xlink:href="#path-19"></use>
             </g>
-            <g id="top_core_3_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
+            <g id="top_core_3_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
                 <use filter="url(#filter-22)" xlink:href="#path-21"></use>
             </g>
-            <g id="top_core_all_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
+            <g id="top_core_all_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
                 <use filter="url(#filter-24)" xlink:href="#path-23"></use>
             </g>
-            <g id="shoulder_0_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
+            <g id="shoulder_0_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
                 <use filter="url(#filter-26)" xlink:href="#path-25"></use>
             </g>
-            <g id="shoulder_1_HL" transform="translate(88.000000, 24.000000)" fill="black" fill-opacity="1" fill-rule="nonzero">
-                <g id="shoulder_left_1_HL">
-                    <use filter="url(#filter-28)" xlink:href="#path-27"></use>
-                </g>
-                <g id="shoulder_right_1_HL">
-                    <use filter="url(#filter-30)" xlink:href="#path-29"></use>
-                </g>
+            <g id="shoulder_1_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
+                <use filter="url(#filter-28)" xlink:href="#path-27"></use>
             </g>
-            <g id="shoulder_2_HL" transform="translate(79.000000, 24.000000)" fill="black" fill-opacity="1" fill-rule="nonzero">
-                <g id="shoulder_highlight_left_2">
-                    <use filter="url(#filter-32)" xlink:href="#path-31"></use>
-                </g>
-                <g id="shoulder_highlight_right_2">
-                    <use filter="url(#filter-34)" xlink:href="#path-33"></use>
-                </g>
+            <g id="shoulder_2_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
+                <use filter="url(#filter-30)" xlink:href="#path-29"></use>
             </g>
-            <g id="shoulder_3_HL" transform="translate(68.000000, 23.000000)" fill="black" fill-opacity="1" fill-rule="nonzero">
-                <g id="shoulder_left_highlight_3">
-                    <use filter="url(#filter-36)" xlink:href="#path-35"></use>
-                </g>
-                <g id="shoulder_right_highlight_3">
-                    <use filter="url(#filter-38)" xlink:href="#path-37"></use>
-                </g>
+            <g id="shoulder_3_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
+                <use filter="url(#filter-32)" xlink:href="#path-31"></use>
             </g>
-            <g id="shoulder_4_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
+            <g id="shoulder_4_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
                 <use filter="url(#filter-40)" xlink:href="#path-39"></use>
             </g>
-            <g id="shoulder_all_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
+            <g id="shoulder_all_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
                 <use filter="url(#filter-42)" xlink:href="#path-41"></use>
             </g>
-            <g id="top_collar_0_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
+            <g id="top_collar_0_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
                 <use filter="url(#filter-44)" xlink:href="#path-43"></use>
             </g>
-            <g id="top_collar_1_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
+            <g id="top_collar_1_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
                 <use filter="url(#filter-46)" xlink:href="#path-45"></use>
             </g>
-            <g id="top_collar_2_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
+            <g id="top_collar_2_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
                 <use filter="url(#filter-48)" xlink:href="#path-47"></use>
             </g>
-            <g id="top_collar_all_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
+            <g id="top_collar_all_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
                 <use filter="url(#filter-50)" xlink:href="#path-49"></use>
             </g>
-            <g id="length_0_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
+            <g id="length_0_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
                 <use filter="url(#filter-52)" xlink:href="#path-51"></use>
             </g>
-            <g id="length_1_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
+            <g id="length_1_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
                 <use filter="url(#filter-54)" xlink:href="#path-53"></use>
             </g>
-            <g id="length_2_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
+            <g id="length_2_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
                 <use filter="url(#filter-56)" xlink:href="#path-55"></use>
             </g>
-            <g id="length_all_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
+            <g id="length_all_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
                 <use filter="url(#filter-58)" xlink:href="#path-57"></use>
             </g>
-            <g id="neckline_0_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
+            <g id="neckline_0_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
                 <use filter="url(#filter-60)" xlink:href="#path-59"></use>
             </g>
-            <g id="neckline_1_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
+            <g id="neckline_1_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
                 <use filter="url(#filter-62)" xlink:href="#path-61"></use>
             </g>
-            <g id="neckline_2_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
+            <g id="neckline_2_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
                 <use filter="url(#filter-64)" xlink:href="#path-63"></use>
             </g>
-            <g id="neckline_all_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
+            <g id="neckline_all_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
                 <use filter="url(#filter-66)" xlink:href="#path-65"></use>
             </g>
         </g>

@@ -227,29 +227,14 @@
             <g id="shoulder_0_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
                 <use filter="url(#filter-26)" xlink:href="#path-25"></use>
             </g>
-            <g id="shoulder_1_HL" transform="translate(88.000000, 24.000000)" fill="black" fill-opacity="1" fill-rule="nonzero">
-                <g id="shoulder_left_1_HL">
-                    <use filter="url(#filter-28)" xlink:href="#path-27"></use>
-                </g>
-                <g id="shoulder_right_1_HL">
-                    <use filter="url(#filter-30)" xlink:href="#path-29"></use>
-                </g>
+            <g id="shoulder_1_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
+                <use filter="url(#filter-28)" xlink:href="#path-27"></use>
             </g>
-            <g id="shoulder_2_HL" transform="translate(79.000000, 24.000000)" fill="black" fill-opacity="1" fill-rule="nonzero">
-                <g id="shoulder_highlight_left_2">
-                    <use filter="url(#filter-32)" xlink:href="#path-31"></use>
-                </g>
-                <g id="shoulder_highlight_right_2">
-                    <use filter="url(#filter-34)" xlink:href="#path-33"></use>
-                </g>
+            <g id="shoulder_2_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
+                <use filter="url(#filter-30)" xlink:href="#path-29"></use>
             </g>
-            <g id="shoulder_3_HL" transform="translate(68.000000, 23.000000)" fill="black" fill-opacity="1" fill-rule="nonzero">
-                <g id="shoulder_left_highlight_3">
-                    <use filter="url(#filter-36)" xlink:href="#path-35"></use>
-                </g>
-                <g id="shoulder_right_highlight_3">
-                    <use filter="url(#filter-38)" xlink:href="#path-37"></use>
-                </g>
+            <g id="shoulder_3_HL" fill-rule="nonzero" fill="#FB9F84" fill-opacity="1">
+                <use filter="url(#filter-32)" xlink:href="#path-31"></use>
             </g>
             <g id="shoulder_4_HL" fill-rule="nonzero" fill="black" fill-opacity="1">
                 <use filter="url(#filter-40)" xlink:href="#path-39"></use>
