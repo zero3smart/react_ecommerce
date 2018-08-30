@@ -311,6 +311,13 @@ export default class VisualFilter {
         VisualFilter.hideGroup(this.snap, 'mini_onboarding_2')
         VisualFilter.showGroup(this.snap, 'mini_onboarding_3')
         this.handleBodyPartClick('shoulder')
+
+        var vf = this
+        setTimeout(function () { // Close message after 2 seconds
+          if (vf.onboardingStage === 3) {
+            vf.handleOnBoardingClick()
+          }
+        }, 2000)
         break
       case 3:
       default:
@@ -605,9 +612,9 @@ export default class VisualFilter {
     const group = VisualFilter.findGroupById(snap, id)
     group.attr({visibility: 'visible', opacity: '1', transform: 'scale(1)', 'transform-origin': '50% 50%'})
     group.animate({
-      opacity: '.7',
+      opacity: '.8',
       transform: 'scale(1.01)'
-    }, 100, null, function () { VisualFilter.hideGroup(snap, id) })
+    }, 200, null, function () { VisualFilter.hideGroup(snap, id) })
     VisualFilter.lastHighlightId = id
   }
 
