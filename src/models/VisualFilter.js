@@ -605,8 +605,9 @@ export default class VisualFilter {
     const group = VisualFilter.findGroupById(snap, id)
     group.attr({visibility: 'visible', opacity: '1', transform: 'scale(1)', 'transform-origin': '50% 50%'})
     group.animate({
+      opacity: '.7',
       transform: 'scale(1.01)'
-    }, 300, null, function () { VisualFilter.hideGroup(snap, id) })
+    }, 100, null, function () { VisualFilter.hideGroup(snap, id) })
     VisualFilter.lastHighlightId = id
   }
 
