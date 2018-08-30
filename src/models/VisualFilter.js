@@ -614,7 +614,7 @@ export default class VisualFilter {
     group.animate({
       opacity: '.8',
       transform: 'scale(1.01)'
-    }, 200, null, function () { VisualFilter.hideGroup(snap, id) })
+    }, 100, null, function () { VisualFilter.hideGroup(snap, id) })
     VisualFilter.lastHighlightId = id
   }
 
