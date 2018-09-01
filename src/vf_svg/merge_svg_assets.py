@@ -54,14 +54,17 @@ class VizFilterSvg:
     def svg(self):
         return self.contents + '\n'
 
-def load_svg_fixed(svg_fn, vertical):
+def load_svg_fixed(svg_fn, vertical, remove_all):
     # Fix incorrectly ids - fix these in sketch
     id_fixups = {
         #'color_palette_closed' : 'color_0',
     }
     # Adjust positions
     if vertical:
-        tn_xy = f'400 20'
+        if remove_all:
+            tn_xy = f'400 -10'
+        else:
+            tn_xy = f'400 20'
         scale = '1.4'
         pos_fixes = { i : [tn_xy, scale] for i in [
             'length_thumbnails',
@@ -74,14 +77,24 @@ def load_svg_fixed(svg_fn, vertical):
     else:
         tn_y = 320
         scale = None
-        pos_fixes = {
-            'length_thumbnails': [f'110 {tn_y}', scale], # 4 selections
-            'neckline_thumbnails': [f'110 {tn_y}', scale], # 4 selections
-            'shoulder_thumbnails': [f'50 {tn_y}', scale], # 6 selections
-            'sleeves_thumbnails': [f'10 {tn_y}', scale], # 7 selections
-            'top_collar_thumbnails': [f'110 {tn_y}', scale], # 4 selections
-            'top_core_thumbnails': [f'72 {tn_y}', scale], # 5 selections
-        }
+        if remove_all: 
+            pos_fixes = {
+                'length_thumbnails': [f'135 {tn_y}', scale], # 4 selections
+                'neckline_thumbnails': [f'135 {tn_y}', scale], # 4 selections
+                'shoulder_thumbnails': [f'68 {tn_y}', scale], # 6 selections
+                'sleeves_thumbnails': [f'35 {tn_y}', scale], # 7 selections
+                'top_collar_thumbnails': [f'135 {tn_y}', scale], # 4 selections
+                'top_core_thumbnails': [f'100 {tn_y}', scale], # 5 selections
+            }
+        else:
+            pos_fixes = {
+                'length_thumbnails': [f'110 {tn_y}', scale], # 4 selections
+                'neckline_thumbnails': [f'110 {tn_y}', scale], # 4 selections
+                'shoulder_thumbnails': [f'50 {tn_y}', scale], # 6 selections
+                'sleeves_thumbnails': [f'10 {tn_y}', scale], # 7 selections
+                'top_collar_thumbnails': [f'110 {tn_y}', scale], # 4 selections
+                'top_core_thumbnails': [f'72 {tn_y}', scale], # 5 selections
+            }
     pos_fixes.update({'BodyParts-Touch-Area' : [f'-9 -18', None]})
 
     # Misc fixes
@@ -101,7 +114,7 @@ def load_svg_fixed(svg_fn, vertical):
             svg.str_sub(*v)
     return svg.contents
 
-def merge_svgs(fn, vertical=False):
+def merge_svgs(fn, vertical=False, remove_all=False):
     upper_svgs = ['full_body.svg']
     upper_svgs += ['BodyParts-Touch-Area.svg']
     
@@ -127,16 +140,16 @@ def merge_svgs(fn, vertical=False):
         f.write('<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n')
         f.write(bodypart_mod)
         for svg in upper_svgs:
-            f.write(load_svg_fixed(svg, vertical))
+            f.write(load_svg_fixed(svg, vertical, remove_all))
         f.write('</g>')
         f.write('<g id="thumbnail_area" transform="translate(0, 10)">')
         for svg in lower_svgs:
-            f.write(load_svg_fixed(svg, vertical))
+            f.write(load_svg_fixed(svg, vertical, remove_all))
         f.write('</g>')
         f.write('</svg>')
 
 if __name__ == '__main__':
     outdir = Path('../../public/svg')
-    merge_svgs(outdir / 'vf_bundle.svg', vertical=False)
-    merge_svgs(outdir / 'vf_bundle_thumb_vertical.svg', vertical=True)
+    merge_svgs(outdir / 'vf_bundle.svg', vertical=False, remove_all=True)
+    merge_svgs(outdir / 'vf_bundle_thumb_vertical.svg', vertical=True, remove_all=True)
 

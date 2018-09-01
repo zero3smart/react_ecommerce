@@ -12,7 +12,7 @@ class Feedbacks extends Component {
             <h2>Tell us how we can do better!</h2>
             <p>
               <a href='mailto:hello@yesplz.us'>hello@yesplz.us</a>
-              <a href='https://www.instagram.com/yesplz_fashion/' target='_blank' className='SocialLink'>
+              <a href='https://www.instagram.com/yesplz_fashion/' target='_blank' rel='noopener noreferrer' className='SocialLink'>
                 Follow Us <img src={instagramSvgSrc} alt='Yesplz Instagram' />
               </a>
             </p>

@@ -448,7 +448,7 @@
     
     <defs></defs>
     <g id="BodyParts-Thumbnail-Final" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="length_thumbnails" transform="translate(110 320)">
+        <g id="length_thumbnails" transform="translate(135 320)">
             <text id="ALL" fill-opacity="0.775334013" fill="#686868" font-family="Muli-Bold, Muli" font-size="20" font-weight="bold">
                 <tspan x="215" y="36">ALL</tspan>
             </text>
@@ -496,7 +496,7 @@
     
     <defs></defs>
     <g id="BodyParts-Thumbnail-Final" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="neckline_thumbnails" transform="translate(110 320)">
+        <g id="neckline_thumbnails" transform="translate(135 320)">
             <text id="ALL" fill-opacity="0.775334013" fill="#686868" font-family="Muli-Bold, Muli" font-size="20" font-weight="bold">
                 <tspan x="217" y="36">ALL</tspan>
             </text>
@@ -546,7 +546,7 @@
     
     <defs></defs>
     <g id="BodyParts-Thumbnail-Final" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="shoulder_thumbnails" transform="translate(50 320)">
+        <g id="shoulder_thumbnails" transform="translate(68 320)">
             <text id="ALL" fill-opacity="0.775334013" fill="#686868" font-family="Muli-Bold, Muli" font-size="20" font-weight="bold">
                 <tspan x="354" y="36">ALL</tspan>
             </text>
@@ -625,7 +625,7 @@
     
     <defs></defs>
     <g id="BodyParts-Thumbnail-Final" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="sleeves_thumbnails" transform="translate(10 320)">
+        <g id="sleeves_thumbnails" transform="translate(35 320)">
             <text id="ALL" fill-opacity="0.775334013" fill="#686868" font-family="Muli-Bold, Muli" font-size="20" font-weight="bold">
                 <tspan x="421" y="37">ALL</tspan>
             </text>
@@ -715,7 +715,7 @@
     
     <defs></defs>
     <g id="BodyParts-Thumbnail-Final" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="top_collar_thumbnails" transform="translate(110 320)">
+        <g id="top_collar_thumbnails" transform="translate(135 320)">
             <text id="ALL" fill-opacity="0.775334013" fill="#686868" font-family="Muli-Bold, Muli" font-size="20" font-weight="bold">
                 <tspan x="220" y="36">ALL</tspan>
             </text>
@@ -767,7 +767,7 @@
     
     <defs></defs>
     <g id="BodyParts-Thumbnail-Final" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="top_core_thumbnails" transform="translate(72 320)">
+        <g id="top_core_thumbnails" transform="translate(100 320)">
             <text id="ALL" fill-opacity="0.775334013" fill="#686868" font-family="Muli-Bold, Muli" font-size="20" font-weight="bold">
                 <tspan x="289" y="36">ALL</tspan>
             </text>
