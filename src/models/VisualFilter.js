@@ -12,24 +12,25 @@ import {
   PROP_CONST,
   PROP_ORDERS,
   THUMBNAIL_IMG_X_OFFSET,
-  THUMBNAIL_X_OFFSET,
-  THUMBNAIL_Y_OFFSET,
+  VERT_THUMBNAIL_X_OFFSET,
+  VERT_THUMBNAIL_Y_OFFSET,
+  HORZ_THUMBNAIL_Y_OFFSET,
   THUMBNAIL_HIGHLITER_SIZE,
   THUMBNAIL_TOUCH_AREA_SIZE,
-  THUMBNAIL_PADDING,
-  LAST_BODY_PART
+  LAST_BODY_PART,
+  ENABLE_BODYPART_ALL_BTN
 } from 'config/constants'
 const { Snap, localStorage } = window
 
 export default class VisualFilter {
-  currentThumbnail = null
+  selectedBodyPart = null
   currentPropState = {
     collar: '0',
     coretype: '0',
     neckline: '0',
     shoulder: '0',
     sleeve_length: '0',
-    top_length: 'all'
+    top_length: '0'
   }
   onboardingStage = 0
   colorPalletteOpened = 0
@@ -92,9 +93,16 @@ export default class VisualFilter {
 
       VisualFilter.showGroup(this.snap, 'full-body')
 
+      if (!ENABLE_BODYPART_ALL_BTN) {
+        // Hide 'ALL' button
+        this.snapGroup.selectAll('#ALL').items.forEach((el, index) => {
+          el.attr({ visibility: 'hidden' })
+        })
+      }
+
       for (let prop in this.currentPropState) {
-        this.propGrpn = PROP_CONST[prop][3]
-        VisualFilter.showGroup(this.snap, this.propGrpn + '_' + this.currentPropState[prop])
+        VisualFilter.showGroup(this.snap,
+          this.getBodyPartGroupName(prop, this.currentPropState[prop]))
       }
 
       // onboarding
@@ -125,7 +133,7 @@ export default class VisualFilter {
     }
     // This will be touch hit-area
     for (var prop in this.currentPropState) {
-      group = VisualFilter.findGroupById(this.snap, PROP_CONST[prop][3] + '_touch')
+      group = VisualFilter.findGroupById(this.snap, this.getBodyPartGroupName(prop, 'touch'))
 
       if (group === null) {
         console.debug('Touch area for', prop, 'not found')
@@ -135,6 +143,7 @@ export default class VisualFilter {
       // Just make it not-visible. We still need it for hit-map
       group.attr({ visibility: 'visible' })
       group.attr({ opacity: '0' })
+      // group.attr({ opacity: '1' }) // Uncomment to visualize touch area
 
       if (!this.settings.disableEvent) {
         group.click(function () { self.handleBodyPartClick(this) }, prop)
@@ -163,24 +172,24 @@ export default class VisualFilter {
 
     // on swipeup, move to next thumbnail
     hmThumb.on('swipeup', (event) => {
-      const currentPropIndex = PROP_ORDERS.indexOf(this.currentThumbnail)
+      const currentPropIndex = PROP_ORDERS.indexOf(this.selectedBodyPart)
       const nextPropIndex = currentPropIndex < PROP_ORDERS.length - 1 ? currentPropIndex + 1 : 0
       const nextProp = PROP_ORDERS[nextPropIndex]
       const nextThumb = this.currentPropState[nextProp]
 
-      this.animateThumbnail(this.currentThumbnail, nextProp, true, () => {
+      this.animateThumbnail(this.selectedBodyPart, nextProp, true, () => {
         this.handleAfterSwipeThumbnail(nextProp, nextThumb)
       })
     })
 
     // on swipedown, move to prev thumbnail
     hmThumb.on('swipedown', (event) => {
-      const currentPropIndex = PROP_ORDERS.indexOf(this.currentThumbnail)
+      const currentPropIndex = PROP_ORDERS.indexOf(this.selectedBodyPart)
       const nextPropIndex = currentPropIndex > 0 ? currentPropIndex - 1 : PROP_ORDERS.length - 1
       const nextProp = PROP_ORDERS[nextPropIndex]
       const nextThumb = this.currentPropState[nextProp]
 
-      this.animateThumbnail(this.currentThumbnail, nextProp, false, () => {
+      this.animateThumbnail(this.selectedBodyPart, nextProp, false, () => {
         this.handleAfterSwipeThumbnail(nextProp, nextThumb)
       })
     })
@@ -194,7 +203,7 @@ export default class VisualFilter {
 
     // show / hide highlight
     VisualFilter.removeHighlight(this.snap)
-    VisualFilter.highlightGroup(this.snap, PROP_CONST[prop][3] + '_' + this.currentPropState[prop])
+    VisualFilter.highlightGroup(this.snap, this.getBodyPartGroupName(prop, this.currentPropState[prop]))
 
     // set last body part when its changed
     this.lastBodyPart = prop
@@ -210,8 +219,8 @@ export default class VisualFilter {
    * @param {number} animationDuration
    */
   animateThumbnail (prop, nextProp, movingUp = true, onAnimationFinish = () => {}, animationDuration = 300) {
-    const currentThumb = VisualFilter.findGroupById(this.snap, `${PROP_CONST[prop][3]}_thumbnails`)
-    const nextThumbs = VisualFilter.findGroupById(this.snap, `${PROP_CONST[nextProp][3]}_thumbnails`)
+    const currentThumb = VisualFilter.findGroupById(this.snap, this.getBodyPartGroupName(prop, 'thumbnails'))
+    const nextThumbs = VisualFilter.findGroupById(this.snap, this.getBodyPartGroupName(nextProp, 'thumbnails'))
     const currentThumbBBox = currentThumb.getBBox()
     const nextThumbBBox = nextThumbs.getBBox()
     const currentThumbInitialY = currentThumbBBox.y
@@ -247,7 +256,7 @@ export default class VisualFilter {
       return
     }
 
-    if (!this.settings.hideThumbnail && isNil(this.currentThumbnail)) { // Initial update
+    if (!this.settings.hideThumbnail && isNil(this.selectedBodyPart)) { // Initial update
       this.switchBodypartThumbnail(this.lastBodyPart)
     }
 
@@ -256,12 +265,10 @@ export default class VisualFilter {
     if (!isEqual(this.currentPropState, newPropState)) {
       // body part visibility handler
       for (let prop in newPropState) {
-        this.propGrpn = PROP_CONST[prop][3]
-
         // hide previous bodypart
-        VisualFilter.hideGroup(this.snap, this.propGrpn + '_' + this.currentPropState[prop])
+        VisualFilter.hideGroup(this.snap, this.getBodyPartGroupName(prop, this.currentPropState[prop]))
         // show next bodypart
-        VisualFilter.showGroup(this.snap, this.propGrpn + '_' + newPropState[prop])
+        VisualFilter.showGroup(this.snap, this.getBodyPartGroupName(prop, newPropState[prop]))
       }
       // update current prop state after body part visibility handler done
       this.currentPropState = newPropState
@@ -335,18 +342,17 @@ export default class VisualFilter {
   }
 
   switchBodypartThumbnail (prop) {
-    if (!isNil(this.currentThumbnail)) {
-      VisualFilter.hideGroup(this.snap, PROP_CONST[this.currentThumbnail][3] + '_thumbnails')
+    if (!isNil(this.selectedBodyPart)) {
+      VisualFilter.hideGroup(this.snap, this.getBodyPartGroupName(this.selectedBodyPart, 'thumbnails'))
     }
-    this.currentThumbnail = prop
-    const newTnGrp = PROP_CONST[prop][3] + '_thumbnails'
-    VisualFilter.showGroup(this.snap, newTnGrp)
+    this.selectedBodyPart = prop
+    VisualFilter.showGroup(this.snap, this.getBodyPartGroupName(prop, 'thumbnails'))
 
     this.updateThumbnailSelectionBox(prop)
   }
 
   handleBodyPartClick (prop) {
-    if (this.currentThumbnail.valueOf() === prop.valueOf()) {
+    if (this.selectedBodyPart.valueOf() === prop.valueOf()) {
       this.cyclePropSelection(prop)
     }
 
@@ -364,40 +370,25 @@ export default class VisualFilter {
     // Display current one
     if (this.settings.useVerticalThumb) {
       // Move thumbnail hit area
-      const xoffset = THUMBNAIL_X_OFFSET
-      const yoffset = 0
+      const xoffset = VERT_THUMBNAIL_X_OFFSET
+      const yoffset = VERT_THUMBNAIL_Y_OFFSET
       // get target thumbnail
-      const thumbnailGroupWrapper = VisualFilter.findGroupById(this.snap, `${PROP_CONST[prop][3]}_thumbnails`)
-      const thumbnailGroup = VisualFilter.findGroupById(this.snap, `${PROP_CONST[prop][3]}_thumbnails_0`)
-      const thumbnailRect = thumbnailGroup.node.getBoundingClientRect()
+      const thumbnailGroup0 = VisualFilter.findGroupById(this.snap, this.getBodyPartGroupName(prop, 'thumbnails_0'))
+      const thumbnailRect0 = thumbnailGroup0.node.getBoundingClientRect()
 
       // get scale value based on thumbnail size, add padding to get more volume.
-      const scale = (thumbnailRect.width + 10) / THUMBNAIL_TOUCH_AREA_SIZE.width
+      const scale = (thumbnailRect0.height * 1.38) / THUMBNAIL_TOUCH_AREA_SIZE.height
 
-      let desc = `t${xoffset},${yoffset}s${scale},${thumbnailRect.width},0`
+      let desc = `t${xoffset},${yoffset}s${scale},${thumbnailRect0.width},0`
 
-      const viewBoxHeight = this.viewBox[3]
-      const svgHeight = this.snap.node.getBoundingClientRect().height
-      const touchAreaRect = touchArea.node.getBoundingClientRect()
-      const thumbnailWrapperRect = thumbnailGroupWrapper.node.getBoundingClientRect()
-      // Use Rect.top instead of .y due to compatibility issue
-      const touchAndThumbnailGap = Math.abs(touchAreaRect.top - thumbnailWrapperRect.top) * viewBoxHeight / svgHeight
-
-      // adjust top position of touch area
       touchArea.selectAll('g > rect').items.forEach((el, index) => {
-        // for non "ALL" thumbnail, highliter size and position should be adjusted based on thumbnail
-        let thumbnailGroup = VisualFilter.findGroupById(this.snap, `${PROP_CONST[prop][3]}_thumbnails_${index - 1}`)
+        let thumbnailGroup = VisualFilter.findGroupById(this.snap, this.getBodyPartGroupName(prop, `thumbnails_${index}`))
 
         // if thumbnail for current index is available, adjust touch area to its position
         // else hide the touch area
         if (thumbnailGroup) {
-          const thumbnailRect = thumbnailGroup.node.getBoundingClientRect()
-          // get y value based on thumbnail position.
-          // the y value should be compared between the original svg size (viewbox) and current svg size (after resize).
-          // get only half padding width, to make it centered.
-          const y = (thumbnailRect.top - thumbnailWrapperRect.top + touchAndThumbnailGap) / scale * viewBoxHeight / svgHeight
-          el.attr({ visibility: 'visible', opacity: 0, y })
-        } else if (index > 1) {
+          el.attr({ visibility: 'visible', opacity: 0 }) // set opacity to none 0 for debugging.
+        } else {
           el.attr({ visibility: 'hidden', opacity: 0 })
         }
       })
@@ -408,45 +399,42 @@ export default class VisualFilter {
     } else {
       // Move thumbnail hit area
       const xoffset = VisualFilter.getThumbnailXOffset(prop) + 15
-      const yoffset = THUMBNAIL_Y_OFFSET + 15
+      const yoffset = HORZ_THUMBNAIL_Y_OFFSET + 15
       let desc = 't' + xoffset + ',' + yoffset
       touchArea.transform(desc)
 
-      VisualFilter.showHorizontalSelectionBox(this.snap, prop, this.currentPropState[prop])
+      this.showHorizontalSelectionBox(prop, this.currentPropState[prop])
     }
 
     VisualFilter.removeHighlight(this.snap)
-    VisualFilter.highlightGroup(this.snap, PROP_CONST[prop][3] + '_' + this.currentPropState[prop])
+    VisualFilter.highlightGroup(this.snap, this.getBodyPartGroupName(prop, this.currentPropState[prop]))
+  }
+
+  getMaxSelectionIndx (prop) {
+    if (ENABLE_BODYPART_ALL_BTN) {
+      return PROP_CONST[prop][1] + 1
+    } else {
+      return PROP_CONST[prop][1]
+    }
+  }
+
+  getBodyPartGroupName (prop, state) {
+    return PROP_CONST[prop][3] + '_' + state
   }
 
   /**
    * @todo: data mutation from argument should be removed
    */
   handleThumbnailClick (tnIdx) {
-    let thumbIndex = tnIdx
-    if (tnIdx > PROP_CONST[this.currentThumbnail][1] + 1) {
+    if (tnIdx > this.getMaxSelectionIndx(this.selectedBodyPart)) {
       return
     }
 
-    if (this.settings.useVerticalThumb) {
-      // on vertical thumbnails view, all should be at first
-      if (parseInt(tnIdx, 10) === 0) {
-        thumbIndex = 'all'
-      } else {
-        thumbIndex = parseInt(tnIdx, 10) - 1
-      }
-      this.showVerticalSelectionBox(this.currentThumbnail, thumbIndex)
-    } else {
-      // on horizontal thumbnails view, all should be at last
-      if (parseInt(tnIdx, 10) === PROP_CONST[this.currentThumbnail][1] + 1) {
-        thumbIndex = 'all'
-      }
-      VisualFilter.showHorizontalSelectionBox(this.snap, this.currentThumbnail, parseInt(tnIdx, 10))
-    }
-
-    this.changePropSelection(this.currentThumbnail, thumbIndex)
+    this.showSelectionBox(this.selectedBodyPart, tnIdx)
+    this.changePropSelection(this.selectedBodyPart, tnIdx)
     VisualFilter.removeHighlight(this.snap)
-    VisualFilter.highlightGroup(this.snap, PROP_CONST[this.currentThumbnail][3] + '_' + this.currentPropState[this.currentThumbnail])
+    VisualFilter.highlightGroup(this.snap,
+      this.getBodyPartGroupName(this.selectedBodyPart, this.currentPropState[this.selectedBodyPart]))
   }
 
   cyclePropSelection (prop) {
@@ -454,18 +442,20 @@ export default class VisualFilter {
       this.changePropSelection(prop, '0')
     } else {
       let next = parseInt(this.currentPropState[prop], 10) + 1
-      if (next === PROP_CONST[this.currentThumbnail][1] + 1) {
-        next = 'all'
+      if (next === PROP_CONST[this.selectedBodyPart][1] + 1) {
+        if (ENABLE_BODYPART_ALL_BTN) {
+          next = 'all'
+        } else {
+          next = 0
+        }
       }
       this.changePropSelection(prop, next)
     }
   }
 
   changePropSelection (prop, sel, requestChange = true) {
-    this.propGrpn = PROP_CONST[prop][3]
-
-    VisualFilter.hideGroup(this.snap, this.propGrpn + '_' + this.currentPropState[prop])
-    VisualFilter.showGroup(this.snap, this.propGrpn + '_' + sel)
+    VisualFilter.hideGroup(this.snap, this.getBodyPartGroupName(prop, this.currentPropState[prop]))
+    VisualFilter.showGroup(this.snap, this.getBodyPartGroupName(prop, sel))
 
     /**
      * Special handling for tank top
@@ -508,30 +498,38 @@ export default class VisualFilter {
     }
   }
 
+  showHorizontalSelectionBox (prop, sel) {
+    const group = VisualFilter.findGroupById(this.snap, 'Thumbnail-Highliter')
+    if (sel === 'all') {
+      sel = this.getMaxSelectionIndx(prop) // All is at the end
+    }
+    const x = sel * 68 + VisualFilter.getThumbnailXOffset(prop)
+    const desc = 't' + x + ',' + HORZ_THUMBNAIL_Y_OFFSET
+    group.transform(desc)
+    VisualFilter.showGroup(this.snap, 'Thumbnail-Highliter')
+  }
+
   showVerticalSelectionBox (prop, sel, animationDuration = null) {
     const thumbnailHighlighterGroup = VisualFilter.findGroupById(this.snap, 'Thumbnail-Highliter')
-    const thumbnailGroupWrapper = VisualFilter.findGroupById(this.snap, `${PROP_CONST[prop][3]}_thumbnails`)
     let desc = ''
 
     if (sel === 'all') {
-      desc = `t${(THUMBNAIL_X_OFFSET - 1)},0`
+      desc = `t${(VERT_THUMBNAIL_X_OFFSET - 1)},0`
     } else {
       // for non "ALL" thumbnail, highliter size and position should be adjusted based on thumbnail
-      let thumbnailGroup = VisualFilter.findGroupById(this.snap, `${PROP_CONST[prop][3]}_thumbnails_${sel}`)
-      const thumbnailWrapperRect = thumbnailGroupWrapper.node.getBoundingClientRect()
+      let thumbnailGroup = VisualFilter.findGroupById(this.snap, this.getBodyPartGroupName(prop, `thumbnails_${sel}`))
+      const thumbnail0Rect = VisualFilter.findGroupById(this.snap, this.getBodyPartGroupName(prop, 'thumbnails_0')).node.getBoundingClientRect()
       const thumbnailRect = thumbnailGroup.node.getBoundingClientRect()
       const viewBoxHeight = this.viewBox[3]
       const svgHeight = this.snap.node.getBoundingClientRect().height
 
-      // get scale value based on thumbnail size, add padding to get more volume.
-      const scale = (thumbnailRect.height + THUMBNAIL_PADDING) / THUMBNAIL_HIGHLITER_SIZE.height
+      // Scale highlighter box depending on thumbnail size
+      const scale = (thumbnailRect.height * 1.4) / THUMBNAIL_HIGHLITER_SIZE.height
 
       // get y value based on thumbnail position.
       // the y value should be compared between the original svg size (viewbox) and current svg size (after resize).
-      // get only half padding width, to make it centered.
-      const y = (thumbnailRect.top - thumbnailWrapperRect.top + (THUMBNAIL_PADDING / 2)) * viewBoxHeight / svgHeight
-
-      desc = `t${(THUMBNAIL_X_OFFSET - 1)},${y}s${scale},${thumbnailRect.width},0`
+      const y = VERT_THUMBNAIL_Y_OFFSET + (thumbnailRect.top - thumbnail0Rect.top) * viewBoxHeight / svgHeight
+      desc = `t${(VERT_THUMBNAIL_X_OFFSET - 3)},${y}s${scale},${thumbnailRect.width},0`
     }
 
     if (!isNil(animationDuration)) {
@@ -542,6 +540,25 @@ export default class VisualFilter {
     VisualFilter.showGroup(this.snap, 'Thumbnail-Highliter')
   }
 
+  showSelectionBox (prop, tnIdx) {
+    if (this.settings.useVerticalThumb) {
+      if (ENABLE_BODYPART_ALL_BTN) {
+        // on vertical thumbnails view, all should be at first
+        if (parseInt(tnIdx, 10) === 0) {
+          tnIdx = 'all'
+        } else {
+          tnIdx = parseInt(tnIdx, 10) - 1
+        }
+      }
+      this.showVerticalSelectionBox(this.selectedBodyPart, tnIdx)
+    } else {
+      // on horizontal thumbnails view, all should be at last
+      if (ENABLE_BODYPART_ALL_BTN && (parseInt(tnIdx, 10) === PROP_CONST[this.selectedBodyPart][1] + 1)) {
+        tnIdx = 'all'
+      }
+      this.showHorizontalSelectionBox(this.selectedBodyPart, parseInt(tnIdx, 10))
+    }
+  }
   /**
    * save last body part to localStorage
    * @param {string} prop
@@ -611,13 +628,13 @@ export default class VisualFilter {
     // Assume highlight objects are after body parts in svg file
     const group = VisualFilter.findGroupById(snap, id)
     group.attr({
-        visibility: 'visible', 
-        opacity: '1', 
-        transform: 'scale(1)', 
-        'transform-origin': '50% 50%'})
+      visibility: 'visible',
+      opacity: '1',
+      transform: 'scale(1)',
+      'transform-origin': '50% 50%'})
     group.animate({
-      opacity: '.8',
-      //transform: 'scale(1.01)'
+      opacity: '.8'
+      // transform: 'scale(1.01)' // Somehow scaling up animation looks shaky.
     }, 100, null, function () { VisualFilter.hideGroup(snap, id) })
     VisualFilter.lastHighlightId = id
   }
@@ -645,20 +662,13 @@ export default class VisualFilter {
   }
 
   static getThumbnailXOffset (prop) {
-    let tnCnt = PROP_CONST[prop][1] + 2
-    return THUMBNAIL_IMG_X_OFFSET[tnCnt]
-  }
-
-  static showHorizontalSelectionBox (snap, prop, sel) {
-    const group = VisualFilter.findGroupById(snap, 'Thumbnail-Highliter')
-    if (sel === 'all') {
-      sel = PROP_CONST[prop][1] + 1
+    var tnCnt
+    if (ENABLE_BODYPART_ALL_BTN) {
+      tnCnt = PROP_CONST[prop][1] + 2
+    } else {
+      tnCnt = PROP_CONST[prop][1] + 1
     }
-    const x = sel * 68 + VisualFilter.getThumbnailXOffset(prop)
-    const desc = 't' + x + ',' + THUMBNAIL_Y_OFFSET
-
-    group.transform(desc)
-    VisualFilter.showGroup(snap, 'Thumbnail-Highliter')
+    return THUMBNAIL_IMG_X_OFFSET[tnCnt]
   }
 
   /**

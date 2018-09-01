@@ -48,15 +48,20 @@ export const PROP_CONST = {
 }
 export const PROP_ORDERS = ['collar', 'shoulder', 'neckline', 'sleeve_length', 'coretype', 'top_length']
 
+export const ENABLE_BODYPART_ALL_BTN = false
+
 export const THUMBNAIL_IMG_X_OFFSET = {
-  4: 103,
-  5: 67,
-  6: 43,
-  7: 3
+  3: 132, // only in without ALL BTN
+  4: (ENABLE_BODYPART_ALL_BTN) ? 103 : 97,
+  5: (ENABLE_BODYPART_ALL_BTN) ? 67 : 63,
+  6: (ENABLE_BODYPART_ALL_BTN) ? 43 : 30,
+  7: 3 // only in with ALL BTN
 }
 
-export const THUMBNAIL_X_OFFSET = 400 - 6 // Affected by tn_x in merge_svg_asset.py
-export const THUMBNAIL_Y_OFFSET = 320 - 5 // Affected by tn_y in merge_svg_asset.py
+export const VERT_THUMBNAIL_X_OFFSET = 400 - 6 // Affected by tn_x in merge_svg_asset.py
+export const VERT_THUMBNAIL_Y_OFFSET = (ENABLE_BODYPART_ALL_BTN)? 0 : 30
+
+export const HORZ_THUMBNAIL_Y_OFFSET = 320 - 5 // Affected by tn_y in merge_svg_asset.py
 export const THUMBNAIL_TOUCH_AREA_SIZE = {
   width: 62,
   height: 62
@@ -65,4 +70,3 @@ export const THUMBNAIL_HIGHLITER_SIZE = {
   width: 62,
   height: 61
 }
-export const THUMBNAIL_PADDING = 20
