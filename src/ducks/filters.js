@@ -16,10 +16,10 @@ const defaultState = {
   data: {
     coretype: 2,
     collar: 0,
-    top_length: 'all',
+    top_length: 1,
     neckline: 1,
-    shoulder: 1,
-    sleeve_length: 3,
+    shoulder: 4,
+    sleeve_length: 0,
     solid: 0,
     pattern: 0,
     details: 0,

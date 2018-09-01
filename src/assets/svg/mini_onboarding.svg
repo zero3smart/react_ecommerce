@@ -157,7 +157,7 @@
                             <tspan x="105" y="52.4">Or tap the thumbnail.</tspan>
                         </text>
                     </g>
-                    <g id="tap_button" transform="translate(223.000000, 130.000000)" fill-rule="nonzero">
+                    <g id="tap_button" transform="translate(107.000000, 130.000000)" fill-rule="nonzero">
                         <g id="Group">
                             <g id="Ellipse_17-2">
                                 <use fill="black" fill-opacity="1" filter="url(#onb-filter-8)" xlink:href="#onb-path-7"></use>

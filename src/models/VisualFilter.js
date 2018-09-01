@@ -20,6 +20,13 @@ import {
   LAST_BODY_PART,
   ENABLE_BODYPART_ALL_BTN
 } from 'config/constants'
+
+import vfBundleSvg from 'assets/svg/vf_bundle.svg'
+import vfBundleVertSvg from 'assets/svg/vf_bundle_thumb_vertical.svg'
+import miniOnboardingSvg from 'assets/svg/mini_onboarding.svg'
+import miniOnboardingVertSvg from 'assets/svg/mini_onboarding_thumb_vertical.svg'
+
+
 const { Snap, localStorage } = window
 
 export default class VisualFilter {
@@ -71,11 +78,11 @@ export default class VisualFilter {
     let svgOnboardingSource = ''
     if (useVerticalThumb) {
       this.viewBox = [0, 0, 480, 380]
-      svgSource = `${process.env.PUBLIC_URL}/svg/vf_bundle_thumb_vertical.svg`
-      svgOnboardingSource = `${process.env.PUBLIC_URL}/svg/mini_onboarding_thumb_vertical.svg`
+      svgSource = vfBundleVertSvg
+      svgOnboardingSource = miniOnboardingVertSvg
     } else {
-      svgSource = `${process.env.PUBLIC_URL}/svg/vf_bundle.svg`
-      svgOnboardingSource = `${process.env.PUBLIC_URL}/svg/mini_onboarding.svg`
+      svgSource = vfBundleSvg
+      svgOnboardingSource = miniOnboardingSvg
     }
 
     if (hideThumbnail) {
@@ -91,7 +98,7 @@ export default class VisualFilter {
       // Hide all object and show what we want only later
       this.snapGroup.attr({ visibility: 'hidden' })
 
-      VisualFilter.showGroup(this.snap, 'full-body')
+      this.showGroup('full-body')
 
       if (!ENABLE_BODYPART_ALL_BTN) {
         // Hide 'ALL' button
@@ -101,8 +108,7 @@ export default class VisualFilter {
       }
 
       for (let prop in this.currentPropState) {
-        VisualFilter.showGroup(this.snap,
-          this.getBodyPartGroupName(prop, this.currentPropState[prop]))
+        this.showGroup(this.getBodyPartGroupName(prop, this.currentPropState[prop]))
       }
 
       // onboarding
@@ -133,7 +139,7 @@ export default class VisualFilter {
     }
     // This will be touch hit-area
     for (var prop in this.currentPropState) {
-      group = VisualFilter.findGroupById(this.snap, this.getBodyPartGroupName(prop, 'touch'))
+      group = this.findGroupById(this.getBodyPartGroupName(prop, 'touch'))
 
       if (group === null) {
         console.debug('Touch area for', prop, 'not found')
@@ -152,7 +158,7 @@ export default class VisualFilter {
 
     if (!this.settings.hideThumbnail) {
       for (let i = 0; i < 7; i++) {
-        group = VisualFilter.findGroupById(this.snap, 'thumbnail_touch_' + i)
+        group = this.findGroupById('thumbnail_touch_' + i)
         group.attr(thumbTouchSize)
         group.attr({ visibility: 'visible' })
         group.attr({ opacity: '0' })
@@ -202,8 +208,8 @@ export default class VisualFilter {
     this.changePropSelection(prop, sel)
 
     // show / hide highlight
-    VisualFilter.removeHighlight(this.snap)
-    VisualFilter.highlightGroup(this.snap, this.getBodyPartGroupName(prop, this.currentPropState[prop]))
+    this.removeHighlight()
+    this.highlightGroup(this.getBodyPartGroupName(prop, this.currentPropState[prop]))
 
     // set last body part when its changed
     this.lastBodyPart = prop
@@ -219,8 +225,8 @@ export default class VisualFilter {
    * @param {number} animationDuration
    */
   animateThumbnail (prop, nextProp, movingUp = true, onAnimationFinish = () => {}, animationDuration = 300) {
-    const currentThumb = VisualFilter.findGroupById(this.snap, this.getBodyPartGroupName(prop, 'thumbnails'))
-    const nextThumbs = VisualFilter.findGroupById(this.snap, this.getBodyPartGroupName(nextProp, 'thumbnails'))
+    const currentThumb = this.findGroupById(this.getBodyPartGroupName(prop, 'thumbnails'))
+    const nextThumbs = this.findGroupById(this.getBodyPartGroupName(nextProp, 'thumbnails'))
     const currentThumbBBox = currentThumb.getBBox()
     const nextThumbBBox = nextThumbs.getBBox()
     const currentThumbInitialY = currentThumbBBox.y
@@ -266,9 +272,9 @@ export default class VisualFilter {
       // body part visibility handler
       for (let prop in newPropState) {
         // hide previous bodypart
-        VisualFilter.hideGroup(this.snap, this.getBodyPartGroupName(prop, this.currentPropState[prop]))
+        this.hideGroup(this.getBodyPartGroupName(prop, this.currentPropState[prop]))
         // show next bodypart
-        VisualFilter.showGroup(this.snap, this.getBodyPartGroupName(prop, newPropState[prop]))
+        this.showGroup(this.getBodyPartGroupName(prop, newPropState[prop]))
       }
       // update current prop state after body part visibility handler done
       this.currentPropState = newPropState
@@ -278,10 +284,10 @@ export default class VisualFilter {
       }
     }
     if (newPropState['coretype'].toString() === '0') {
-      VisualFilter.hideGroup(this.snap, 'length_0')
-      VisualFilter.hideGroup(this.snap, 'length_1')
-      VisualFilter.hideGroup(this.snap, 'length_2')
-      VisualFilter.hideGroup(this.snap, 'length_all')
+      this.hideGroup('length_0')
+      this.hideGroup('length_1')
+      this.hideGroup('length_2')
+      this.hideGroup('length_all')
     }
   }
 
@@ -294,7 +300,7 @@ export default class VisualFilter {
       this.snapGroup.select('svg').attr({ viewBox: [-10, 0, 439, 393] })
     }
 
-    const group = VisualFilter.findGroupById(this.snap, 'mini_onboarding_touch')
+    const group = this.findGroupById('mini_onboarding_touch')
     group.click(() => {
       this.handleOnBoardingClick()
     }, this.snap)
@@ -304,19 +310,19 @@ export default class VisualFilter {
   handleOnBoardingClick () {
     switch (this.onboardingStage) {
       case 0:
-        VisualFilter.showGroup(this.snap, 'mini_onboarding_touch')
-        VisualFilter.showGroup(this.snap, 'mini_onboarding_1')
-        this.changePropSelection('shoulder', 0)
-        this.handleBodyPartClick('shoulder')
+        this.showGroup('mini_onboarding_touch')
+        this.showGroup('mini_onboarding_1')
+        this.changePropSelection('shoulder', 4)
+        // this.handleBodyPartClick('shoulder')
         break
       case 1:
-        VisualFilter.hideGroup(this.snap, 'mini_onboarding_1')
-        VisualFilter.showGroup(this.snap, 'mini_onboarding_2')
+        this.hideGroup('mini_onboarding_1')
+        this.showGroup('mini_onboarding_2')
         this.handleBodyPartClick('shoulder')
         break
       case 2:
-        VisualFilter.hideGroup(this.snap, 'mini_onboarding_2')
-        VisualFilter.showGroup(this.snap, 'mini_onboarding_3')
+        this.hideGroup('mini_onboarding_2')
+        this.showGroup('mini_onboarding_3')
         this.handleBodyPartClick('shoulder')
 
         var vf = this
@@ -328,8 +334,8 @@ export default class VisualFilter {
         break
       case 3:
       default:
-        VisualFilter.hideGroup(this.snap, 'mini_onboarding_touch')
-        VisualFilter.hideGroup(this.snap, 'mini_onboarding_3')
+        this.hideGroup('mini_onboarding_touch')
+        this.hideGroup('mini_onboarding_3')
         this.handleOnboardingFinished()
         this.initializeClickHitMap() // Delay late to avoid Conflict with onboarding hitmap
         break
@@ -343,10 +349,10 @@ export default class VisualFilter {
 
   switchBodypartThumbnail (prop) {
     if (!isNil(this.selectedBodyPart)) {
-      VisualFilter.hideGroup(this.snap, this.getBodyPartGroupName(this.selectedBodyPart, 'thumbnails'))
+      this.hideGroup(this.getBodyPartGroupName(this.selectedBodyPart, 'thumbnails'))
     }
     this.selectedBodyPart = prop
-    VisualFilter.showGroup(this.snap, this.getBodyPartGroupName(prop, 'thumbnails'))
+    this.showGroup(this.getBodyPartGroupName(prop, 'thumbnails'))
 
     this.updateThumbnailSelectionBox(prop)
   }
@@ -366,14 +372,14 @@ export default class VisualFilter {
   }
 
   updateThumbnailSelectionBox (prop) {
-    const touchArea = VisualFilter.findGroupById(this.snap, 'Thumbnail_Touch_Area')
+    const touchArea = this.findGroupById('Thumbnail_Touch_Area')
     // Display current one
     if (this.settings.useVerticalThumb) {
       // Move thumbnail hit area
       const xoffset = VERT_THUMBNAIL_X_OFFSET
       const yoffset = VERT_THUMBNAIL_Y_OFFSET
       // get target thumbnail
-      const thumbnailGroup0 = VisualFilter.findGroupById(this.snap, this.getBodyPartGroupName(prop, 'thumbnails_0'))
+      const thumbnailGroup0 = this.findGroupById(this.getBodyPartGroupName(prop, 'thumbnails_0'))
       const thumbnailRect0 = thumbnailGroup0.node.getBoundingClientRect()
 
       // get scale value based on thumbnail size, add padding to get more volume.
@@ -382,7 +388,7 @@ export default class VisualFilter {
       let desc = `t${xoffset},${yoffset}s${scale},${thumbnailRect0.width},0`
 
       touchArea.selectAll('g > rect').items.forEach((el, index) => {
-        let thumbnailGroup = VisualFilter.findGroupById(this.snap, this.getBodyPartGroupName(prop, `thumbnails_${index}`))
+        let thumbnailGroup = this.findGroupById(this.getBodyPartGroupName(prop, `thumbnails_${index}`))
 
         // if thumbnail for current index is available, adjust touch area to its position
         // else hide the touch area
@@ -406,8 +412,8 @@ export default class VisualFilter {
       this.showHorizontalSelectionBox(prop, this.currentPropState[prop])
     }
 
-    VisualFilter.removeHighlight(this.snap)
-    VisualFilter.highlightGroup(this.snap, this.getBodyPartGroupName(prop, this.currentPropState[prop]))
+    this.removeHighlight()
+    this.highlightGroup(this.getBodyPartGroupName(prop, this.currentPropState[prop]))
   }
 
   getMaxSelectionIndx (prop) {
@@ -432,9 +438,8 @@ export default class VisualFilter {
 
     this.showSelectionBox(this.selectedBodyPart, tnIdx)
     this.changePropSelection(this.selectedBodyPart, tnIdx)
-    VisualFilter.removeHighlight(this.snap)
-    VisualFilter.highlightGroup(this.snap,
-      this.getBodyPartGroupName(this.selectedBodyPart, this.currentPropState[this.selectedBodyPart]))
+    this.removeHighlight()
+    this.highlightGroup(this.getBodyPartGroupName(this.selectedBodyPart, this.currentPropState[this.selectedBodyPart]))
   }
 
   cyclePropSelection (prop) {
@@ -454,8 +459,8 @@ export default class VisualFilter {
   }
 
   changePropSelection (prop, sel, requestChange = true) {
-    VisualFilter.hideGroup(this.snap, this.getBodyPartGroupName(prop, this.currentPropState[prop]))
-    VisualFilter.showGroup(this.snap, this.getBodyPartGroupName(prop, sel))
+    this.hideGroup(this.getBodyPartGroupName(prop, this.currentPropState[prop]))
+    this.showGroup(this.getBodyPartGroupName(prop, sel))
 
     /**
      * Special handling for tank top
@@ -467,28 +472,28 @@ export default class VisualFilter {
     if (prop === 'coretype') {
       if (sel === 0) { // coretype is moving to 0. Change top length to 0 also
         this.savedTopLength = this.currentPropState['top_length']
-        VisualFilter.hideGroup(this.snap, 'length_' + this.currentPropState['top_length'])
+        this.hideGroup('length_' + this.currentPropState['top_length'])
         // change top length to 0
         this.currentPropState['top_length'] = 0
         // show 0 top length image
-        VisualFilter.showGroup(this.snap, 'length_0')
+        this.showGroup('length_0')
       } else if (this.currentPropState['coretype'] === 0) { // coretype is moving away from 0. Restore top length
-        VisualFilter.hideGroup(this.snap, 'length_0')
-        VisualFilter.hideGroup(this.snap, 'length_1')
-        VisualFilter.hideGroup(this.snap, 'length_2')
-        VisualFilter.hideGroup(this.snap, 'length_all')
+        this.hideGroup('length_0')
+        this.hideGroup('length_1')
+        this.hideGroup('length_2')
+        this.hideGroup('length_all')
         if (isNil(this.savedTopLength)) {
-          VisualFilter.showGroup(this.snap, 'length_0')
+          this.showGroup('length_0')
         } else {
-          VisualFilter.showGroup(this.snap, 'length_' + this.savedTopLength)
+          this.showGroup('length_' + this.savedTopLength)
           this.currentPropState['top_length'] = this.savedTopLength
           this.savedTopLength = null
         }
       }
     }
     if (prop === 'top_length' && this.currentPropState['coretype'] === 0) {
-      VisualFilter.hideGroup(this.snap, 'top_core_0')
-      VisualFilter.showGroup(this.snap, 'top_core_1')
+      this.hideGroup('top_core_0')
+      this.showGroup('top_core_1')
       this.currentPropState['coretype'] = 1 // Avoid recursion
     }
 
@@ -499,26 +504,26 @@ export default class VisualFilter {
   }
 
   showHorizontalSelectionBox (prop, sel) {
-    const group = VisualFilter.findGroupById(this.snap, 'Thumbnail-Highliter')
+    const group = this.findGroupById('Thumbnail-Highliter')
     if (sel === 'all') {
       sel = this.getMaxSelectionIndx(prop) // All is at the end
     }
     const x = sel * 68 + VisualFilter.getThumbnailXOffset(prop)
     const desc = 't' + x + ',' + HORZ_THUMBNAIL_Y_OFFSET
     group.transform(desc)
-    VisualFilter.showGroup(this.snap, 'Thumbnail-Highliter')
+    this.showGroup('Thumbnail-Highliter')
   }
 
   showVerticalSelectionBox (prop, sel, animationDuration = null) {
-    const thumbnailHighlighterGroup = VisualFilter.findGroupById(this.snap, 'Thumbnail-Highliter')
+    const thumbnailHighlighterGroup = this.findGroupById('Thumbnail-Highliter')
     let desc = ''
 
     if (sel === 'all') {
       desc = `t${(VERT_THUMBNAIL_X_OFFSET - 1)},0`
     } else {
       // for non "ALL" thumbnail, highliter size and position should be adjusted based on thumbnail
-      let thumbnailGroup = VisualFilter.findGroupById(this.snap, this.getBodyPartGroupName(prop, `thumbnails_${sel}`))
-      const thumbnail0Rect = VisualFilter.findGroupById(this.snap, this.getBodyPartGroupName(prop, 'thumbnails_0')).node.getBoundingClientRect()
+      let thumbnailGroup = this.findGroupById(this.getBodyPartGroupName(prop, `thumbnails_${sel}`))
+      const thumbnail0Rect = this.findGroupById(this.getBodyPartGroupName(prop, 'thumbnails_0')).node.getBoundingClientRect()
       const thumbnailRect = thumbnailGroup.node.getBoundingClientRect()
       const viewBoxHeight = this.viewBox[3]
       const svgHeight = this.snap.node.getBoundingClientRect().height
@@ -537,7 +542,7 @@ export default class VisualFilter {
     } else {
       thumbnailHighlighterGroup.transform(desc)
     }
-    VisualFilter.showGroup(this.snap, 'Thumbnail-Highliter')
+    this.showGroup('Thumbnail-Highliter')
   }
 
   showSelectionBox (prop, tnIdx) {
@@ -584,37 +589,34 @@ export default class VisualFilter {
 
   /**
    * adjust container height based on thumbnails height
-   * @param {Object} snap
    * @param {string} id
    */
-  static adjustHeight (snap, id) {
-    const group = VisualFilter.findGroupById(snap, id)
+  adjustHeight (id) {
+    const group = this.findGroupById(id)
     const componentHeight = group.node.getBBox().height + 150
     // set minimum height of 400
     const viewBox = [0, 0, 490, componentHeight < 380 ? 380 : componentHeight]
-    snap.attr({ viewBox })
+    this.snap.attr({ viewBox })
   }
 
   /**
    * Set svg group to visible
-   * @param {Object} snap
    * @param {string} id
    * @param {Object} extraProps
    */
-  static showGroup (snap, id, extraProps = {}) {
-    const group = VisualFilter.findGroupById(snap, id)
+  showGroup (id, extraProps = {}) {
+    const group = this.findGroupById(id)
     group.attr({ visibility: 'visible', ...extraProps })
     return group
   }
 
   /**
    * Set svg group to invisible
-   * @param {Object} snap
    * @param {string} id
    * @param {Object} extraProps
    */
-  static hideGroup (snap, id, extraProps) {
-    const group = VisualFilter.findGroupById(snap, id)
+  hideGroup (id, extraProps) {
+    const group = this.findGroupById(id)
     group.attr({ visibility: 'hidden', ...extraProps })
   }
 
@@ -623,10 +625,10 @@ export default class VisualFilter {
    * @param {Object} snap
    * @param {string} id
    */
-  static highlightGroup (snap, id) {
+  highlightGroup (id) {
     id = id + '_HL'
-    // Assume highlight objects are after body parts in svg file
-    const group = VisualFilter.findGroupById(snap, id)
+    // Assume highlight objects are defined below body parts in svg file
+    const group = this.findGroupById(id)
     group.attr({
       visibility: 'visible',
       opacity: '1',
@@ -635,25 +637,24 @@ export default class VisualFilter {
     group.animate({
       opacity: '.8'
       // transform: 'scale(1.01)' // Somehow scaling up animation looks shaky.
-    }, 100, null, function () { VisualFilter.hideGroup(snap, id) })
-    VisualFilter.lastHighlightId = id
+    }, 100, null, () => { this.hideGroup(id) })
+    this.lastHighlightId = id
   }
 
-  static removeHighlight (snap) {
-    if (!isNil(VisualFilter.lastHighlightId)) {
-      VisualFilter.hideGroup(snap, VisualFilter.lastHighlightId)
-      VisualFilter.lastHighlightId = null
+  removeHighlight () {
+    if (!isNil(this.lastHighlightId)) {
+      this.hideGroup(this.lastHighlightId)
+      this.lastHighlightId = null
     }
   }
 
   /**
    * Find svg group based on specific id
-   * @param {*} snap
    * @param {*} id
    * @return {Object} svg group
    */
-  static findGroupById (snap, id) {
-    const group = snap.select('#' + id)
+  findGroupById (id) {
+    const group = this.snap.select('#' + id)
     if (group === null) {
       console.debug('Missing group', id)
       return null

@@ -149,7 +149,7 @@ def merge_svgs(fn, vertical=False, remove_all=False):
         f.write('</svg>')
 
 if __name__ == '__main__':
-    outdir = Path('../../public/svg')
+    outdir = Path('../assets/svg')
     merge_svgs(outdir / 'vf_bundle.svg', vertical=False, remove_all=True)
     merge_svgs(outdir / 'vf_bundle_thumb_vertical.svg', vertical=True, remove_all=True)
 
