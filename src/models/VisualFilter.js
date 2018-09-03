@@ -313,7 +313,7 @@ export default class VisualFilter {
         this.showGroup('mini_onboarding_touch')
         this.showGroup('mini_onboarding_1')
         this.changePropSelection('shoulder', 4)
-        // this.handleBodyPartClick('shoulder')
+        this.updateThumbnailSelectionBox('shoulder')
         break
       case 1:
         this.hideGroup('mini_onboarding_1')
