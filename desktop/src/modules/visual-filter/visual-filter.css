@@ -20,14 +20,15 @@
 
 /* filter like button */
 .VisualFilter .FilterPanel .LikeButton {
-  position: relative;
+  position: static;
   display: block;
   max-width: 500px;
   margin: auto;
-  top: auto;
-  bottom: -40px;
 }
 .VisualFilter .FilterPanel .LikeButton > button {
+  position: relative;
+  top: auto;
+  bottom: -40px;
   width: 40px;
   height: 40px;
 }
