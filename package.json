@@ -22,13 +22,15 @@
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",
     "reselect": "^3.0.1",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "source-map-explorer": "^1.6.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "analyze": "source-map-explorer build/static/js/main.*"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.6",
