@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import isEqual from 'lodash-es/isEqual'
-import FabricFilters from './FabricFilters'
+import SecondaryFilters from './SecondaryFilters'
 import { VisualFilter } from 'models'
 import { LikeButton, CloseButton } from 'ui-kits/buttons'
 import './filter-panel.css'
@@ -103,7 +103,7 @@ export default class FilterPanel extends Component {
   }
 
   render () {
-    const { favorite, onClose, className, closable } = this.props
+    const { filters, favorite, onClose, className, closable } = this.props
 
     return (
       <div className={`FilterPanel ${className}`}>
@@ -116,7 +116,7 @@ export default class FilterPanel extends Component {
           )
         }
         <svg id='VisualFilter' />
-        <FabricFilters kind='inline' onChange={this.handleFabricFilter} {...this.fabricFilters} />
+        <SecondaryFilters sale={filters.sale} fabricFilters={this.fabricFilters} onChange={this.handleFabricFilter} />
       </div>
     )
   }
