@@ -9,12 +9,21 @@
   max-width: 100%;
   padding: 10px;
   margin: auto;
-  border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -o-border-radius: 5px;
 }
 
 .Button:hover {
   background: rgba(61, 61, 61, 0.8);
+}
+
+/* shape */
+.Button.default {
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+}
+
+.Button.rounded {
+  -webkit-border-radius: 2em;
+  -moz-border-radius: 2em;
+  border-radius: 2em;
 }
