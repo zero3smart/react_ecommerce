@@ -131,6 +131,7 @@ def merge_svgs(fn, vertical=False, remove_all=False):
     lower_svgs += [s.replace('.svg', '_vert.svg') if vertical else s for s in hv_svgs]
 
     if vertical:
+        lower_svgs += ['Navigation-Arrows.svg']
         bodypart_mod = '<svg><g id="bodypart_area" transform="scale(1.35) translate(30, 15)">'
     else:
         bodypart_mod = '<svg><g id="bodypart_area" transform="scale(1.35) translate(50, 15)">'
