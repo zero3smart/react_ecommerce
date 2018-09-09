@@ -23,7 +23,8 @@ const defaultState = {
     solid: 0,
     pattern: 0,
     details: 0,
-    color: null
+    color: null,
+    sale: 0
   },
   lastBodyPart: VisualFilter.getLastBodyPart(),
   presets: [],
