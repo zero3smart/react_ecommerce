@@ -11,6 +11,7 @@ class Tops extends Component {
     products: PropTypes.array,
     totalCount: PropTypes.number,
     isProductsFetched: PropTypes.bool,
+    willBeEmptyList: PropTypes.bool,
     nextPage: PropTypes.number,
     syncFilter: PropTypes.func.isRequired,
     fetchProducts: PropTypes.func.isRequired
@@ -18,7 +19,8 @@ class Tops extends Component {
 
   static defaultProps = {
     products: [],
-    isProductsFetched: false
+    isProductsFetched: false,
+    willBeEmptyList: false
   }
 
   componentDidMount () {
@@ -49,7 +51,7 @@ class Tops extends Component {
   }
 
   render () {
-    const { products, isProductsFetched, nextPage } = this.props
+    const { products, isProductsFetched, nextPage, willBeEmptyList } = this.props
 
     return (
       <div className='Tops'>
@@ -57,6 +59,7 @@ class Tops extends Component {
           id='MainScroll'
           show={isProductsFetched}
           products={products}
+          willBeEmptyList={willBeEmptyList}
           nextPage={nextPage}
           onFetch={this.handleFetch}
           className='Tops-products'
@@ -70,6 +73,7 @@ const mapStateToProps = (state, props) => ({
   filters: state.filters.data,
   products: state.products.list,
   totalCount: state.products.totalCount,
+  willBeEmptyList: state.products.willBeEmptyList,
   isProductsFetched: state.products.fetched,
   nextPage: state.products.nextPage
 })

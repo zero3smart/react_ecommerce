@@ -1,5 +1,7 @@
 .ProductFilter {
   animation-name: bounceInUp;
+  position: relative;
+  z-index: 9;
 }
 
 .ProductFilter.allowHide.pullDown {

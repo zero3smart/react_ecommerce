@@ -7,6 +7,7 @@ import Transition from 'ui-kits/transitions/Transition'
 import { ScrollFetcher } from 'ui-kits/fetchers'
 import { DotLoader } from 'ui-kits/loaders'
 import { likeProduct, unlikeProduct } from 'ducks/product'
+import ProductsNotFound from './ProductsNotFound'
 import { PRODUCT_COUNT_PER_PAGE } from 'config/constants'
 
 const childRenderer = (props) => (
@@ -18,6 +19,7 @@ class ProductList extends Component {
     id: PropTypes.string,
     products: PropTypes.array,
     nextPage: PropTypes.number,
+    willBeEmptyList: PropTypes.bool,
     show: PropTypes.bool,
     children: PropTypes.func,
     className: PropTypes.string,
@@ -33,6 +35,7 @@ class ProductList extends Component {
   static defaultProps = {
     products: [],
     nextPage: 0,
+    willBeEmptyList: false,
     show: false,
     children: childRenderer,
     extraItem: undefined,
@@ -86,7 +89,7 @@ class ProductList extends Component {
   }
 
   render () {
-    const { id, products, nextPage, show, children, className, extraItem, showOriginalPrice, onFetch, loaderStyle } = this.props
+    const { id, products, nextPage, show, children, className, extraItem, showOriginalPrice, onFetch, loaderStyle, willBeEmptyList } = this.props
     const { useMinimumAnimation } = this.state
 
     // get loaded products count
@@ -94,7 +97,15 @@ class ProductList extends Component {
     const loadedProductsCount = PRODUCT_COUNT_PER_PAGE * (currentPage < 0 ? 0 : currentPage)
 
     return (
-      <ScrollFetcher id={id} onFetch={onFetch} onScroll={this.handleScroll} className={className} style={styles.wrapper} disableInitalFetch>
+      <ScrollFetcher
+        id={id}
+        onFetch={onFetch}
+        onScroll={this.handleScroll}
+        className={className}
+        style={{ ...styles.wrapper, overflowY: willBeEmptyList ? 'hidden' : 'scroll' }}
+        disableInitalFetch
+      >
+        {willBeEmptyList && <ProductsNotFound style={styles.notFound} />}
         {extraItem}
         {!show && <DotLoader visible style={loaderStyle || styles.loader} />}
         <div className='ProductList-wrapper'>
@@ -143,5 +154,13 @@ const styles = {
     left: 0,
     width: 100,
     height: 30
+  },
+  notFound: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 3
   }
 }

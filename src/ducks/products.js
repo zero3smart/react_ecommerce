@@ -14,6 +14,7 @@ const SET_FAVORITE_PRODUCTS = 'products/SET_FAVORITE_PRODUCTS'
 
 const defaultState = {
   list: [],
+  willBeEmptyList: false,
   favoriteLists: [],
   fetched: false,
   nextPage: 0,
@@ -25,12 +26,30 @@ export default function reducer (state = defaultState, action = {}) {
   const { type, payload } = action
   switch (type) {
     case SET_PRODUCTS:
+      let updatedState = {}
+      const list = mapProductFavorites(payload.favoriteProductIds, payload.products)
+
+      // if list is updated with new set of data (filters change) and the date is empty,
+      // don't update it directly, but instead, set `willBeEmptyList` flag to true.
+      // we need this to warn user about empty result from current filters,
+      // but still keeping the previous data set in the background.
+      if (state.fetched && list.length === 0) {
+        updatedState = {
+          willBeEmptyList: true
+        }
+      } else {
+        updatedState = {
+          list,
+          willBeEmptyList: false,
+          fetched: true,
+          totalCount: payload.totalCount,
+          nextPage: 1
+        }
+      }
+
       return {
         ...state,
-        list: mapProductFavorites(payload.favoriteProductIds, payload.products),
-        fetched: true,
-        totalCount: payload.totalCount,
-        nextPage: 1
+        ...updatedState
       }
     case APPEND_PRODUCTS:
       let newProductList = mapProductFavorites(payload.favoriteProductIds, payload.products)
