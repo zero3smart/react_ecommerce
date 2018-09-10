@@ -40,7 +40,7 @@ export default function reducer (state = defaultState, action = {}) {
       } else {
         updatedState = {
           list,
-          willBeEmptyList: false,
+          willBeEmptyList: list.length === 0,
           fetched: true,
           totalCount: payload.totalCount,
           nextPage: 1
