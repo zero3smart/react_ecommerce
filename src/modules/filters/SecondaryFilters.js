@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import omit from 'lodash-es/omit'
 import reduce from 'lodash-es/reduce'
+import isBoolean from 'lodash-es/isBoolean'
+import throttle from 'lodash-es/throttle'
 import Button from 'ui-kits/buttons/Button'
 import Transition from 'ui-kits/transitions/Transition'
 import ColorPallete from './ColorPallete'
@@ -37,6 +39,12 @@ export default class SecondaryFilters extends Component {
     }
   }
 
+  componentDidMount () {
+    // initialize toggle handler
+    this.toggleDesignPanel = this.makeTogglePanelHandler('designFiltersVisible')
+    this.toggleColorPallete = this.makeTogglePanelHandler('collorPalleteVisible')
+  }
+
   isActive (filter) {
     return filter === 1
   }
@@ -51,24 +59,23 @@ export default class SecondaryFilters extends Component {
     onChange(filters)
   }
 
-  get toggleColorPallete () {
-    const { collorPalleteVisible } = this.state
-    return () => {
-      this.setState({
-        collorPalleteVisible: !collorPalleteVisible,
-        designFiltersVisible: false
+  /**
+   * create handler to change visibility of a panel
+   * @param {string} panelKey
+   * @return {function} handler
+   */
+  makeTogglePanelHandler (panelKey) {
+    // add throttle so event bubling at the same element won't update multiple times
+    return throttle((isVisible) => {
+      // update panel visibilityt based on current state / provided value
+      this.setState((prevState) => {
+        const isPanelVisible = prevState[panelKey]
+        return {
+          // if isVisible is boolean, then use it to set next state
+          [panelKey]: isBoolean(isVisible) ? isVisible : !isPanelVisible
+        }
       })
-    }
-  }
-
-  get toggleDesignFilters () {
-    const { designFiltersVisible } = this.state
-    return () => {
-      this.setState({
-        collorPalleteVisible: false,
-        designFiltersVisible: !designFiltersVisible
-      })
-    }
+    }, 500, { leading: true, trailing: false }) // use the first event
   }
 
   get handleColorClick () {
@@ -104,7 +111,7 @@ export default class SecondaryFilters extends Component {
         <Button
           kind='rounded'
           className={classNames({ focus: designFiltersVisible, active: designFiltersPicked })}
-          onClick={this.toggleDesignFilters}>
+          onClick={this.toggleDesignPanel}>
           Design
         </Button>
         <Button
@@ -113,15 +120,20 @@ export default class SecondaryFilters extends Component {
           onClick={this.toggleColorPallete}>
           Color
         </Button>
-        <Transition timeout={{ enter: 100, exit: 200 }} show={collorPalleteVisible}>
-          <ColorPallete values={colorValues} onColorClick={this.handleColorClick} />
-        </Transition>
         <Transition timeout={{ enter: 100, exit: 200 }} show={designFiltersVisible}>
           <DesignFilters
             solid={this.isActive(fabricFilters.solid)}
             pattern={this.isActive(fabricFilters.pattern)}
             details={this.isActive(fabricFilters.details)}
             onChange={this.handleDesignChange}
+            onFocusChange={this.toggleDesignPanel}
+          />
+        </Transition>
+        <Transition timeout={{ enter: 100, exit: 200 }} show={collorPalleteVisible}>
+          <ColorPallete
+            values={colorValues}
+            onColorClick={this.handleColorClick}
+            onFocusChange={this.toggleColorPallete}
           />
         </Transition>
       </div>

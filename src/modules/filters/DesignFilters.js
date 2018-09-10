@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import { Switch } from 'ui-kits/forms'
+import { withFocus } from 'hoc'
 import './design-filters.css'
 
-export default class DesignFilters extends Component {
+class DesignFilters extends Component {
   static propTypes = {
     solid: PropTypes.bool,
     pattern: PropTypes.bool,
     details: PropTypes.bool,
+    className: PropTypes.string,
     onChange: PropTypes.func.isRequired
   }
 
@@ -26,9 +29,9 @@ export default class DesignFilters extends Component {
   }
 
   render () {
-    const { solid, pattern, details } = this.props
+    const { solid, pattern, details, className } = this.props
     return (
-      <div className='DesignFilters'>
+      <div className={classNames('DesignFilters', { [className]: className })}>
         <FormControlLabel
           label='Solid'
           labelPlacement='start'
@@ -66,3 +69,5 @@ export default class DesignFilters extends Component {
     )
   }
 }
+
+export default withFocus(DesignFilters, true)

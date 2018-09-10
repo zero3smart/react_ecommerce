@@ -59,8 +59,8 @@ export default class VisualFilter {
 
     this.initialize() // initialize snap
 
-    this.moveToPrevThumbnails = throttle(this.moveToPrevThumbnails.bind(this), 500, { leading: true, trailing: false })
-    this.moveToNextThumbnails = throttle(this.moveToNextThumbnails.bind(this), 500, { leading: true, trailing: false })
+    this.moveToPrevThumbnails = throttle(this.moveToPrevThumbnails, 500, { leading: true, trailing: false })
+    this.moveToNextThumbnails = throttle(this.moveToNextThumbnails, 500, { leading: true, trailing: false })
   }
 
   setLastBodyPart (lastBodyPart) {

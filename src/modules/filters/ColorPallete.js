@@ -6,9 +6,10 @@ import includes from 'lodash-es/includes'
 import classNames from 'classnames'
 import { FABRIC_COLORS } from 'config/constants'
 import { ColorButton, Button } from 'ui-kits/buttons'
+import { withFocus } from 'hoc'
 import './color-pallete.css'
 
-export default class ColorPallete extends Component {
+class ColorPallete extends Component {
   static propTypes = {
     values: PropTypes.array,
     onColorClick: PropTypes.func.isRequired,
@@ -65,6 +66,7 @@ export default class ColorPallete extends Component {
 
   render () {
     const { values, className, style } = this.props
+
     return (
       <div className={classNames('ColorPallete', { [className]: className })} style={style}>
         {
@@ -83,3 +85,5 @@ export default class ColorPallete extends Component {
     )
   }
 }
+
+export default withFocus(ColorPallete, true)
