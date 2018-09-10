@@ -5,7 +5,7 @@ import without from 'lodash-es/without'
 import includes from 'lodash-es/includes'
 import classNames from 'classnames'
 import { FABRIC_COLORS } from 'config/constants'
-import { ColorButton } from 'ui-kits/buttons'
+import { ColorButton, Button } from 'ui-kits/buttons'
 import './color-pallete.css'
 
 export default class ColorPallete extends Component {
@@ -54,6 +54,15 @@ export default class ColorPallete extends Component {
     }
   }
 
+  get clearSelection () {
+    return () => {
+      this.setState({
+        values: []
+      })
+      this.props.onColorClick([])
+    }
+  }
+
   render () {
     const { values, className, style } = this.props
     return (
@@ -63,6 +72,13 @@ export default class ColorPallete extends Component {
             <ColorButton active={includes(values, name)} key={name} name={name} color={color} onClick={this.handleClick} />
           ))
         }
+        <Button
+          kind='rounded'
+          className='transparent small'
+          onClick={this.clearSelection}
+          style={{ width: 47, padding: 7, margin: '0px 0px 28px' }}>
+          Clear
+        </Button>
       </div>
     )
   }

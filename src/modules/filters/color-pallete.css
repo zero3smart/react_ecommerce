@@ -1,7 +1,7 @@
 .ColorPallete {
   background: #F3F3F3;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: flex-start;
   align-content: flex-start;
   flex-wrap: wrap;
@@ -15,8 +15,8 @@
 }
 
 .ColorPallete .ColorButton {
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-left: 8px;
+  margin-right: 8px;
   margin-bottom: 28px;
 }
 

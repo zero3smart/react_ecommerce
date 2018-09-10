@@ -9,10 +9,28 @@
   max-width: 100%;
   padding: 10px;
   margin: auto;
+  outline: none;
 }
 
 .Button:hover {
   background: rgba(61, 61, 61, 0.8);
+}
+
+/* style */
+.Button.transparent {
+  background: none;
+  color: #000000;
+  border: 1px solid #707070;
+}
+
+.Button.transparent:focus {
+  background: #70707050;
+}
+
+/* size */
+.Button.small {
+  font-size: 10px;
+  padding: 5px;
 }
 
 /* shape */
