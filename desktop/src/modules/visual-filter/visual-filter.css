@@ -32,8 +32,8 @@
   height: 40px;
 }
 
-/* fabric filters */
-.VisualFilter .FabricFilters.inline {
+/* secondary filters */
+.VisualFilter .SecondaryFilters {
   justify-content: center;
   position: relative;
   width: auto;
@@ -42,13 +42,29 @@
   left: 0;
   bottom: 0;
 }
-.VisualFilter .FabricFilters.inline .FilterButton {
+
+.VisualFilter .SecondaryFilters .Button {
+  font-size: 12px;
   margin-left: 4px;
   margin-right: 4px;
 }
 
-.VisualFilter .FabricFilters.inline .ColorPallete {
+.VisualFilter .SecondaryFilters .ColorPallete {
   position: absolute;
-  top: calc(100% + 15px);
+  top: calc(100% + 16px);
+  bottom: auto;
+  justify-content: flex-start;
+}
+
+.VisualFilter .SecondaryFilters .ColorPallete > .Button:last-child {
+  margin-left: 8px!important;
+  margin-right: 8px!important;
+}
+
+.VisualFilter .SecondaryFilters .DesignFilters {
+  position: absolute;
+  top: calc(100% + 16px);
+  left: 0;
+  right: 0;
   bottom: auto;
 }

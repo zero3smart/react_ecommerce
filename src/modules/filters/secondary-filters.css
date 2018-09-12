@@ -9,9 +9,10 @@
 }
 
 .SecondaryFilters > .Button {
-  font-size: 2.703vw;
+  font-size: 10px;
   color: #000000;
   background: transparent;
+  max-width: 100px;
   padding: 7px 5px;
   border: 1px solid #9B9B9B;
   outline: none;
