@@ -1,0 +1,16 @@
+.InfoBanner {
+  font-size: 16px;
+  color: white;
+  background: #6200EE;
+  padding: 12px 25px;
+}
+
+.InfoBanner h5 {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.InfoBanner h5,
+.InfoBanner p {
+  font-size: inherit;
+}
