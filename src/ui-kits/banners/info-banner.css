@@ -5,6 +5,13 @@
   padding: 12px 25px;
 }
 
+.InfoBanner h1,
+.InfoBanner h2,
+.InfoBanner h3,
+.InfoBanner h4 {
+  color: white;
+}
+
 .InfoBanner h5 {
   font-weight: bold;
   margin-bottom: 5px;

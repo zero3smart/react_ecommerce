@@ -2,6 +2,7 @@ import React from 'react'
 import { Route, Switch } from 'react-router'
 // pages
 import { Base, NotFound } from 'modules/base'
+import { Home } from 'modules/home'
 import { Tops, TopSingle } from 'modules/tops'
 import { Favorites } from 'modules/favorites'
 import { Feedbacks } from 'modules/feedbacks'
@@ -17,7 +18,8 @@ const createRoutes = () => (
 const BasePlatform = (props) => (
   <Base {...props}>
     <Switch>
-      <Route exact path='/' component={Tops} />
+      <Route exact path='/' component={Home} />
+      <Route exact path='/products' component={Tops} />
       <Route exact path='/products/:productId' component={TopSingle} />
       <Route exact path='/presets' component={Presets} />
       <Route exact path='/favorites/:favoriteType' component={Favorites} />

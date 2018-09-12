@@ -31,6 +31,7 @@ class ProductList extends Component {
     unlikeProduct: PropTypes.func.isRequired,
     onScrollBellowTheFold: PropTypes.func.isRequired,
     onScrollChange: PropTypes.func.isRequired,
+    style: PropTypes.object,
     loaderStyle: PropTypes.object
   }
 
@@ -42,6 +43,7 @@ class ProductList extends Component {
     children: childRenderer,
     extraItem: undefined,
     showOriginalPrice: false,
+    style: {},
     onFetch: (next) => { next() },
     onScrollBellowTheFold: (scrollState) => {},
     onScrollChange: (scrollTop) => {}
@@ -93,7 +95,7 @@ class ProductList extends Component {
   }
 
   render () {
-    const { id, products, nextPage, show, children, className, extraItem, showOriginalPrice, onFetch, loaderStyle, willBeEmptyList } = this.props
+    const { id, products, nextPage, show, children, className, extraItem, showOriginalPrice, onFetch, willBeEmptyList, style, loaderStyle } = this.props
     const { useMinimumAnimation } = this.state
 
     // get loaded products count
@@ -106,7 +108,7 @@ class ProductList extends Component {
         onFetch={onFetch}
         onScroll={this.handleScroll}
         className={className}
-        style={{ ...styles.wrapper, overflowY: willBeEmptyList ? 'hidden' : 'scroll' }}
+        style={{ ...styles.wrapper, overflowY: willBeEmptyList ? 'hidden' : 'scroll', ...style }}
         disableInitalFetch
       >
         {willBeEmptyList && <ProductsNotFound style={styles.notFound} />}
