@@ -29,6 +29,7 @@ class ProductList extends Component {
     likeProduct: PropTypes.func.isRequired,
     unlikeProduct: PropTypes.func.isRequired,
     onScrollBellowTheFold: PropTypes.func.isRequired,
+    onScrollChange: PropTypes.func.isRequired,
     loaderStyle: PropTypes.object
   }
 
@@ -41,7 +42,8 @@ class ProductList extends Component {
     extraItem: undefined,
     showOriginalPrice: false,
     onFetch: (next) => { next() },
-    onScrollBellowTheFold: (scrollState) => {}
+    onScrollBellowTheFold: (scrollState) => {},
+    onScrollChange: (scrollTop) => {}
   }
 
   constructor (props) {
@@ -66,8 +68,9 @@ class ProductList extends Component {
   }
 
   get handleScroll () {
-    const { onScrollBellowTheFold } = this.props
+    const { onScrollBellowTheFold, onScrollChange } = this.props
     return (top) => {
+      onScrollChange(top)
       // check whether scroll position is going under the fold
       if (top > window.innerHeight) {
         onScrollBellowTheFold(true)
