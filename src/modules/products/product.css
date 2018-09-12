@@ -149,7 +149,7 @@
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-  margin: -4px;
+  margin: -4px -20px;
 }
 
 .Product-sizes > li {
