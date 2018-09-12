@@ -46,7 +46,7 @@ export default class Base extends Component {
 
     return (
       <div className='Base'>
-        <Tabs>
+        <Tabs style={{ position: 'relative', zIndex: 9 }}>
           <NavLink
             exact
             to={'/'}

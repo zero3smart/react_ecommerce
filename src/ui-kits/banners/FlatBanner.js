@@ -5,14 +5,19 @@ import './flat-banner.css'
 export default class FlatBanner extends Component {
   static propTypes = {
     children: PropTypes.any,
+    className: PropTypes.string,
     style: PropTypes.object
   }
 
+  static defaultProps = {
+    className: 'FlatBanner'
+  }
+
   render () {
-    const { children, style } = this.props
+    const { children, className, style } = this.props
 
     return (
-      <div className='FlatBanner' style={style}>
+      <div className={className} style={style}>
         {children}
       </div>
     )

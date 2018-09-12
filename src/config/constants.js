@@ -26,7 +26,6 @@ export const FABRIC_COLORS = {
   brown: '#663300',
   pink: '#F0A4BD',
   pastel: 'linear-gradient(-145deg, #FEF7A3 4%, #E8F7AC 21%, #83F5D7 52%, #F19EC2 98%, #C683F2 98%)',
-  metal: 'linear-gradient(-180deg, #FCF53C 0%, #F89020 49%, #F8F120 67%, #F89420 86%, #F8E71C 100%)',
   orange: '#E08F3E',
   grey: '#999999',
   white: '#FFFFFF'

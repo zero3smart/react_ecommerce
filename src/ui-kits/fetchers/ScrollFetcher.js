@@ -107,7 +107,7 @@ class ScrollFetcher extends Component {
     const { id, className, style } = this.props
     const { isFetchingData } = this.state
     return (
-      <div id={id} ref={this.loadRef} className={className} onScroll={this.handleScrollFrame} style={{ ...style, ...styles.wrapper }}>
+      <div id={id} ref={this.loadRef} className={className} onScroll={this.handleScrollFrame} style={{ ...styles.wrapper, ...style }}>
         {this.props.children}
         <DotLoader visible={isFetchingData} style={styles.loader} />
       </div>

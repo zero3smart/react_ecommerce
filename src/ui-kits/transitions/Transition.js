@@ -10,7 +10,7 @@ class Transition extends Component {
       PropTypes.arrayOf(PropTypes.element),
       PropTypes.element
     ]).isRequired,
-    transition: PropTypes.oneOf(['fadeIn', 'fadeInUp', 'unstyled']),
+    transition: PropTypes.oneOf(['fadeIn', 'fadeInUp', 'fadeInDown', 'unstyled']),
     timeout: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
     className: PropTypes.string
   }

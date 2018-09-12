@@ -1,4 +1,5 @@
 import axios from 'axios'
+import isNil from 'lodash-es/isNil'
 import { FILTERS } from 'config/constants'
 import { Preset, VisualFilter } from 'models'
 import { updatePresetFavorite, mapPresetFavorites } from './helpers'
@@ -11,6 +12,7 @@ const SET_FAVORITE_PRESETS = 'filters/SET_FAVORITE_PRESETS'
 const LIKE_PRESET = 'filters/LIKE_PRESET'
 const UNLIKE_PRESET = 'filters/UNLIKE_PRESET'
 const SET_LAST_BODY_PART = 'filters/SET_LAST_BODY_PART'
+const TOOGLE_VISUAL_FILTER = 'filters/TOOGLE_VISUAL_FILTER'
 
 const defaultState = {
   data: {
@@ -23,12 +25,14 @@ const defaultState = {
     solid: 0,
     pattern: 0,
     details: 0,
-    color: null
+    color: null,
+    sale: 0
   },
   lastBodyPart: VisualFilter.getLastBodyPart(),
   presets: [],
   favoritePresets: [],
-  presetsFetched: false
+  presetsFetched: false,
+  expanded: isNil(window.localStorage.getItem('onboarding_completed')) || false
 }
 
 // Reducer
@@ -66,6 +70,11 @@ export default function reducer (state = defaultState, action = {}) {
         ...state,
         favoritePresets: payload.favoritePresets
       }
+    case TOOGLE_VISUAL_FILTER:
+      return {
+        ...state,
+        expanded: payload.expanded
+      }
     // do reducer stuff
     default: return state
   }
@@ -102,6 +111,10 @@ export function syncFilter () {
 export function syncFavoritePresets () {
   const favoritePresets = Preset.getFavoritePresets()
   return { type: SET_FAVORITE_PRESETS, payload: { favoritePresets } }
+}
+
+export function toggleVisualFilter (expanded = true) {
+  return { type: TOOGLE_VISUAL_FILTER, payload: { expanded } }
 }
 
 /**

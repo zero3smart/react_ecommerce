@@ -1,12 +1,19 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import classNames from 'classnames'
 import './button.css'
 
 export default class Button extends Component {
   static propTypes = {
     to: PropTypes.string,
-    children: PropTypes.string.isRequired
+    children: PropTypes.string.isRequired,
+    kind: PropTypes.oneOf(['default', 'rounded']),
+    className: PropTypes.string
+  }
+
+  static defaultProps = {
+    kind: 'default'
   }
 
   isExternal (url) {
@@ -14,12 +21,16 @@ export default class Button extends Component {
   }
 
   render () {
-    const { to, children, ...otherProps } = this.props
+    const { to, children, kind, className, ...otherProps } = this.props
+
+    const buttonProps = {
+      className: classNames(`Button ${kind}`, { [className]: className })
+    }
 
     // if `to` not is defined, then we will use button as the component
     if (!to) {
       return (
-        <button className='Button' {...otherProps}>
+        <button {...buttonProps} {...otherProps}>
           {children}
         </button>
       )
@@ -30,11 +41,11 @@ export default class Button extends Component {
 
     if (this.isExternal(to)) {
       return (
-        <a href={to} className='Button' {...otherProps}>{children}</a>
+        <a href={to} {...buttonProps} {...otherProps}>{children}</a>
       )
     } else {
       return (
-        <Link to={to} className='Button' {...otherProps}>{children}</Link>
+        <Link to={to} {...buttonProps} {...otherProps}>{children}</Link>
       )
     }
   }
