@@ -85,6 +85,8 @@ class TopSingle extends Component {
             description={product.description}
             favorite={product.favorite}
             link={product.src_url}
+            retailer={product.retailer}
+            sizes={product.sizes}
             rawData={product}
             showArrows
             showDots

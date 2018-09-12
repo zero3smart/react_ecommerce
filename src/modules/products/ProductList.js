@@ -8,6 +8,7 @@ import { ScrollFetcher } from 'ui-kits/fetchers'
 import { DotLoader } from 'ui-kits/loaders'
 import { likeProduct, unlikeProduct } from 'ducks/product'
 import { PRODUCT_COUNT_PER_PAGE } from 'config/constants'
+import './product-list.css'
 
 const childRenderer = (props) => (
   <ProductGrid {...props} />
@@ -96,8 +97,8 @@ class ProductList extends Component {
     return (
       <ScrollFetcher id={id} onFetch={onFetch} onScroll={this.handleScroll} className={className} style={styles.wrapper} disableInitalFetch>
         {extraItem}
-        {!show && <DotLoader visible style={loaderStyle || styles.loader} />}
         <div className='ProductList-wrapper'>
+          {!show && <DotLoader visible style={loaderStyle || styles.loader} />}
           <Transition show={show} transition={useMinimumAnimation ? 'fadeIn' : 'fadeInUp'}>
             {
               products.map((product, index) => {
@@ -137,7 +138,7 @@ const styles = {
   loader: {
     position: 'absolute',
     margin: 'auto',
-    top: 0,
+    top: 10,
     right: 0,
     bottom: 0,
     left: 0,

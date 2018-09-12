@@ -37,14 +37,6 @@
   padding-right: 5px;
 }
 
-.Favorites-products .ProductList-wrapper {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  align-content: flex-start;
-  flex-wrap: wrap;
-}
-
 .Favorites-products .Product {
   order: 0;
   margin: -8px -5px 10px;

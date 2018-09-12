@@ -2,12 +2,14 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import includes from 'lodash/includes'
 import { BASE_IMG_PATH } from 'config/constants'
 import { Button, LikeButton } from 'ui-kits/buttons'
 import { likeProduct, unlikeProduct } from 'ducks/product'
 import Slider from 'react-slick'
 import './product.css'
 
+const AVAILABLE_SIZES = ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL']
 class Product extends PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
@@ -21,6 +23,8 @@ class Product extends PureComponent {
     favorite: PropTypes.bool,
     description: PropTypes.string,
     link: PropTypes.string,
+    retailer: PropTypes.string,
+    sizes: PropTypes.array,
     rawData: PropTypes.object,
     showArrows: PropTypes.bool,
     showDots: PropTypes.bool,
@@ -32,6 +36,7 @@ class Product extends PureComponent {
     currency: '$',
     product: {},
     extraImgs: [],
+    sizes: [],
     showArrows: false,
     showDots: false
   }
@@ -63,7 +68,7 @@ class Product extends PureComponent {
   }
 
   render () {
-    const { id, name, brand, imgSrc, extraImgs, price, originalPrice, currency, description, favorite, link } = this.props
+    const { id, name, brand, imgSrc, extraImgs, price, originalPrice, currency, favorite, link, retailer, sizes } = this.props
 
     // sale is available if original price is different with price
     const isSale = originalPrice && originalPrice !== price
@@ -81,11 +86,16 @@ class Product extends PureComponent {
         <div className='Product-detail'>
           <h3 dangerouslySetInnerHTML={{ __html: brand }} />
           <h4 dangerouslySetInnerHTML={{ __html: name }} />
-          <p dangerouslySetInnerHTML={{ __html: description }} />
           <div className='Product-pricing'>
             {isSale && <div className='Product-original-price'>{currency}{originalPrice}</div>}
             <div className={classNames('Product-price', { sale: isSale })}>{currency}{price}</div>
           </div>
+          {retailer && <p className='Product-retailer'>from {retailer}</p>}
+          <ul className='Product-sizes'>
+            {AVAILABLE_SIZES.map(size => (
+              <li key={size} className={classNames({ notAvailable: !includes(sizes, size) })}>{size}</li>
+            ))}
+          </ul>
         </div>
         <div className='Product-footer'>
           <Button to={link}>Buy Now</Button>
