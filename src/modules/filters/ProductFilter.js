@@ -56,8 +56,8 @@ class ProductFilter extends Component {
         scrollWrapper.scrollTop = 0
       }
       // if it's not in Tops page, redirect to Tops page
-      if (this.props.router.location.pathname !== '/') {
-        history.push('/')
+      if (this.props.router.location.pathname !== '/products') {
+        history.push('/products')
       }
     }
   }
