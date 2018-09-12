@@ -73,7 +73,7 @@ class Favorites extends Component {
 
 const mapStateToProps = (state, props) => ({
   favoriteType: props.match.params.favoriteType,
-  products: state.products.favoriteLists,
+  products: state.products.favoriteList,
   presets: state.filters.favoritePresets,
   nextPage: state.products.nextPage
 })
