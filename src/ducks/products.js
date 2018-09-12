@@ -11,12 +11,14 @@ const SET_PRODUCTS = 'products/SET_PRODUCTS'
 const APPEND_PRODUCTS = 'products/APPEND_PRODUCTS'
 const ENABLE_INITIAL_FETCH = 'products/ENABLE_INITIAL_FETCH'
 const SET_FAVORITE_PRODUCTS = 'products/SET_FAVORITE_PRODUCTS'
+const SET_TOP_PRODUCTS = 'products/SET_TOP_PRODUCTS'
 
 const defaultState = {
   list: [],
-  willBeEmptyList: false,
-  favoriteLists: [],
+  favoriteList: [],
+  topList: [],
   fetched: false,
+  willBeEmptyList: false,
   nextPage: 0,
   totalCount: 0
 }
@@ -59,13 +61,23 @@ export default function reducer (state = defaultState, action = {}) {
         nextPage: state.nextPage + 1
       }
     case LIKE_PRODUCT:
-      return { ...state, list: updateProductFavorite(payload.productId, true, state.list) }
+      return {
+        ...state,
+        list: updateProductFavorite(payload.productId, true, state.list),
+        topList: updateProductFavorite(payload.productId, true, state.topList)
+      }
     case UNLIKE_PRODUCT:
-      return { ...state, list: updateProductFavorite(payload.productId, false, state.list) }
+      return {
+        ...state,
+        list: updateProductFavorite(payload.productId, false, state.list),
+        topList: updateProductFavorite(payload.productId, false, state.topList)
+      }
     case ENABLE_INITIAL_FETCH:
       return { ...state, fetched: false, nextPage: 0 }
     case SET_FAVORITE_PRODUCTS:
-      return { ...state, favoriteLists: payload.favoriteProducts }
+      return { ...state, favoriteList: payload.favoriteProducts }
+    case SET_TOP_PRODUCTS:
+      return { ...state, topList: payload.products }
     default: return state
   }
 }
@@ -81,6 +93,10 @@ export function appendProducts (products = [], favoriteProductIds = []) {
 
 export function enableInitialFetch () {
   return { type: ENABLE_INITIAL_FETCH }
+}
+
+export function setTopProducts (products = []) {
+  return { type: SET_TOP_PRODUCTS, payload: { products } }
 }
 
 // Side effects, only as applicable
@@ -118,6 +134,24 @@ export function fetchProducts (initialFetch = false) {
     } catch (e) {
       console.log('Error!', e)
     }
+  }
+}
+
+/**
+ * get top products based on score
+ * @param productCount number of products to be fetched
+ */
+export function fetchTopProducts (productCount = 9) {
+  return async dispatch => {
+    const response = await axios.get('/products/woman_top', {
+      params: {
+        page: 0,
+        cnt_per_page: productCount,
+        limit_per_pid: 1
+      }
+    })
+    dispatch(setTopProducts(response.data.products))
+    return response
   }
 }
 
