@@ -1,0 +1,9 @@
+.ProductList-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  position: relative;
+  min-height: 200px;
+}

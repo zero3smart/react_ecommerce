@@ -11,12 +11,6 @@
   box-sizing: border-box;
 }
 
-.TopSingle-products .ProductList-wrapper {
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-}
-
 .TopSingle-products .Product {
   order: 0;
   width: calc(100% + 10px);

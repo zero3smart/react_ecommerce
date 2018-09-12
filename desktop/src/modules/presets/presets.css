@@ -79,13 +79,6 @@
   box-sizing: border-box;
   margin-left: 5px;
 }
-.PresetsInnerWrapper-productList .ProductList-wrapper {
-  display: flex;
-  justify-content: flex-start;
-  align-items: stretch;
-  align-content: flex-start;
-  flex-wrap: wrap;
-}
 .PresetsInnerWrapper-productList .ProductGrid {
   width: calc(33.33333% - 10px);
   margin-left: 5px;
