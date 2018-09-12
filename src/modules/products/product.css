@@ -11,7 +11,6 @@
   padding: 15px 30px 30px;
   box-sizing: border-box;
   position: relative;
-  max-height: 316px;
 }
 
 .LikeButton-wrapper {
@@ -142,4 +141,35 @@
 
 .Product-placeholder {
   grid-template-areas: "images detail";
+}
+
+.Product-sizes {
+  padding: 0;
+  list-style: none;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin: -4px;
+}
+
+.Product-sizes > li {
+  color: #000000;
+  font-size: 10px;
+  text-align: center;
+  text-transform: uppercase;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  padding: 3px;
+  border: 1px solid #707070;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  margin: 4px;
+}
+
+.Product-sizes > li.notAvailable {
+  color: white;
+  background: #3D3D3D;
+  border-color: #3D3D3D;
 }
