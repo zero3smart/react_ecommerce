@@ -7,9 +7,17 @@ import './float-button.css'
 
 export default class FloatButton extends PureComponent {
   static propTypes = {
+    id: PropTypes.string,
     filters: PropTypes.object,
+    noShadow: PropTypes.bool,
     className: PropTypes.string,
+    style: PropTypes.object,
     onClick: PropTypes.func
+  }
+
+  static defaultProps = {
+    id: 'VisualFilterButton',
+    noShadow: false
   }
 
   constructor (props) {
@@ -20,9 +28,9 @@ export default class FloatButton extends PureComponent {
   }
 
   componentDidMount () {
-    const { filters } = this.props
+    const { id, filters } = this.props
     // initialize visual filter
-    this.visualFilterButton = new VisualFilter('#VisualFilterButton', {
+    this.visualFilterButton = new VisualFilter(`#${id}`, {
       defaultState: filters,
       disableEvent: true,
       hideThumbnail: true,
@@ -49,12 +57,12 @@ export default class FloatButton extends PureComponent {
   }
 
   render () {
-    const { onClick, className } = this.props
+    const { id, onClick, className, style, noShadow } = this.props
     const { svgLoaded } = this.state
 
     return (
-      <div className={classNames('FloatButton', { svgLoaded, [className]: className })} onClick={onClick}>
-        <svg id='VisualFilterButton' />
+      <div className={classNames('FloatButton', { svgLoaded, [className]: className, withShadow: !noShadow })} style={style} onClick={onClick}>
+        <svg id={id} />
       </div>
     )
   }

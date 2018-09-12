@@ -22,7 +22,7 @@
 }
 
 /* since svg can't have shadow */
-.FloatButton.svgLoaded:not(.unstyled-exiting):not(.unstyled-exited):before {
+.FloatButton.withShadow.svgLoaded:not(.unstyled-exiting):not(.unstyled-exited):before {
   content: '';
   width: 20px;
   height: 20px;
