@@ -2,13 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import isNil from 'lodash-es/isNil'
 import FilterPanel from './FilterPanel'
 import FloatButton from './FloatButton'
 import { history } from 'config/store'
 import Transition from 'ui-kits/transitions/Transition'
 import { fetchProducts } from 'ducks/products'
-import { setFilter, syncFilter, syncFavoritePresets, saveFilterAsPreset, deleteFilterFromPreset, setLastBodyPart } from 'ducks/filters'
+import { setFilter, syncFilter, syncFavoritePresets, saveFilterAsPreset, deleteFilterFromPreset, setLastBodyPart, toggleVisualFilter } from 'ducks/filters'
 import { isFilterSavedSelector } from './selectors'
 import { CUSTOM_PRESET_NAME } from 'config/constants'
 import './product-filter.css'
@@ -19,6 +18,7 @@ class ProductFilter extends Component {
     isFilterSaved: PropTypes.bool,
     lastBodyPart: PropTypes.string,
     router: PropTypes.object,
+    expanded: PropTypes.bool,
     scrollBellowTheFold: PropTypes.bool,
     setFilter: PropTypes.func.isRequired,
     fetchProducts: PropTypes.func.isRequired,
@@ -26,14 +26,8 @@ class ProductFilter extends Component {
     syncFavoritePresets: PropTypes.func.isRequired,
     saveFilterAsPreset: PropTypes.func.isRequired,
     deleteFilterFromPreset: PropTypes.func.isRequired,
-    setLastBodyPart: PropTypes.func.isRequired
-  }
-
-  constructor (props) {
-    super(props)
-    this.state = {
-      expanded: isNil(window.localStorage.getItem('onboarding_completed')) || false
-    }
+    setLastBodyPart: PropTypes.func.isRequired,
+    toggleVisualFilter: PropTypes.func.isRequired
   }
 
   componentDidMount () {
@@ -43,10 +37,9 @@ class ProductFilter extends Component {
   }
 
   get handleFilterToggle () {
+    const { expanded, toggleVisualFilter } = this.props
     return () => {
-      this.setState({
-        expanded: !this.state.expanded
-      })
+      toggleVisualFilter(!expanded)
     }
   }
 
@@ -93,8 +86,7 @@ class ProductFilter extends Component {
   }
 
   render () {
-    const { filters, scrollBellowTheFold, isFilterSaved, lastBodyPart } = this.props
-    const { expanded } = this.state
+    const { filters, scrollBellowTheFold, isFilterSaved, lastBodyPart, expanded } = this.props
 
     return (
       <div className={classNames('ProductFilter animated', { allowHide: this.isProductDetailPage, pullDown: !scrollBellowTheFold })}>
@@ -121,7 +113,8 @@ const mapStateToProps = state => ({
   isFilterSaved: isFilterSavedSelector(state, { customPresetName: CUSTOM_PRESET_NAME }),
   lastBodyPart: state.filters.lastBodyPart,
   scrollBellowTheFold: state.product.scrollBellowTheFold,
-  router: state.router
+  router: state.router,
+  expanded: state.filters.expanded
 })
 
 export default connect(
@@ -133,6 +126,7 @@ export default connect(
     setFilter,
     saveFilterAsPreset,
     deleteFilterFromPreset,
-    setLastBodyPart
+    setLastBodyPart,
+    toggleVisualFilter
   }
 )(ProductFilter)
