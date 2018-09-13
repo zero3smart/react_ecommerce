@@ -102,7 +102,7 @@ export function setTopProducts (products = []) {
 // Side effects, only as applicable
 
 /**
- * fetch product list based on specific filter
+ * fetch product list
  * @param {boolean} initialFetch
  */
 export function fetchProducts (initialFetch = false) {
@@ -143,15 +143,19 @@ export function fetchProducts (initialFetch = false) {
  */
 export function fetchTopProducts (productCount = 9) {
   return async dispatch => {
-    const response = await axios.get('/products/woman_top', {
-      params: {
-        page: 0,
-        cnt_per_page: productCount,
-        limit_per_pid: 1
-      }
-    })
-    dispatch(setTopProducts(response.data.products))
-    return response
+    try {
+      const response = await axios.get('/products/woman_top', {
+        params: {
+          page: 0,
+          cnt_per_page: productCount,
+          limit_per_pid: 1
+        }
+      })
+      dispatch(setTopProducts(response.data.products))
+      return response
+    } catch (e) {
+      console.log('Error!', e)
+    }
   }
 }
 
@@ -161,4 +165,27 @@ export function fetchTopProducts (productCount = 9) {
 export function syncFavoriteProducts () {
   const favoriteProducts = Product.getFavoriteProducts()
   return { type: SET_FAVORITE_PRODUCTS, payload: { favoriteProducts } }
+}
+
+// Pure async
+
+/**
+ * fetch product list using a specific filter
+ * @param {object} filters
+ * @param {object} count
+ */
+export async function getProducts (filters = {}, productCount = PRODUCT_COUNT_PER_PAGE) {
+  try {
+    const response = await axios.get('/products/woman_top', {
+      params: {
+        ...filters,
+        limit_per_pid: 1,
+        cnt_per_page: productCount
+      }
+    })
+
+    return response.data
+  } catch (e) {
+    console.log('Error!', e)
+  }
 }

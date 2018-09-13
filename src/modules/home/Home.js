@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { fetchTopProducts } from 'ducks/products'
 import { ProductList } from 'modules/products'
+import { AdvancedPresetList } from 'modules/presets'
 import { InfoBanner } from 'ui-kits/banners'
 import './home.css'
 
@@ -40,6 +41,11 @@ class Home extends Component {
           show
           style={{ overflow: 'hidden' }}
         />
+        <InfoBanner style={styles.infoBanner}>
+          <h2>Editor's Pick</h2>
+          <p>(A shortcut to the fits. Click the fit you like.)</p>
+        </InfoBanner>
+        <AdvancedPresetList />
       </div>
     )
   }

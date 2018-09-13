@@ -1,0 +1,49 @@
+.PresetMatches {
+  display: flex;
+  position: relative;
+}
+
+.PresetMatches .ProductGrid {
+  width: 25%;
+  border-left: 1px solid #F6F4F5;
+  border-right: 1px solid #F6F4F5;
+  position: relative;
+}
+
+.PresetMatches .ProductGrid:hover:after {
+  content: '';
+  background: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.PresetMatches .PresetLink {
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: white;
+  display: flex;
+  width: 25%;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.PresetMatches .ProductGrid-detail {
+  padding: 3px 8px;
+}
+
+.PresetMatches .ProductGrid-detail h5,
+.PresetMatches .ProductGrid-price,
+.PresetMatches .ProductGrid-original-price {
+  font-size: 10px;
+  vertical-align: top;
+}
