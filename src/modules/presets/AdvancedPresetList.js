@@ -36,12 +36,12 @@ export class AdvancedPresetList extends Component {
 
   get handlePresetClick () {
     const { setFilter, enableInitialFetch } = this.props
-    return (filters) => {
+    return (filters, presetName) => {
       setFilter(filters)
       // make products fetched from beginning
       enableInitialFetch()
-      // redirect to Tops page
-      history.push('/products')
+      // redirect to preset's products page
+      history.push(`/preset-products/${presetName}`)
     }
   }
 
