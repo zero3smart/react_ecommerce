@@ -1,4 +1,5 @@
 .FabricFilters .FilterButton {
+  text-transform: capitalize;
   max-width: 100px;
   margin-right: 0px;
   margin-bottom: 5px;
