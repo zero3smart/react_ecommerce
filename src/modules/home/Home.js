@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { fetchTopProducts } from 'ducks/products'
+import { fetchRecommendedProducts } from 'ducks/products'
 import { ProductList } from 'modules/products'
 import { AdvancedPresetList } from 'modules/presets'
 import { InfoBanner } from 'ui-kits/banners'
@@ -9,24 +9,24 @@ import './home.css'
 
 class Home extends Component {
   static propTypes = {
-    topProducts: PropTypes.array,
-    fetchTopProducts: PropTypes.func.isRequired
+    recommendedProducts: PropTypes.array,
+    fetchRecommendedProducts: PropTypes.func.isRequired
   }
 
   static defaultProps = {
-    topProducts: []
+    recommendedProducts: []
   }
 
-  componentDidMount () {
-    const { topProducts, fetchTopProducts } = this.props
-    // if top products haven't been fetched
-    if (topProducts.length === 0) {
-      fetchTopProducts()
+  async componentDidMount () {
+    const { recommendedProducts, fetchRecommendedProducts } = this.props
+    // make sure recommended fetch only run once
+    if (recommendedProducts.length === 0) {
+      fetchRecommendedProducts()
     }
   }
 
   render () {
-    const { topProducts } = this.props
+    const { recommendedProducts } = this.props
 
     return (
       <div id='MainScroll' className='Home'>
@@ -35,11 +35,12 @@ class Home extends Component {
           <p>(The more you click, the better suggestion it gets.)</p>
         </InfoBanner>
         <ProductList
-          products={topProducts}
+          products={recommendedProducts}
           className='Recommended-products'
+          style={{ overflow: 'hidden' }}
           showOriginalPrice
           show
-          style={{ overflow: 'hidden' }}
+          combined
         />
         <InfoBanner style={styles.infoBanner}>
           <h2>Editor's Pick</h2>
@@ -52,10 +53,10 @@ class Home extends Component {
 }
 
 const mapStateToProps = state => ({
-  topProducts: state.products.topList
+  recommendedProducts: state.products.recommendedList
 })
 
-export default connect(mapStateToProps, { fetchTopProducts })(Home)
+export default connect(mapStateToProps, { fetchRecommendedProducts })(Home)
 
 const styles = {
   infoBanner: {

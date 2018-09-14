@@ -8,6 +8,7 @@ import { DotLoader } from 'ui-kits/loaders'
 import ProductsNotFound from './ProductsNotFound'
 import { PRODUCT_COUNT_PER_PAGE } from 'config/constants'
 import { withProductLike } from 'hoc'
+import { productGroupsSelector } from './selectors'
 import './product-list.css'
 
 const childRenderer = (props) => (
@@ -19,12 +20,13 @@ class ProductList extends Component {
     id: PropTypes.string,
     products: PropTypes.array,
     nextPage: PropTypes.number,
-    willBeEmptyList: PropTypes.bool,
     show: PropTypes.bool,
     children: PropTypes.func,
     className: PropTypes.string,
     extraItem: PropTypes.element,
+    willBeEmptyList: PropTypes.bool,
     showOriginalPrice: PropTypes.bool,
+    combined: PropTypes.bool,
     onFetch: PropTypes.func.isRequired,
     toggleProductLike: PropTypes.func.isRequired,
     onScrollBellowTheFold: PropTypes.func.isRequired,
@@ -38,6 +40,7 @@ class ProductList extends Component {
     nextPage: 0,
     willBeEmptyList: false,
     show: false,
+    combined: false, // when activated, it won't separate matching and close matching.
     children: childRenderer,
     extraItem: undefined,
     showOriginalPrice: false,
@@ -82,28 +85,43 @@ class ProductList extends Component {
   }
 
   render () {
-    const { id, products, nextPage, show, children, className, extraItem, showOriginalPrice, onFetch, willBeEmptyList, style, loaderStyle, toggleProductLike } = this.props
+    const {
+      id,
+      products,
+      nextPage,
+      show,
+      children,
+      className,
+      extraItem,
+      showOriginalPrice,
+      onFetch,
+      willBeEmptyList,
+      style,
+      loaderStyle,
+      toggleProductLike,
+      combined
+    } = this.props
     const { useMinimumAnimation } = this.state
 
     // get loaded products count
     const currentPage = (nextPage - 1)
     const loadedProductsCount = PRODUCT_COUNT_PER_PAGE * (currentPage < 0 ? 0 : currentPage)
 
-    // Separate matching products and close matching products
-    // Any matching result lower than the score 95 should be close matching
-    const { matchingProducts, closeMatchingProducts } = products.reduce((groups, product) => {
-      if (product.score < 95) {
-        return {
-          ...groups,
-          closeMatchingProducts: [...groups.closeMatchingProducts, product]
-        }
-      } else {
-        return {
-          ...groups,
-          matchingProducts: [...groups.matchingProducts, product]
-        }
-      }
-    }, { matchingProducts: [], closeMatchingProducts: [] })
+    // get products
+    // when `combined` is `true`, product list should render all products without separating the score
+    let productList = null
+    if (combined) {
+      productList = renderProducts(products, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount)
+    } else {
+      const { matchingProducts, closeMatchingProducts } = productGroupsSelector(products)
+      productList = (
+        <React.Fragment>
+          {renderProducts(matchingProducts, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount)}
+          {closeMatchingProducts.length > 0 ? <h4 className='animated fadeIn' style={styles.subTitle}>The next close matching</h4> : <div style={{ display: 'none' }} />}
+          {renderProducts(closeMatchingProducts, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount)}
+        </React.Fragment>
+      )
+    }
 
     return (
       <ScrollFetcher
@@ -119,9 +137,7 @@ class ProductList extends Component {
         <div className='ProductList-wrapper'>
           {!show && <DotLoader visible style={loaderStyle || styles.loader} />}
           <Transition show={show} transition={useMinimumAnimation ? 'fadeIn' : 'fadeInUp'}>
-            {renderProducts(matchingProducts, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount)}
-            {closeMatchingProducts.length > 0 ? <h4 className='animated fadeIn' style={styles.subTitle}>The next close matching</h4> : <div style={{ display: 'none' }} />}
-            {renderProducts(closeMatchingProducts, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount)}
+            {productList}
           </Transition>
         </div>
       </ScrollFetcher>
