@@ -4,7 +4,7 @@ import uniqBy from 'lodash-es/uniqBy'
 import { PRODUCT_COUNT_PER_PAGE } from 'config/constants'
 import { LIKE_PRODUCT, UNLIKE_PRODUCT } from './product'
 import { mapProductFavorites, updateProductFavorite } from './helpers'
-import { Product } from 'models'
+import { Product, Preset, VisualFilter } from 'models'
 
 // Actions
 const SET_PRODUCTS = 'products/SET_PRODUCTS'
@@ -181,6 +181,39 @@ export async function getProducts (filters = {}, productCount = PRODUCT_COUNT_PE
         ...filters,
         limit_per_pid: 1,
         cnt_per_page: productCount
+      }
+    })
+
+    return response.data
+  } catch (e) {
+    console.log('Error!', e)
+  }
+}
+
+/**
+ * calculate and get recommended products based on current filter, favorite presets and favorite products
+ */
+export async function getRecommendedProducts () {
+  try {
+    const currentFilter = VisualFilter.getFilters()
+    const favoritePresets = Preset.getFavoritePresets().map(preset => omit(preset, ['name']))
+    const favoriteProductIds = Product.getFavoriteProductIds()
+    const data = {
+      woman_top: {
+        current: currentFilter,
+        favorite_fits: favoritePresets,
+        favorite_products: favoriteProductIds // ids
+      }
+    }
+
+    const response = await axios.post('/api/products/recommend', data, {
+      params: {
+        page: 0,
+        cnt_per_page: 2
+      },
+      headers: {
+        'Allow-Origin': '*',
+        'Access-Control-Allow-Origin': '*'
       }
     })
 

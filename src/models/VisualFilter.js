@@ -19,7 +19,8 @@ import {
   THUMBNAIL_HIGHLITER_SIZE,
   THUMBNAIL_TOUCH_AREA_SIZE,
   LAST_BODY_PART,
-  ENABLE_BODYPART_ALL_BTN
+  ENABLE_BODYPART_ALL_BTN,
+  FILTERS
 } from 'config/constants'
 
 import vfBundleSvg from 'assets/svg/vf_bundle.svg'
@@ -750,6 +751,14 @@ export default class VisualFilter {
       console.debug('error loading config', err)
     }
     return null
+  }
+
+  /**
+   * get current filters from local storage
+   */
+  static getFilters () {
+    const filters = JSON.parse(localStorage.getItem(FILTERS))
+    return filters || {}
   }
 }
 
