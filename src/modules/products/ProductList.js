@@ -89,6 +89,22 @@ class ProductList extends Component {
     const currentPage = (nextPage - 1)
     const loadedProductsCount = PRODUCT_COUNT_PER_PAGE * (currentPage < 0 ? 0 : currentPage)
 
+    // Separate matching products and close matching products
+    // Any matching result lower than the score 95 should be close matching
+    const { matchingProducts, closeMatchingProducts } = products.reduce((groups, product) => {
+      if (product.score < 95) {
+        return {
+          ...groups,
+          closeMatchingProducts: [...groups.closeMatchingProducts, product]
+        }
+      } else {
+        return {
+          ...groups,
+          matchingProducts: [...groups.matchingProducts, product]
+        }
+      }
+    }, { matchingProducts: [], closeMatchingProducts: [] })
+
     return (
       <ScrollFetcher
         id={id}
@@ -103,28 +119,9 @@ class ProductList extends Component {
         <div className='ProductList-wrapper'>
           {!show && <DotLoader visible style={loaderStyle || styles.loader} />}
           <Transition show={show} transition={useMinimumAnimation ? 'fadeIn' : 'fadeInUp'}>
-            {
-              products.map((product, index) => {
-                const props = {
-                  key: product.product_id,
-                  id: product.product_id,
-                  name: product.name,
-                  brand: product.brand,
-                  price: product.price,
-                  originalPrice: product.original_price,
-                  showOriginalPrice: showOriginalPrice,
-                  favorite: product.favorite,
-                  imgSrc: product.front_img,
-                  rawData: product,
-                  onToggleLike: toggleProductLike,
-                  style: {
-                    // `ProducGrid` need be showed directly in each page
-                    animationDelay: `${useMinimumAnimation ? 0 : 50 * (index - loadedProductsCount)}ms`
-                  }
-                }
-                return children(props)
-              })
-            }
+            {renderProducts(matchingProducts, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount)}
+            {closeMatchingProducts.length > 0 ? <h4 className='animated fadeIn' style={styles.subTitle}>The next close matching</h4> : <div style={{ display: 'none' }} />}
+            {renderProducts(closeMatchingProducts, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount)}
           </Transition>
         </div>
       </ScrollFetcher>
@@ -133,6 +130,29 @@ class ProductList extends Component {
 }
 
 export default withProductLike(ProductList)
+
+const renderProducts = (products, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount) => (
+  products.map((product, index) => {
+    const props = {
+      key: product.product_id,
+      id: product.product_id,
+      name: product.name,
+      brand: product.brand,
+      price: product.price,
+      originalPrice: product.original_price,
+      showOriginalPrice: showOriginalPrice,
+      favorite: product.favorite,
+      imgSrc: product.front_img,
+      rawData: product,
+      onToggleLike: toggleProductLike,
+      style: {
+        // `ProducGrid` need be showed directly in each page
+        animationDelay: `${useMinimumAnimation ? 0 : 50 * (index - loadedProductsCount)}ms`
+      }
+    }
+    return children(props)
+  })
+)
 
 const styles = {
   wrapper: {
@@ -155,5 +175,11 @@ const styles = {
     right: 0,
     bottom: 0,
     zIndex: 3
+  },
+  subTitle: {
+    flexBasis: '100%',
+    marginBottom: 10,
+    order: 1,
+    padding: '0px 10px'
   }
 }

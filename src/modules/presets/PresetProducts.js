@@ -67,23 +67,12 @@ class PresetProducts extends Component {
   render () {
     const { presetName, products, isProductsFetched, nextPage, willBeEmptyList } = this.props
 
-    const bestMatches = products.slice(0, 6)
-    const closeMatches = products.slice(6)
-
     const extra = (
-      <React.Fragment>
-        <InfoBanner style={styles.infoBanner} className='animated fadeInDown'>
-          <p style={{ display: 'inline-block', fontSize: 14 }}>
-            Best matching results > <strong className='bigger'>{presetName}</strong>
-          </p>
-        </InfoBanner>
-        <ProductList
-          show={isProductsFetched}
-          products={bestMatches}
-          style={{ overflow: 'hidden' }}
-        />
-        {isProductsFetched && <h4 className='animated fadeIn' style={styles.subTitle}>The next close matching</h4>}
-      </React.Fragment>
+      <InfoBanner style={styles.infoBanner} className='animated fadeInDown'>
+        <p style={{ display: 'inline-block', fontSize: 14 }}>
+          Best matching results > <strong className='bigger'>{presetName}</strong>
+        </p>
+      </InfoBanner>
     )
 
     return (
@@ -91,7 +80,7 @@ class PresetProducts extends Component {
         <ProductList
           id='MainScroll'
           show={isProductsFetched}
-          products={closeMatches}
+          products={products}
           willBeEmptyList={willBeEmptyList}
           nextPage={nextPage}
           onFetch={this.handleFetch}
@@ -129,9 +118,5 @@ const styles = {
     marginTop: -10,
     position: 'static',
     verticalAlign: 'top'
-  },
-  subTitle: {
-    marginTop: -5,
-    marginBottom: 15
   }
 }
