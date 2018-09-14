@@ -47,6 +47,7 @@
 
 .ProductGrid-price.sale {
   color: #D0021B;
+  vertical-align: top;
 }
 
 .ProductGrid .LikeButton {

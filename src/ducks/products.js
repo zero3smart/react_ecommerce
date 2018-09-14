@@ -4,19 +4,21 @@ import uniqBy from 'lodash-es/uniqBy'
 import { PRODUCT_COUNT_PER_PAGE } from 'config/constants'
 import { LIKE_PRODUCT, UNLIKE_PRODUCT } from './product'
 import { mapProductFavorites, updateProductFavorite } from './helpers'
-import { Product } from 'models'
+import { Product, Preset, VisualFilter } from 'models'
 
 // Actions
 const SET_PRODUCTS = 'products/SET_PRODUCTS'
 const APPEND_PRODUCTS = 'products/APPEND_PRODUCTS'
 const ENABLE_INITIAL_FETCH = 'products/ENABLE_INITIAL_FETCH'
 const SET_FAVORITE_PRODUCTS = 'products/SET_FAVORITE_PRODUCTS'
+const SET_TOP_PRODUCTS = 'products/SET_TOP_PRODUCTS'
 
 const defaultState = {
   list: [],
-  willBeEmptyList: false,
-  favoriteLists: [],
+  favoriteList: [],
+  topList: [],
   fetched: false,
+  willBeEmptyList: false,
   nextPage: 0,
   totalCount: 0
 }
@@ -59,13 +61,23 @@ export default function reducer (state = defaultState, action = {}) {
         nextPage: state.nextPage + 1
       }
     case LIKE_PRODUCT:
-      return { ...state, list: updateProductFavorite(payload.productId, true, state.list) }
+      return {
+        ...state,
+        list: updateProductFavorite(payload.productId, true, state.list),
+        topList: updateProductFavorite(payload.productId, true, state.topList)
+      }
     case UNLIKE_PRODUCT:
-      return { ...state, list: updateProductFavorite(payload.productId, false, state.list) }
+      return {
+        ...state,
+        list: updateProductFavorite(payload.productId, false, state.list),
+        topList: updateProductFavorite(payload.productId, false, state.topList)
+      }
     case ENABLE_INITIAL_FETCH:
       return { ...state, fetched: false, nextPage: 0 }
     case SET_FAVORITE_PRODUCTS:
-      return { ...state, favoriteLists: payload.favoriteProducts }
+      return { ...state, favoriteList: payload.favoriteProducts }
+    case SET_TOP_PRODUCTS:
+      return { ...state, topList: payload.products }
     default: return state
   }
 }
@@ -83,10 +95,14 @@ export function enableInitialFetch () {
   return { type: ENABLE_INITIAL_FETCH }
 }
 
+export function setTopProducts (products = []) {
+  return { type: SET_TOP_PRODUCTS, payload: { products } }
+}
+
 // Side effects, only as applicable
 
 /**
- * fetch product list based on specific filter
+ * fetch product list
  * @param {boolean} initialFetch
  */
 export function fetchProducts (initialFetch = false) {
@@ -122,9 +138,87 @@ export function fetchProducts (initialFetch = false) {
 }
 
 /**
+ * get top products based on score
+ * @param productCount number of products to be fetched
+ */
+export function fetchTopProducts (productCount = 9) {
+  return async dispatch => {
+    try {
+      const response = await axios.get('/products/woman_top', {
+        params: {
+          page: 0,
+          cnt_per_page: productCount,
+          limit_per_pid: 1
+        }
+      })
+      dispatch(setTopProducts(response.data.products))
+      return response
+    } catch (e) {
+      console.log('Error!', e)
+    }
+  }
+}
+
+/**
  * sync favorite products data from local storage to store
  */
 export function syncFavoriteProducts () {
   const favoriteProducts = Product.getFavoriteProducts()
   return { type: SET_FAVORITE_PRODUCTS, payload: { favoriteProducts } }
+}
+
+// Pure async
+
+/**
+ * fetch product list using a specific filter
+ * @param {object} filters
+ * @param {object} count
+ */
+export async function getProducts (filters = {}, productCount = PRODUCT_COUNT_PER_PAGE) {
+  try {
+    const response = await axios.get('/products/woman_top', {
+      params: {
+        ...filters,
+        limit_per_pid: 1,
+        cnt_per_page: productCount
+      }
+    })
+
+    return response.data
+  } catch (e) {
+    console.log('Error!', e)
+  }
+}
+
+/**
+ * calculate and get recommended products based on current filter, favorite presets and favorite products
+ */
+export async function getRecommendedProducts () {
+  try {
+    const currentFilter = VisualFilter.getFilters()
+    const favoritePresets = Preset.getFavoritePresets().map(preset => omit(preset, ['name']))
+    const favoriteProductIds = Product.getFavoriteProductIds()
+    const data = {
+      woman_top: {
+        current: currentFilter,
+        favorite_fits: favoritePresets,
+        favorite_products: favoriteProductIds // ids
+      }
+    }
+
+    const response = await axios.post('/api/products/recommend', data, {
+      params: {
+        page: 0,
+        cnt_per_page: 2
+      },
+      headers: {
+        'Allow-Origin': '*',
+        'Access-Control-Allow-Origin': '*'
+      }
+    })
+
+    return response.data
+  } catch (e) {
+    console.log('Error!', e)
+  }
 }

@@ -4,7 +4,6 @@
   align-items: center;
   justify-content: flex-start;
   padding: 3px 10px 3px 5px;
-  border: 1px solid #3D3D3D;
   border-radius: 2em;
   -webkit-border-radius: 2em;
   -moz-border-radius: 2em;
@@ -32,7 +31,7 @@
   display: inline-block;
   width: 25px;
   height: 25px;
-  margin-right: 5px;
+  margin-right: 7px;
   vertical-align: middle;
   border-radius: 100%;
   -webkit-border-radius: 100%;
@@ -43,17 +42,4 @@
 
 .FilterButton-icon > img {
   max-width: 100%;
-}
-
-/* active */
-.FilterButton.active {
-  background: rgba(251, 159, 132, 1) !important;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
-  -webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
-  -o-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
-}
-
-.FilterButton.active h5 {
-  color: white;
 }

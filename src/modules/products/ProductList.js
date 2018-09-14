@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import isEqual from 'lodash-es/isEqual'
 import ProductGrid from './ProductGrid'
 import Transition from 'ui-kits/transitions/Transition'
 import { ScrollFetcher } from 'ui-kits/fetchers'
 import { DotLoader } from 'ui-kits/loaders'
-import { likeProduct, unlikeProduct } from 'ducks/product'
 import ProductsNotFound from './ProductsNotFound'
 import { PRODUCT_COUNT_PER_PAGE } from 'config/constants'
+import { withProductLike } from 'hoc'
 import './product-list.css'
 
 const childRenderer = (props) => (
@@ -27,10 +26,10 @@ class ProductList extends Component {
     extraItem: PropTypes.element,
     showOriginalPrice: PropTypes.bool,
     onFetch: PropTypes.func.isRequired,
-    likeProduct: PropTypes.func.isRequired,
-    unlikeProduct: PropTypes.func.isRequired,
+    toggleProductLike: PropTypes.func.isRequired,
     onScrollBellowTheFold: PropTypes.func.isRequired,
     onScrollChange: PropTypes.func.isRequired,
+    style: PropTypes.object,
     loaderStyle: PropTypes.object
   }
 
@@ -42,6 +41,7 @@ class ProductList extends Component {
     children: childRenderer,
     extraItem: undefined,
     showOriginalPrice: false,
+    style: {},
     onFetch: (next) => { next() },
     onScrollBellowTheFold: (scrollState) => {},
     onScrollChange: (scrollTop) => {}
@@ -81,24 +81,29 @@ class ProductList extends Component {
     }
   }
 
-  get toggleProductLike () {
-    const { likeProduct, unlikeProduct } = this.props
-    return (data, favorite) => {
-      if (favorite) {
-        likeProduct(data)
-      } else {
-        unlikeProduct(data.product_id)
-      }
-    }
-  }
-
   render () {
-    const { id, products, nextPage, show, children, className, extraItem, showOriginalPrice, onFetch, loaderStyle, willBeEmptyList } = this.props
+    const { id, products, nextPage, show, children, className, extraItem, showOriginalPrice, onFetch, willBeEmptyList, style, loaderStyle, toggleProductLike } = this.props
     const { useMinimumAnimation } = this.state
 
     // get loaded products count
     const currentPage = (nextPage - 1)
     const loadedProductsCount = PRODUCT_COUNT_PER_PAGE * (currentPage < 0 ? 0 : currentPage)
+
+    // Separate matching products and close matching products
+    // Any matching result lower than the score 95 should be close matching
+    const { matchingProducts, closeMatchingProducts } = products.reduce((groups, product) => {
+      if (product.score < 95) {
+        return {
+          ...groups,
+          closeMatchingProducts: [...groups.closeMatchingProducts, product]
+        }
+      } else {
+        return {
+          ...groups,
+          matchingProducts: [...groups.matchingProducts, product]
+        }
+      }
+    }, { matchingProducts: [], closeMatchingProducts: [] })
 
     return (
       <ScrollFetcher
@@ -106,7 +111,7 @@ class ProductList extends Component {
         onFetch={onFetch}
         onScroll={this.handleScroll}
         className={className}
-        style={{ ...styles.wrapper, overflowY: willBeEmptyList ? 'hidden' : 'scroll' }}
+        style={{ ...styles.wrapper, overflowY: willBeEmptyList ? 'hidden' : 'scroll', ...style }}
         disableInitalFetch
       >
         {willBeEmptyList && <ProductsNotFound style={styles.notFound} />}
@@ -114,28 +119,9 @@ class ProductList extends Component {
         <div className='ProductList-wrapper'>
           {!show && <DotLoader visible style={loaderStyle || styles.loader} />}
           <Transition show={show} transition={useMinimumAnimation ? 'fadeIn' : 'fadeInUp'}>
-            {
-              products.map((product, index) => {
-                const props = {
-                  key: product.product_id,
-                  id: product.product_id,
-                  name: product.name,
-                  brand: product.brand,
-                  price: product.price,
-                  originalPrice: product.original_price,
-                  showOriginalPrice: showOriginalPrice,
-                  favorite: product.favorite,
-                  imgSrc: product.front_img,
-                  rawData: product,
-                  onToggleLike: this.toggleProductLike,
-                  style: {
-                    // `ProducGrid` need be showed directly in each page
-                    animationDelay: `${useMinimumAnimation ? 0 : 50 * (index - loadedProductsCount)}ms`
-                  }
-                }
-                return children(props)
-              })
-            }
+            {renderProducts(matchingProducts, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount)}
+            {closeMatchingProducts.length > 0 ? <h4 className='animated fadeIn' style={styles.subTitle}>The next close matching</h4> : <div style={{ display: 'none' }} />}
+            {renderProducts(closeMatchingProducts, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount)}
           </Transition>
         </div>
       </ScrollFetcher>
@@ -143,7 +129,30 @@ class ProductList extends Component {
   }
 }
 
-export default connect(null, { likeProduct, unlikeProduct })(ProductList)
+export default withProductLike(ProductList)
+
+const renderProducts = (products, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount) => (
+  products.map((product, index) => {
+    const props = {
+      key: product.product_id,
+      id: product.product_id,
+      name: product.name,
+      brand: product.brand,
+      price: product.price,
+      originalPrice: product.original_price,
+      showOriginalPrice: showOriginalPrice,
+      favorite: product.favorite,
+      imgSrc: product.front_img,
+      rawData: product,
+      onToggleLike: toggleProductLike,
+      style: {
+        // `ProducGrid` need be showed directly in each page
+        animationDelay: `${useMinimumAnimation ? 0 : 50 * (index - loadedProductsCount)}ms`
+      }
+    }
+    return children(props)
+  })
+)
 
 const styles = {
   wrapper: {
@@ -166,5 +175,11 @@ const styles = {
     right: 0,
     bottom: 0,
     zIndex: 3
+  },
+  subTitle: {
+    flexBasis: '100%',
+    marginBottom: 10,
+    order: 1,
+    padding: '0px 10px'
   }
 }

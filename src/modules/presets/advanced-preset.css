@@ -1,0 +1,7 @@
+.AdvancedPreset {
+  margin-bottom: 10px;
+}
+
+.AdvancedPreset > .Preset {
+  margin-bottom: 0;
+}

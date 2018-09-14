@@ -25,7 +25,7 @@ export default class SecondaryFilters extends Component {
   }
 
   static defaultProps = {
-    sale: false,
+    sale: 0,
     fabricFilters: {},
     kind: 'default',
     onChange: (filters) => { console.debug('SecondaryFilters - filters changed', filters) }

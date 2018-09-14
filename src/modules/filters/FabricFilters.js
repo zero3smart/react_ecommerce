@@ -8,9 +8,7 @@ import Transition from 'ui-kits/transitions/Transition'
 import ColorPallete from './ColorPallete'
 // icons
 import detailSVGSrc from 'assets/svg/detail.svg'
-import detailActiveSVGSrc from 'assets/svg/detail-active.svg'
 import patternSVGSrc from 'assets/svg/pattern.svg'
-import patternActiveSVGSrc from 'assets/svg/pattern-active.svg'
 import colorSVGSrc from 'assets/svg/color.svg'
 import angleSVGSrc from 'assets/svg/angle.svg'
 
@@ -95,12 +93,17 @@ export default class FabricFilters extends PureComponent {
   render () {
     const { details, pattern, solid, color, disableEvent, kind, style } = this.props
     const { collorPalleteVisible } = this.state
+    const colorValues = color ? color.split(',') : []
+    const isSingleColor = colorValues.length === 1
 
-    const filterButtonChild = disableEvent ? 'Colors' : <img src={angleSVGSrc} alt='color-picker' className='arrow' />
+    // define text
+    let filterButtonChild = isSingleColor ? color : 'Colors'
+    if (!disableEvent) {
+      filterButtonChild = <img src={angleSVGSrc} alt='color-picker' className='arrow' />
+    }
 
     // color button style
-    const colorValues = color ? color.split(',') : []
-    const colorHex = colorValues.length === 1 ? FABRIC_COLORS[color] : null
+    const colorHex = isSingleColor ? FABRIC_COLORS[color] : null
     const colorBackgroundImage = includes(['pastel', 'metal'], color) && colorHex // background image only applied for gradient color value
     const colorBorder = color === 'white' && '1px solid #3D3D3D'
     // end of color button style
@@ -112,7 +115,7 @@ export default class FabricFilters extends PureComponent {
           value={solid}
           onClick={this.handleClick}
           active={this.isActive(solid)}
-          iconStyle={this.isActive(solid) ? styles.solidIcon : styles.solidIconActive}>
+          iconStyle={styles.solidIcon}>
           Solid
         </FilterButton>
         <FilterButton
@@ -120,7 +123,7 @@ export default class FabricFilters extends PureComponent {
           value={pattern}
           onClick={this.handleClick}
           active={this.isActive(pattern)}
-          iconSrc={this.isActive(pattern) ? patternActiveSVGSrc : patternSVGSrc}>
+          iconSrc={patternSVGSrc}>
           Patterns
         </FilterButton>
         <FilterButton
@@ -128,7 +131,7 @@ export default class FabricFilters extends PureComponent {
           value={details}
           onClick={this.handleClick}
           active={this.isActive(details)}
-          iconSrc={this.isActive(details) ? detailActiveSVGSrc : detailSVGSrc}>
+          iconSrc={detailSVGSrc}>
           Details
         </FilterButton>
         <FilterButton
@@ -141,6 +144,7 @@ export default class FabricFilters extends PureComponent {
             backgroundImage: colorBackgroundImage,
             border: colorBorder
           }}
+          active
           className={classNames('ColorPicker', { open: collorPalleteVisible })}>
           {filterButtonChild}
         </FilterButton>
@@ -154,9 +158,6 @@ export default class FabricFilters extends PureComponent {
 
 const styles = {
   solidIcon: {
-    background: 'white'
-  },
-  solidIconActive: {
     background: '#3D3D3D'
   }
 }
