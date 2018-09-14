@@ -24,7 +24,21 @@ class DesignFilters extends Component {
 
   get handleChange () {
     return (event) => {
-      this.props.onChange(event.target.checked, event.target.value)
+      const name = event.target.value
+      const value = event.target.checked
+
+      // update current value
+      this.props.onChange(value, name)
+
+      // when solid is active, pattern should be inactive. Vice versa.
+      // add delay, so initial value will be changed first
+      setTimeout(() => {
+        if (name === 'solid' && value) {
+          this.props.onChange(false, 'pattern')
+        } else if (name === 'pattern' && value) {
+          this.props.onChange(false, 'solid')
+        }
+      }, 50)
     }
   }
 
