@@ -6,10 +6,7 @@ import './transition.css'
 class Transition extends Component {
   static propTypes = {
     show: PropTypes.bool.isRequired,
-    children: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.element),
-      PropTypes.element
-    ]).isRequired,
+    children: PropTypes.any.isRequired,
     transition: PropTypes.oneOf(['fadeIn', 'fadeInUp', 'fadeInDown', 'unstyled']),
     timeout: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
     className: PropTypes.string
