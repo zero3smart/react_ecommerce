@@ -71,9 +71,8 @@ class ProductList extends Component {
   static getDerivedStateFromProps (nextProps, prevState) {
     // if result is not combined, then separate the matching and close matching products
     if (nextProps.show && !nextProps.combined) {
-      const matchingProductsLenght = prevState.matchingProducts.length
       return {
-        matchingProducts: matchingProductsSelector(nextProps.products.slice(0, matchingProductsLenght > 0 ? matchingProductsLenght : undefined)),
+        matchingProducts: matchingProductsSelector(nextProps.products),
         closeMatchingProducts: closeMatchingProductsSelector(nextProps.products)
       }
     }
