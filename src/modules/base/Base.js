@@ -57,7 +57,7 @@ export default class Base extends Component {
             className='logo'>
             YesPlz!
           </NavLink>
-          <NavLink to='/products' className='menu-icon'>
+          <NavLink to='/products' onClick={this.handleLinkClick} className='menu-icon'>
             <img src={SearchSvg} alt='Visual Filter Page' />
           </NavLink>
           <NavLink
@@ -68,9 +68,8 @@ export default class Base extends Component {
             <img src={FavoritesSvg} alt='Favorites Page' />
           </NavLink>
           <NavLink
-            to='#'
+            to='/faq'
             onClick={this.handleLinkClick}
-            isActive={this.handleFavoritesLinkActive}
             className='menu-icon'>
             <img src={BurgerSvg} alt='FAQ Page' />
           </NavLink>
