@@ -1,4 +1,5 @@
 import { createSelectorCreator, defaultMemoize } from 'reselect'
+import filter from 'lodash-es/filter'
 import isEqual from 'lodash-es/isEqual'
 
 const createDeepEqualSelector = createSelectorCreator(
@@ -6,26 +7,22 @@ const createDeepEqualSelector = createSelectorCreator(
   isEqual
 )
 
-// product group
-const getProductGroups = (products) => {
-  // Separate matching products and close matching products
-  // Any matching result lower than the score threshold (`95` default) should be close matching
-  return products.reduce((groups, product) => {
-    if (product.score < 95) {
-      return {
-        ...groups,
-        closeMatchingProducts: [...groups.closeMatchingProducts, product]
-      }
-    } else {
-      return {
-        ...groups,
-        matchingProducts: [...groups.matchingProducts, product]
-      }
-    }
-  }, { matchingProducts: [], closeMatchingProducts: [] })
-}
+// filter matching products, score is 95 or above
+const getMatchingProducts = products => (
+  filter(products, product => product.score >= 95)
+)
 
-export const productGroupsSelector = createDeepEqualSelector(
+export const matchingProductsSelector = createDeepEqualSelector(
   products => products,
-  getProductGroups
+  getMatchingProducts
+)
+
+// close matching products, score bellow 95
+const getCloseMatchingProducts = (products) => (
+  filter(products, product => product.score < 95)
+)
+
+export const closeMatchingProductsSelector = createDeepEqualSelector(
+  products => products,
+  getCloseMatchingProducts
 )

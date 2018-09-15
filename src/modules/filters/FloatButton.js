@@ -25,6 +25,7 @@ export default class FloatButton extends PureComponent {
     this.state = {
       svgLoaded: false
     }
+    this.disableUpdate = false
   }
 
   componentDidMount () {
@@ -48,11 +49,17 @@ export default class FloatButton extends PureComponent {
     }
   }
 
+  componentWillUnmount () {
+    this.disableUpdate = true
+  }
+
   get handleSVGLoaded () {
     return () => {
-      this.setState({
-        svgLoaded: true
-      })
+      if (!this.disableUpdate) {
+        this.setState({
+          svgLoaded: true
+        })
+      }
     }
   }
 

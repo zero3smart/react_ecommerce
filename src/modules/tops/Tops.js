@@ -34,10 +34,11 @@ class Tops extends Component {
     this.state = {
       hintVisible: true
     }
+    this.allowHideOnScroll = true
   }
 
   componentDidMount () {
-    const { isProductsFetched, syncFilter, fetchProducts } = this.props
+    const { isProductsFetched, syncFilter, fetchProducts, visualFilterExpanded } = this.props
 
     // don't need to do initial fetch if products is fetched already
     if (!isProductsFetched) {
@@ -45,14 +46,29 @@ class Tops extends Component {
       syncFilter()
       fetchProducts(true)
     }
+
+    // if visual filter is expanded, hide the hint
+    if (visualFilterExpanded) {
+      this.setState({ hintVisible: false })
+    }
   }
 
   componentDidUpdate (prevProps) {
     const { visualFilterExpanded } = this.props
+
+    // if visual filter is expanded, hide the hint
     if (prevProps.visualFilterExpanded.toString() !== visualFilterExpanded.toString()) {
+      // make sure "visual filter hide on scroll" is disabled when changeing hint visibility when props changed, to avoid double toggle
+      this.allowHideOnScroll = false
+
       this.setState({
         hintVisible: !visualFilterExpanded
       })
+
+      // enable "visual filter hide on scroll" again, after some moment
+      setTimeout(() => {
+        this.allowHideOnScroll = true
+      }, 50)
     }
   }
 
@@ -76,7 +92,7 @@ class Tops extends Component {
     const { visualFilterExpanded, toggleVisualFilter } = this.props
     return () => {
       // if user scroll the product list when visual filter is expanded, collapse the visual filter
-      if (visualFilterExpanded) {
+      if (visualFilterExpanded && this.allowHideOnScroll) {
         toggleVisualFilter(false)
       }
     }
