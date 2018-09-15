@@ -5,7 +5,7 @@ import { Base, NotFound } from 'modules/base'
 import { Home } from 'modules/home'
 import { Tops, TopSingle } from 'modules/tops'
 import { Favorites } from 'modules/favorites'
-import { Feedbacks } from 'modules/feedbacks'
+import { Faq } from 'modules/faq'
 import { Presets, PresetProducts } from 'modules/presets'
 
 const createRoutes = () => (
@@ -24,7 +24,7 @@ const BasePlatform = (props) => (
       <Route exact path='/presets' component={Presets} />
       <Route exact path='/preset-products/:presetName' component={PresetProducts} />
       <Route exact path='/favorites/:favoriteType' component={Favorites} />
-      <Route exact path='/feedbacks' component={Feedbacks} />
+      <Route exact path='/faq' component={Faq} />
       <Route component={NotFound} />
     </Switch>
   </Base>

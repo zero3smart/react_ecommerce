@@ -41,6 +41,11 @@ h5, p {
   font-size: 0.875em; /* 14px */
 }
 
+#MainScroll {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 /* Misc */
 .img-responsive {
   display: block;
