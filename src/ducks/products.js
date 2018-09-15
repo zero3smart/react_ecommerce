@@ -77,7 +77,10 @@ export default function reducer (state = defaultState, action = {}) {
     case SET_FAVORITE_PRODUCTS:
       return { ...state, favoriteList: payload.favoriteProducts }
     case SET_RECOMMENDED_PRODUCTS:
-      return { ...state, recommendedList: payload.products }
+      return {
+        ...state,
+        recommendedList: mapProductFavorites(payload.favoriteProductIds, payload.products)
+      }
     default: return state
   }
 }
@@ -95,8 +98,8 @@ export function enableInitialFetch () {
   return { type: ENABLE_INITIAL_FETCH }
 }
 
-export function setRecommendedProducts (products = []) {
-  return { type: SET_RECOMMENDED_PRODUCTS, payload: { products } }
+export function setRecommendedProducts (products = [], favoriteProductIds = []) {
+  return { type: SET_RECOMMENDED_PRODUCTS, payload: { products, favoriteProductIds } }
 }
 
 // Side effects, only as applicable
@@ -161,7 +164,8 @@ export function fetchRecommendedProducts (productCount = 9) {
           cnt_per_page: productCount
         }
       })
-      dispatch(setRecommendedProducts(response.data.products))
+
+      dispatch(setRecommendedProducts(response.data.products, favoriteProductIds))
       return response.data
     } catch (e) {
       console.log('Error!', e)

@@ -4,7 +4,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-export default (WrappedComponent, initialFocus) => {
+export default initialFocus => WrappedComponent => {
   return class extends Component {
     static propTypes = {
       onFocusChange: PropTypes.func

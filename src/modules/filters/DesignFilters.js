@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { compose } from 'redux'
+import { withStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -12,6 +14,7 @@ class DesignFilters extends Component {
     pattern: PropTypes.bool,
     details: PropTypes.bool,
     className: PropTypes.string,
+    classes: PropTypes.object,
     onChange: PropTypes.func.isRequired
   }
 
@@ -43,7 +46,7 @@ class DesignFilters extends Component {
   }
 
   render () {
-    const { solid, pattern, details, className } = this.props
+    const { solid, pattern, details, className, classes } = this.props
     return (
       <div className={classNames('DesignFilters', { [className]: className })}>
         <FormControlLabel
@@ -56,6 +59,7 @@ class DesignFilters extends Component {
               value='solid'
             />
           }
+          className={classes.controlLabel}
         />
         <FormControlLabel
           label='Pattern'
@@ -67,6 +71,7 @@ class DesignFilters extends Component {
               value='pattern'
             />
           }
+          className={classes.controlLabel}
         />
         <FormControlLabel
           label='Detail'
@@ -78,10 +83,22 @@ class DesignFilters extends Component {
               value='details'
             />
           }
+          className={classes.controlLabel}
         />
       </div>
     )
   }
 }
 
-export default withFocus(DesignFilters, true)
+const styles = theme => ({
+  controlLabel: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    marginLeft: 0,
+    marginRight: -15
+  }
+})
+
+export default compose(withStyles(styles), withFocus(true))(DesignFilters)

@@ -86,4 +86,4 @@ class ColorPallete extends Component {
   }
 }
 
-export default withFocus(ColorPallete, true)
+export default withFocus(true)(ColorPallete)

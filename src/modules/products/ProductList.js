@@ -157,7 +157,7 @@ class ProductList extends Component {
   }
 }
 
-export default withProductLike(ProductList)
+export default withProductLike()(ProductList)
 
 const renderProducts = (products, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount) => (
   products.map((product, index) => {
