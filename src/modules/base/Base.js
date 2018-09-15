@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
-import Tabs from 'ui-kits/navigations/Tabs'
+import BurgerSvg from 'assets/svg/burger.svg'
+import SearchSvg from 'assets/svg/search.svg'
+import FavoritesSvg from 'assets/svg/favorites.svg'
 import { ProductFilter } from 'modules/filters'
 import './base.css'
 
@@ -46,23 +48,33 @@ export default class Base extends Component {
 
     return (
       <div className='Base'>
-        <Tabs style={{ position: 'relative', zIndex: 9 }}>
+        <div className='Base-header'>
           <NavLink
             exact
             to={'/'}
             onClick={this.handleLinkClick}
-            isActive={this.handleHomeLinkActive}>
+            isActive={this.handleHomeLinkActive}
+            className='logo'>
             YesPlz!
           </NavLink>
-          <NavLink to='/presets' onClick={this.handleLinkClick}>fits</NavLink>
+          <NavLink to='/products' className='menu-icon'>
+            <img src={SearchSvg} alt='Visual Filter Page' />
+          </NavLink>
           <NavLink
             to={this.isFavoritesPage ? '#' : '/favorites/clothing'}
             onClick={this.handleLinkClick}
-            isActive={this.handleFavoritesLinkActive}>
-            favorites
+            isActive={this.handleFavoritesLinkActive}
+            className='menu-icon'>
+            <img src={FavoritesSvg} alt='Favorites Page' />
           </NavLink>
-          <NavLink to='/feedbacks' onClick={this.handleLinkClick}>feedbacks</NavLink>
-        </Tabs>
+          <NavLink
+            to='#'
+            onClick={this.handleLinkClick}
+            isActive={this.handleFavoritesLinkActive}
+            className='menu-icon'>
+            <img src={BurgerSvg} alt='FAQ Page' />
+          </NavLink>
+        </div>
         {children}
         <ProductFilter />
       </div>

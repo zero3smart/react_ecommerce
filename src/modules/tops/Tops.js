@@ -32,7 +32,7 @@ class Tops extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      hintVisible: false
+      hintVisible: true
     }
   }
 
@@ -49,9 +49,9 @@ class Tops extends Component {
 
   componentDidUpdate (prevProps) {
     const { visualFilterExpanded } = this.props
-    if (prevProps.visualFilterExpanded.toString() !== visualFilterExpanded.toString() && visualFilterExpanded) {
+    if (prevProps.visualFilterExpanded.toString() !== visualFilterExpanded.toString()) {
       this.setState({
-        hintVisible: false
+        hintVisible: !visualFilterExpanded
       })
     }
   }
@@ -75,13 +75,17 @@ class Tops extends Component {
   get handleScrollChange () {
     const { visualFilterExpanded, toggleVisualFilter } = this.props
     return () => {
-      // when user scroll the products and visual filter is expanded, close it and show the visual filter hint
+      // if user scroll the product list when visual filter is expanded, collapse the visual filter
       if (visualFilterExpanded) {
         toggleVisualFilter(false)
-        this.setState({
-          hintVisible: true
-        })
       }
+    }
+  }
+
+  get showVisualFilter () {
+    const { toggleVisualFilter } = this.props
+    return () => {
+      toggleVisualFilter(true)
     }
   }
 
@@ -89,19 +93,24 @@ class Tops extends Component {
     const { products, filters, isProductsFetched, nextPage, willBeEmptyList } = this.props
     const { hintVisible } = this.state
 
+    const hint = !hintVisible ? null : (
+      <InfoBanner style={styles.infoBanner} className='animated fadeInDown'>
+        <h5>Let’s find a style.</h5>
+        <p style={{ display: 'inline-block' }}>
+          ( Click our visual filter button. ) <img src={ArrowRightSvg} alt='Yesplz Visual Filter Indicator' />
+        </p>
+        <FloatButton
+          id='VisualFilterPreview'
+          filters={filters}
+          onClick={this.showVisualFilter}
+          style={styles.smallVisualFilterButton}
+          noShadow
+        />
+      </InfoBanner>
+    )
+
     return (
       <div className='Tops'>
-        {
-          !hintVisible ? null : (
-            <InfoBanner style={styles.infoBanner} className='animated fadeInDown'>
-              <h5>Let’s find a style.</h5>
-              <p style={{ display: 'inline-block' }}>
-                ( Click our visual filter button. ) <img src={ArrowRightSvg} alt='Yesplz Visual Filter Indicator' />
-              </p>
-              <FloatButton id='VisualFilterPreview' filters={filters} style={styles.smallVisualFilterButton} noShadow />
-            </InfoBanner>
-          )
-        }
         <ProductList
           id='MainScroll'
           show={isProductsFetched}
@@ -110,6 +119,7 @@ class Tops extends Component {
           nextPage={nextPage}
           onFetch={this.handleFetch}
           className='Tops-products'
+          extraItem={hint}
           onScrollChange={this.handleScrollChange}
         />
       </div>
@@ -131,12 +141,10 @@ export default connect(mapStateToProps, { fetchProducts, syncFilter, toggleVisua
 
 const styles = {
   infoBanner: {
-    position: 'absolute',
-    top: 39,
-    left: 0,
-    right: 0,
-    marginBottom: 8,
-    zIndex: 4
+    marginTop: -10,
+    marginLeft: -5,
+    marginRight: -5,
+    marginBottom: 8
   },
   smallVisualFilterButton: {
     display: 'inline-block',

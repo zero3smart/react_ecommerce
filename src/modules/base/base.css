@@ -13,3 +13,37 @@
   bottom: 0;
   left: 0;
 }
+
+.Base-header {
+  background: white;
+  position: relative;
+  z-index: 9;
+  padding: 25px 25px 13px;
+  display: flex;
+  align-items: center;
+}
+
+.Base-header > * {
+  flex-shrink: 1;
+}
+
+.Base-header a {
+  line-height: 16px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.Base-header a img {
+  vertical-align: top;
+}
+
+.Base-header .logo {
+  font-size: 16px;
+  color: #989898;
+  flex-basis: 100%;
+}
+
+.Base-header .menu-icon + .menu-icon {
+  margin-left: 20px;
+}

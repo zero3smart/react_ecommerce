@@ -107,7 +107,7 @@ export default connect(mapStateToProps, { fetchProducts, syncFilter, toggleVisua
 
 const styles = {
   infoBanner: {
-    margin: '-10px -10px 10px'
+    margin: '-10px -5px 8px'
   },
   smallVisualFilterButton: {
     display: 'inline-block',

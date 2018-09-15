@@ -98,7 +98,7 @@
   grid-template-areas: "presetList productList";
   grid-gap: 0px 20px;
   max-width: 1285px;
-  height: calc(100% - 65px); /* reduced by PresetsInnerHead */
+  height: calc(100% - 56px); /* reduced by PresetsInnerHead */
   margin: auto;
 }
 
