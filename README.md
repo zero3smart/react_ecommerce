@@ -5,6 +5,7 @@
 - [Deployment](#deployment)
 - [Update Visual Filter SVG](#update-visual-filter-svg)
 - [Docker Settings](#docker-settings)
+- [Tips](#tips)
 
 # List of Commands
 ## Mobile (/)
@@ -14,6 +15,8 @@
 | yarn install           | install dependencies |
 | yarn start             | Serve development server in specific port (default: 3002) |
 | yarn build             | Build project |
+| yarn analyze           | Run bundle size analyzer. Must build the project first. |
+| yarn storybook         | Run storybook (port: 9009) |
 
 ## Desktop (/desktop)
 

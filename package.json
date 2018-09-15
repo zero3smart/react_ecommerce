@@ -30,9 +30,14 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "analyze": "source-map-explorer build/static/js/main.*"
+    "analyze": "source-map-explorer build/static/js/main.*",
+    "storybook": "start-storybook -p 9009 -c .storybook -s public"
   },
   "devDependencies": {
+    "@storybook/addon-info": "^3.4.10",
+    "@storybook/addon-viewport": "^3.4.10",
+    "@storybook/react": "^3.4.10",
+    "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.6",
     "eslint": "^5.2.0",
     "eslint-config-standard": "^11.0.0",
