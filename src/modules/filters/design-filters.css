@@ -12,15 +12,5 @@
 
 .DesignFilters label {
   font-size: 14px;
-  line-height: #000000;
-}
-
-/* override material-ui switch */
-.DesignFilters [class*="MuiFormControlLabel-root"] {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-left: 0;
-  margin-right: 0;
+  color: #000000;
 }

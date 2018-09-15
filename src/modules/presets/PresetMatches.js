@@ -52,4 +52,4 @@ class PresetMatches extends Component {
   }
 }
 
-export default withProductLike(PresetMatches)
+export default withProductLike()(PresetMatches)

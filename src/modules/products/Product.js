@@ -97,7 +97,7 @@ class Product extends PureComponent {
   }
 }
 
-export default withProductLike(Product)
+export default withProductLike()(Product)
 
 const renderExtraImages = (imgs = [], name = '') => (
   imgs.map((imgSrc, index) => (

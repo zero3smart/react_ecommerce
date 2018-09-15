@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { likeProduct, unlikeProduct } from 'ducks/product'
 
-export default (WrappedComponent) => {
+export default () => WrappedComponent => {
   class ProductLikeHOC extends Component {
     static propTypes = {
       likeProduct: PropTypes.func.isRequired,
