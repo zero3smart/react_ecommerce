@@ -8,7 +8,7 @@ import { DotLoader } from 'ui-kits/loaders'
 import ProductsNotFound from './ProductsNotFound'
 import { PRODUCT_COUNT_PER_PAGE } from 'config/constants'
 import { withProductLike } from 'hoc'
-import { productGroupsSelector } from './selectors'
+import { matchingProductsSelector, closeMatchingProductsSelector } from './selectors'
 import './product-list.css'
 
 const childRenderer = (props) => (
@@ -53,7 +53,9 @@ class ProductList extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      useMinimumAnimation: false
+      useMinimumAnimation: false,
+      matchingProducts: [],
+      closeMatchingProducts: []
     }
   }
 
@@ -66,9 +68,21 @@ class ProductList extends Component {
     }
   }
 
-  shouldComponentUpdate (nextProps) {
+  static getDerivedStateFromProps (nextProps, prevState) {
+    // if result is not combined, then separate the matching and close matching products
+    if (nextProps.show && !nextProps.combined) {
+      const matchingProductsLenght = prevState.matchingProducts.length
+      return {
+        matchingProducts: matchingProductsSelector(nextProps.products.slice(0, matchingProductsLenght > 0 ? matchingProductsLenght : undefined)),
+        closeMatchingProducts: closeMatchingProductsSelector(nextProps.products)
+      }
+    }
+    return null
+  }
+
+  shouldComponentUpdate (nextProps, nextState) {
     // don't rerender on `useMinimumAnimation` update
-    return !isEqual(this.props, nextProps)
+    return !isEqual(this.props, nextProps) || !isEqual(this.state.matchingProducts, nextState.matchingProducts)
   }
 
   get handleScroll () {
@@ -101,7 +115,7 @@ class ProductList extends Component {
       toggleProductLike,
       combined
     } = this.props
-    const { useMinimumAnimation } = this.state
+    const { useMinimumAnimation, matchingProducts, closeMatchingProducts } = this.state
 
     // get loaded products count
     const currentPage = (nextPage - 1)
@@ -113,7 +127,6 @@ class ProductList extends Component {
     if (combined) {
       productList = renderProducts(products, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount)
     } else {
-      const { matchingProducts, closeMatchingProducts } = productGroupsSelector(products)
       productList = (
         <React.Fragment>
           {renderProducts(matchingProducts, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount)}

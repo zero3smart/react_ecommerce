@@ -56,6 +56,7 @@ class Favorites extends Component {
               extraItem={banner}
               className='Favorites-products'
               show
+              combined
             />
           )
         }
