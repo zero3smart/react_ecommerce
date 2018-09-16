@@ -13,12 +13,14 @@ class ScrollFetcher extends Component {
     disableInitalFetch: PropTypes.bool,
     offsetScroll: PropTypes.number, // fetch will be triggered before touching this offset
     onFetch: PropTypes.func.isRequired,
-    onScroll: PropTypes.func
+    onScroll: PropTypes.func,
+    onTouchMove: PropTypes.func
   }
 
   static defaultProps = {
     onFetch: (next) => { next() },
     onScroll: (top) => {},
+    onTouchMove: (top) => {},
     className: '',
     style: {},
     disableInitalFetch: false,
@@ -97,6 +99,16 @@ class ScrollFetcher extends Component {
     }
   }
 
+  get handleTouchMove () {
+    const { onTouchMove } = this.props
+    return (e) => {
+      const currentTarget = e.currentTarget
+      const top = currentTarget.scrollTop + currentTarget.offsetHeight
+
+      onTouchMove(top)
+    }
+  }
+
   get loadRef () {
     return (element) => {
       this.scrollFetcher = element
@@ -107,7 +119,7 @@ class ScrollFetcher extends Component {
     const { id, className, style } = this.props
     const { isFetchingData } = this.state
     return (
-      <div id={id} ref={this.loadRef} className={className} onScroll={this.handleScrollFrame} style={{ ...styles.wrapper, ...style }}>
+      <div id={id} ref={this.loadRef} className={className} onScroll={this.handleScrollFrame} onTouchMove={this.handleTouchMove} style={{ ...styles.wrapper, ...style }}>
         {this.props.children}
         <DotLoader visible={isFetchingData} style={styles.loader} />
       </div>

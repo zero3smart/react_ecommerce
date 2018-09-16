@@ -34,7 +34,7 @@ class Tops extends Component {
     this.state = {
       hintVisible: true
     }
-    this.allowHideOnScroll = true
+    this.lastScrollTop = 0
   }
 
   componentDidMount () {
@@ -58,17 +58,9 @@ class Tops extends Component {
 
     // if visual filter is expanded, hide the hint
     if (prevProps.visualFilterExpanded.toString() !== visualFilterExpanded.toString()) {
-      // make sure "visual filter hide on scroll" is disabled when changeing hint visibility when props changed, to avoid double toggle
-      this.allowHideOnScroll = false
-
       this.setState({
         hintVisible: !visualFilterExpanded
       })
-
-      // enable "visual filter hide on scroll" again, after some moment
-      setTimeout(() => {
-        this.allowHideOnScroll = true
-      }, 50)
     }
   }
 
@@ -88,11 +80,11 @@ class Tops extends Component {
     }
   }
 
-  get handleScrollChange () {
+  get handleTouchMove () {
     const { visualFilterExpanded, toggleVisualFilter } = this.props
     return () => {
-      // if user scroll the product list when visual filter is expanded, collapse the visual filter
-      if (visualFilterExpanded && this.allowHideOnScroll) {
+      // if user touch scrolling productlist when visual filter visible, hide it.
+      if (visualFilterExpanded) {
         toggleVisualFilter(false)
       }
     }
@@ -136,7 +128,7 @@ class Tops extends Component {
           onFetch={this.handleFetch}
           className='Tops-products'
           extraItem={hint}
-          onScrollChange={this.handleScrollChange}
+          onTouchMove={this.handleTouchMove}
         />
       </div>
     )
