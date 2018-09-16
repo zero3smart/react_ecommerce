@@ -15,22 +15,22 @@ class Faq extends Component {
 
   get faqs () {
     return [
+      // {
+      //   title: 'Who’s the team YesPlz?',
+      //   content: ''
+      // },
       {
-        title: 'Who’s the team YesPlz?',
-        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.'
+        title: 'I am social, where do I find you?',
+        content: 'Glad to hear that! We are on Instagram find us #yesplz_fashion Look forward to seeing you there!'
       },
       {
         title: 'I want to give you my feedback, how do I contact you?',
-        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.'
+        content: 'First, thank you! We are always looking for feedbacks to make your experience better. Simply email us to hello@yesplz.us'
       },
-      {
-        title: 'I am social, where do I find you?',
-        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.'
-      },
-      {
-        title: 'I need the instruction again, where can I find it?',
-        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.'
-      }
+      // {
+      //   title: 'I need the instruction again, where can I find it?',
+      //   content: 'Look no further. Here we have the instructions how to use our search filters. Please email us at mailto:hello@yesplz.us if you can’t find the right instruction, we will reply back in 24 hours.'
+      // }
     ]
   }
 
