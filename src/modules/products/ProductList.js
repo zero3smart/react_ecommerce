@@ -31,6 +31,7 @@ class ProductList extends Component {
     toggleProductLike: PropTypes.func.isRequired,
     onScrollBellowTheFold: PropTypes.func.isRequired,
     onScrollChange: PropTypes.func.isRequired,
+    onTouchMove: PropTypes.func,
     style: PropTypes.object,
     loaderStyle: PropTypes.object
   }
@@ -108,6 +109,7 @@ class ProductList extends Component {
       extraItem,
       showOriginalPrice,
       onFetch,
+      onTouchMove,
       willBeEmptyList,
       style,
       loaderStyle,
@@ -140,6 +142,7 @@ class ProductList extends Component {
         id={id}
         onFetch={onFetch}
         onScroll={this.handleScroll}
+        onTouchMove={onTouchMove}
         className={className}
         style={{ ...styles.wrapper, overflowY: willBeEmptyList ? 'hidden' : 'scroll', ...style }}
         disableInitalFetch
