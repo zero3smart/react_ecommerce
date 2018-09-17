@@ -19,7 +19,7 @@ const filters = {
 
 storiesOf('filters/FilterPanel', module)
   .add(
-    'default',
+    'mobile default',
     withInfo(`
       mobile visual filter panel
     `)(() => (
@@ -30,5 +30,20 @@ storiesOf('filters/FilterPanel', module)
         onClose={action('close visual filter')}
         onFilterLike={action('favorite filter')}
         onBodyPartChange={action('body part changed')}
+      />))
+  )
+  .add(
+    'desktop default',
+    withInfo(`
+      mobile visual filter panel
+    `)(() => (
+      <FilterPanel
+        filters={filters}
+        lastBodyPart='coretype'
+        onFilterChange={action('filter changed')}
+        onClose={action('close visual filter')}
+        onFilterLike={action('favorite filter')}
+        onBodyPartChange={action('body part changed')}
+        useVerticalThumb={false}
       />))
   )
