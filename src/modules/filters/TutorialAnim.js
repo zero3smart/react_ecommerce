@@ -5,7 +5,7 @@ import isEqual from 'lodash-es/isEqual'
 import { VisualFilter } from 'models'
 import './float-button.css'
 
-export default class FloatButton extends PureComponent {
+export default class TutorialAnim extends PureComponent {
   static propTypes = {
     id: PropTypes.string,
     filters: PropTypes.object,
@@ -16,7 +16,7 @@ export default class FloatButton extends PureComponent {
   }
 
   static defaultProps = {
-    id: 'VisualFilterButton',
+    id: 'TutorialAnim',
     noShadow: false
   }
 
@@ -25,17 +25,17 @@ export default class FloatButton extends PureComponent {
     this.state = {
       svgLoaded: false
     }
-    this.disableUpdate = false
   }
 
   componentDidMount () {
     const { id, filters } = this.props
     // initialize visual filter
-    this.visualFilterButton = new VisualFilter(`#${id}`, {
+    this.TutorialAnim = new VisualFilter(`#${id}`, {
       defaultState: filters,
       disableEvent: true,
       hideThumbnail: true,
       hideMiniOnboarding: true,
+      tutorialAnim: true,
       onSVGLoaded: this.handleSVGLoaded,
       onFilterChange: () => {}
     })
@@ -45,21 +45,15 @@ export default class FloatButton extends PureComponent {
     const { filters } = this.props
     const { svgLoaded } = this.state
     if (!isEqual(svgLoaded, prevState.svgLoaded) || !isEqual(filters, prevProps.filters)) {
-      this.visualFilterButton.updateState(filters)
+      this.TutorialAnim.updateState(filters)
     }
-  }
-
-  componentWillUnmount () {
-    this.disableUpdate = true
   }
 
   get handleSVGLoaded () {
     return () => {
-      if (!this.disableUpdate) {
-        this.setState({
-          svgLoaded: true
-        })
-      }
+      this.setState({
+        svgLoaded: true
+      })
     }
   }
 
@@ -68,7 +62,7 @@ export default class FloatButton extends PureComponent {
     const { svgLoaded } = this.state
 
     return (
-      <div className={classNames('FloatButton', { svgLoaded, [className]: className, withShadow: !noShadow })} style={style} onClick={onClick}>
+      <div className={classNames('TutorialAnim', { svgLoaded, [className]: className, withShadow: !noShadow })} style={style} onClick={onClick}>
         <svg id={id} />
       </div>
     )

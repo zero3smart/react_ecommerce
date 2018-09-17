@@ -65,7 +65,7 @@ export default class SimplePreset extends PureComponent {
       defaultState: this.bodyPartFilters,
       disableEvent: true,
       hideThumbnail: true,
-      hideOnboarding: true
+      hideMiniOnboarding: true
     })
   }
 

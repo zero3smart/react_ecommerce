@@ -65,7 +65,7 @@ export default class Preset extends Component {
       defaultState: this.bodyPartFilters,
       disableEvent: true,
       hideThumbnail: true,
-      hideOnboarding: true
+      hideMiniOnboarding: true
     })
   }
 

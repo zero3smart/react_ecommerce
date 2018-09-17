@@ -1,0 +1,20 @@
+.TutorialAnim {
+  background: #FFFFFF;
+  max-width: 414px;
+  padding: 0px 10px 15px;
+  position: fixed;
+  right: 0;
+  left: 0;
+  bottom: -1px;
+  margin: auto;
+  box-sizing: border-box;
+  z-index: 999;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+}
+
+.TutorialAnim .VisualFilter {
+  vertical-align: top;
+}

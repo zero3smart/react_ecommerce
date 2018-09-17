@@ -74,8 +74,50 @@ export default class VisualFilter {
     return pick(filters, [ 'collar', 'coretype', 'neckline', 'shoulder', 'sleeve_length', 'top_length' ])
   }
 
+  onboardingSeqIdx = 0
+
+  onboardingCycleBodypart () {
+    let onboardingSequences = [
+      {collar: 0, coretype: 2, neckline: 1, shoulder: 1, sleeve_length: 0, top_length: 2},
+      {collar: 0, coretype: 2, neckline: 1, shoulder: 2, sleeve_length: 0, top_length: 2},
+      {collar: 0, coretype: 2, neckline: 1, shoulder: 4, sleeve_length: 0, top_length: 2},
+      {collar: 0, coretype: 2, neckline: 1, shoulder: 0, sleeve_length: 1, top_length: 2},
+      {collar: 0, coretype: 2, neckline: 1, shoulder: 0, sleeve_length: 2, top_length: 2},
+      {collar: 0, coretype: 2, neckline: 1, shoulder: 0, sleeve_length: 4, top_length: 2},
+      {collar: 0, coretype: 2, neckline: 1, shoulder: 0, sleeve_length: 5, top_length: 2},
+      {collar: 0, coretype: 0, neckline: 2, shoulder: 4, sleeve_length: 5, top_length: 0},
+      {collar: 2, coretype: 1, neckline: 2, shoulder: 4, sleeve_length: 2, top_length: 2},
+      {collar: 0, coretype: 2, neckline: 1, shoulder: 4, sleeve_length: 0, top_length: 1}
+    ]
+    this.updateState(onboardingSequences[this.onboardingSeqIdx])
+    this.onboardingSeqIdx = (this.onboardingSeqIdx + 1) % (onboardingSequences.length)
+    setTimeout(() => this.onboardingCycleBodypart(), 500)
+  }
+
+  setPointerHovering () {
+    for (let prop in this.currentPropState) {
+      let hitArea = this.findGroupById(this.getBodyPartGroupName(prop, 'touch'))
+      let vf = this
+
+      hitArea.mouseover(function () {
+        // let nextState = parseInt(vf.currentPropState[prop], 10) + 1
+        // let opacity = '1'
+        // if (nextState > vf.getMaxSelectionIndx(prop)) {
+        //   nextState = vf.currentPropState[prop]
+        //   opacity = '.8'
+        // }
+        // vf.highlightGroup(vf.getBodyPartGroupName(prop, nextState), false, opacity)
+        vf.highlightGroup(vf.getBodyPartGroupName(prop, vf.getMaxSelectionIndx(prop)), false, '.5')
+      })
+      hitArea.mouseout(function () {
+        vf.removeHighlight()
+      })
+    }
+  }
+
   initialize () {
-    const { hideOnboarding, onSVGLoaded, hideThumbnail, useVerticalThumb, swipeable, disableEvent } = this.settings
+    const { hideMiniOnboarding, onSVGLoaded, hideThumbnail, useVerticalThumb,
+      swipeable, disableEvent, tutorialAnim } = this.settings
 
     this.viewBox = [0, 0, 490, 400]
     let svgSource = ''
@@ -116,7 +158,7 @@ export default class VisualFilter {
       }
 
       // onboarding
-      if (!hideOnboarding && VisualFilter.shouldShowOnboarding()) {
+      if (!hideMiniOnboarding && VisualFilter.shouldShowOnboarding()) {
         Snap.load(svgOnboardingSource, (frag) => {
           this.showOnboarding(frag)
         })
@@ -135,6 +177,9 @@ export default class VisualFilter {
         }
       }
 
+      if (tutorialAnim) {
+        this.onboardingCycleBodypart()
+      }
       // callback
       onSVGLoaded()
     })
@@ -165,7 +210,6 @@ export default class VisualFilter {
         group.click(function () { self.handleBodyPartClick(this) }, prop)
       }
     }
-
     if (!this.settings.hideThumbnail) {
       for (let i = 0; i < 7; i++) {
         group = this.findGroupById('thumbnail_touch_' + i)
@@ -336,6 +380,9 @@ export default class VisualFilter {
       this.hideGroup('length_2')
       this.hideGroup('length_all')
     }
+    if (!this.settings.useVerticalThumb && !this.settings.disableEvent) {
+      this.setPointerHovering()
+    }
   }
 
   showOnboarding (frag) {
@@ -405,7 +452,12 @@ export default class VisualFilter {
   }
 
   handleBodyPartClick (prop) {
-    if (this.selectedBodyPart.valueOf() === prop.valueOf()) {
+    if (this.settings.useVerticalThumb) {
+      if (this.selectedBodyPart.valueOf() === prop.valueOf()) {
+        // In mobile, cycle settings when same item is touched again.
+        this.cyclePropSelection(prop)
+      }
+    } else { // desktop. We have hovering hint, so just change to next selection on first click
       this.cyclePropSelection(prop)
     }
 
@@ -494,7 +546,7 @@ export default class VisualFilter {
       this.changePropSelection(prop, '0')
     } else {
       let next = parseInt(this.currentPropState[prop], 10) + 1
-      if (next === PROP_CONST[this.selectedBodyPart][1] + 1) {
+      if (next === this.getMaxSelectionIndx(prop) + 1) {
         if (ENABLE_BODYPART_ALL_BTN) {
           next = 'all'
         } else {
@@ -669,22 +721,23 @@ export default class VisualFilter {
 
   /**
    * Highlight svg group
-   * @param {Object} snap
    * @param {string} id
    */
-  highlightGroup (id) {
+  highlightGroup (id, fadeout = true, opacity = '1') {
     id = id + '_HL'
     // Assume highlight objects are defined below body parts in svg file
     const group = this.findGroupById(id)
     group.attr({
       visibility: 'visible',
-      opacity: '1',
+      opacity: opacity,
       transform: 'scale(1)',
       'transform-origin': '50% 50%'})
-    group.animate({
-      opacity: '.8'
-      // transform: 'scale(1.01)' // Somehow scaling up animation looks shaky.
-    }, 100, null, () => { this.hideGroup(id) })
+    if (fadeout) {
+      group.animate({
+        opacity: '.8'
+        // transform: 'scale(1.01)' // Somehow scaling up animation looks shaky.
+      }, 100, null, () => { this.hideGroup(id) })
+    }
     this.lastHighlightId = id
   }
 
@@ -767,8 +820,9 @@ const defaultOptions = {
   swipeable: false, // only supported for mobile
   defaultState: {},
   hideThumbnail: false,
-  hideOnboarding: false,
+  hideMiniOnboarding: false,
   useVerticalThumb: false,
+  tutorialAnim: false,
   onFilterChange: (filters) => { console.debug('filter change', filters) },
   onPropChange: (prop) => { console.debug('prop change', prop) },
   onSVGLoaded: () => {}
