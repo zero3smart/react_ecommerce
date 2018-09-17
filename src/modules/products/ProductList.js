@@ -171,6 +171,7 @@ const renderProducts = (products, children, showOriginalPrice, toggleProductLike
       brand: product.brand,
       price: product.price,
       originalPrice: product.original_price,
+      extraInfo: product.extra_info,
       showOriginalPrice: showOriginalPrice,
       favorite: product.favorite,
       imgSrc: product.front_img,

@@ -100,6 +100,7 @@ class TopSingle extends Component {
             link={product.src_url}
             retailer={product.retailer}
             sizes={product.sizes}
+            extraInfo={product.extra_info}
             rawData={product}
             showDots
           />

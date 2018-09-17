@@ -38,6 +38,7 @@ class PresetMatches extends Component {
               brand={product.brand}
               price={product.price}
               originalPrice={product.original_price}
+              extraInfo={product.extra_info}
               favorite={product.favorite}
               imgSrc={product.front_img}
               rawData={product}

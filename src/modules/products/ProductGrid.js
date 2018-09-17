@@ -17,6 +17,7 @@ export default class ProductGrid extends PureComponent {
     imgSrc: PropTypes.string.isRequired,
     currency: PropTypes.string,
     className: PropTypes.string,
+    extraInfo: PropTypes.string,
     favorite: PropTypes.bool,
     rawData: PropTypes.object,
     disableLike: PropTypes.bool,
@@ -50,12 +51,12 @@ export default class ProductGrid extends PureComponent {
   }
 
   render () {
-    const { id, name, brand, imgSrc, price, originalPrice, currency, className, favorite, showOriginalPrice, disableLike, style } = this.props
+    const { id, name, brand, imgSrc, price, originalPrice, currency, className, favorite, showOriginalPrice, disableLike, style, extraInfo } = this.props
 
     // sale is available if original price is different with price
     const isSale = originalPrice && originalPrice !== price
     return (
-      <Link to={`/products/${id}`} className={`ProductGrid ${className}`} style={style} title={`${name} - ${brand}`}>
+      <Link to={`/products/${id}`} className={`ProductGrid ${className}`} style={style} title={`${name} - ${brand}${extraInfo}`}>
         {!disableLike && <LikeButton active={favorite} onClick={this.toggleLike} />}
         <div className='ProductGrid-thumbnail'>
           {

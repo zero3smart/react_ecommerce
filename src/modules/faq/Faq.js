@@ -26,7 +26,7 @@ class Faq extends Component {
       {
         title: 'I want to give you my feedback, how do I contact you?',
         content: 'First, thank you! We are always looking for feedbacks to make your experience better. Simply email us to hello@yesplz.us'
-      },
+      }
       // {
       //   title: 'I need the instruction again, where can I find it?',
       //   content: 'Look no further. Here we have the instructions how to use our search filters. Please email us at mailto:hello@yesplz.us if you can’t find the right instruction, we will reply back in 24 hours.'

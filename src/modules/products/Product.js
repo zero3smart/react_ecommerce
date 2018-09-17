@@ -21,6 +21,7 @@ class Product extends PureComponent {
     currency: PropTypes.string,
     favorite: PropTypes.bool,
     description: PropTypes.string,
+    extraInfo: PropTypes.string,
     link: PropTypes.string,
     retailer: PropTypes.string,
     sizes: PropTypes.array,

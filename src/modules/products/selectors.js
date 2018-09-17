@@ -7,9 +7,9 @@ const createDeepEqualSelector = createSelectorCreator(
   isEqual
 )
 
-// filter matching products, score is 95 or above
+// filter matching products, score is 97 or above
 const getMatchingProducts = products => (
-  filter(products, product => product.score >= 95)
+  filter(products, product => product.score >= 97)
 )
 
 export const matchingProductsSelector = createDeepEqualSelector(
@@ -17,9 +17,9 @@ export const matchingProductsSelector = createDeepEqualSelector(
   getMatchingProducts
 )
 
-// close matching products, score bellow 95
+// close matching products, score bellow 97
 const getCloseMatchingProducts = (products) => (
-  filter(products, product => product.score < 95)
+  filter(products, product => product.score < 97)
 )
 
 export const closeMatchingProductsSelector = createDeepEqualSelector(

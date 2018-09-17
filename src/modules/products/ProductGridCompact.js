@@ -15,6 +15,7 @@ export default class ProductGridCompact extends PureComponent {
     originalPrice: PropTypes.number,
     showOriginalPrice: PropTypes.bool,
     imgSrc: PropTypes.string.isRequired,
+    extraInfo: PropTypes.string,
     currency: PropTypes.string,
     className: PropTypes.string,
     favorite: PropTypes.bool,
@@ -48,12 +49,12 @@ export default class ProductGridCompact extends PureComponent {
   }
 
   render () {
-    const { id, name, brand, imgSrc, price, originalPrice, showOriginalPrice, currency, className, favorite, style } = this.props
+    const { id, name, brand, imgSrc, price, originalPrice, showOriginalPrice, currency, className, favorite, style, extraInfo } = this.props
 
     // sale is available if original price is different with price
     const isSale = originalPrice && originalPrice !== price
     return (
-      <Link to={`/products/${id}`} className={`ProductGridCompact ${className}`} style={style} title={`${name} - ${brand}`}>
+      <Link to={`/products/${id}`} className={`ProductGridCompact ${className}`} style={style} title={`${name} - ${brand}${extraInfo}`}>
         <div className='ProductGridCompact-thumbnail'>
           <LikeButton active={favorite} onClick={this.toggleLike} />
           {
