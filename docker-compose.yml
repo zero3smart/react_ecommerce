@@ -10,3 +10,9 @@ services:
     ports:
       - '80:80'
     network_mode: "host"
+    volumes:
+       - type: bind
+         source: /home/sjcho/yesplz/data/ns_woman_top/archive
+         target: /srv/www/imgs
+         readonly: true
+
