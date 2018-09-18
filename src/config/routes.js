@@ -4,8 +4,8 @@ import { NavLink } from 'react-router-dom'
 // pages
 import { Base, NotFound } from 'modules/base'
 import { Home } from 'modules/home'
-import { ProductsPage } from 'modules/products'
-import { TopSingle, TopsInfoBanner } from 'modules/tops'
+import { ProductsPage, ProductPage } from 'modules/products'
+import { TopsInfoBanner } from 'modules/tops'
 import { Favorites } from 'modules/favorites'
 import { Faq } from 'modules/faq'
 import { Presets } from 'modules/presets'
@@ -23,10 +23,11 @@ const BasePlatform = (props) => (
   <Base {...props}>
     <Switch>
       <Route exact path='/' component={Home} />
-      <Route exact path='/products' render={ProductsList} />
-      <Route exact path='/products/:productId' component={TopSingle} />
+      <Route exact path='/products' render={ProductsListRoute} />
+      <Route exact path='/products/:productId' component={SingleProductRoute} />
       <Route exact path='/presets' component={Presets} />
       <Route exact path='/preset-products/:presetName' render={PresetProductsRoute} />
+      <Route exact path='/preset-products/:presetName/:productId' render={SinglePresetProductRoute} />
       <Route exact path='/favorites/:favoriteType' component={Favorites} />
       <Route exact path='/faq' component={Faq} />
       <Route component={NotFound} />
@@ -34,17 +35,46 @@ const BasePlatform = (props) => (
   </Base>
 )
 
-const ProductsList = router => (
+const ProductsListRoute = router => (
   <ProductsPage initialExpandVisualFilter renderExtraItem={renderTopsInfoBanner} />
 )
 
-const PresetProductsRoute = router => (
-  <ProductsPage
+const PresetProductsRoute = router => {
+  const { presetName } = router.match.params
+  return (
+    <ProductsPage
+      productBasePath={`/preset-products/${presetName}`}
+      renderExtraItem={renderBreadcrumbs([
+        { name: 'Editor\'s Pick', uri: '/' },
+        { name: presetName }
+      ])}
+    />
+  )
+}
+
+const SingleProductRoute = router => (
+  <ProductPage
+    match={router.match}
     renderExtraItem={renderBreadcrumbs([
-      { name: 'Editor\'s Pick', uri: '/' },
-      { name: router.match.params.presetName }
-    ])} />
+      { name: 'YesPlz', uri: '/' },
+      { name: 'Product Detail' }
+    ])}
+  />
 )
+
+const SinglePresetProductRoute = router => {
+  const { presetName } = router.match.params
+  return (
+    <ProductPage
+      match={router.match}
+      renderExtraItem={renderBreadcrumbs([
+        { name: 'Editor\'s Pick', uri: '/' },
+        { name: presetName, uri: `/preset-products/${presetName}` },
+        { name: 'Detail' }
+      ])}
+    />
+  )
+}
 
 /** helper functions */
 

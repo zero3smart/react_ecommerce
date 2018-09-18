@@ -1,5 +1,5 @@
 .BreadCrumbs {
-  font-size: 16px;
+  font-size: 14px;
   color: white;
   background: #6200EE;
   padding: 18px 22px 20px;
@@ -9,7 +9,7 @@
 
 .BreadCrumbs > * {
   font-size: inherit;
-  line-height: 18px;
+  line-height: 16px;
   color: white;
   text-decoration: none;
 }

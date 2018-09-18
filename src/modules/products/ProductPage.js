@@ -4,9 +4,9 @@ import { connect } from 'react-redux'
 import { Product, ProductPlaceholder, ProductList } from 'modules/products'
 import { fetchProduct, fetchRelatedProducts, resetProduct, setScrollBellowTheFold } from 'ducks/product'
 import { history } from 'config/store'
-import './top-single.css'
+import './product-page.css'
 
-class TopSingle extends Component {
+class ProductPage extends Component {
   static propTypes = {
     isProductFetched: PropTypes.bool,
     isRelatedProductsFetched: PropTypes.bool,
@@ -16,10 +16,15 @@ class TopSingle extends Component {
     totalCount: PropTypes.number.isRequired,
     nextPage: PropTypes.number,
     scrollBellowTheFold: PropTypes.bool,
+    renderExtraItem: PropTypes.func,
     fetchProduct: PropTypes.func.isRequired,
     fetchRelatedProducts: PropTypes.func.isRequired,
     resetProduct: PropTypes.func.isRequired,
     setScrollBellowTheFold: PropTypes.func.isRequired
+  }
+
+  static defaultProps = {
+    renderExtraItem: () => (null)
   }
 
   componentDidMount () {
@@ -81,12 +86,13 @@ class TopSingle extends Component {
   }
 
   render () {
-    const { product, relatedProducts, isProductFetched, isRelatedProductsFetched, nextPage } = this.props
+    const { product, relatedProducts, isProductFetched, isRelatedProductsFetched, nextPage, renderExtraItem } = this.props
     let productBox = <ProductPlaceholder />
 
     if (isProductFetched) {
       productBox = (
-        <div className='TopSingle-top-wrapper'>
+        <div className='ProductPage-top-wrapper'>
+          {renderExtraItem(this)}
           <Product
             id={product.product_id}
             name={product.name}
@@ -110,7 +116,7 @@ class TopSingle extends Component {
     }
 
     return (
-      <div className='TopSingle'>
+      <div className='ProductPage'>
         <ProductList
           id='MainScroll'
           show={isRelatedProductsFetched}
@@ -119,7 +125,7 @@ class TopSingle extends Component {
           onFetch={this.handleFetchNext}
           onScrollBellowTheFold={this.handleScrollBellowTheFold}
           extraItem={productBox}
-          className='TopSingle-products'
+          className='ProductPage-products'
         />
       </div>
     )
@@ -145,4 +151,4 @@ export default connect(
     resetProduct,
     setScrollBellowTheFold
   }
-)(TopSingle)
+)(ProductPage)
