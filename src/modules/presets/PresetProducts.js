@@ -4,7 +4,8 @@ import { connect } from 'react-redux'
 import { fetchProducts } from 'ducks/products'
 import { syncFilter, toggleVisualFilter } from 'ducks/filters'
 import { ProductList } from 'modules/products'
-import { InfoBanner } from 'ui-kits/banners'
+import { BreadCrumbs } from 'ui-kits/misc'
+import { NavLink } from 'react-router-dom'
 import './preset-products.css'
 
 class PresetProducts extends Component {
@@ -68,11 +69,10 @@ class PresetProducts extends Component {
     const { presetName, products, isProductsFetched, nextPage, willBeEmptyList } = this.props
 
     const extra = (
-      <InfoBanner style={styles.infoBanner} className='animated fadeInDown'>
-        <p style={{ display: 'inline-block', fontSize: 14 }}>
-          Best matching results > <strong className='bigger'>{presetName}</strong>
-        </p>
-      </InfoBanner>
+      <BreadCrumbs style={styles.infoBanner} className='animated fadeInDown'>
+        <NavLink to='/'>Editor's Pick</NavLink>
+        <div className='current'>{presetName}</div>
+      </BreadCrumbs>
     )
 
     return (
