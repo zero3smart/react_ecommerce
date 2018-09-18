@@ -75,7 +75,12 @@ export default function reducer (state = defaultState, action = {}) {
         ...state,
         expanded: payload.expanded
       }
-    // do reducer stuff
+    case '@@router/LOCATION_CHANGE':
+      // on router change, make visual filter hidden
+      return {
+        ...state,
+        expanded: false
+      }
     default: return state
   }
 }
