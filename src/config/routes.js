@@ -36,13 +36,14 @@ const BasePlatform = (props) => (
 )
 
 const ProductsListRoute = router => (
-  <ProductsPage initialExpandVisualFilter renderExtraItem={renderTopsInfoBanner} />
+  <ProductsPage key='products-page' initialExpandVisualFilter renderExtraItem={renderTopsInfoBanner} />
 )
 
 const PresetProductsRoute = router => {
   const { presetName } = router.match.params
   return (
     <ProductsPage
+      key='preset-products-page'
       productBasePath={`/preset-products/${presetName}`}
       renderExtraItem={renderBreadcrumbs([
         { name: 'Editor\'s Pick', uri: '/' },
