@@ -38,7 +38,7 @@ class Tops extends Component {
   }
 
   componentDidMount () {
-    const { isProductsFetched, syncFilter, fetchProducts, visualFilterExpanded } = this.props
+    const { isProductsFetched, syncFilter, fetchProducts, toggleVisualFilter } = this.props
 
     // don't need to do initial fetch if products is fetched already
     if (!isProductsFetched) {
@@ -47,10 +47,10 @@ class Tops extends Component {
       fetchProducts(true)
     }
 
-    // if visual filter is expanded, hide the hint
-    if (visualFilterExpanded) {
-      this.setState({ hintVisible: false })
-    }
+    // visual filter is expanded by default on Tops page.
+    toggleVisualFilter(true)
+    // the hint is hidden by default on Tops page.
+    this.setState({ hintVisible: false })
   }
 
   componentDidUpdate (prevProps) {
