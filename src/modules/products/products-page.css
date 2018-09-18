@@ -1,22 +1,22 @@
-.PresetProducts {
+.ProductsPage {
   height: calc(100% - 56px);
 }
 
-.PresetProducts-list {
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
+.ProductsPage-products {
   padding-top: 10px;
   padding-left: 5px;
   padding-right: 5px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
 }
 
-.PresetProducts .Product {
+.ProductsPage-products .Product {
   order: 0;
   margin: -8px -5px 10px;
 }
 
-.PresetProducts .ProductGrid {
+.ProductsPage-products .ProductGrid {
   width: calc(33.33333% - 10px);
   margin-left: 5px;
   margin-right: 5px;
@@ -25,7 +25,7 @@
 }
 
 /* from ScrollFetcher */
-.PresetProducts .DotLoader {
+.ProductsPage-products .DotLoader {
   width: 100%;
   flex-basis: 100%;
   order: 2;

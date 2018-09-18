@@ -4,20 +4,18 @@ import { connect } from 'react-redux'
 import { fetchProducts } from 'ducks/products'
 import { syncFilter, toggleVisualFilter } from 'ducks/filters'
 import { ProductList } from 'modules/products'
-import { FloatButton } from 'modules/filters'
-import { InfoBanner } from 'ui-kits/banners'
-import ArrowRightSvg from 'assets/svg/arrow-right.svg'
-import './tops.css'
+import './products-page.css'
 
-class Tops extends Component {
+class ProductsPage extends Component {
   static propTypes = {
     products: PropTypes.array,
-    filters: PropTypes.object,
     totalCount: PropTypes.number,
     isProductsFetched: PropTypes.bool,
     willBeEmptyList: PropTypes.bool,
     nextPage: PropTypes.number,
     visualFilterExpanded: PropTypes.bool,
+    initialExpandVisualFilter: PropTypes.bool,
+    renderExtraItem: PropTypes.func.isRequired,
     syncFilter: PropTypes.func.isRequired,
     fetchProducts: PropTypes.func.isRequired,
     toggleVisualFilter: PropTypes.func.isRequired
@@ -25,20 +23,22 @@ class Tops extends Component {
 
   static defaultProps = {
     products: [],
+    initialExpandVisualFilter: false,
     isProductsFetched: false,
-    willBeEmptyList: false
+    willBeEmptyList: false,
+    renderExtraItem: (containerContext) => (null) // container context
   }
 
   constructor (props) {
     super(props)
     this.state = {
-      hintVisible: true
+      extraVisible: true
     }
     this.lastScrollTop = 0
   }
 
   componentDidMount () {
-    const { isProductsFetched, syncFilter, fetchProducts, toggleVisualFilter } = this.props
+    const { isProductsFetched, syncFilter, fetchProducts, toggleVisualFilter, initialExpandVisualFilter } = this.props
 
     // don't need to do initial fetch if products is fetched already
     if (!isProductsFetched) {
@@ -47,19 +47,21 @@ class Tops extends Component {
       fetchProducts(true)
     }
 
-    // visual filter is expanded by default on Tops page.
-    toggleVisualFilter(true)
-    // the hint is hidden by default on Tops page.
-    this.setState({ hintVisible: false })
+    // if enabled, visual filter will be expanded by default
+    if (initialExpandVisualFilter) {
+      toggleVisualFilter(true)
+      // the hint should be hidden
+      this.setState({ extraVisible: false })
+    }
   }
 
   componentDidUpdate (prevProps) {
     const { visualFilterExpanded } = this.props
 
-    // if visual filter is expanded, hide the hint
+    // if visual filter is expanded, hide the extra
     if (prevProps.visualFilterExpanded.toString() !== visualFilterExpanded.toString()) {
       this.setState({
-        hintVisible: !visualFilterExpanded
+        extraVisible: !visualFilterExpanded
       })
     }
   }
@@ -98,27 +100,13 @@ class Tops extends Component {
   }
 
   render () {
-    const { products, filters, isProductsFetched, nextPage, willBeEmptyList } = this.props
-    const { hintVisible } = this.state
+    const { products, isProductsFetched, nextPage, willBeEmptyList, renderExtraItem } = this.props
+    const { extraVisible } = this.state
 
-    const hint = !hintVisible ? null : (
-      <InfoBanner style={styles.infoBanner} className='animated fadeInDown'>
-        <h5>Let’s find a style.</h5>
-        <p style={{ display: 'inline-block' }}>
-          ( Click our visual filter button. ) <img src={ArrowRightSvg} alt='Yesplz Visual Filter Indicator' />
-        </p>
-        <FloatButton
-          id='VisualFilterPreview'
-          filters={filters}
-          onClick={this.showVisualFilter}
-          style={styles.smallVisualFilterButton}
-          noShadow
-        />
-      </InfoBanner>
-    )
+    const extra = !extraVisible ? null : renderExtraItem(this)
 
     return (
-      <div className='Tops'>
+      <div className='ProductsPage'>
         <ProductList
           id='MainScroll'
           show={isProductsFetched}
@@ -126,8 +114,8 @@ class Tops extends Component {
           willBeEmptyList={willBeEmptyList}
           nextPage={nextPage}
           onFetch={this.handleFetch}
-          className='Tops-products'
-          extraItem={hint}
+          className='ProductsPage-products'
+          extraItem={extra}
           onTouchMove={this.handleTouchMove}
         />
       </div>
@@ -145,23 +133,4 @@ const mapStateToProps = (state, props) => ({
   visualFilterExpanded: state.filters.expanded
 })
 
-export default connect(mapStateToProps, { fetchProducts, syncFilter, toggleVisualFilter })(Tops)
-
-const styles = {
-  infoBanner: {
-    marginTop: -10,
-    marginLeft: -5,
-    marginRight: -5,
-    marginBottom: 8
-  },
-  smallVisualFilterButton: {
-    display: 'inline-block',
-    width: 40,
-    height: 40,
-    paddingTop: 5,
-    marginLeft: 7,
-    marginTop: -10,
-    position: 'static',
-    verticalAlign: 'top'
-  }
-}
+export default connect(mapStateToProps, { fetchProducts, syncFilter, toggleVisualFilter })(ProductsPage)

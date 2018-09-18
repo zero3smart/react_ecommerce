@@ -1,7 +1,7 @@
-import Tops from './Tops'
+import TopsInfoBanner from './TopsInfoBanner'
 import TopSingle from './TopSingle'
 
 export {
-  Tops,
+  TopsInfoBanner,
   TopSingle
 }
