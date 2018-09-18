@@ -27,6 +27,7 @@ class ProductList extends Component {
     willBeEmptyList: PropTypes.bool,
     showOriginalPrice: PropTypes.bool,
     combined: PropTypes.bool,
+    productBasePath: PropTypes.string,
     onFetch: PropTypes.func.isRequired,
     toggleProductLike: PropTypes.func.isRequired,
     onScrollBellowTheFold: PropTypes.func.isRequired,
@@ -114,7 +115,8 @@ class ProductList extends Component {
       style,
       loaderStyle,
       toggleProductLike,
-      combined
+      combined,
+      productBasePath
     } = this.props
     const { useMinimumAnimation, matchingProducts, closeMatchingProducts } = this.state
 
@@ -126,13 +128,13 @@ class ProductList extends Component {
     // when `combined` is `true`, product list should render all products without separating the score
     let productList = null
     if (combined) {
-      productList = renderProducts(products, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount)
+      productList = renderProducts(products, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount, productBasePath)
     } else {
       productList = (
         <React.Fragment>
-          {renderProducts(matchingProducts, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount)}
+          {renderProducts(matchingProducts, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount, productBasePath)}
           {closeMatchingProducts.length > 0 ? <h4 className='animated fadeIn' style={styles.subTitle}>The next close matching</h4> : <div style={{ display: 'none' }} />}
-          {renderProducts(closeMatchingProducts, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount)}
+          {renderProducts(closeMatchingProducts, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount, productBasePath)}
         </React.Fragment>
       )
     }
@@ -162,7 +164,7 @@ class ProductList extends Component {
 
 export default withProductLike()(ProductList)
 
-const renderProducts = (products, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount) => (
+const renderProducts = (products, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount, productBasePath) => (
   products.map((product, index) => {
     const props = {
       key: product.product_id,
@@ -177,6 +179,7 @@ const renderProducts = (products, children, showOriginalPrice, toggleProductLike
       imgSrc: product.front_img,
       rawData: product,
       onToggleLike: toggleProductLike,
+      productBasePath: productBasePath,
       style: {
         // `ProducGrid` need be showed directly in each page
         animationDelay: `${useMinimumAnimation ? 0 : 50 * (index - loadedProductsCount)}ms`
