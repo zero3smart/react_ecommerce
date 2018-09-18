@@ -15,6 +15,7 @@ class ProductsPage extends Component {
     nextPage: PropTypes.number,
     visualFilterExpanded: PropTypes.bool,
     initialExpandVisualFilter: PropTypes.bool,
+    productBasePath: PropTypes.string,
     renderExtraItem: PropTypes.func.isRequired,
     syncFilter: PropTypes.func.isRequired,
     fetchProducts: PropTypes.func.isRequired,
@@ -100,7 +101,7 @@ class ProductsPage extends Component {
   }
 
   render () {
-    const { products, isProductsFetched, nextPage, willBeEmptyList, renderExtraItem } = this.props
+    const { products, isProductsFetched, nextPage, willBeEmptyList, renderExtraItem, productBasePath } = this.props
     const { extraVisible } = this.state
 
     const extra = !extraVisible ? null : renderExtraItem(this)
@@ -116,6 +117,7 @@ class ProductsPage extends Component {
           onFetch={this.handleFetch}
           className='ProductsPage-products'
           extraItem={extra}
+          productBasePath={productBasePath}
           onTouchMove={this.handleTouchMove}
         />
       </div>

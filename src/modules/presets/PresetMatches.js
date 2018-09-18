@@ -25,7 +25,7 @@ class PresetMatches extends Component {
   }
 
   render () {
-    const { products, toggleProductLike } = this.props
+    const { products, preset, toggleProductLike } = this.props
 
     return (
       <div className='PresetMatches'>
@@ -41,6 +41,7 @@ class PresetMatches extends Component {
               extraInfo={product.extra_info}
               favorite={product.favorite}
               imgSrc={product.front_img}
+              productBasePath={`/preset-products/${preset.name}`}
               rawData={product}
               onToggleLike={toggleProductLike}
               disableLike
