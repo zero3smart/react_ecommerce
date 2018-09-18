@@ -37,9 +37,14 @@ class ProductFilter extends Component {
   }
 
   get handleFilterToggle () {
-    const { expanded, toggleVisualFilter } = this.props
+    const { expanded, router, toggleVisualFilter } = this.props
     return () => {
-      toggleVisualFilter(!expanded)
+      // will move to products page when clicking on the visual filter button
+      if (router.location.pathname !== '/products') {
+        history.push('/products')
+      } else {
+        toggleVisualFilter(!expanded)
+      }
     }
   }
 
