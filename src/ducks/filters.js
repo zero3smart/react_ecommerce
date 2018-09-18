@@ -9,8 +9,8 @@ const { localStorage } = window
 const SET_FILTER = 'filters/SET_FILTER'
 const SET_PRESETS = 'filters/SET_PRESETS'
 const SET_FAVORITE_PRESETS = 'filters/SET_FAVORITE_PRESETS'
-const LIKE_PRESET = 'filters/LIKE_PRESET'
-const UNLIKE_PRESET = 'filters/UNLIKE_PRESET'
+export const LIKE_PRESET = 'filters/LIKE_PRESET'
+export const UNLIKE_PRESET = 'filters/UNLIKE_PRESET'
 const SET_LAST_BODY_PART = 'filters/SET_LAST_BODY_PART'
 const TOOGLE_VISUAL_FILTER = 'filters/TOOGLE_VISUAL_FILTER'
 

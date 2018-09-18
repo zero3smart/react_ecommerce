@@ -3,6 +3,7 @@ import { applyMiddleware, createStore, combineReducers } from 'redux'
 import thunk from 'redux-thunk'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { composeWithDevTools } from 'redux-devtools-extension'
+import { recommendation } from 'middlewares'
 import * as reducers from 'ducks'
 
 export const history = createBrowserHistory({
@@ -18,7 +19,8 @@ const store = createStore(
   composeWithDevTools(
     applyMiddleware(
       routerMiddleware(history), // for dispatching history actions
-      thunk // add dispatch to action creators
+      thunk, // add dispatch to action creators
+      recommendation
     )
   )
 )
