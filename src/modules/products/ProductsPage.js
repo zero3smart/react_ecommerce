@@ -67,6 +67,12 @@ class ProductsPage extends Component {
     }
   }
 
+  componentWillUnmount () {
+    const { toggleVisualFilter } = this.props
+    // visual filter should be closed on unmounting
+    toggleVisualFilter(false)
+  }
+
   /**
    * only applicable on next fetch, if available
    */
