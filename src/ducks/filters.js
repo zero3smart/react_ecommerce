@@ -1,5 +1,4 @@
 import axios from 'axios'
-import isNil from 'lodash-es/isNil'
 import { FILTERS } from 'config/constants'
 import { Preset, VisualFilter } from 'models'
 import { updatePresetFavorite, mapPresetFavorites } from './helpers'
@@ -13,6 +12,7 @@ export const LIKE_PRESET = 'filters/LIKE_PRESET'
 export const UNLIKE_PRESET = 'filters/UNLIKE_PRESET'
 const SET_LAST_BODY_PART = 'filters/SET_LAST_BODY_PART'
 const TOOGLE_VISUAL_FILTER = 'filters/TOOGLE_VISUAL_FILTER'
+const SET_ONBOARDING = 'filters/SET_ONBOARDING'
 
 const defaultState = {
   data: {
@@ -32,7 +32,8 @@ const defaultState = {
   presets: [],
   favoritePresets: [],
   presetsFetched: false,
-  expanded: isNil(window.localStorage.getItem('onboarding_completed')) || false
+  expanded: false,
+  onboarding: VisualFilter.shouldShowOnboarding()
 }
 
 // Reducer
@@ -75,6 +76,11 @@ export default function reducer (state = defaultState, action = {}) {
         ...state,
         expanded: payload.expanded
       }
+    case SET_ONBOARDING:
+      return {
+        ...state,
+        onboarding: payload.onboarding
+      }
     default: return state
   }
 }
@@ -114,6 +120,10 @@ export function syncFavoritePresets () {
 
 export function toggleVisualFilter (expanded = true) {
   return { type: TOOGLE_VISUAL_FILTER, payload: { expanded } }
+}
+
+export function setOnboarding (onboarding = true) {
+  return { type: SET_ONBOARDING, payload: { onboarding } }
 }
 
 /**

@@ -7,6 +7,7 @@ export const FAVORITE_PRODUCTS = 'favorite_products'
 export const FAVORITE_PRESETS = 'favorite_presets'
 export const FILTERS = 'filters'
 export const LAST_BODY_PART = 'last_body_part'
+export const ONBOARDING_COMPLETED = 'onboarding_completed'
 
 // presets
 export const CUSTOM_PRESET_NAME = 'Custom Preset'
