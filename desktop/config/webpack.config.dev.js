@@ -91,6 +91,7 @@ module.exports = {
       'yesplz@modules': path.join(paths.mobileSrc, 'modules'),
       'yesplz@ui-kits': path.join(paths.mobileSrc, 'ui-kits'),
       'yesplz@utils': path.join(paths.mobileSrc, 'utils'),
+      'yesplz@middlewares': path.join(paths.mobileSrc, 'middlewares'),
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
