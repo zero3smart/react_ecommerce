@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="450px" height="393px" viewBox="0 0 450 393" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="480px" height="393px" viewBox="0 0 480 393" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
     <title>mini_onboarding_thumb_vertical</title>
     <desc>Created with Sketch.</desc>
@@ -37,6 +37,12 @@
                             <g id="onb-path-3-link" fill="#FFFFFF">
                                 <circle id="onb-path-3" cx="17.5" cy="17.5" r="17.5"></circle>
                             </g>
+                            <g id="tap_button_pulse_1" fill="rgba(99, 0, 238, 1)" fill-rule="nonzero">
+                                <circle id="onb-path-3" cx="17.5" cy="17.5" r="17.5"></circle>
+                            </g>
+                            <g id="tap_button_pulse_2" fill="rgba(99, 0, 238, 1)" fill-rule="nonzero">
+                                <circle id="onb-path-3" cx="17.5" cy="17.5" r="17.5"></circle>
+                            </g>
                         </g>
                     </g>
                     <g id="tap" transform="translate(9.965185, 5.942222)" fill="#686868" fill-rule="nonzero">
@@ -53,7 +59,7 @@
                     </g>
                 </g>
             </g>
-            <g id="mini_onboarding_2" transform="translate(15.000000, 100)">
+            <g id="mini_onboarding_2" transform="translate(0, 100)">
                 <g id="popup">
                     <g id="popup-2" transform="translate(185.500000, 47.000000) scale(-1, 1) translate(-185.500000, -47.000000) ">
                         <g id="onb-path-5-link" fill="#000000" fill-rule="nonzero" filter="url(#onb-filter-1)">
@@ -76,6 +82,12 @@
                             <g id="onb-path-7-link" fill="#FFFFFF">
                                 <circle id="onb-path-7" cx="17.5" cy="17.5" r="17.5"></circle>
                             </g>
+                            <g id="tap_button_pulse_1" fill="rgba(99, 0, 238, 1)" fill-rule="nonzero">
+                                <circle id="onb-path-3" cx="17.5" cy="17.5" r="17.5"></circle>
+                            </g>
+                            <g id="tap_button_pulse_2" fill="rgba(99, 0, 238, 1)" fill-rule="nonzero">
+                                <circle id="onb-path-3" cx="17.5" cy="17.5" r="17.5"></circle>
+                            </g>
                         </g>
                     </g>
                     <g id="tap" transform="translate(9.965185, 5.942222)" fill="#686868" fill-rule="nonzero">
@@ -92,7 +104,7 @@
                     </g>
                 </g>
             </g>
-            <g id="mini_onboarding_3" transform="translate(21.000000, 109.000000)">
+            <g id="mini_onboarding_3" transform="translate(5.000000, 109.000000)">
                 <g id="popup-2" transform="translate(180.500000, 55.500000) translate(-180.500000, -55.500000) translate(0.000000, -0.000000)">
                     <g id="onb-path-35-link" fill="#000000" fill-rule="nonzero" filter="url(#onb-filter-1)">
                         <path d="M20.2919822,1.13686838e-13 C22.5466486,1.13686838e-13 129.351994,1.5476509e-13 340.708018,2.36921593e-13 C351.91497,2.33840725e-13 361,11.7652445 361,26.2784091 L361,84.7215909 C361,99.2347555 351.91497,111 340.708018,111 L20.2919822,111 C9.08502989,111 -8.52651283e-13,99.2347555 -8.52651283e-13,84.7215909 L-8.52651283e-13,26.2784091 C-8.52651283e-13,11.7654277 13.5279881,1.13686838e-13 20.2919822,1.13686838e-13 Z" id="onb-path-35"></path>
@@ -112,7 +124,7 @@
                     </text>
                 </g>
             </g>
-            <rect id="mini_onboarding_touch" fill-opacity="0" fill="#800000" fill-rule="nonzero" x="1" y="0" width="439" height="440"></rect>
+            <rect id="mini_onboarding_touch" fill-opacity="0" fill="#800000" fill-rule="nonzero" x="1" y="0" width="480" height="440"></rect>
         </g>
     </g>
 </svg>
