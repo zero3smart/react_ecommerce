@@ -177,6 +177,10 @@ export default class VisualFilter {
         }
       }
 
+      if (!useVerticalThumb && !disableEvent) {
+        this.setPointerHovering()
+      }
+
       if (tutorialAnim) {
         this.onboardingCycleBodypart()
       }
@@ -373,15 +377,14 @@ export default class VisualFilter {
       if (!this.settings.hideThumbnail) {
         this.updateThumbnailSelectionBox(this.lastBodyPart)
       }
-    }
-    if (newPropState['coretype'].toString() === '0') {
-      this.hideGroup('length_0')
-      this.hideGroup('length_1')
-      this.hideGroup('length_2')
-      this.hideGroup('length_all')
-    }
-    if (!this.settings.useVerticalThumb && !this.settings.disableEvent) {
-      this.setPointerHovering()
+
+      // if (newPropState['coretype'].toString() === '0') {
+      //   this.changePropSelection('top_length', 0, false)
+      //   // this.hideGroup('length_0')
+      //   // this.hideGroup('length_1')
+      //   // this.hideGroup('length_2')
+      //   // this.hideGroup('length_all')
+      // }
     }
   }
 
@@ -569,14 +572,14 @@ export default class VisualFilter {
      * When top_length is moving to 1 / 2 / 3 / all and core type is is 0, change coretype to 1
      */
     if (prop === 'coretype') {
-      if (sel === 0) { // coretype is moving to 0. Change top length to 0 also
+      if (sel.toString() === '0') { // coretype is moving to 0. Change top length to 0 also
         this.savedTopLength = this.currentPropState['top_length']
         this.hideGroup('length_' + this.currentPropState['top_length'])
         // change top length to 0
-        this.currentPropState['top_length'] = 0
+        this.currentPropState['top_length'] = '0'
         // show 0 top length image
         this.showGroup('length_0')
-      } else if (this.currentPropState['coretype'] === 0) { // coretype is moving away from 0. Restore top length
+      } else if (this.currentPropState['coretype'] === '0') { // coretype is moving away from 0. Restore top length
         this.hideGroup('length_0')
         this.hideGroup('length_1')
         this.hideGroup('length_2')
@@ -590,10 +593,10 @@ export default class VisualFilter {
         }
       }
     }
-    if (prop === 'top_length' && this.currentPropState['coretype'] === 0) {
+    if (prop === 'top_length' && this.currentPropState['coretype'].toString() === '0') {
       this.hideGroup('top_core_0')
       this.showGroup('top_core_1')
-      this.currentPropState['coretype'] = 1 // Avoid recursion
+      this.currentPropState['coretype'] = '1' // Avoid recursion
     }
 
     this.currentPropState[prop] = sel
