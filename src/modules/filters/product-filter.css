@@ -23,53 +23,59 @@
 
 @keyframes pulseFilter {
   0% {
+    -webkit-box-shadow: 0 0 0 0 rgba(1, 1, 252, 0);
+    -moz-box-shadow: 0 0 0 0 rgba(1, 1, 252, 0);
     box-shadow: 0 0 0 0 rgba(1, 1, 252, 0);
   }
   50% {
+    -webkit-box-shadow: 0 0 0 220px rgba(1, 1, 252, 0.5);
+    -moz-box-shadow: 0 0 0 220px rgba(1, 1, 252, 0.5);
     box-shadow: 0 0 0 220px rgba(1, 1, 252, 0.5);
   }
-  80% {
-    box-shadow: 0 0 0 220px rgba(1, 1, 252, 0);
-  }
   100% {
-    box-shadow: 0 0 0 0 rgba(1, 1, 252, 0);
+    -webkit-box-shadow: 0 0 0 220px rgba(1, 1, 252, 0);
+    -moz-box-shadow: 0 0 0 220px rgba(1, 1, 252, 0);
+    box-shadow: 0 0 0 220px rgba(1, 1, 252, 0);
   }
 }
 
 @-webkit-keyframes pulseFilter {
   0% {
+    -webkit-box-shadow: 0 0 0 0 rgba(1, 1, 252, 0);
+    -moz-box-shadow: 0 0 0 0 rgba(1, 1, 252, 0);
     box-shadow: 0 0 0 0 rgba(1, 1, 252, 0);
   }
   50% {
-    box-shadow: 0 0 0 220px rgba(1, 1, 252, 0.5);
-  }
-  80% {
+    -webkit-box-shadow: 0 0 0 220px rgba(1, 1, 252, 0.5);
+    -moz-box-shadow: 0 0 0 220px rgba(1, 1, 252, 0.5);
     box-shadow: 0 0 0 220px rgba(1, 1, 252, 0.5);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(1, 1, 252, 0);
+    -webkit-box-shadow: 0 0 0 220px rgba(1, 1, 252, 0);
+    -moz-box-shadow: 0 0 0 220px rgba(1, 1, 252, 0);
+    box-shadow: 0 0 0 220px rgba(1, 1, 252, 0);
   }
 }
 
 .ProductFilter.onboarding:not(.expanded):before,
 .ProductFilter.onboarding:not(.expanded):after {
   content: '.';
-  color: transparent;
   display: inline-block;
   width: 35.745vw;
   height: 35.745vw;
   max-width: 148px;
   max-height: 148px;
-  background: transparent;
   border-radius: 100%;
+  -webkit-box-shadow: 0 0 0 0 rgba(1, 1, 252, 1);
+  -moz-box-shadow: 0 0 0 0 rgba(1, 1, 252, 1);
   box-shadow: 0 0 0 0 rgba(1, 1, 252, 1);
   position: absolute;
   right: 10px;
   bottom: 30px;
-  -webkit-animation: pulseFilter 3s infinite;
-  -o-animation: pulseFilter 3s infinite;
-  animation: pulseFilter 3s infinite;
-  transform: scale(.9);
+  animation-duration: 3s;
+  animation-fill-mode: both;
+  animation-name: pulseFilter;
+  animation-iteration-count: infinite;
 }
 
 .ProductFilter.onboarding:not(.expanded):after {

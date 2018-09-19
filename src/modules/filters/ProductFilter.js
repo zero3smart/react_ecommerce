@@ -111,8 +111,6 @@ class ProductFilter extends Component {
           expanded,
           animated: !onboarding })}
       >
-        <div className='circular' />
-        <div className='circular' />
         <Transition timeout={{ enter: 100, exit: 300 }} show={expanded}>
           <FilterPanel
             favorite={isFilterSaved}
