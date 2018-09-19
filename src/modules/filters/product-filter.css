@@ -59,12 +59,13 @@
 
 .ProductFilter.onboarding:not(.expanded):before,
 .ProductFilter.onboarding:not(.expanded):after {
-  content: '.';
+  content: '';
   display: inline-block;
   width: 35.745vw;
   height: 35.745vw;
   max-width: 148px;
   max-height: 148px;
+  background: rgba(1, 1, 252, 1);
   border-radius: 100%;
   -webkit-box-shadow: 0 0 0 0 rgba(1, 1, 252, 1);
   -moz-box-shadow: 0 0 0 0 rgba(1, 1, 252, 1);
