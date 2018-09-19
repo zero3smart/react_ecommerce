@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { FloatButton } from 'modules/filters'
 import { InfoBanner } from 'ui-kits/banners'
-import ArrowRightSvg from 'assets/svg/arrow-right.svg'
 
 export default class TopsInfoBanner extends Component {
   static propTypes = {
@@ -15,9 +14,8 @@ export default class TopsInfoBanner extends Component {
 
     return (
       <InfoBanner style={styles.infoBanner}>
-        <h5>Let’s find a style.</h5>
         <p style={{ display: 'inline-block' }}>
-          ( Click our visual filter button. ) <img src={ArrowRightSvg} alt='Yesplz Visual Filter Indicator' />
+        Let’s find a style. Click
         </p>
         <FloatButton
           id='VisualFilterPreview'

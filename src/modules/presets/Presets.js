@@ -63,7 +63,6 @@ export class Presets extends Component {
     return (
       <div id='MainScroll' className='Presets' style={style}>
         <br />
-        <h4 align='center'>Editors' Pick - Click for the Shortcuts!</h4>
         {extraItem}
         {!isPresetsFetched && <DotLoader visible style={styles.loader} />}
         <Transition show={isPresetsFetched} transition='fadeInUp'>
