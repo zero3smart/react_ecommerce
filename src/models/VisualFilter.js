@@ -441,6 +441,8 @@ export default class VisualFilter {
   }
 
   handleOnboardingFinished () {
+    const { onFinishedOnboarding } = this.settings
+    onFinishedOnboarding()
     VisualFilter.saveConfig('onboarding_completed', 1)
   }
 
@@ -828,5 +830,6 @@ const defaultOptions = {
   tutorialAnim: false,
   onFilterChange: (filters) => { console.debug('filter change', filters) },
   onPropChange: (prop) => { console.debug('prop change', prop) },
-  onSVGLoaded: () => {}
+  onSVGLoaded: () => {},
+  onFinishedOnboarding: () => {}
 }

@@ -7,7 +7,7 @@ import FloatButton from './FloatButton'
 import { history } from 'config/store'
 import Transition from 'ui-kits/transitions/Transition'
 import { fetchProducts } from 'ducks/products'
-import { setFilter, syncFilter, syncFavoritePresets, saveFilterAsPreset, deleteFilterFromPreset, setLastBodyPart, toggleVisualFilter } from 'ducks/filters'
+import { setFilter, syncFilter, syncFavoritePresets, saveFilterAsPreset, deleteFilterFromPreset, setLastBodyPart, toggleVisualFilter, setOnboarding } from 'ducks/filters'
 import { isFilterSavedSelector } from './selectors'
 import { CUSTOM_PRESET_NAME } from 'config/constants'
 import './product-filter.css'
@@ -20,6 +20,7 @@ class ProductFilter extends Component {
     router: PropTypes.object,
     expanded: PropTypes.bool,
     scrollBellowTheFold: PropTypes.bool,
+    onboarding: PropTypes.bool,
     setFilter: PropTypes.func.isRequired,
     fetchProducts: PropTypes.func.isRequired,
     syncFilter: PropTypes.func.isRequired,
@@ -27,7 +28,8 @@ class ProductFilter extends Component {
     saveFilterAsPreset: PropTypes.func.isRequired,
     deleteFilterFromPreset: PropTypes.func.isRequired,
     setLastBodyPart: PropTypes.func.isRequired,
-    toggleVisualFilter: PropTypes.func.isRequired
+    toggleVisualFilter: PropTypes.func.isRequired,
+    setOnboarding: PropTypes.func.isRequired
   }
 
   componentDidMount () {
@@ -61,9 +63,9 @@ class ProductFilter extends Component {
         scrollWrapper.scrollTop = 0
       }
       // if it's not in Tops page, redirect to Tops page
-      if (this.props.router.location.pathname !== '/products') {
-        history.push('/products')
-      }
+      // if (this.props.router.location.pathname !== '/products') {
+      //   history.push('/products')
+      // }
     }
   }
 
@@ -90,11 +92,25 @@ class ProductFilter extends Component {
     }
   }
 
+  get handleFinishOnboarding () {
+    const { setOnboarding } = this.props
+    return () => {
+      setOnboarding(false)
+    }
+  }
+
   render () {
-    const { filters, scrollBellowTheFold, isFilterSaved, lastBodyPart, expanded } = this.props
+    const { filters, scrollBellowTheFold, isFilterSaved, lastBodyPart, expanded, onboarding } = this.props
 
     return (
-      <div className={classNames('ProductFilter animated', { allowHide: this.isProductDetailPage, pullDown: !scrollBellowTheFold })}>
+      <div
+        className={classNames('ProductFilter', {
+          allowHide: this.isProductDetailPage,
+          pullDown: !scrollBellowTheFold,
+          onboarding,
+          expanded,
+          animated: !onboarding })}
+      >
         <Transition timeout={{ enter: 100, exit: 300 }} show={expanded}>
           <FilterPanel
             favorite={isFilterSaved}
@@ -103,7 +119,8 @@ class ProductFilter extends Component {
             onFilterChange={this.handleFilterChange}
             onClose={this.handleFilterToggle}
             onFilterLike={this.handleFilterLike}
-            onBodyPartChange={this.handleBodyPartChange} />
+            onBodyPartChange={this.handleBodyPartChange}
+            onFinishedOnboarding={this.handleFinishOnboarding} />
         </Transition>
         <Transition timeout={{ enter: 100, exit: 1500 }} show={!expanded} transition='unstyled'>
           <FloatButton filters={filters} onClick={this.handleFilterToggle} />
@@ -119,7 +136,8 @@ const mapStateToProps = state => ({
   lastBodyPart: state.filters.lastBodyPart,
   scrollBellowTheFold: state.product.scrollBellowTheFold,
   router: state.router,
-  expanded: state.filters.expanded
+  expanded: state.filters.expanded,
+  onboarding: state.filters.onboarding
 })
 
 export default connect(
@@ -132,6 +150,7 @@ export default connect(
     saveFilterAsPreset,
     deleteFilterFromPreset,
     setLastBodyPart,
-    toggleVisualFilter
+    toggleVisualFilter,
+    setOnboarding
   }
 )(ProductFilter)
