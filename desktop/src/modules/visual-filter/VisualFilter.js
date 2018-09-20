@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { FilterPanel } from 'yesplz@modules/filters'
 import { fetchProducts } from 'yesplz@ducks/products'
-import { setFilter, syncFilter, syncFavoritePresets, saveFilterAsPreset, deleteFilterFromPreset, setLastBodyPart } from 'yesplz@ducks/filters'
+import { setFilter, syncFilter, syncFavoritePresets, saveFilterAsPreset, deleteFilterFromPreset, setLastBodyPart, setOnboarding } from 'yesplz@ducks/filters'
 import { CUSTOM_PRESET_NAME } from 'yesplz@config/constants'
 import { isFilterSavedSelector } from 'yesplz@modules/filters/selectors'
 import './visual-filter.css'
@@ -20,7 +20,8 @@ class VisualFilter extends Component {
     syncFavoritePresets: PropTypes.func.isRequired,
     saveFilterAsPreset: PropTypes.func.isRequired,
     deleteFilterFromPreset: PropTypes.func.isRequired,
-    setLastBodyPart: PropTypes.func.isRequired
+    setLastBodyPart: PropTypes.func.isRequired,
+    setOnboarding: PropTypes.func.isRequired
   }
 
   componentDidMount () {
@@ -67,6 +68,13 @@ class VisualFilter extends Component {
     }
   }
 
+  get handleFinishOnboarding () {
+    const { setOnboarding } = this.props
+    return () => {
+      setOnboarding(false)
+    }
+  }
+
   render () {
     const { filters, isFilterSaved, lastBodyPart } = this.props
 
@@ -81,6 +89,7 @@ class VisualFilter extends Component {
           closable={Boolean(false)}
           useVerticalThumb={Boolean(false)}
           onBodyPartChange={this.handleBodyPartChange}
+          onFinishedOnboarding={this.handleFinishOnboarding}
         />
       </div>
     )
@@ -103,6 +112,7 @@ export default connect(
     setFilter,
     saveFilterAsPreset,
     deleteFilterFromPreset,
-    setLastBodyPart
+    setLastBodyPart,
+    setOnboarding
   }
 )(VisualFilter)

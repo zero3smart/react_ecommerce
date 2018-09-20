@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import classNames from 'classnames'
 import { fetchProducts } from 'yesplz@ducks/products'
 import { ProductList } from 'yesplz@modules/products'
 import { syncFilter } from 'yesplz@ducks/filters'
@@ -13,6 +14,7 @@ class Tops extends Component {
     products: PropTypes.array,
     totalCount: PropTypes.number,
     isProductsFetched: PropTypes.bool,
+    onboarding: PropTypes.bool,
     nextPage: PropTypes.number,
     syncFilter: PropTypes.func.isRequired,
     fetchProducts: PropTypes.func.isRequired
@@ -51,10 +53,10 @@ class Tops extends Component {
   }
 
   render () {
-    const { products, isProductsFetched, nextPage } = this.props
+    const { products, isProductsFetched, nextPage, onboarding } = this.props
 
     return (
-      <div className='Tops'>
+      <div className={classNames('Tops', { onboarding })}>
         <InfoBanner style={styles.infoBanner}>
           <h1>Let’s find a style.</h1>
         </InfoBanner>
@@ -79,7 +81,8 @@ const mapStateToProps = (state, props) => ({
   products: state.products.list,
   totalCount: state.products.totalCount,
   isProductsFetched: state.products.fetched,
-  nextPage: state.products.nextPage
+  nextPage: state.products.nextPage,
+  onboarding: state.filters.onboarding
 })
 
 export default connect(mapStateToProps, { fetchProducts, syncFilter })(Tops)
