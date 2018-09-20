@@ -45,6 +45,11 @@ button, a {
   cursor: pointer;
 }
 
+.container {
+  max-width: 1223px;
+  margin: auto;
+}
+
 /* Misc */
 .img-responsive {
   display: block;
