@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { fetchRecommendedProducts } from 'ducks/products'
-import { ProductList } from 'modules/products'
-import { AdvancedPresetList } from 'modules/presets'
-import { InfoBanner } from 'ui-kits/banners'
+import { fetchRecommendedProducts } from 'yesplz@ducks/products'
+import { ProductList } from 'yesplz@modules/products'
+import { AdvancedPresetList } from 'yesplz@modules/presets'
+import { InfoBanner } from 'yesplz@ui-kits/banners'
 import './home.css'
 
 class Home extends Component {
