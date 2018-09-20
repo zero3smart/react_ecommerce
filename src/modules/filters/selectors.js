@@ -13,7 +13,9 @@ const getCustomPresetName = (_, prop) => prop.customPresetName
  */
 export const customPresetSelector = createSelector(
   [getFavoritePresets, getCustomPresetName],
-  (favoritePresets, customPresetName) => find(favoritePresets, { name: customPresetName })
+  (favoritePresets, customPresetName) => (
+    find(favoritePresets, { name: customPresetName })
+  )
 )
 
 /**
@@ -23,6 +25,6 @@ export const customPresetSelector = createSelector(
 export const isFilterSavedSelector = createSelector(
   [getFilters, customPresetSelector],
   (filters, customPreset) => (
-    !isEmpty(customPreset) && isEqual(filters, omit(customPreset, ['name', 'favorite']))
+    !isEmpty(customPreset) && isEqual(omit(filters, ['favorite']), omit(customPreset, ['name', 'favorite']))
   )
 )

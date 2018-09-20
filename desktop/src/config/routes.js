@@ -6,9 +6,9 @@ import { Home } from 'modules/home'
 import { Favorites } from 'modules/favorites'
 import { Faq } from 'modules/faq'
 import Presets from 'modules/presets/Presets'
+import Tops from 'modules/tops/Tops'
+import { PresetProductsRoute } from 'modules/presets/presetsRoutes'
 // presentationals
-import ProductsPage from 'yesplz@modules/products/ProductsPage'
-import { renderBreadcrumbs, renderTopsInfoBanner } from './routesHelpers'
 import { SingleProductRoute, SinglePresetProductRoute } from 'modules/products/singleProductRoutes'
 
 const createRoutes = () => (
@@ -22,7 +22,7 @@ const BasePlatform = (props) => (
   <Base {...props}>
     <Switch>
       <Route exact path='/' component={Home} />
-      <Route exact path='/products' render={ProductsListRoute} />
+      <Route exact path='/products' component={Tops} />
       <Route exact path='/products/:productId' component={SingleProductRoute} />
       <Route exact path='/presets' component={Presets} />
       <Route exact path='/preset-products/:presetName' render={PresetProductsRoute} />
@@ -33,24 +33,5 @@ const BasePlatform = (props) => (
     </Switch>
   </Base>
 )
-
-const ProductsListRoute = router => (
-  <ProductsPage key='products-page' className='ProductsPage-desktop' initialExpandVisualFilter renderExtraItem={renderTopsInfoBanner} />
-)
-
-const PresetProductsRoute = router => {
-  const { presetName } = router.match.params
-  return (
-    <ProductsPage
-      key='preset-products-page'
-      className='ProductsPage-desktop'
-      productBasePath={`/preset-products/${presetName}`}
-      renderExtraItem={renderBreadcrumbs([
-        { name: 'Editor\'s Pick', uri: '/' },
-        { name: presetName }
-      ])}
-    />
-  )
-}
 
 export default createRoutes()

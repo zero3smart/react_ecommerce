@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { fetchProducts } from 'yesplz@ducks/products'
 import { ProductList } from 'yesplz@modules/products'
 import { syncFilter } from 'yesplz@ducks/filters'
+import { InfoBanner } from 'yesplz@ui-kits/banners'
 import { VisualFilter } from 'modules/visual-filter'
 import './tops.css'
 
@@ -54,6 +55,9 @@ class Tops extends Component {
 
     return (
       <div className='Tops'>
+        <InfoBanner style={styles.infoBanner}>
+          <h1>Let’s find a style.</h1>
+        </InfoBanner>
         <VisualFilter />
         <ProductList
           id='MainScroll'
@@ -63,6 +67,7 @@ class Tops extends Component {
           showOriginalPrice
           className='Tops-products'
           onFetch={this.handleFetch}
+          closeMatchingMessage='Not the exact, but the next close matching'
         />
       </div>
     )
@@ -78,3 +83,9 @@ const mapStateToProps = (state, props) => ({
 })
 
 export default connect(mapStateToProps, { fetchProducts, syncFilter })(Tops)
+
+const styles = {
+  infoBanner: {
+    padding: '30px 70px 30px'
+  }
+}
