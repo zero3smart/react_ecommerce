@@ -1,6 +1,7 @@
 .VisualFilter {
   background: white;
   margin-top: 10px;
+  margin-left: 5px;
 }
 
 /* filter panel */
@@ -9,12 +10,13 @@
   max-width: none;
   width: 100%;
   position: relative;
+  margin-top: 40px;
 }
 
 /* main svg */
 .VisualFilter .FilterPanel svg {
   display: block;
-  max-width: 500px;
+  max-width: 450px;
   margin: 0 auto 20px;
 }
 
@@ -25,9 +27,11 @@
   max-width: 500px;
   margin: auto;
 }
+
 .VisualFilter .FilterPanel .LikeButton > button {
   position: relative;
   top: auto;
+  left: 50px;
   bottom: -40px;
   width: 40px;
   height: 40px;

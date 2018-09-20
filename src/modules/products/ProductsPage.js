@@ -16,6 +16,7 @@ class ProductsPage extends Component {
     visualFilterExpanded: PropTypes.bool,
     initialExpandVisualFilter: PropTypes.bool,
     productBasePath: PropTypes.string,
+    className: PropTypes.string,
     renderExtraItem: PropTypes.func.isRequired,
     syncFilter: PropTypes.func.isRequired,
     fetchProducts: PropTypes.func.isRequired,
@@ -107,13 +108,13 @@ class ProductsPage extends Component {
   }
 
   render () {
-    const { products, isProductsFetched, nextPage, willBeEmptyList, renderExtraItem, productBasePath } = this.props
+    const { products, isProductsFetched, nextPage, willBeEmptyList, renderExtraItem, productBasePath, className } = this.props
     const { extraVisible } = this.state
 
     const extra = !extraVisible ? null : renderExtraItem(this)
 
     return (
-      <div className='ProductsPage'>
+      <div className={`ProductsPage ${className}`}>
         <ProductList
           id='MainScroll'
           show={isProductsFetched}

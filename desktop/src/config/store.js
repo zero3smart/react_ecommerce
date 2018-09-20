@@ -4,6 +4,7 @@ import thunk from 'redux-thunk'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import * as reducers from 'yesplz@ducks'
+import { makeRecommendationMiddleware } from 'yesplz@middlewares/recommendation'
 
 export const history = createBrowserHistory({
   basename: process.env.REACT_APP_BASE_PATH
@@ -18,7 +19,8 @@ const store = createStore(
   composeWithDevTools(
     applyMiddleware(
       routerMiddleware(history), // for dispatching history actions
-      thunk // add dispatch to action creators
+      thunk, // add dispatch to action creators
+      makeRecommendationMiddleware(4)
     )
   )
 )

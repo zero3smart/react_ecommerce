@@ -1,0 +1,9 @@
+.Faq {
+  height: calc(100% - 56px);
+}
+
+.Faq .faqs-questions.container {
+  background: white;
+  height: 100%;
+  padding: 50px 30px 0px;
+}

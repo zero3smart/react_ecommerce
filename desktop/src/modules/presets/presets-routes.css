@@ -1,0 +1,13 @@
+.PresetProducts {
+  
+}
+
+.PresetProducts .ProductList-wrapper {
+  width: 100%;
+  max-width: 1223px;
+  margin: auto;
+}
+
+.PresetProducts .ProductList-wrapper > .ProductGrid {
+  width: calc(20% - 10px);
+}

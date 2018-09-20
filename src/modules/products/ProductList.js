@@ -28,6 +28,7 @@ class ProductList extends Component {
     showOriginalPrice: PropTypes.bool,
     combined: PropTypes.bool,
     productBasePath: PropTypes.string,
+    closeMatchingMessage: PropTypes.string,
     onFetch: PropTypes.func.isRequired,
     toggleProductLike: PropTypes.func.isRequired,
     onScrollBellowTheFold: PropTypes.func.isRequired,
@@ -46,6 +47,7 @@ class ProductList extends Component {
     children: childRenderer,
     extraItem: undefined,
     showOriginalPrice: false,
+    closeMatchingMessage: 'The next close matching',
     style: {},
     onFetch: (next) => { next() },
     onScrollBellowTheFold: (scrollState) => {},
@@ -116,7 +118,8 @@ class ProductList extends Component {
       loaderStyle,
       toggleProductLike,
       combined,
-      productBasePath
+      productBasePath,
+      closeMatchingMessage
     } = this.props
     const { useMinimumAnimation, matchingProducts, closeMatchingProducts } = this.state
 
@@ -133,7 +136,7 @@ class ProductList extends Component {
       productList = (
         <React.Fragment>
           {renderProducts(matchingProducts, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount, productBasePath)}
-          {closeMatchingProducts.length > 0 ? <h4 className='animated fadeIn' style={styles.subTitle}>The next close matching</h4> : <div style={{ display: 'none' }} />}
+          {closeMatchingProducts.length > 0 ? <h4 className='animated fadeIn' style={styles.subTitle}>{closeMatchingMessage}</h4> : <div style={{ display: 'none' }} />}
           {renderProducts(closeMatchingProducts, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount, productBasePath)}
         </React.Fragment>
       )

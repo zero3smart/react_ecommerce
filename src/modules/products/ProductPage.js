@@ -16,6 +16,7 @@ class ProductPage extends Component {
     totalCount: PropTypes.number.isRequired,
     nextPage: PropTypes.number,
     scrollBellowTheFold: PropTypes.bool,
+    className: PropTypes.string,
     renderExtraItem: PropTypes.func,
     fetchProduct: PropTypes.func.isRequired,
     fetchRelatedProducts: PropTypes.func.isRequired,
@@ -86,7 +87,7 @@ class ProductPage extends Component {
   }
 
   render () {
-    const { product, relatedProducts, isProductFetched, isRelatedProductsFetched, nextPage, renderExtraItem } = this.props
+    const { product, relatedProducts, isProductFetched, isRelatedProductsFetched, nextPage, renderExtraItem, className } = this.props
     let productBox = <ProductPlaceholder />
 
     if (isProductFetched) {
@@ -116,7 +117,7 @@ class ProductPage extends Component {
     }
 
     return (
-      <div className='ProductPage'>
+      <div className={`ProductPage ${className}`}>
         <ProductList
           id='MainScroll'
           show={isRelatedProductsFetched}
