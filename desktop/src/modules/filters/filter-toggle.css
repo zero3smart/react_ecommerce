@@ -1,5 +1,6 @@
 .FilterToggle .FloatButton {
   animation-name: bounceInUp;
+  z-index: 9999;
 }
 
 .FilterToggle.allowHide.pullDown .FloatButton {
