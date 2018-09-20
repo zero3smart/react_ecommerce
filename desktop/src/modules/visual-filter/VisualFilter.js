@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { history } from 'config/store'
 import { FilterPanel } from 'yesplz@modules/filters'
 import { fetchProducts } from 'yesplz@ducks/products'
 import { setFilter, syncFilter, syncFavoritePresets, saveFilterAsPreset, deleteFilterFromPreset, setLastBodyPart } from 'yesplz@ducks/filters'
 import { CUSTOM_PRESET_NAME } from 'yesplz@config/constants'
 import { isFilterSavedSelector } from 'yesplz@modules/filters/selectors'
-import TopPresets from './TopPresets'
 import './visual-filter.css'
 
 class VisualFilter extends Component {
@@ -42,10 +40,6 @@ class VisualFilter extends Component {
       const scrollWrapper = document.getElementById('MainScroll')
       if (scrollWrapper) {
         scrollWrapper.scrollTop = 0
-      }
-      // if it's not in Tops page, redirect to Tops page
-      if (this.props.router.location.pathname !== '/') {
-        history.push('/')
       }
     }
   }
@@ -88,7 +82,6 @@ class VisualFilter extends Component {
           useVerticalThumb={Boolean(false)}
           onBodyPartChange={this.handleBodyPartChange}
         />
-        <TopPresets />
       </div>
     )
   }
