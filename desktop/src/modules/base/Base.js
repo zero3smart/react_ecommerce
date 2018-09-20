@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
-import Tabs from 'yesplz@ui-kits/navigations/Tabs'
+import BurgerSvg from 'yesplz@assets/svg/burger.svg'
+import SearchSvg from 'yesplz@assets/svg/search.svg'
+import FavoritesSvg from 'yesplz@assets/svg/favorites.svg'
 import './base.css'
 
 export default class Base extends Component {
@@ -20,14 +22,14 @@ export default class Base extends Component {
     return /^\/favorites\//.test(location.pathname)
   }
 
-  get handleProductPageLinkActive () {
-    return match => match || this.isProductDetailPage
+  get handleHomeLinkActive () {
+    return match => match // || this.isProductDetailPage
   }
 
   get handleFavoritesLinkActive () {
     return () => {
       const { location } = this.props
-      return /^\/favorites\/(fits|clothing)(.*)/.test(location.pathname)
+      return /^\/favorites\/(fits|clothing)$/.test(location.pathname)
     }
   }
 
@@ -45,28 +47,34 @@ export default class Base extends Component {
 
     return (
       <div className='Base'>
-        <Tabs>
-          <NavLink exact to='/' onClick={this.handleLinkClick}>YesPlz!</NavLink>
-          {
-            this.isProductDetailPage && (
-              <NavLink
-                exact
-                to='#'
-                onClick={this.handleLinkClick}
-                isActive={this.handleProductPageLinkActive}>
-                products
-              </NavLink>
-            )
-          }
-          <NavLink to='/presets' onClick={this.handleLinkClick}>fits</NavLink>
-          <NavLink
-            to={this.isFavoritesPage ? '#' : '/favorites/clothing'}
-            onClick={this.handleLinkClick}
-            isActive={this.handleFavoritesLinkActive}>
-            favorites
-          </NavLink>
-          <NavLink to='/feedbacks' onClick={this.handleLinkClick}>feedbacks</NavLink>
-        </Tabs>
+        <div className='Base-header'>
+          <div className='Base-header-container'>
+            <NavLink
+              exact
+              to={'/'}
+              onClick={this.handleLinkClick}
+              isActive={this.handleHomeLinkActive}
+              className='logo'>
+              YesPlz!
+            </NavLink>
+            <NavLink to='/products' onClick={this.handleLinkClick} className='menu-icon'>
+              <img src={SearchSvg} alt='Visual Filter Page' />
+            </NavLink>
+            <NavLink
+              to={this.isFavoritesPage ? '#' : '/favorites/clothing'}
+              onClick={this.handleLinkClick}
+              isActive={this.handleFavoritesLinkActive}
+              className='menu-icon'>
+              <img src={FavoritesSvg} alt='Favorites Page' />
+            </NavLink>
+            <NavLink
+              to='/faq'
+              onClick={this.handleLinkClick}
+              className='menu-icon'>
+              <img src={BurgerSvg} alt='FAQ Page' />
+            </NavLink>
+          </div>
+        </div>
         {children}
       </div>
     )
