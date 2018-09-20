@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router'
 import { Base, NotFound } from 'modules/base'
 import { Home } from 'modules/home'
 import { Favorites } from 'modules/favorites'
-import { Faq } from 'yesplz@modules/faq'
+import { Faq } from 'modules/faq'
 import Presets from 'modules/presets/Presets'
 // presentationals
 import ProductsPage from 'yesplz@modules/products/ProductsPage'
