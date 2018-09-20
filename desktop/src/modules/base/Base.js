@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom'
 import BurgerSvg from 'yesplz@assets/svg/burger.svg'
 import SearchSvg from 'yesplz@assets/svg/search.svg'
 import FavoritesSvg from 'yesplz@assets/svg/favorites.svg'
+import FilterToggle from 'modules/filters/FilterToggle'
 import './base.css'
 
 export default class Base extends Component {
@@ -76,6 +77,7 @@ export default class Base extends Component {
           </div>
         </div>
         {children}
+        <FilterToggle />
       </div>
     )
   }
