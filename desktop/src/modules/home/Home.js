@@ -32,7 +32,7 @@ class Home extends Component {
       <div id='MainScroll' className='Home'>
         <InfoBanner style={styles.infoBanner}>
           <h1>Today’s pick for you.</h1>
-          <p style={styles.infoBannerDescription}>(The more you click, the better suggestion it gets.)</p>
+          <p style={styles.infoBannerDescription}>(The more you like, the better suggestion it gets.)</p>
         </InfoBanner>
         <div className='container'>
           <ProductList
