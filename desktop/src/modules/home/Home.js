@@ -32,7 +32,7 @@ class Home extends Component {
       <div id='MainScroll' className='Home'>
         <InfoBanner style={styles.infoBanner}>
           <h1>Today’s pick for you.</h1>
-          <p style={styles.infoBannerDescription}>(The more you like, the better suggestion it gets.)</p>
+          <p style={styles.infoBannerDescription}>&nbsp;the more you like, the better it gets.</p>
         </InfoBanner>
         <div className='container'>
           <ProductList
@@ -46,7 +46,7 @@ class Home extends Component {
         </div>
         <InfoBanner style={styles.infoBanner}>
           <h1>Editor's Pick</h1>
-          <p style={styles.infoBannerDescription}>(A shortcut to the fits. Click the fit you like.)</p>
+          <p style={styles.infoBannerDescription}>&nbsp;a shortcut to the fits.</p>
         </InfoBanner>
         <AdvancedPresetList />
       </div>
@@ -63,9 +63,9 @@ export default connect(mapStateToProps, { fetchRecommendedProducts })(Home)
 const styles = {
   infoBanner: {
     marginBottom: 20,
-    padding: '30px 70px 40px'
+    padding: '20px 70px 30px'
   },
   infoBannerDescription: {
-    fontSize: 36
+    fontSize: 28
   }
 }
