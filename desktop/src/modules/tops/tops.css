@@ -1,11 +1,12 @@
 .Tops {
   height: calc(100% - 75px);
   display: grid;
-  grid-template-rows: 120px calc(100% - 120px);
+  grid-template-rows: 120px 100%;
   grid-template-columns: calc(100% - 510px) 510px;
   grid-template-areas:
   "info info"
   "productList visualFilter";
+  overflow: auto;
 }
 
 .Tops .ProductFilter {
