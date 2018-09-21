@@ -448,7 +448,7 @@
     
     <defs></defs>
     <g id="BodyParts-Thumbnail-Final" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="length_thumbnails" transform="translate(135 320)">
+        <g id="length_thumbnails" transform="translate(135 330)">
             <text id="ALL" fill-opacity="0.775334013" fill="#686868" font-family="Muli-Bold, Muli" font-size="20" font-weight="bold">
                 <tspan x="215" y="36">ALL</tspan>
             </text>
@@ -496,7 +496,7 @@
     
     <defs></defs>
     <g id="BodyParts-Thumbnail-Final" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="neckline_thumbnails" transform="translate(135 320)">
+        <g id="neckline_thumbnails" transform="translate(135 330)">
             <text id="ALL" fill-opacity="0.775334013" fill="#686868" font-family="Muli-Bold, Muli" font-size="20" font-weight="bold">
                 <tspan x="217" y="36">ALL</tspan>
             </text>
@@ -546,7 +546,7 @@
     
     <defs></defs>
     <g id="BodyParts-Thumbnail-Final" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="shoulder_thumbnails" transform="translate(68 320)">
+        <g id="shoulder_thumbnails" transform="translate(68 330)">
             <text id="ALL" fill-opacity="0.775334013" fill="#686868" font-family="Muli-Bold, Muli" font-size="20" font-weight="bold">
                 <tspan x="354" y="36">ALL</tspan>
             </text>
@@ -625,7 +625,7 @@
     
     <defs></defs>
     <g id="BodyParts-Thumbnail-Final" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="sleeves_thumbnails" transform="translate(35 320)">
+        <g id="sleeves_thumbnails" transform="translate(35 330)">
             <text id="ALL" fill-opacity="0.775334013" fill="#686868" font-family="Muli-Bold, Muli" font-size="20" font-weight="bold">
                 <tspan x="421" y="37">ALL</tspan>
             </text>
@@ -715,7 +715,7 @@
     
     <defs></defs>
     <g id="BodyParts-Thumbnail-Final" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="top_collar_thumbnails" transform="translate(135 320)">
+        <g id="top_collar_thumbnails" transform="translate(135 330)">
             <text id="ALL" fill-opacity="0.775334013" fill="#686868" font-family="Muli-Bold, Muli" font-size="20" font-weight="bold">
                 <tspan x="220" y="36">ALL</tspan>
             </text>
@@ -767,7 +767,7 @@
     
     <defs></defs>
     <g id="BodyParts-Thumbnail-Final" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="top_core_thumbnails" transform="translate(100 320)">
+        <g id="top_core_thumbnails" transform="translate(100 330)">
             <text id="ALL" fill-opacity="0.775334013" fill="#686868" font-family="Muli-Bold, Muli" font-size="20" font-weight="bold">
                 <tspan x="289" y="36">ALL</tspan>
             </text>
@@ -841,4 +841,29 @@
             <rect id="thumbnail_touch_7" x="467" y="0.5" width="66" height="76.2063492"></rect>
         </g>
     </g>
-</svg></g></svg>
+</svg>
+<svg  version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    
+    
+    <defs></defs>
+    <g id="Navigation-Arrows" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="arrow_back">
+            <g id="arrow_back_bounding_boxes" transform="translate(-7, -12)" fill="#ffffff" fill-rule="nonzero" opacity="1">
+                <polygon id="Shape" points="0 0 40 0 40 50 0 50"></polygon>
+            </g>
+            <g id="Sharp" transform="translate(5.000000, 2.000000)" fill="#4A4A4A" fill-rule="nonzero" stroke="#979797" stroke-width="2">
+                <polygon id="Shape" points="12.51 1.87 10.73 0.1 0.84 10 10.74 19.9 12.51 18.13 4.38 10"></polygon>
+            </g>
+        </g>
+        <g id="arrow_forward">
+            <g id="arrow_forward_bounding_boxes" transform="translate(-7, -12)" fill="#ffffff" fill-rule="nonzero" opacity="1">
+                <polygon id="Shape" points="0 0 40 0 40 50 0 50"></polygon>
+            </g>
+            <g id="Sharp" transform="translate(5.000000, 2.000000)" fill="#4A4A4A" fill-rule="nonzero" stroke="#979797" stroke-width="2">
+                <polygon id="Shape" points="12.51 1.87 10.73 0.1 0.84 10 10.74 19.9 12.51 18.13 4.38 10"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>
+</g></svg>

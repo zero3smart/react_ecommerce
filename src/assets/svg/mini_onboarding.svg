@@ -131,6 +131,12 @@
                             <g id="Ellipse_17-2">
                                 <use fill="black" fill-opacity="1" filter="url(#onb-filter-4)" xlink:href="#onb-path-3"></use>
                                 <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#onb-path-3"></use>
+                                <g id="tap_button_pulse_1" fill="rgba(99, 0, 238, 1)" fill-rule="nonzero">
+                                    <circle id="onb-path-3" cx="17.5" cy="17.5" r="17.5"></circle>
+                                </g>
+                                <g id="tap_button_pulse_2" fill="rgba(99, 0, 238, 1)" fill-rule="nonzero">
+                                    <circle id="onb-path-3" cx="17.5" cy="17.5" r="17.5"></circle>
+                                </g>
                             </g>
                         </g>
                         <g id="tap" transform="translate(8.965185, 5.942222)" fill="#686868">
@@ -162,6 +168,12 @@
                             <g id="Ellipse_17-2">
                                 <use fill="black" fill-opacity="1" filter="url(#onb-filter-8)" xlink:href="#onb-path-7"></use>
                                 <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#onb-path-7"></use>
+                                <g id="tap_button_pulse_1" fill="rgba(99, 0, 238, 1)" fill-rule="nonzero">
+                                    <circle id="onb-path-3" cx="17.5" cy="17.5" r="17.5"></circle>
+                                </g>
+                                <g id="tap_button_pulse_2" fill="rgba(99, 0, 238, 1)" fill-rule="nonzero">
+                                    <circle id="onb-path-3" cx="17.5" cy="17.5" r="17.5"></circle>
+                                </g>
                             </g>
                         </g>
                         <g id="tap" transform="translate(8.965185, 5.942222)" fill="#686868">

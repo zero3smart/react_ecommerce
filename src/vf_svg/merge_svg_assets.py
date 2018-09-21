@@ -75,7 +75,7 @@ def load_svg_fixed(svg_fn, vertical, remove_all):
             'top_core_thumbnails'
         ] }
     else:
-        tn_y = 320
+        tn_y = 330
         scale = None
         if remove_all: 
             pos_fixes = {
@@ -130,8 +130,9 @@ def merge_svgs(fn, vertical=False, remove_all=False):
             'Thumbnail_Touch_Area.svg'] # Thumbnail_Touch_Area.svg should be at the bottom
     lower_svgs += [s.replace('.svg', '_vert.svg') if vertical else s for s in hv_svgs]
 
+    lower_svgs += ['Navigation-Arrows.svg']
+
     if vertical:
-        lower_svgs += ['Navigation-Arrows.svg']
         bodypart_mod = '<svg><g id="bodypart_area" transform="scale(1.35) translate(30, 15)">'
     else:
         bodypart_mod = '<svg><g id="bodypart_area" transform="scale(1.35) translate(50, 15)">'
