@@ -46,7 +46,7 @@ class Home extends Component {
         </div>
         <InfoBanner style={styles.infoBanner}>
           <h1>Editor's Pick</h1>
-          <p style={styles.infoBannerDescription}>&nbsp;a shortcut to the fits.</p>
+          <p style={styles.infoBannerDescription}>&nbsp;shortcut to the fits.</p>
         </InfoBanner>
         <AdvancedPresetList />
       </div>
