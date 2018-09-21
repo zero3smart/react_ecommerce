@@ -61,7 +61,7 @@ export const THUMBNAIL_IMG_X_OFFSET = {
 export const VERT_THUMBNAIL_X_OFFSET = 400 - 6 // Affected by tn_x in merge_svg_asset.py
 export const VERT_THUMBNAIL_Y_OFFSET = (ENABLE_BODYPART_ALL_BTN) ? 0 : 30
 
-export const HORZ_THUMBNAIL_Y_OFFSET = 320 - 5 // Affected by tn_y in merge_svg_asset.py
+export const HORZ_THUMBNAIL_Y_OFFSET = 330 - 5 // Affected by tn_y in merge_svg_asset.py
 export const THUMBNAIL_TOUCH_AREA_SIZE = {
   width: 62,
   height: 62

@@ -119,7 +119,7 @@ export default class VisualFilter {
     const { hideMiniOnboarding, onSVGLoaded, hideThumbnail, useVerticalThumb,
       swipeable, disableEvent, tutorialAnim } = this.settings
 
-    this.viewBox = [0, 0, 490, 400]
+    this.viewBox = [0, 0, 490, 410]
     let svgSource = ''
     let svgOnboardingSource = ''
     if (useVerticalThumb) {
@@ -167,11 +167,9 @@ export default class VisualFilter {
       }
 
       // on vertical thumb and event is enabled, show arrow and enable swipe if activated
-      if (useVerticalThumb && !disableEvent) {
+      if (!disableEvent) {
         this.initializeArrowNavigation()
-        // arrow_back
-        // arrow_forward
-        // activate swipeable thumbnails
+
         if (swipeable) {
           this.initializeSwipableThumbnail()
         }
@@ -226,6 +224,8 @@ export default class VisualFilter {
   }
 
   initializeArrowNavigation () {
+    const { useVerticalThumb } = this.settings
+
     // set arrow navigation visibility and position
     const arrowBack = this.findGroupById('arrow_back')
     const arrowForward = this.findGroupById('arrow_forward')
@@ -234,8 +234,14 @@ export default class VisualFilter {
 
     this.showGroup('arrow_back')
     this.showGroup('arrow_forward')
-    arrowBack.attr({ transform: 'translate(440,0) rotate(90)' })
-    arrowForward.attr({ transform: 'translate(415,365) rotate(270)' })
+
+    if (useVerticalThumb) {
+      arrowBack.attr({ transform: 'translate(440,0) rotate(90)' })
+      arrowForward.attr({ transform: 'translate(415,365) rotate(270)' })
+    } else {
+      arrowBack.attr({ transform: 'translate(0,350) rotate(0)' })
+      arrowForward.attr({ transform: 'translate(470,373) rotate(180)' })
+    }
 
     // initialize navigation tap events
     arrowBack.click(() => {
@@ -275,31 +281,52 @@ export default class VisualFilter {
   }
 
   moveToPrevThumbnails () {
+    const { useVerticalThumb } = this.settings
     const currentPropIndex = PROP_ORDERS.indexOf(this.selectedBodyPart)
     const nextPropIndex = currentPropIndex > 0 ? currentPropIndex - 1 : PROP_ORDERS.length - 1
     const nextProp = PROP_ORDERS[nextPropIndex]
     const nextThumb = this.currentPropState[nextProp]
 
-    this.animateThumbnail(this.selectedBodyPart, nextProp, false, () => {
-      this.handleAfterSwipeThumbnail(nextProp, nextThumb)
-    })
+    if (useVerticalThumb) {
+      this.animateVerticalThumbnail(this.selectedBodyPart, nextProp, false, () => {
+        this.handleAfterSwipeThumbnail(nextProp, nextThumb)
+      })
+    } else {
+      this.animateHorizontalThumbnail(this.selectedBodyPart, nextProp, true, () => {
+        this.handleAfterSwipeThumbnail(nextProp, nextThumb)
+      })
+    }
   }
 
   moveToNextThumbnails () {
+    const { useVerticalThumb } = this.settings
     const currentPropIndex = PROP_ORDERS.indexOf(this.selectedBodyPart)
     const nextPropIndex = currentPropIndex < PROP_ORDERS.length - 1 ? currentPropIndex + 1 : 0
     const nextProp = PROP_ORDERS[nextPropIndex]
     const nextThumb = this.currentPropState[nextProp]
 
-    this.animateThumbnail(this.selectedBodyPart, nextProp, true, () => {
-      this.handleAfterSwipeThumbnail(nextProp, nextThumb)
-    })
+    if (useVerticalThumb) {
+      this.animateVerticalThumbnail(this.selectedBodyPart, nextProp, true, () => {
+        this.handleAfterSwipeThumbnail(nextProp, nextThumb)
+      })
+    } else {
+      this.animateHorizontalThumbnail(this.selectedBodyPart, nextProp, true, () => {
+        this.handleAfterSwipeThumbnail(nextProp, nextThumb)
+      })
+    }
   }
 
   handleAfterSwipeThumbnail (prop, sel) {
+    const { useVerticalThumb } = this.settings
     // change visual filter after animation finished
     this.switchBodypartThumbnail(prop)
-    this.showVerticalSelectionBox(prop, sel)
+
+    if (useVerticalThumb) {
+      this.showVerticalSelectionBox(prop, sel)
+    } else {
+      this.showHorizontalSelectionBox(prop, sel)
+    }
+
     this.changePropSelection(prop, sel)
 
     // show / hide highlight
@@ -312,6 +339,47 @@ export default class VisualFilter {
   }
 
   /**
+   * animate thumbnail left / right
+   * @param {string} prop
+   * @param {string} nextProp
+   * @param {boolean} movingLeft // moving right = false
+   * @param {function} onAnimationFinish callback
+   * @param {number} animationDuration
+   */
+  animateHorizontalThumbnail (prop, nextProp, movingLeft = true, onAnimationFinish = () => {}, animationDuration = 300) {
+    const currentThumb = this.findGroupById(this.getBodyPartGroupName(prop, 'thumbnails'))
+    const nextThumbs = this.findGroupById(this.getBodyPartGroupName(nextProp, 'thumbnails'))
+    const currentThumbBBox = currentThumb.getBBox()
+    const nextThumbBBox = nextThumbs.getBBox()
+    const currentThumbInitialX = currentThumbBBox.x
+    const nextThumbInitialX = nextThumbBBox.x
+
+    if (movingLeft) {
+      // move current thumbs from thumbnails position to top
+      currentThumb.animate({ transform: `translate(${currentThumbBBox.x - currentThumbBBox.width}, 330) scale(1)` }, animationDuration, () => {
+        currentThumb.attr({ visibility: 'hidden', transform: `translate(${currentThumbInitialX}, 330) scale(1)` })
+      })
+
+      // move next thumbs from bottom to thumbnails position
+      nextThumbs.attr({ visibility: 'visible', transform: `translate(${nextThumbBBox.x + currentThumbBBox.width}, 330) scale(1)` })
+      nextThumbs.animate({ transform: `translate(${nextThumbInitialX}, 330) scale(1)` }, animationDuration, () => {
+        onAnimationFinish()
+      })
+    } else {
+      // move current thumbs from thumbnails position to bottom
+      currentThumb.animate({ transform: `translate(${currentThumbBBox.x + nextThumbBBox.width}, 330) scale(1)` }, animationDuration, () => {
+        currentThumb.attr({ visibility: 'hidden', transform: `translate(${currentThumbInitialX}, 330) scale(1)` })
+      })
+
+      // move next thumbs from top to thumbnails position and fadeIn
+      nextThumbs.attr({ visibility: 'visible', transform: `translate(${nextThumbInitialX - nextThumbBBox.width}, 330) scale(1)` })
+      nextThumbs.animate({ transform: `translate(${nextThumbInitialX}, 330) scale(1)` }, animationDuration, () => {
+        onAnimationFinish()
+      })
+    }
+  }
+
+  /**
    * animate thumbnail up / down
    * @param {string} prop
    * @param {string} nextProp
@@ -319,7 +387,7 @@ export default class VisualFilter {
    * @param {function} onAnimationFinish callback
    * @param {number} animationDuration
    */
-  animateThumbnail (prop, nextProp, movingUp = true, onAnimationFinish = () => {}, animationDuration = 300) {
+  animateVerticalThumbnail (prop, nextProp, movingUp = true, onAnimationFinish = () => {}, animationDuration = 300) {
     const currentThumb = this.findGroupById(this.getBodyPartGroupName(prop, 'thumbnails'))
     const nextThumbs = this.findGroupById(this.getBodyPartGroupName(nextProp, 'thumbnails'))
     const currentThumbBBox = currentThumb.getBBox()

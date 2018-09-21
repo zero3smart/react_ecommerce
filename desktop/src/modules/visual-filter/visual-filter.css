@@ -17,7 +17,7 @@
 .VisualFilter .FilterPanel svg {
   display: block;
   max-width: 450px;
-  margin: 0 auto 20px;
+  margin: 0 auto 10px;
 }
 
 /* filter like button */
