@@ -1,6 +1,7 @@
 // api
 export const BASE_API_PATH = process.env.REACT_APP_BASE_API_PATH || '/api/'
 export const BASE_IMG_PATH = process.env.REACT_APP_BASE_IMG_PATH || '/'
+export const DEBUG_PARAM = 'dbg'
 
 // local storage
 export const FAVORITE_PRODUCTS = 'favorite_products'
