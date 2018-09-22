@@ -859,4 +859,48 @@
         </g>
     </g>
 </svg>
-</g></svg>
+
+<svg  version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    
+    
+    <defs></defs>
+    <g id="Floating-Circle-Points" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="scale(1.2) translate(110, 0)">
+        <g id="Mobile-Tutorial-1-Copy" transform="translate(-102.000000, -242.000000)" fill="#F8E71C">
+            <g id="Floating-circle-point" transform="translate(102.000000, 242.000000)">
+                <g id="floating-circle-point" transform="translate(68.000000, 127.000000)">
+                    <circle id="outer-circle" fill-opacity="0.5" cx="17.5" cy="17.5" r="17.5"></circle>
+                    <circle id="inner-circle" cx="17.5" cy="17.5" r="11.5"></circle>
+                </g>
+                <g id="floating-circle-point" transform="translate(68.000000, 193.000000)">
+                    <circle id="outer-circle" fill-opacity="0.7" cx="17.5" cy="17.5" r="17.5"></circle>
+                    <circle id="inner-circle" cx="17.5" cy="17.5" r="11.5"></circle>
+                </g>
+                <g id="floating-circle-point" transform="translate(0.000000, 106.000000)">
+                    <circle id="outer-circle" fill-opacity="0.7" cx="17.5" cy="17.5" r="17.5"></circle>
+                    <circle id="inner-circle" cx="17.5" cy="17.5" r="11.5"></circle>
+                </g>
+                <g id="floating-circle-point" transform="translate(136.000000, 106.000000)">
+                    <circle id="outer-circle" fill-opacity="0.7" cx="17.5" cy="17.5" r="17.5"></circle>
+                    <circle id="inner-circle" cx="17.5" cy="17.5" r="11.5"></circle>
+                </g>
+                <g id="floating-circle-point" transform="translate(22.000000, 31.000000)">
+                    <circle id="outer-circle" fill-opacity="0.7" cx="17.5" cy="17.5" r="17.5"></circle>
+                    <circle id="inner-circle" cx="17.5" cy="17.5" r="11.5"></circle>
+                </g>
+                <g id="floating-circle-point" transform="translate(114.000000, 31.000000)">
+                    <circle id="outer-circle" fill-opacity="0.7" cx="17.5" cy="17.5" r="17.5"></circle>
+                    <circle id="inner-circle" cx="17.5" cy="17.5" r="11.5"></circle>
+                </g>
+                <g id="floating-circle-point" transform="translate(68.000000, 0.000000)">
+                    <circle id="outer-circle" fill-opacity="0.7" cx="17.5" cy="17.5" r="17.5"></circle>
+                    <circle id="inner-circle" cx="17.5" cy="17.5" r="11.5"></circle>
+                </g>
+                <g id="floating-circle-point" transform="translate(68.000000, 61.000000)">
+                    <circle id="outer-circle" fill-opacity="0.7" cx="17.5" cy="17.5" r="17.5"></circle>
+                    <circle id="inner-circle" cx="17.5" cy="17.5" r="11.5"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg></g></svg>

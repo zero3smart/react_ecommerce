@@ -117,7 +117,7 @@ export default class VisualFilter {
 
   initialize () {
     const { hideMiniOnboarding, onSVGLoaded, hideThumbnail, useVerticalThumb,
-      swipeable, disableEvent, tutorialAnim } = this.settings
+      swipeable, disableEvent, tutorialAnim, showTouchesPoints } = this.settings
 
     this.viewBox = [0, 0, 490, 410]
     let svgSource = ''
@@ -182,6 +182,15 @@ export default class VisualFilter {
       if (tutorialAnim) {
         this.onboardingCycleBodypart()
       }
+
+      if (showTouchesPoints) {
+        const floatingCirclePoints = this.findGroupById('Floating-Circle-Points')
+
+        floatingCirclePoints.animate({ visibility: 'visible', opacity: 0 }, 500, () => {
+          floatingCirclePoints.attr({ visibility: 'visible', opacity: 1 })
+        })
+      }
+
       // callback
       onSVGLoaded()
     })
@@ -896,6 +905,7 @@ const defaultOptions = {
   hideMiniOnboarding: false,
   useVerticalThumb: false,
   tutorialAnim: false,
+  showTouchesPoints: false,
   onFilterChange: (filters) => { console.debug('filter change', filters) },
   onPropChange: (prop) => { console.debug('prop change', prop) },
   onSVGLoaded: () => {},
