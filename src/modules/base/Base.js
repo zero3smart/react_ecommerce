@@ -5,12 +5,21 @@ import BurgerSvg from 'assets/svg/burger.svg'
 import SearchSvg from 'assets/svg/search.svg'
 import FavoritesSvg from 'assets/svg/favorites.svg'
 import { ProductFilter } from 'modules/filters'
+import { VisualFilter } from 'models'
+import { history } from 'config/store'
 import './base.css'
 
 export default class Base extends Component {
   static propTypes = {
     children: PropTypes.element,
     location: PropTypes.object
+  }
+
+  componentDidMount () {
+    // when onboarding active, show the tutorial page first
+    if (VisualFilter.shouldShowOnboarding()) {
+      history.push('/tutorial')
+    }
   }
 
   get isProductDetailPage () {

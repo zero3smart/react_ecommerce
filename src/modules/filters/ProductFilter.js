@@ -12,7 +12,7 @@ import { isFilterSavedSelector } from './selectors'
 import { CUSTOM_PRESET_NAME } from 'config/constants'
 import './product-filter.css'
 
-class ProductFilter extends Component {
+export class ProductFilter extends Component {
   static propTypes = {
     filters: PropTypes.object,
     isFilterSaved: PropTypes.bool,
@@ -21,6 +21,7 @@ class ProductFilter extends Component {
     expanded: PropTypes.bool,
     scrollBellowTheFold: PropTypes.bool,
     onboarding: PropTypes.bool,
+    hideMiniOnboarding: PropTypes.bool,
     setFilter: PropTypes.func.isRequired,
     fetchProducts: PropTypes.func.isRequired,
     syncFilter: PropTypes.func.isRequired,
@@ -100,7 +101,7 @@ class ProductFilter extends Component {
   }
 
   render () {
-    const { filters, scrollBellowTheFold, isFilterSaved, lastBodyPart, expanded, onboarding } = this.props
+    const { filters, scrollBellowTheFold, isFilterSaved, lastBodyPart, expanded, onboarding, hideMiniOnboarding } = this.props
 
     return (
       <div
@@ -116,6 +117,7 @@ class ProductFilter extends Component {
             favorite={isFilterSaved}
             filters={filters}
             lastBodyPart={lastBodyPart}
+            hideMiniOnboarding={hideMiniOnboarding}
             onFilterChange={this.handleFilterChange}
             onClose={this.handleFilterToggle}
             onFilterLike={this.handleFilterLike}

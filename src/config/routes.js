@@ -9,6 +9,7 @@ import { TopsInfoBanner } from 'modules/tops'
 import { Favorites } from 'modules/favorites'
 import { Faq } from 'modules/faq'
 import { Presets } from 'modules/presets'
+import { Tutorial } from 'modules/tutorials'
 // presentational
 import { BreadCrumbs } from 'ui-kits/misc'
 
@@ -23,6 +24,7 @@ const BasePlatform = (props) => (
   <Base {...props}>
     <Switch>
       <Route exact path='/' component={Home} />
+      <Route exact path='/tutorial' component={Tutorial} />
       <Route exact path='/products' render={ProductsListRoute} />
       <Route exact path='/products/:productId' component={SingleProductRoute} />
       <Route exact path='/presets' component={Presets} />
