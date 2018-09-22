@@ -41,7 +41,7 @@ export default class Button extends Component {
 
     if (this.isExternal(to)) {
       return (
-        <a href={to} {...buttonProps} {...otherProps}>{children}</a>
+        <a href={to} {...buttonProps} {...otherProps} target='_blank'>{children}</a>
       )
     } else {
       return (
