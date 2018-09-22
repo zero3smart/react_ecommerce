@@ -28,7 +28,7 @@ import vfBundleVertSvg from 'assets/svg/vf_bundle_thumb_vertical.svg'
 import miniOnboardingSvg from 'assets/svg/mini_onboarding.svg'
 import miniOnboardingVertSvg from 'assets/svg/mini_onboarding_thumb_vertical.svg'
 
-const { Snap, localStorage } = window
+const { Snap, localStorage, mixpanel } = window
 
 export default class VisualFilter {
   selectedBodyPart = null
@@ -62,6 +62,14 @@ export default class VisualFilter {
 
     this.moveToPrevThumbnails = throttle(this.moveToPrevThumbnails, 500, { leading: true, trailing: false })
     this.moveToNextThumbnails = throttle(this.moveToNextThumbnails, 500, { leading: true, trailing: false })
+  }
+
+  trackBodypart (event, prop) {
+    mixpanel.track(event, {'mobile': this.useVerticalThumb, 'prop': prop})
+  }
+
+  track (event) {
+    mixpanel.track(event, {'mobile': this.useVerticalThumb})
   }
 
   setLastBodyPart (lastBodyPart) {
@@ -155,10 +163,12 @@ export default class VisualFilter {
 
       for (let prop in this.currentPropState) {
         this.showGroup(this.getBodyPartGroupName(prop, this.currentPropState[prop]))
-      }
+      }      
 
       // onboarding
       if (!hideMiniOnboarding && VisualFilter.shouldShowOnboarding()) {
+        this.track('MiniOnboarding_start')
+
         Snap.load(svgOnboardingSource, (frag) => {
           this.showOnboarding(frag)
         })
@@ -168,6 +178,8 @@ export default class VisualFilter {
 
       // on vertical thumb and event is enabled, show arrow and enable swipe if activated
       if (!disableEvent) {
+        this.track('VF_init')
+
         this.initializeArrowNavigation()
 
         if (swipeable) {
@@ -280,11 +292,13 @@ export default class VisualFilter {
 
     // on swipeup, move to next thumbnail
     hmThumb.on('swipeup', () => {
+      this.track('thumbnailSwipeUp')
       this.moveToNextThumbnails()
     })
 
     // on swipedown, move to prev thumbnail
     hmThumb.on('swipedown', () => {
+      this.track('thumbnailSwipeDown')
       this.moveToPrevThumbnails()
     })
   }
@@ -469,7 +483,6 @@ export default class VisualFilter {
     this.snapGroup = this.snap.group()
     this.snapGroup.append(frag)
     this.snapGroup.attr({ visibility: 'hidden' })
-
     if (this.settings.useVerticalThumb) {
       this.snapGroup.select('svg').attr({ viewBox: [-10, 0, 439, 393] })
     }
@@ -519,8 +532,11 @@ export default class VisualFilter {
 
   handleOnboardingFinished () {
     const { onFinishedOnboarding } = this.settings
-    onFinishedOnboarding()
+    if (onFinishedOnboarding) {
+      onFinishedOnboarding()
+    }
     VisualFilter.saveConfig('onboarding_completed', 1)
+    this.track('miniOnboarding_completed')
   }
 
   switchBodypartThumbnail (prop) {
@@ -542,6 +558,8 @@ export default class VisualFilter {
     } else { // desktop. We have hovering hint, so just change to next selection on first click
       this.cyclePropSelection(prop)
     }
+
+    this.trackBodypart('bodypartTouch', prop)
 
     // set last body part when its changed
     this.lastBodyPart = prop
@@ -616,6 +634,7 @@ export default class VisualFilter {
     if (tnIdx > this.getMaxSelectionIndx(this.selectedBodyPart)) {
       return
     }
+    this.trackBodypart('thumbnailTouch', this.selectedBodyPart)
 
     this.showSelectionBox(this.selectedBodyPart, tnIdx)
     this.changePropSelection(this.selectedBodyPart, tnIdx)
