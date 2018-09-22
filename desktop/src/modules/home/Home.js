@@ -31,8 +31,8 @@ class Home extends Component {
     return (
       <div id='MainScroll' className='Home'>
         <InfoBanner style={styles.infoBanner}>
-          <h1>Today’s pick for you.</h1>
-          <p style={styles.infoBannerDescription}>&nbsp;the more you like, the better it gets.</p>
+          <h1>Today’s Pick for You</h1>
+          <p style={styles.infoBannerDescription}>the more you like, the better it gets</p>
         </InfoBanner>
         <div className='container'>
           <ProductList
@@ -46,7 +46,7 @@ class Home extends Component {
         </div>
         <InfoBanner style={styles.infoBanner}>
           <h1>Editor's Pick</h1>
-          <p style={styles.infoBannerDescription}>&nbsp;shortcut to the fits.</p>
+          <p style={styles.infoBannerDescription}>shortcut to the fits</p>
         </InfoBanner>
         <AdvancedPresetList />
       </div>
@@ -66,6 +66,7 @@ const styles = {
     padding: '20px 70px 30px'
   },
   infoBannerDescription: {
-    fontSize: 28
+    fontSize: 28,
+    fontWeight: 'light'
   }
 }

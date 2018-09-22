@@ -31,8 +31,8 @@ class Home extends Component {
     return (
       <div id='MainScroll' className='Home'>
         <InfoBanner style={styles.infoBanner}>
-          <h2>Today’s pick for you.</h2>
-          <p>&nbsp;the more you like, the better it gets.</p>
+          <h2>Today’s Pick for You</h2>
+          <p>the more you like, the better it gets</p>
         </InfoBanner>
         <ProductList
           products={recommendedProducts}
@@ -44,7 +44,7 @@ class Home extends Component {
         />
         <InfoBanner style={styles.infoBanner}>
           <h2>Editor's Pick</h2>
-          <p>&nbsp;shortcut to the fits</p>
+          <p>shortcut to the fits</p>
         </InfoBanner>
         <AdvancedPresetList />
       </div>
