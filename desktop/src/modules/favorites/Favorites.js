@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
+import { compose } from 'redux'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import Tabs from 'ui-kits/navigations/Tabs'
+import withTrackingProvider from 'yesplz@hoc/withTrackingProvider'
 import { syncFavoriteProducts } from 'yesplz@ducks/products'
 import { syncFilter, syncFavoritePresets } from 'yesplz@ducks/filters'
 import { ProductList, ProductGridCompact } from 'yesplz@modules/products'
@@ -78,13 +80,16 @@ const mapStateToProps = (state, props) => ({
   nextPage: state.products.nextPage
 })
 
-export default connect(
-  mapStateToProps,
-  {
-    syncFilter,
-    syncFavoritePresets,
-    syncFavoriteProducts
-  }
+export default compose(
+  connect(
+    mapStateToProps,
+    {
+      syncFilter,
+      syncFavoritePresets,
+      syncFavoriteProducts
+    }
+  ),
+  withTrackingProvider('Favorites')
 )(Favorites)
 
 const styles = {
