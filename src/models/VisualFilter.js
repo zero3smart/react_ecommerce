@@ -27,8 +27,9 @@ import vfBundleSvg from 'assets/svg/vf_bundle.svg'
 import vfBundleVertSvg from 'assets/svg/vf_bundle_thumb_vertical.svg'
 import miniOnboardingSvg from 'assets/svg/mini_onboarding.svg'
 import miniOnboardingVertSvg from 'assets/svg/mini_onboarding_thumb_vertical.svg'
+import { Tracker } from 'models'
 
-const { Snap, localStorage, mixpanel } = window
+const { Snap, localStorage } = window
 
 export default class VisualFilter {
   selectedBodyPart = null
@@ -65,11 +66,11 @@ export default class VisualFilter {
   }
 
   trackBodypart (event, prop) {
-    mixpanel.track(event, {'mobile': this.useVerticalThumb, 'prop': prop})
+    Tracker.track(event, {'bodypart': prop})
   }
 
   track (event) {
-    mixpanel.track(event, {'mobile': this.useVerticalThumb})
+    Tracker.track(event)
   }
 
   setLastBodyPart (lastBodyPart) {
@@ -167,7 +168,7 @@ export default class VisualFilter {
 
       // onboarding
       if (!hideMiniOnboarding && VisualFilter.shouldShowOnboarding()) {
-        this.track('MiniOnboarding_start')
+        this.track('MiniOnboarding Start')
 
         Snap.load(svgOnboardingSource, (frag) => {
           this.showOnboarding(frag)
@@ -178,7 +179,7 @@ export default class VisualFilter {
 
       // on vertical thumb and event is enabled, show arrow and enable swipe if activated
       if (!disableEvent) {
-        this.track('VF_init')
+        this.track('VF Opened')
 
         this.initializeArrowNavigation()
 
@@ -292,13 +293,13 @@ export default class VisualFilter {
 
     // on swipeup, move to next thumbnail
     hmThumb.on('swipeup', () => {
-      this.track('thumbnailSwipeUp')
+      this.track('VF Thumbnail SwipeUp')
       this.moveToNextThumbnails()
     })
 
     // on swipedown, move to prev thumbnail
     hmThumb.on('swipedown', () => {
-      this.track('thumbnailSwipeDown')
+      this.track('VF Thumbnail SwipeDown')
       this.moveToPrevThumbnails()
     })
   }
@@ -536,7 +537,7 @@ export default class VisualFilter {
       onFinishedOnboarding()
     }
     VisualFilter.saveConfig('onboarding_completed', 1)
-    this.track('miniOnboarding_completed')
+    this.track('MiniOnboarding Completed')
   }
 
   switchBodypartThumbnail (prop) {
@@ -559,7 +560,7 @@ export default class VisualFilter {
       this.cyclePropSelection(prop)
     }
 
-    this.trackBodypart('bodypartTouch', prop)
+    this.trackBodypart('VF Touch BodyPart', prop)
 
     // set last body part when its changed
     this.lastBodyPart = prop
@@ -634,7 +635,7 @@ export default class VisualFilter {
     if (tnIdx > this.getMaxSelectionIndx(this.selectedBodyPart)) {
       return
     }
-    this.trackBodypart('thumbnailTouch', this.selectedBodyPart)
+    this.trackBodypart('VF Thumbnail Touch', this.selectedBodyPart)
 
     this.showSelectionBox(this.selectedBodyPart, tnIdx)
     this.changePropSelection(this.selectedBodyPart, tnIdx)

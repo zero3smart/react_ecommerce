@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 import TutorialPage from './TutorialPage'
@@ -7,6 +8,8 @@ import { FloatButton, TutorialBodypartFilter } from 'modules/filters'
 import { ProductFilter } from 'modules/filters/ProductFilter'
 import { Button } from 'ui-kits/buttons'
 import { history } from 'config/store'
+import { withTrackingProvider } from 'hoc'
+import Tracker from 'models/Tracker'
 import './tutorial.css'
 
 class Tutorial extends Component {
@@ -55,6 +58,11 @@ class Tutorial extends Component {
 
   get exitTutorial () {
     return () => {
+      if (this.state.currentPage === 0) {
+        Tracker.track('Tutorial Skipped')
+      } else {
+        Tracker.track('Tutorial Completed')
+      }
       history.push('/')
     }
   }
@@ -142,7 +150,7 @@ const mapStateToProps = state => ({
   onboarding: state.filters.onboarding
 })
 
-export default connect(mapStateToProps)(Tutorial)
+export default compose(connect(mapStateToProps), withTrackingProvider('Tutorial'))(Tutorial)
 
 const defaultFilters = {
   collar: 0,
