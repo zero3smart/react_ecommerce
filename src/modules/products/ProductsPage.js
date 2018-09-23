@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import { fetchProducts } from 'ducks/products'
 import { syncFilter, toggleVisualFilter } from 'ducks/filters'
+import { withTrackingProvider } from 'hoc'
 import { ProductList } from 'modules/products'
 import './products-page.css'
 
@@ -142,4 +144,11 @@ const mapStateToProps = (state, props) => ({
   visualFilterExpanded: state.filters.expanded
 })
 
-export default connect(mapStateToProps, { fetchProducts, syncFilter, toggleVisualFilter })(ProductsPage)
+const mapPropsToTrackingProps = (props) => ({
+  preset: props.match.params.presetName
+})
+
+export default compose(
+  connect(mapStateToProps, { fetchProducts, syncFilter, toggleVisualFilter }),
+  withTrackingProvider('Products Search', mapPropsToTrackingProps)
+)(ProductsPage)

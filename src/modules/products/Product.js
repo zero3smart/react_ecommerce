@@ -28,6 +28,7 @@ class Product extends PureComponent {
     rawData: PropTypes.object,
     showArrows: PropTypes.bool,
     showDots: PropTypes.bool,
+    tracker: PropTypes.object,
     toggleProductLike: PropTypes.func.isRequired
   }
 
@@ -38,6 +39,12 @@ class Product extends PureComponent {
     sizes: [],
     showArrows: false,
     showDots: false
+  }
+
+  componentDidMount () {
+    const { tracker, id, brand } = this.props
+
+    tracker.registerTrackLinks('#BuyNow', 'Buy Now Button', { product_id: id, brand: brand })
   }
 
   get sliderSettings () {
@@ -91,7 +98,7 @@ class Product extends PureComponent {
           </ul>
         </div>
         <div className='Product-footer'>
-          <Button to={link}>Buy Now</Button>
+          <Button id='BuyNow' to={link}>Buy Now</Button>
         </div>
       </div>
     )

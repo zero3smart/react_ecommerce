@@ -10,6 +10,9 @@ export const FILTERS = 'filters'
 export const LAST_BODY_PART = 'last_body_part'
 export const ONBOARDING_COMPLETED = 'onboarding_completed'
 
+// platforms
+export const IS_MOBILE = JSON.parse(process.env.REACT_APP_IS_MOBILE)
+
 // presets
 export const CUSTOM_PRESET_NAME = 'Custom Preset'
 

@@ -179,22 +179,48 @@ export const fetchRelatedProducts = createCancelableAsyncAction((productId, requ
   }
 })
 
-export function likeProduct (product) {
+export function likeProduct (product, tracker = {}) {
   return dispatch => {
     Product.like(product)
     // sync favorite products from local storage, temporary solutions before api ready
     dispatch(syncFavoriteProducts())
 
-    dispatch({ type: LIKE_PRODUCT, payload: { productId: product.product_id } })
+    dispatch({
+      type: LIKE_PRODUCT,
+      payload: { productId: product.product_id },
+      meta: {
+        mixpanel: {
+          event: 'Like Product',
+          props: {
+            ...tracker.defaultProperties,
+            product_id: product.product_id,
+            brand: product.brand
+          }
+        }
+      }
+    })
   }
 }
 
-export function unlikeProduct (productId) {
+export function unlikeProduct (product, tracker = {}) {
   return (dispatch) => {
-    Product.unlike(productId)
+    Product.unlike(product.product_id)
     // sync favorite products from local storage, temporary solutions before api ready
     dispatch(syncFavoriteProducts())
 
-    dispatch({ type: UNLIKE_PRODUCT, payload: { productId } })
+    dispatch({
+      type: UNLIKE_PRODUCT,
+      payload: { productId: product.product_id },
+      meta: {
+        mixpanel: {
+          event: 'Unlike Product',
+          props: {
+            ...tracker.defaultProperties,
+            product_id: product.product_id,
+            brand: product.brand
+          }
+        }
+      }
+    })
   }
 }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 import omit from 'lodash-es/omit'
 import reduce from 'lodash-es/reduce'
 import isBoolean from 'lodash-es/isBoolean'
@@ -8,7 +9,7 @@ import Button from 'ui-kits/buttons/Button'
 import Transition from 'ui-kits/transitions/Transition'
 import ColorPallete from './ColorPallete'
 import DesignFilters from './DesignFilters'
-import classNames from 'classnames'
+import { Tracker } from 'models'
 import './secondary-filters.css'
 
 export default class SecondaryFilters extends Component {
@@ -41,8 +42,8 @@ export default class SecondaryFilters extends Component {
 
   componentDidMount () {
     // initialize toggle handler
-    this.toggleDesignPanel = this.makeTogglePanelHandler('designFiltersVisible')
-    this.toggleColorPallete = this.makeTogglePanelHandler('collorPalleteVisible')
+    this.toggleDesignPanel = this.makeTogglePanelHandler('designFiltersVisible', 'Press design button')
+    this.toggleColorPallete = this.makeTogglePanelHandler('collorPalleteVisible', 'Press color pallete button')
   }
 
   isActive (filter) {
@@ -62,9 +63,10 @@ export default class SecondaryFilters extends Component {
   /**
    * create handler to change visibility of a panel
    * @param {string} panelKey
+   * @param {string} trackEventName
    * @return {function} handler
    */
-  makeTogglePanelHandler (panelKey) {
+  makeTogglePanelHandler (panelKey, trackEventName) {
     // add throttle so event bubling at the same element won't update multiple times
     return throttle((isVisible) => {
       // update panel visibilityt based on current state / provided value
@@ -75,6 +77,8 @@ export default class SecondaryFilters extends Component {
           [panelKey]: isBoolean(isVisible) ? isVisible : !isPanelVisible
         }
       })
+
+      Tracker.track(trackEventName)
     }, 500, { leading: true, trailing: false }) // use the first event
   }
 
@@ -87,13 +91,17 @@ export default class SecondaryFilters extends Component {
   get handleDesignChange () {
     return (value, name) => {
       this.updateFilter(name, value ? 1 : 0)
+      Tracker.track(`Press ${name} filter button`, { active: value })
     }
   }
 
   get handleSaleChange () {
     const { sale } = this.props
     return () => {
-      this.updateFilter('sale', sale === 1 ? 0 : 1)
+      const activate = sale === 0
+      this.updateFilter('sale', activate ? 1 : 0)
+
+      Tracker.track('Press sale filter button', { active: activate })
     }
   }
 
