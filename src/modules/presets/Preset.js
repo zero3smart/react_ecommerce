@@ -13,6 +13,7 @@ const filterProps = PropTypes.oneOfType([
 export default class Preset extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
+    presetKey: PropTypes.string,
     name: PropTypes.string,
     collar: filterProps,
     coretype: filterProps,
@@ -81,12 +82,13 @@ export default class Preset extends Component {
   }
 
   get toggleLike () {
-    const { name, favorite, onToggleLike } = this.props
+    const { presetKey, name, favorite, onToggleLike } = this.props
     return (e) => {
       e.preventDefault()
       e.stopPropagation()
 
       const preset = {
+        key: presetKey,
         name,
         ...this.bodyPartFilters,
         ...this.fabricFilters

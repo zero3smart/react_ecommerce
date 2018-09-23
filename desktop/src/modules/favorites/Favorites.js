@@ -48,7 +48,7 @@ class Favorites extends Component {
           showFits ? (
             <Presets
               presets={presets}
-              presetBaseURI='/favorites/fits'
+              presetBaseURI='/preset-products'
               extraItem={tabNav}
               style={styles.presets}
               match={match}

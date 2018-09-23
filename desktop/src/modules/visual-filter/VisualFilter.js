@@ -56,7 +56,7 @@ class VisualFilter extends Component {
       if (favorite) {
         saveFilterAsPreset(filters, CUSTOM_PRESET_NAME)
       } else {
-        deleteFilterFromPreset(CUSTOM_PRESET_NAME)
+        deleteFilterFromPreset(filters, CUSTOM_PRESET_NAME)
       }
     }
   }
