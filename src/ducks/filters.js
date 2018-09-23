@@ -3,6 +3,7 @@ import { FILTERS } from 'config/constants'
 import { Preset, VisualFilter } from 'models'
 import { updatePresetFavorite, mapPresetFavorites } from './helpers'
 const { localStorage } = window
+const isDev = process.env.NODE_ENV === 'development'
 
 // Actions
 const SET_FILTER = 'filters/SET_FILTER'
@@ -144,23 +145,47 @@ export function fetchPresets () {
   }
 }
 
-export function likePreset (preset) {
+export function likePreset (preset, tracker = {}) {
   return (dispatch) => {
     Preset.like(preset)
     // sync presets from local storage, temporary solutions before api ready
     dispatch(syncFavoritePresets())
 
-    dispatch({ type: LIKE_PRESET, payload: { presetName: preset.name } })
+    dispatch({
+      type: LIKE_PRESET,
+      payload: { presetName: preset.name },
+      meta: {
+        mixpanel: {
+          event: 'Like Preset',
+          props: {
+            ...tracker.defaultProperties,
+            name: preset.name
+          }
+        }
+      }
+    })
   }
 }
 
-export function unlikePreset (preset) {
+export function unlikePreset (preset, tracker = {}) {
   return (dispatch) => {
     Preset.unlike(preset)
     // sync presets from local storage, temporary solutions before api ready
     dispatch(syncFavoritePresets())
 
-    dispatch({ type: UNLIKE_PRESET, payload: { presetName: preset.name } })
+    dispatch({
+      type: UNLIKE_PRESET,
+      payload: { presetName: preset.name },
+      meta: {
+        mixpanel: {
+          event: 'Unlike Preset',
+          props: {
+            ...tracker.defaultProperties,
+            name: preset.name
+          }
+        }
+      }
+    })
   }
 }
 
@@ -170,7 +195,20 @@ export function saveFilterAsPreset (preset, name) {
     // sync presets from local storage, temporary solutions before api ready
     dispatch(syncFavoritePresets())
 
-    dispatch({ type: LIKE_PRESET, payload: { presetName: preset.name } })
+    dispatch({
+      type: LIKE_PRESET,
+      payload: { presetName: preset.name },
+      meta: {
+        mixpanel: {
+          event: 'Like Preset',
+          props: {
+            dev: isDev,
+            name: 'Custom Preset',
+            preset: preset
+          }
+        }
+      }
+    })
   }
 }
 
@@ -180,6 +218,18 @@ export function deleteFilterFromPreset (name) {
     // sync presets from local storage, temporary solutions before api ready
     dispatch(syncFavoritePresets())
 
-    dispatch({ type: UNLIKE_PRESET, payload: { presetName: name } })
+    dispatch({
+      type: UNLIKE_PRESET,
+      payload: { presetName: name },
+      meta: {
+        mixpanel: {
+          event: 'Unlike Preset',
+          props: {
+            dev: isDev,
+            name: name
+          }
+        }
+      }
+    })
   }
 }

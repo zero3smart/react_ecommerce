@@ -7,6 +7,7 @@ import classNames from 'classnames'
 import { FABRIC_COLORS } from 'config/constants'
 import { ColorButton, Button } from 'ui-kits/buttons'
 import { withFocus } from 'hoc'
+import { Tracker } from 'models'
 import './color-pallete.css'
 
 class ColorPallete extends Component {
@@ -52,6 +53,7 @@ class ColorPallete extends Component {
       })
 
       onColorClick(newValues)
+      Tracker.track(`Press ${name} color button`, { values: newValues })
     }
   }
 
@@ -61,6 +63,7 @@ class ColorPallete extends Component {
         values: []
       })
       this.props.onColorClick([])
+      Tracker.track('Press clear color button')
     }
   }
 

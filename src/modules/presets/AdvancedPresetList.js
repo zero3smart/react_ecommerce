@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import camelCase from 'lodash-es/camelCase'
 import { history } from 'config/store'
 import { enableInitialFetch } from 'ducks/products'
@@ -8,6 +9,7 @@ import { fetchPresets, setFilter, likePreset, unlikePreset } from 'ducks/filters
 import Transition from 'ui-kits/transitions/Transition'
 import { DotLoader } from 'ui-kits/loaders'
 import AdvancedPreset from './AdvancedPreset'
+import { withTrackingConsumer } from 'hoc'
 
 export class AdvancedPresetList extends Component {
   static propTypes = {
@@ -18,6 +20,7 @@ export class AdvancedPresetList extends Component {
     likePreset: PropTypes.func.isRequired,
     unlikePreset: PropTypes.func.isRequired,
     enableInitialFetch: PropTypes.func.isRequired,
+    tracker: PropTypes.object,
     style: PropTypes.object
   }
 
@@ -35,23 +38,25 @@ export class AdvancedPresetList extends Component {
   }
 
   get handlePresetClick () {
-    const { setFilter, enableInitialFetch } = this.props
+    const { setFilter, enableInitialFetch, tracker } = this.props
     return (filters, presetName) => {
       setFilter(filters)
       // make products fetched from beginning
       enableInitialFetch()
       // redirect to preset's products page
       history.push(`/preset-products/${presetName}`)
+      // track preset click
+      tracker.track('Preset Choose', { name: presetName })
     }
   }
 
   get togglePresetLike () {
-    const { likePreset, unlikePreset } = this.props
+    const { likePreset, unlikePreset, tracker } = this.props
     return (preset, favorite) => {
       if (favorite) {
-        likePreset(preset)
+        likePreset(preset, tracker)
       } else {
-        unlikePreset(preset)
+        unlikePreset(preset, tracker)
       }
     }
   }
@@ -85,15 +90,18 @@ const mapStateToProps = (state, props) => ({
   isPresetsFetched: props.show || state.filters.presetsFetched
 })
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchPresets,
-    setFilter,
-    likePreset,
-    unlikePreset,
-    enableInitialFetch
-  }
+export default compose(
+  connect(
+    mapStateToProps,
+    {
+      fetchPresets,
+      setFilter,
+      likePreset,
+      unlikePreset,
+      enableInitialFetch
+    }
+  ),
+  withTrackingConsumer()
 )(AdvancedPresetList)
 
 const styles = {

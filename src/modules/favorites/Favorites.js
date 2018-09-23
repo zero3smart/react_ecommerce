@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-import Tabs from 'ui-kits/navigations/Tabs'
+import PropTypes from 'prop-types'
 import { syncFavoriteProducts } from 'ducks/products'
 import { syncFilter, syncFavoritePresets } from 'ducks/filters'
+import { withTrackingProvider } from 'hoc'
+import Tabs from 'ui-kits/navigations/Tabs'
 import { ProductList } from 'modules/products'
 import { Presets } from 'modules/presets'
 import './favorites.css'
@@ -72,13 +74,16 @@ const mapStateToProps = (state, props) => ({
   nextPage: state.products.nextPage
 })
 
-export default connect(
-  mapStateToProps,
-  {
-    syncFilter,
-    syncFavoritePresets,
-    syncFavoriteProducts
-  }
+export default compose(
+  connect(
+    mapStateToProps,
+    {
+      syncFilter,
+      syncFavoritePresets,
+      syncFavoriteProducts
+    }
+  ),
+  withTrackingProvider('Favorites')
 )(Favorites)
 
 const styles = {

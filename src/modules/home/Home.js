@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { fetchRecommendedProducts } from 'ducks/products'
 import { ProductList } from 'modules/products'
 import { AdvancedPresetList } from 'modules/presets'
 import { InfoBanner } from 'ui-kits/banners'
+import { withTrackingProvider } from 'hoc'
 import './home.css'
 
 class Home extends Component {
@@ -56,7 +58,10 @@ const mapStateToProps = state => ({
   recommendedProducts: state.products.recommendedList
 })
 
-export default connect(mapStateToProps, { fetchRecommendedProducts })(Home)
+export default compose(
+  connect(mapStateToProps, { fetchRecommendedProducts }),
+  withTrackingProvider('Home')
+)(Home)
 
 const styles = {
   infoBanner: {

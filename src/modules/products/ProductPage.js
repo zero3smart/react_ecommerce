@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import { Product, ProductPlaceholder, ProductList } from 'modules/products'
 import { fetchProduct, fetchRelatedProducts, resetProduct, setScrollBellowTheFold } from 'ducks/product'
 import { history } from 'config/store'
+import { withTrackingProvider } from 'hoc'
 import './product-page.css'
 
 class ProductPage extends Component {
@@ -144,12 +146,20 @@ const mapStateToProps = (state, props) => ({
   scrollBellowTheFold: state.product.scrollBellowTheFold
 })
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchProduct,
-    fetchRelatedProducts,
-    resetProduct,
-    setScrollBellowTheFold
-  }
+const mapPropsToTrackingProps = (props) => ({
+  product_id: props.match.params.productId,
+  preset: props.match.params.presetName
+})
+
+export default compose(
+  connect(
+    mapStateToProps,
+    {
+      fetchProduct,
+      fetchRelatedProducts,
+      resetProduct,
+      setScrollBellowTheFold
+    }
+  ),
+  withTrackingProvider('Product Detail', mapPropsToTrackingProps)
 )(ProductPage)

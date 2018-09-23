@@ -8,7 +8,6 @@ import { ProductsPage, ProductPage } from 'modules/products'
 import { TopsInfoBanner } from 'modules/tops'
 import { Favorites } from 'modules/favorites'
 import { Faq } from 'modules/faq'
-import { Presets } from 'modules/presets'
 import { Tutorial } from 'modules/tutorials'
 // presentational
 import { BreadCrumbs } from 'ui-kits/misc'
@@ -27,7 +26,6 @@ const BasePlatform = (props) => (
       <Route exact path='/tutorial' component={Tutorial} />
       <Route exact path='/products' render={ProductsListRoute} />
       <Route exact path='/products/:productId' component={SingleProductRoute} />
-      <Route exact path='/presets' component={Presets} />
       <Route exact path='/preset-products/:presetName' render={PresetProductsRoute} />
       <Route exact path='/preset-products/:presetName/:productId' render={SinglePresetProductRoute} />
       <Route exact path='/favorites/:favoriteType' component={Favorites} />
@@ -38,7 +36,7 @@ const BasePlatform = (props) => (
 )
 
 const ProductsListRoute = router => (
-  <ProductsPage key='products-page' initialExpandVisualFilter renderExtraItem={renderTopsInfoBanner} />
+  <ProductsPage key='products-page' match={router.match} initialExpandVisualFilter renderExtraItem={renderTopsInfoBanner} />
 )
 
 const PresetProductsRoute = router => {
@@ -46,6 +44,7 @@ const PresetProductsRoute = router => {
   return (
     <ProductsPage
       key='preset-products-page'
+      match={router.match}
       productBasePath={`/preset-products/${presetName}`}
       renderExtraItem={renderBreadcrumbs([
         { name: 'Editor\'s Pick', uri: '/' },

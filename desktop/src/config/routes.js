@@ -5,7 +5,6 @@ import { Base, NotFound } from 'modules/base'
 import { Home } from 'modules/home'
 import { Favorites } from 'modules/favorites'
 import { Faq } from 'modules/faq'
-import Presets from 'modules/presets/Presets'
 import Tops from 'modules/tops/Tops'
 import { PresetProductsRoute } from 'modules/presets/presetsRoutes'
 // presentationals
@@ -24,7 +23,6 @@ const BasePlatform = (props) => (
       <Route exact path='/' component={Home} />
       <Route exact path='/products' component={Tops} />
       <Route exact path='/products/:productId' component={SingleProductRoute} />
-      <Route exact path='/presets' component={Presets} />
       <Route exact path='/preset-products/:presetName' render={PresetProductsRoute} />
       <Route exact path='/preset-products/:presetName/:productId' render={SinglePresetProductRoute} />
       <Route exact path='/favorites/:favoriteType' component={Favorites} />

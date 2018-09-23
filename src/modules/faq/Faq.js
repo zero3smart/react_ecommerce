@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import { compose } from 'redux'
 import PropTypes from 'prop-types'
+import { withTrackingProvider } from 'hoc'
 import { InfoBanner } from 'ui-kits/banners'
 import { withStyles } from '@material-ui/core/styles'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
@@ -100,4 +102,4 @@ const styles = theme => ({
   }
 })
 
-export default withStyles(styles)(Faq)
+export default compose(withStyles(styles), withTrackingProvider('FAQ'))(Faq)
