@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
+import { compose } from 'redux'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import camelCase from 'lodash-es/camelCase'
 import { history } from 'config/store'
 import { enableInitialFetch } from 'ducks/products'
 import { fetchPresets, setFilter, likePreset, unlikePreset } from 'ducks/filters'
+import { withTrackingConsumer } from 'hoc'
 import Transition from 'ui-kits/transitions/Transition'
 import { DotLoader } from 'ui-kits/loaders'
 import Preset from './Preset'
@@ -20,6 +22,7 @@ export class Presets extends Component {
     unlikePreset: PropTypes.func.isRequired,
     enableInitialFetch: PropTypes.func.isRequired,
     extraItem: PropTypes.element,
+    tracker: PropTypes.object,
     style: PropTypes.object
   }
 
@@ -37,13 +40,15 @@ export class Presets extends Component {
   }
 
   get handlePresetClick () {
-    const { setFilter, enableInitialFetch } = this.props
+    const { tracker, setFilter, enableInitialFetch } = this.props
     return (filters, name) => {
       setFilter(filters)
       // make products fetched from beginning
       enableInitialFetch()
       // redirect to Tops page
       history.push(`/preset-products/${name}`)
+
+      tracker.track('Preset Choose', { name })
     }
   }
 
@@ -101,15 +106,18 @@ const mapStateToProps = (state, props) => ({
   isPresetsFetched: props.show || state.filters.presetsFetched
 })
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchPresets,
-    setFilter,
-    likePreset,
-    unlikePreset,
-    enableInitialFetch
-  }
+export default compose(
+  connect(
+    mapStateToProps,
+    {
+      fetchPresets,
+      setFilter,
+      likePreset,
+      unlikePreset,
+      enableInitialFetch
+    }
+  ),
+  withTrackingConsumer()
 )(Presets)
 
 const styles = {
