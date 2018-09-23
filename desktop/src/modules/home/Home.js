@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import withTrackingProvider from 'yesplz@hoc/withTrackingProvider'
 import { fetchRecommendedProducts } from 'yesplz@ducks/products'
 import { ProductList } from 'yesplz@modules/products'
 import { AdvancedPresetList } from 'yesplz@modules/presets'
@@ -58,7 +60,10 @@ const mapStateToProps = state => ({
   recommendedProducts: state.products.recommendedList
 })
 
-export default connect(mapStateToProps, { fetchRecommendedProducts })(Home)
+export default compose(
+  connect(mapStateToProps, { fetchRecommendedProducts }),
+  withTrackingProvider('Home')
+)(Home)
 
 const styles = {
   infoBanner: {

@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
+import { compose } from 'redux'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
+import withTrackingProvider from 'yesplz@hoc/withTrackingProvider'
 import { fetchProducts } from 'yesplz@ducks/products'
 import { ProductList } from 'yesplz@modules/products'
 import { syncFilter } from 'yesplz@ducks/filters'
@@ -85,7 +87,10 @@ const mapStateToProps = (state, props) => ({
   onboarding: state.filters.onboarding
 })
 
-export default connect(mapStateToProps, { fetchProducts, syncFilter })(Tops)
+export default compose(
+  connect(mapStateToProps, { fetchProducts, syncFilter }),
+  withTrackingProvider('Products Search')
+)(Tops)
 
 const styles = {
   infoBanner: {

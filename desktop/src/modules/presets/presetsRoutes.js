@@ -8,6 +8,7 @@ export const PresetProductsRoute = router => {
   return (
     <ProductsPage
       key='preset-products-page'
+      match={router.match}
       className='PresetProducts'
       productBasePath={`/preset-products/${presetName}`}
       renderExtraItem={renderBreadcrumbs([
