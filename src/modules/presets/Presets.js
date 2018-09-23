@@ -38,12 +38,12 @@ export class Presets extends Component {
 
   get handlePresetClick () {
     const { setFilter, enableInitialFetch } = this.props
-    return (filters) => {
+    return (filters, name) => {
       setFilter(filters)
       // make products fetched from beginning
       enableInitialFetch()
       // redirect to Tops page
-      history.push('/')
+      history.push(`/preset-products/${name}`)
     }
   }
 
@@ -69,8 +69,9 @@ export class Presets extends Component {
           {
             presets.map((preset, index) => (
               <Preset
-                key={preset.name}
+                key={preset.key || preset.name}
                 id={`${camelCase(preset.name)}${index}`}
+                presetKey={preset.key}
                 name={preset.name}
                 collar={preset.collar}
                 coretype={preset.coretype}

@@ -170,6 +170,7 @@ export function likePreset (preset, tracker = {}) {
 export function unlikePreset (preset, tracker = {}) {
   return (dispatch) => {
     Preset.unlike(preset)
+
     // sync presets from local storage, temporary solutions before api ready
     dispatch(syncFavoritePresets())
 
@@ -212,9 +213,9 @@ export function saveFilterAsPreset (preset, name) {
   }
 }
 
-export function deleteFilterFromPreset (name) {
+export function deleteFilterFromPreset (preset, name) {
   return dispatch => {
-    Preset.removePreset(name)
+    Preset.removePreset(preset, name)
     // sync presets from local storage, temporary solutions before api ready
     dispatch(syncFavoritePresets())
 

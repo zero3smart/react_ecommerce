@@ -1,7 +1,9 @@
-import { FAVORITE_PRESETS } from 'config/constants'
+import { FAVORITE_PRESETS, CUSTOM_PRESET_NAME } from 'config/constants'
 import uniqBy from 'lodash-es/uniqBy'
 import reject from 'lodash-es/reject'
+import filter from 'lodash-es/filter'
 import map from 'lodash-es/map'
+import max from 'lodash-es/max'
 
 const { localStorage } = window
 
@@ -27,18 +29,33 @@ export default class Preset {
    */
   static savePreset (preset, name) {
     let favoritePresets = Preset.getFavoritePresets()
-    favoritePresets = uniqBy([ { ...preset, name, favorite: true }, ...favoritePresets ], 'name')
+
+    // find last preset key index
+    const customPresets = filter(favoritePresets, { name: CUSTOM_PRESET_NAME })
+    const lastPresetKeyIndex = customPresets.reduce((keyIndex, preset) => (
+      max([keyIndex, Number(preset.key.replace('custom-', ''))])
+    ), 0)
+
+    favoritePresets = uniqBy([ {
+      ...preset,
+      key: `custom-${lastPresetKeyIndex + 1}`,
+      name,
+      favorite: true
+    },
+    ...favoritePresets ], 'key')
+
     localStorage.setItem(FAVORITE_PRESETS, JSON.stringify(favoritePresets))
   }
 
   /**
    * remove preset from list of favorit presets in local storage
    * this function is similar to `unlike`, but it uses only the name of the preset
+   * @param {Object} preset
    * @param {string} string
    */
-  static removePreset (name) {
+  static removePreset (preset, name) {
     let favoritePresets = Preset.getFavoritePresets()
-    favoritePresets = reject(favoritePresets, { name })
+    favoritePresets = reject(favoritePresets, { ...preset, name })
     localStorage.setItem(FAVORITE_PRESETS, JSON.stringify(favoritePresets))
   }
 
@@ -48,6 +65,7 @@ export default class Preset {
    */
   static like (preset) {
     let favoritePresets = Preset.getFavoritePresets()
+
     favoritePresets = uniqBy([ ...favoritePresets, { ...preset, favorite: true } ], 'name')
     localStorage.setItem(FAVORITE_PRESETS, JSON.stringify(favoritePresets))
   }
@@ -58,7 +76,14 @@ export default class Preset {
    */
   static unlike (preset) {
     let favoritePresets = Preset.getFavoritePresets()
-    favoritePresets = reject(favoritePresets, { name: preset.name })
+
+    // if preset.key available, use that as a key to unlike preset
+    // else, use preset.name
+    if (preset.key) {
+      favoritePresets = reject(favoritePresets, { key: preset.key })
+    } else {
+      favoritePresets = reject(favoritePresets, { name: preset.name })
+    }
 
     localStorage.setItem(FAVORITE_PRESETS, JSON.stringify(favoritePresets))
   }

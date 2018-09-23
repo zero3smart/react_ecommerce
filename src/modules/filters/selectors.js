@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
+import filter from 'lodash-es/filter'
 import find from 'lodash-es/find'
-import isEqual from 'lodash-es/isEqual'
 import isEmpty from 'lodash-es/isEmpty'
 import omit from 'lodash-es/omit'
 
@@ -9,12 +9,12 @@ const getFilters = state => state.filters.data
 const getCustomPresetName = (_, prop) => prop.customPresetName
 
 /**
- * get favorite preset based on custom preset name
+ * get custom presets list
  */
-export const customPresetSelector = createSelector(
+export const customPresetsSelector = createSelector(
   [getFavoritePresets, getCustomPresetName],
   (favoritePresets, customPresetName) => (
-    find(favoritePresets, { name: customPresetName })
+    filter(favoritePresets, { name: customPresetName })
   )
 )
 
@@ -23,8 +23,14 @@ export const customPresetSelector = createSelector(
  * saved filter will be stored as favorite preset
  */
 export const isFilterSavedSelector = createSelector(
-  [getFilters, customPresetSelector],
-  (filters, customPreset) => (
-    !isEmpty(customPreset) && isEqual(omit(filters, ['favorite']), omit(customPreset, ['name', 'favorite']))
-  )
+  [getFilters, customPresetsSelector],
+  (filters, customPresets) => {
+    if (isEmpty(customPresets)) {
+      return null
+    }
+    // find custom preset by filter settings
+    const customPreset = find(omit(customPresets, ['name', 'favorite', 'key']), { ...omit(filters, ['favorite']) })
+
+    return !isEmpty(customPreset)
+  }
 )

@@ -208,6 +208,7 @@ export class Presets extends Component {
                       ref={this.makeGetPresetActivePresetRef(preset.name)}
                       key={preset.name}
                       id={`${camelCase(preset.name)}${index}`}
+                      presetKey={preset.key}
                       name={preset.name}
                       collar={preset.collar}
                       coretype={preset.coretype}
