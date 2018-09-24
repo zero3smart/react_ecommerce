@@ -1,6 +1,9 @@
 # build enironment
 FROM node:9.10.0 as builder
 
+ARG mobile_env=./docker/.env
+ARG desktop_env=./docker/.env.desktop
+
 # set working directory
 WORKDIR /srv/src
 ENV PATH /srv/src/node_modules/.bin:$PATH
@@ -25,8 +28,8 @@ COPY . /srv/src
 COPY ./desktop /srv/src/desktop
 
 # use react .env for production
-COPY ./docker/.env /srv/src/.env
-COPY ./docker/.env.desktop /srv/src/desktop/.env
+COPY $mobile_env /srv/src/.env
+COPY $desktop_env /srv/src/desktop/.env
 
 # build mobile script
 ARG PUBLIC_URL=/mobile/public
