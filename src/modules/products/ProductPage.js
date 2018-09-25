@@ -113,7 +113,7 @@ class ProductPage extends Component {
             rawData={product}
             showDots
           />
-          <h4 align='center'>You might also like this.</h4>
+          <h2 className='SubHeader' align='center'>You might also like this.</h2>
         </div>
       )
     }

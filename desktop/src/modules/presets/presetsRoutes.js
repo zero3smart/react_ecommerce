@@ -21,8 +21,8 @@ export const PresetProductsRoute = router => {
 
 const styles = {
   breadcrumbs: {
-    fontSize: 36,
-    margin: '-10px -5px 8px',
-    padding: '50px 10px'
+    fontSize: 24,
+    margin: '-10px -5px 10px',
+    padding: '50px 10px 44px'
   }
 }

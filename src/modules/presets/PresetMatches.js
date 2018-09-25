@@ -10,11 +10,13 @@ class PresetMatches extends Component {
     products: PropTypes.array,
     preset: PropTypes.object,
     toggleProductLike: PropTypes.func,
-    onClick: PropTypes.func.isRequired
+    onClick: PropTypes.func.isRequired,
+    onToggleLike: PropTypes.func
   }
 
   static defaultProps = {
-    products: []
+    products: [],
+    onToggleLike: (data, favorite) => { console.debug('PresetMatches - favorite', data) }
   }
 
   get handleClick () {
@@ -24,8 +26,16 @@ class PresetMatches extends Component {
     }
   }
 
+  get handleToggleLike () {
+    const { toggleProductLike, onToggleLike } = this.props
+    return (data, favorite) => {
+      toggleProductLike(data, favorite)
+      onToggleLike(data, favorite)
+    }
+  }
+
   render () {
-    const { products, preset, toggleProductLike } = this.props
+    const { products, preset } = this.props
 
     return (
       <div className='PresetMatches'>
@@ -43,8 +53,7 @@ class PresetMatches extends Component {
               imgSrc={product.front_img}
               productBasePath={`/preset-products/${preset.name}`}
               rawData={product}
-              onToggleLike={toggleProductLike}
-              disableLike
+              onToggleLike={this.handleToggleLike}
             />
           ))
         }

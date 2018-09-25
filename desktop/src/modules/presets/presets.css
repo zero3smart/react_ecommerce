@@ -1,6 +1,6 @@
 .Presets {
   width: 100%;
-  height: calc(100% - 69px);
+  height: calc(100% - 78px);
   padding-top: 10px;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
@@ -24,8 +24,7 @@
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
-  max-width: 1179px;
-  margin: 0 auto;
+  margin: 0 -10px;
   padding-bottom: 10px;
   grid-area: presetList;
 }

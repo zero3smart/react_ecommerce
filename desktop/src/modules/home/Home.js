@@ -23,7 +23,7 @@ class Home extends Component {
     const { recommendedProducts, fetchRecommendedProducts } = this.props
     // make sure recommended fetch only run once
     if (recommendedProducts.length === 0) {
-      fetchRecommendedProducts(4)
+      fetchRecommendedProducts(11)
     }
   }
 
@@ -34,7 +34,7 @@ class Home extends Component {
       <div id='MainScroll' className='Home'>
         <InfoBanner style={styles.infoBanner}>
           <h1>Today’s Pick for You</h1>
-          <p style={styles.infoBannerDescription}>the more you like, the better it gets</p>
+          <p>the more you like, the better it gets</p>
         </InfoBanner>
         <div className='container'>
           <ProductList
@@ -50,7 +50,9 @@ class Home extends Component {
           <h1>Editor's Pick</h1>
           <p style={styles.infoBannerDescription}>shortcut to the fits</p>
         </InfoBanner>
-        <AdvancedPresetList />
+        <div className='container'>
+          <AdvancedPresetList presetMatchesCount={3} />
+        </div>
       </div>
     )
   }
@@ -68,10 +70,6 @@ export default compose(
 const styles = {
   infoBanner: {
     marginBottom: 20,
-    padding: '20px 70px 30px'
-  },
-  infoBannerDescription: {
-    fontSize: 28,
-    fontWeight: 'light'
+    padding: '25px 70px 35px'
   }
 }

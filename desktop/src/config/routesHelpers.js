@@ -40,6 +40,8 @@ export const renderBreadcrumbs = (list = [], otherProps = {}) => containerContex
 
 const styles = {
   breadcrumbs: {
-    margin: '-10px -5px 8px'
+    fontSize: 24,
+    margin: '-10px -5px 10px',
+    padding: '50px 10px 44px'
   }
 }

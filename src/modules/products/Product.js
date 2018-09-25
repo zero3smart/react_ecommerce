@@ -1,14 +1,12 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import includes from 'lodash/includes'
 import { BASE_IMG_PATH } from 'config/constants'
 import { Button, LikeButton } from 'ui-kits/buttons'
 import { withProductLike } from 'hoc'
 import Slider from 'react-slick'
 import './product.css'
 
-const AVAILABLE_SIZES = ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL']
 class Product extends PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
@@ -92,8 +90,8 @@ class Product extends PureComponent {
           </div>
           {retailer && <p className='Product-retailer'>from {retailer}</p>}
           <ul className='Product-sizes'>
-            {AVAILABLE_SIZES.map(size => (
-              <li key={size} className={classNames({ notAvailable: !includes(sizes, size) })}>{size}</li>
+            {sizes.map(size => (
+              <li key={size}>{size}</li>
             ))}
           </ul>
         </div>
