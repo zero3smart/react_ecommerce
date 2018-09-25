@@ -47,7 +47,7 @@ class ProductList extends Component {
     children: childRenderer,
     extraItem: undefined,
     showOriginalPrice: false,
-    closeMatchingMessage: 'Our next best suggestion.',
+    closeMatchingMessage: 'The next close matching',
     style: {},
     onFetch: (next) => { next() },
     onScrollBellowTheFold: (scrollState) => {},

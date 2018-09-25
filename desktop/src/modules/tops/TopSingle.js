@@ -110,6 +110,7 @@ class TopSingle extends Component {
           onScrollBellowTheFold={this.handleScrollBellowTheFold}
           className='TopSingle-products'
           loaderStyle={styles.productsLoader}
+          closeMatchingMessage='Our next best suggestion.'
         />
       </div>
     )

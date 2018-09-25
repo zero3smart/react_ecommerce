@@ -240,6 +240,7 @@ export class Presets extends Component {
                 showOriginalPrice
                 className='PresetsInnerWrapper-productList'
                 onFetch={this.handleFetch}
+                closeMatchingMessage='Our next best suggestion.'
               />
             )
           }
