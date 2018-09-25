@@ -41,6 +41,11 @@ h5, p {
   font-size: 0.875em; /* 14px */
 }
 
+.container {
+  max-width: calc(100% - 24px);
+  margin: auto;
+}
+
 #MainScroll {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
