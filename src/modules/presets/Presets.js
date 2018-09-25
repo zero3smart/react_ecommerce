@@ -69,32 +69,34 @@ export class Presets extends Component {
       <div id='MainScroll' className='Presets' style={style}>
         {extraItem}
         {!isPresetsFetched && <DotLoader visible style={styles.loader} />}
-        <Transition show={isPresetsFetched} transition='fadeInUp'>
-          {
-            presets.map((preset, index) => (
-              <Preset
-                key={preset.key || `${preset.name} ${index}`}
-                id={`${camelCase(preset.name)}${index}`}
-                presetKey={preset.key}
-                name={preset.name}
-                collar={preset.collar}
-                coretype={preset.coretype}
-                neckline={preset.neckline}
-                shoulder={preset.shoulder}
-                sleeveLength={preset.sleeve_length}
-                topLength={preset.top_length}
-                pattern={preset.pattern}
-                solid={preset.solid}
-                details={preset.details}
-                color={preset.color}
-                favorite={preset.favorite}
-                onClick={this.handlePresetClick}
-                onToggleLike={this.togglePresetLike}
-                style={{ animationDelay: `${50 * index}ms` }}
-              />
-            ))
-          }
-        </Transition>
+        <div className='container'>
+          <Transition show={isPresetsFetched} transition='fadeInUp'>
+            {
+              presets.map((preset, index) => (
+                <Preset
+                  key={preset.key || `${preset.name} ${index}`}
+                  id={`${camelCase(preset.name)}${index}`}
+                  presetKey={preset.key}
+                  name={preset.name}
+                  collar={preset.collar}
+                  coretype={preset.coretype}
+                  neckline={preset.neckline}
+                  shoulder={preset.shoulder}
+                  sleeveLength={preset.sleeve_length}
+                  topLength={preset.top_length}
+                  pattern={preset.pattern}
+                  solid={preset.solid}
+                  details={preset.details}
+                  color={preset.color}
+                  favorite={preset.favorite}
+                  onClick={this.handlePresetClick}
+                  onToggleLike={this.togglePresetLike}
+                  style={{ animationDelay: `${50 * index}ms` }}
+                />
+              ))
+            }
+          </Transition>
+        </div>
       </div>
     )
   }

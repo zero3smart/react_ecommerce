@@ -59,30 +59,32 @@ export default class Base extends Component {
     return (
       <div className='Base'>
         <div className='Base-header'>
-          <NavLink
-            exact
-            to={'/'}
-            onClick={this.handleLinkClick}
-            isActive={this.handleHomeLinkActive}
-            className='logo'>
-            <img src={LogoSrc} alt='YesPlz' />
-          </NavLink>
-          <NavLink to='/products' onClick={this.handleLinkClick} className='menu-icon'>
-            <img src={SearchSvg} alt='Visual Filter Page' />
-          </NavLink>
-          <NavLink
-            to={this.isFavoritesPage ? '#' : '/favorites/clothing'}
-            onClick={this.handleLinkClick}
-            isActive={this.handleFavoritesLinkActive}
-            className='menu-icon'>
-            <img src={FavoritesSvg} alt='Favorites Page' />
-          </NavLink>
-          <NavLink
-            to='/faq'
-            onClick={this.handleLinkClick}
-            className='menu-icon'>
-            <img src={BurgerSvg} alt='FAQ Page' />
-          </NavLink>
+          <div className='container Base-header-container'>
+            <NavLink
+              exact
+              to={'/'}
+              onClick={this.handleLinkClick}
+              isActive={this.handleHomeLinkActive}
+              className='logo'>
+              <img src={LogoSrc} alt='YesPlz' />
+            </NavLink>
+            <NavLink to='/products' onClick={this.handleLinkClick} className='menu-icon'>
+              <img src={SearchSvg} alt='Visual Filter Page' />
+            </NavLink>
+            <NavLink
+              to={this.isFavoritesPage ? '#' : '/favorites/clothing'}
+              onClick={this.handleLinkClick}
+              isActive={this.handleFavoritesLinkActive}
+              className='menu-icon'>
+              <img src={FavoritesSvg} alt='Favorites Page' />
+            </NavLink>
+            <NavLink
+              to='/faq'
+              onClick={this.handleLinkClick}
+              className='menu-icon'>
+              <img src={BurgerSvg} alt='FAQ Page' />
+            </NavLink>
+          </div>
         </div>
         {children}
         <ProductFilter />

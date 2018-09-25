@@ -115,6 +115,6 @@ export default createRoutes()
 
 const styles = {
   breadcrumbs: {
-    margin: '-10px -5px 8px'
+    margin: '-10px 0 8px'
   }
 }

@@ -74,6 +74,7 @@ class Tops extends Component {
               showOriginalPrice
               className='Tops-products'
               onFetch={this.handleFetch}
+              closeMatchingMessage='Our next best suggestion.'
             />
           </div>
         </div>

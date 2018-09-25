@@ -1,29 +1,12 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { FloatButton } from 'modules/filters'
 import { InfoBanner } from 'ui-kits/banners'
 
 export default class TopsInfoBanner extends Component {
-  static propTypes = {
-    filters: PropTypes.object.isRequired,
-    onVisualFilterClick: PropTypes.func.isRequired
-  }
-
   render () {
-    const { filters, onVisualFilterClick } = this.props
-
     return (
       <InfoBanner style={styles.infoBanner}>
-        <p style={{ display: 'inline-block' }}>
-        Let’s find a style. Click
-        </p>
-        <FloatButton
-          id='VisualFilterPreview'
-          filters={filters}
-          onClick={onVisualFilterClick}
-          style={styles.smallVisualFilterButton}
-          noShadow
-        />
+        <h2>Fit Searches</h2>
+        <p>choose your fits</p>
       </InfoBanner>
     )
   }
@@ -32,8 +15,6 @@ export default class TopsInfoBanner extends Component {
 const styles = {
   infoBanner: {
     marginTop: -10,
-    marginLeft: -5,
-    marginRight: -5,
     marginBottom: 8
   },
   smallVisualFilterButton: {
