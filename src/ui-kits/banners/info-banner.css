@@ -9,6 +9,7 @@
 .InfoBanner h2,
 .InfoBanner h3,
 .InfoBanner h4 {
+  font-weight: 600;
   color: white;
 }
 

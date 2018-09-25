@@ -8,11 +8,21 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import Typography from '@material-ui/core/Typography'
+import IconOpenSrc from 'yesplz@assets/svg/accordion-circle-open.svg'
+import IconClosedSrc from 'yesplz@assets/svg/accordion-circle-closed.svg'
+import instagramSvgSrc from 'yesplz@assets/svg/instagram.svg'
 import './faq.css'
 
 class Faq extends Component {
   static propTypes = {
     classes: PropTypes.object
+  }
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      activeIndex: -1
+    }
   }
 
   get faqs () {
@@ -23,11 +33,16 @@ class Faq extends Component {
       // },
       {
         title: 'I am social, where do I find you?',
-        content: 'Glad to hear that! We are on Instagram find us #yesplz_fashion Look forward to seeing you there!'
+        content: `Glad to hear that! We are on Instagram find us #yesplz_fashion Look forward to seeing you there!
+        <br/><br/>
+        <a href='https://www.instagram.com/yesplz_fashion/' target='_blank' rel='noopener noreferrer' class='SocialLink'>
+          Follow Us <img src='${instagramSvgSrc}' alt='Yesplz Instagram' />
+        </a>
+        `
       },
       {
         title: 'I want to give you my feedback, how do I contact you?',
-        content: 'First, thank you! We are always looking for feedbacks to make your experience better. Simply email us to hello@yesplz.us'
+        content: 'First, thank you! We are always looking for feedbacks to make your experience better. Simply email us to <a href="mailto:hello@yesplz.us">hello@yesplz.us</a>'
       }
       // {
       //   title: 'I need the instruction again, where can I find it?',
@@ -36,8 +51,21 @@ class Faq extends Component {
     ]
   }
 
+  makeAccordionChangeHandler (key) {
+    return (_, expanded) => {
+      let activeIndex = -1
+      if (expanded) {
+        activeIndex = key
+      }
+
+      this.setState({ activeIndex })
+    }
+  }
+
   render () {
     const { classes } = this.props
+    const { activeIndex } = this.state
+
     return (
       <div id='MainScroll' className='Faq'>
         <InfoBanner className={`animated fadeInDown ${classes.infoBanner}`}>
@@ -50,15 +78,18 @@ class Faq extends Component {
           <div className={classes.root}>
             {
               this.faqs.map((faq, index) => (
-                <ExpansionPanel key={index} className={classes.panel}>
-                  <ExpansionPanelSummary className={classes.headingWrapper}>
+                <ExpansionPanel key={index} className={classes.panel} onChange={this.makeAccordionChangeHandler(index)}>
+                  <ExpansionPanelSummary
+                    expandIcon={<img src={activeIndex === index ? IconOpenSrc : IconClosedSrc} />}
+                    className={classes.headingWrapper}
+                    classes={{ expanded: 'expanded', expandIcon: 'expandIcon' }}>
                     <Typography className={classes.heading}>
                       <span>{index + 1}.</span>  {faq.title}
                     </Typography>
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails className={classes.detail}>
                     <Typography className={classes.body}>
-                      {faq.content}
+                      <span dangerouslySetInnerHTML={{ __html: faq.content }} />
                     </Typography>
                   </ExpansionPanelDetails>
                 </ExpansionPanel>
@@ -78,8 +109,9 @@ const styles = theme => ({
   },
   panel: {
     boxShadow: 'none',
-    border: 0,
-    marginBottom: 30,
+    paddingBottom: 50,
+    marginBottom: 50,
+    borderBottom: '1px solid #979797',
     '&:before': {
       display: 'none'
     },
@@ -88,12 +120,22 @@ const styles = theme => ({
     }
   },
   headingWrapper: {
-    paddingLeft: 0,
-    paddingRight: 0
+    paddingLeft: 80,
+    paddingRight: 0,
+    position: 'relative',
+    '& > .expanded': {
+      margin: '12px 0'
+    },
+    '& > .expandIcon': {
+      position: 'absolute',
+      left: 0,
+      top: 25,
+      margin: '12px 0'
+    }
   },
   heading: {
     fontSize: 36,
-    color: '#4A4A4A',
+    color: 'rgba(0, 0, 0, 0.6)',
     paddingLeft: 50,
     position: 'relative',
     '& > span': {
@@ -103,7 +145,10 @@ const styles = theme => ({
     }
   },
   body: {
-    fontSize: 36
+    fontSize: 36,
+    color: 'rgba(0, 0, 0, 0.87)',
+    paddingTop: 20,
+    paddingLeft: 130
   },
   detail: {
     padding: 0

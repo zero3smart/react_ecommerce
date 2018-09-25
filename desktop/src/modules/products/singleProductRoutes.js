@@ -32,7 +32,6 @@ export const SinglePresetProductRoute = router => {
 const styles = {
   breadcrumbs: {
     fontSize: 24,
-    color: '#000000',
     background: 'white',
     margin: '-10px -5px 8px'
   }

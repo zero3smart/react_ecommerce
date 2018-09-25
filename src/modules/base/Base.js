@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
+import LogoSrc from 'assets/images/yesplz-logo.png'
 import BurgerSvg from 'assets/svg/burger.svg'
 import SearchSvg from 'assets/svg/search.svg'
 import FavoritesSvg from 'assets/svg/favorites.svg'
@@ -64,7 +65,7 @@ export default class Base extends Component {
             onClick={this.handleLinkClick}
             isActive={this.handleHomeLinkActive}
             className='logo'>
-            YesPlz!
+            <img src={LogoSrc} alt='YesPlz' />
           </NavLink>
           <NavLink to='/products' onClick={this.handleLinkClick} className='menu-icon'>
             <img src={SearchSvg} alt='Visual Filter Page' />

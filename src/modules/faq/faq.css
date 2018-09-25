@@ -2,3 +2,25 @@
   background: white;
   height: calc(100% - 56px);
 }
+
+.Faq a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.Faq a:hover {
+  text-decoration: underline;
+}
+
+.Faq a.SocialLink {
+  font-weight: 200;
+  text-decoration: none;
+  color: inherit;
+}
+
+.Faq a.SocialLink > img {
+  max-width: 28px;
+  width: 100%;
+  vertical-align: middle;
+  margin-left: 5px;
+}

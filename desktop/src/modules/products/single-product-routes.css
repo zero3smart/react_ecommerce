@@ -1,5 +1,5 @@
 .ProductPage-desktop {
-  height: calc(100% - 75px);
+  height: calc(100% - 78px);
 }
 
 .ProductPage-desktop h2 {
@@ -61,27 +61,27 @@
 
 .ProductPage-desktop .Product-detail h4 {
   margin-bottom: 17px;
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .ProductPage-desktop .Product-detail .Product-pricing {
-  margin-top: 50px;
+  margin-top: 40px;
   margin-bottom: 10px;
   order: 2;
 }
 
 .ProductPage-desktop .Product-detail .Product-retailer {
+  color: rgba(0, 0, 0, 0.87);
   margin-bottom: 15px;
 }
 
 .ProductPage-desktop .Product-detail .Product-sizes {
-  margin: -4px;
+  margin: -10px -20px;
 }
 
 .ProductPage-desktop .Product-detail .Product-sizes > li {
-  font-size: 14px;
-  width: 37px;
-  height: 37px;
-  padding: 5px 0px;
+  font-size: 16px;
+  margin: 10px 20px;
 }
 
 .ProductPage-desktop .Product-detail > * {
@@ -120,17 +120,14 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  margin-left: -5px;
+  margin-right: -5px;
 }
 
 .ProductPage-desktop .ProductPage-products .TopSingle-top-wrapper {
   order: 0;
   width: calc(100% + 10px);
   margin: -10px -5px 0px;
-}
-
-.ProductPage-desktop .ProductPage-products .ProductList-wrapper {
-  max-width: 1179px;
-  margin: auto;
 }
 
 .ProductPage-desktop .ProductPage-products .ProductGrid {

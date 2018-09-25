@@ -21,7 +21,7 @@
 .FilterButton h5 {
   font-size: 0.813em; /* 13px */
   font-weight: bold;
-  color: #000000;
+  color: rgba(0, 0, 0, 0.6);
   margin: auto 0;
   display: inline-block;
   vertical-align: middle;

@@ -67,14 +67,13 @@ export class Presets extends Component {
     const { isPresetsFetched, presets, extraItem, style } = this.props
     return (
       <div id='MainScroll' className='Presets' style={style}>
-        <br />
         {extraItem}
         {!isPresetsFetched && <DotLoader visible style={styles.loader} />}
         <Transition show={isPresetsFetched} transition='fadeInUp'>
           {
             presets.map((preset, index) => (
               <Preset
-                key={preset.key || preset.name}
+                key={preset.key || `${preset.name} ${index}`}
                 id={`${camelCase(preset.name)}${index}`}
                 presetKey={preset.key}
                 name={preset.name}

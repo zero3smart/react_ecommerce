@@ -15,6 +15,7 @@ export class AdvancedPresetList extends Component {
   static propTypes = {
     presets: PropTypes.array,
     isPresetsFetched: PropTypes.bool,
+    presetMatchesCount: PropTypes.number,
     fetchPresets: PropTypes.func.isRequired,
     setFilter: PropTypes.func.isRequired,
     likePreset: PropTypes.func.isRequired,
@@ -62,7 +63,7 @@ export class AdvancedPresetList extends Component {
   }
 
   render () {
-    const { isPresetsFetched, presets, style } = this.props
+    const { isPresetsFetched, presets, presetMatchesCount, style } = this.props
 
     return (
       <div className='AdvancedPresetList' style={style}>
@@ -76,6 +77,7 @@ export class AdvancedPresetList extends Component {
                 preset={preset}
                 onClick={this.handlePresetClick}
                 onToggleLike={this.togglePresetLike}
+                presetMatchesCount={presetMatchesCount}
               />
             ))
           }

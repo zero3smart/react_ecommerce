@@ -1,7 +1,7 @@
 .BreadCrumbs {
   font-size: 14px;
-  color: white;
-  background: #6200EE;
+  color: rgba(0, 0, 0, 0.6);
+  background: transparent;
   padding: 18px 22px 20px;
   display: flex;
   align-items: center;
@@ -28,6 +28,5 @@
 }
 
 .BreadCrumbs .current {
-  font-size: 1.125em; /* 18/16 */
-  font-weight: bold;
+  color: rgba(0, 0, 0, 0.87);
 }

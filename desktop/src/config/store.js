@@ -23,7 +23,7 @@ const store = createStore(
     applyMiddleware(
       routerMiddleware(history), // for dispatching history actions
       thunk, // add dispatch to action creators
-      makeRecommendationMiddleware(4),
+      makeRecommendationMiddleware(11),
       mixpanelMiddleware
     )
   )

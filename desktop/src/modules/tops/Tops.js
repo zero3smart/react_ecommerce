@@ -60,19 +60,23 @@ class Tops extends Component {
     return (
       <div className={classNames('Tops', { onboarding })}>
         <InfoBanner style={styles.infoBanner}>
-          <h1>Let’s find a style.</h1>
+          <h1>Fit Search</h1>
+          <p>choose your fits</p>
         </InfoBanner>
-        <VisualFilter />
-        <ProductList
-          id='MainScroll'
-          show={isProductsFetched}
-          products={products}
-          nextPage={nextPage}
-          showOriginalPrice
-          className='Tops-products'
-          onFetch={this.handleFetch}
-          closeMatchingMessage='Not the exact, but the next close matching'
-        />
+        <div className='container'>
+          <div className='Tops-content'>
+            <VisualFilter title='Choose your fits' />
+            <ProductList
+              id='MainScroll'
+              show={isProductsFetched}
+              products={products}
+              nextPage={nextPage}
+              showOriginalPrice
+              className='Tops-products'
+              onFetch={this.handleFetch}
+            />
+          </div>
+        </div>
       </div>
     )
   }
@@ -94,6 +98,7 @@ export default compose(
 
 const styles = {
   infoBanner: {
-    padding: '30px 70px 30px'
+    marginBottom: 20,
+    padding: '25px 70px 35px'
   }
 }

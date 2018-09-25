@@ -3,9 +3,7 @@
 }
 
 .PresetProducts .ProductList-wrapper {
-  width: 100%;
-  max-width: 1223px;
-  margin: auto;
+  margin: auto -5px;
 }
 
 .PresetProducts .ProductList-wrapper > .ProductGrid {

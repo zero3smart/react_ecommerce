@@ -45,7 +45,8 @@ class Favorites extends Component {
     )
 
     return (
-      <div className='Favorites'>
+      <div className='Favorites container'>
+        <br />
         {
           showFits ? (
             <Presets
@@ -63,6 +64,7 @@ class Favorites extends Component {
               extraItem={tabNav}
               className='Favorites-products'
               showOriginalPrice
+              combined
               show>
               {props => <ProductGridCompact {...props} />}
             </ProductList>

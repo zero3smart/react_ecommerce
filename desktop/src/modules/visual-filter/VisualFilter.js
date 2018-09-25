@@ -14,6 +14,7 @@ class VisualFilter extends Component {
     isFilterSaved: PropTypes.bool,
     lastBodyPart: PropTypes.string,
     router: PropTypes.object,
+    title: PropTypes.string,
     setFilter: PropTypes.func.isRequired,
     fetchProducts: PropTypes.func.isRequired,
     syncFilter: PropTypes.func.isRequired,
@@ -76,10 +77,11 @@ class VisualFilter extends Component {
   }
 
   render () {
-    const { filters, isFilterSaved, lastBodyPart } = this.props
+    const { filters, isFilterSaved, lastBodyPart, title } = this.props
 
     return (
       <div className='VisualFilter'>
+        {title && <h2>{title}</h2>}
         <FilterPanel
           favorite={isFilterSaved}
           filters={filters}

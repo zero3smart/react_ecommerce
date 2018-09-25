@@ -1,5 +1,5 @@
 .TopSingle {
-  height: calc(100% - 69px);
+  height: calc(100% - 78px);
 }
 
 .TopSingle h2 {
@@ -79,8 +79,6 @@
 
 .TopSingle .Product-detail .Product-sizes > li {
   font-size: 14px;
-  width: 37px;
-  height: 37px;
   padding: 5px 0px;
 }
 
@@ -126,11 +124,6 @@
   order: 0;
   width: calc(100% + 10px);
   margin: -10px -5px 0px;
-}
-
-.TopSingle-products .ProductList-wrapper {
-  max-width: 1179px;
-  margin: auto;
 }
 
 .TopSingle-products .ProductGrid {

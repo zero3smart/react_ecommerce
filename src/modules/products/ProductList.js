@@ -47,7 +47,7 @@ class ProductList extends Component {
     children: childRenderer,
     extraItem: undefined,
     showOriginalPrice: false,
-    closeMatchingMessage: 'The next close matching',
+    closeMatchingMessage: 'Our next best suggestion.',
     style: {},
     onFetch: (next) => { next() },
     onScrollBellowTheFold: (scrollState) => {},
@@ -136,7 +136,7 @@ class ProductList extends Component {
       productList = (
         <React.Fragment>
           {renderProducts(matchingProducts, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount, productBasePath)}
-          {closeMatchingProducts.length > 0 ? <h4 className='animated fadeIn' style={styles.subTitle}>{closeMatchingMessage}</h4> : <div style={{ display: 'none' }} />}
+          {closeMatchingProducts.length > 0 ? <h4 className='animated fadeIn ProductList-subtitle'>{closeMatchingMessage}</h4> : <div style={{ display: 'none' }} />}
           {renderProducts(closeMatchingProducts, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount, productBasePath)}
         </React.Fragment>
       )
@@ -154,11 +154,13 @@ class ProductList extends Component {
       >
         {willBeEmptyList && <ProductsNotFound style={styles.notFound} />}
         {extraItem}
-        <div className='ProductList-wrapper'>
-          {!show && <DotLoader visible style={loaderStyle || styles.loader} />}
-          <Transition show={show} transition={useMinimumAnimation ? 'fadeIn' : 'fadeInUp'}>
-            {productList}
-          </Transition>
+        <div className='container'>
+          <div className='ProductList-wrapper'>
+            {!show && <DotLoader visible style={loaderStyle || styles.loader} />}
+            <Transition show={show} transition={useMinimumAnimation ? 'fadeIn' : 'fadeInUp'}>
+              {productList}
+            </Transition>
+          </div>
         </div>
       </ScrollFetcher>
     )
@@ -213,11 +215,5 @@ const styles = {
     right: 0,
     bottom: 0,
     zIndex: 3
-  },
-  subTitle: {
-    flexBasis: '100%',
-    marginBottom: 10,
-    order: 1,
-    padding: '0px 10px'
   }
 }

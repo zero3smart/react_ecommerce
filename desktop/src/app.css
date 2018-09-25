@@ -51,6 +51,11 @@ button, a {
   margin: auto;
 }
 
+.SubHeader {
+  margin-top: 40px!important;
+  margin-bottom: 37px;
+}
+
 /* Misc */
 .img-responsive {
   display: block;
