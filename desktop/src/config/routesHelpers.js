@@ -31,9 +31,7 @@ export const renderBreadcrumbs = (list = [], otherProps = {}) => containerContex
 
   return (
     <BreadCrumbs style={styles.breadcrumbs} className='animated fadeInDown' {...otherProps}>
-      <div className='container'>
-        {breadcrumbsItems}
-      </div>
+      {breadcrumbsItems}
     </BreadCrumbs>
   )
 }

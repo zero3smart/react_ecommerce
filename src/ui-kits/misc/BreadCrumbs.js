@@ -13,7 +13,9 @@ export default class BreadCrumbs extends Component {
 
     return (
       <div className='BreadCrumbs' style={style}>
-        {children}
+        <div className='container'>
+          {children}
+        </div>
       </div>
     )
   }

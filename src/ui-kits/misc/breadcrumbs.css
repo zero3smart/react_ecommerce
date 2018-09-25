@@ -1,15 +1,15 @@
 .BreadCrumbs {
-  font-size: 14px;
+  font-size: 16px;
   color: rgba(0, 0, 0, 0.6);
   background: transparent;
-  padding: 18px 22px 20px;
+  padding: 24px 0px 24px;
   display: flex;
   align-items: center;
 }
 
 .BreadCrumbs > .container {
   display: flex;
-  align-items: center;
+  width: 100%;
 }
 
 .BreadCrumbs > *,
