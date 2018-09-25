@@ -89,6 +89,7 @@ class Product extends PureComponent {
             <div className={classNames('Product-price', { sale: isSale })}>{currency}{price}</div>
           </div>
           {retailer && <p className='Product-retailer'>from {retailer}</p>}
+          <p>Available Sizes:</p>
           <ul className='Product-sizes'>
             {sizes.map(size => (
               <li key={size}>{size}</li>
