@@ -35,10 +35,12 @@ class Favorites extends Component {
 
     const showFits = favoriteType === 'fits'
     const banner = (
-      <Tabs kind='capsule' style={showFits ? styles.fitsTabs : styles.tabs}>
-        <NavLink to='/favorites/fits'>fits</NavLink>
-        <NavLink to='/favorites/clothing'>clothing</NavLink>
-      </Tabs>
+      <div className='container'>
+        <Tabs kind='capsule' style={showFits ? styles.fitsTabs : styles.tabs}>
+          <NavLink to='/favorites/fits'>fits</NavLink>
+          <NavLink to='/favorites/clothing'>clothing</NavLink>
+        </Tabs>
+      </div>
     )
 
     return (
@@ -89,13 +91,11 @@ export default compose(
 const styles = {
   tabs: {
     marginTop: 10,
-    marginBottom: 25
+    marginBottom: 20
   },
   fitsTabs: {
     marginTop: 20,
-    marginRight: 5,
-    marginBottom: 25,
-    marginLeft: 5
+    marginBottom: 20
   },
   presets: {
     height: '100%'
