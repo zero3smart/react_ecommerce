@@ -7,20 +7,33 @@ import TutorialPage from './TutorialPage'
 import { FloatButton, TutorialBodypartFilter } from 'modules/filters'
 import { ProductFilter } from 'modules/filters/ProductFilter'
 import { Button } from 'ui-kits/buttons'
+import BackArrowSvg from 'assets/svg/back-arrow.svg'
+import BackArrowWhiteSvg from 'assets/svg/back-arrow-white.svg'
 import { history } from 'config/store'
 import { withTrackingProvider } from 'hoc'
 import Tracker from 'models/Tracker'
 import './tutorial.css'
 
+const DELAY_BETWEEN_SCREEN = 1000
+
 class Tutorial extends Component {
   static propTypes = {
-    onboarding: PropTypes.bool.isRequired
+    onboarding: PropTypes.bool.isRequired,
+    reverseIcon: PropTypes.bool,
+    useVerticalThumb: PropTypes.bool,
+    onFinish: PropTypes.func
+  }
+
+  static defaultProps = {
+    reverseIcon: false,
+    useVerticalThumb: true
   }
 
   constructor (props) {
     super(props)
     this.state = {
       currentPage: 0,
+      tutorialBegin: false,
       filterExpanded: false,
       zoomFilter: false
     }
@@ -43,51 +56,73 @@ class Tutorial extends Component {
     }
   }
 
-  get toggleFilterPanel () {
-    return (isExpanded) => {
+  get startTutorial () {
+    return () => {
       this.setState({
-        filterExpanded: isExpanded
+        tutorialBegin: true
       })
-
-      // zoom filter after finished expanding
+      this.moveToNextPage()
       setTimeout(() => {
-        this.zoomFilter()
-      }, 1000)
+        this.expandFilter()
+      }, DELAY_BETWEEN_SCREEN)
     }
   }
 
   get exitTutorial () {
+    const { onFinish } = this.props
     return () => {
       if (this.state.currentPage === 0) {
         Tracker.track('Tutorial Skipped')
       } else {
         Tracker.track('Tutorial Completed')
       }
-      history.push('/')
+      if (onFinish) {
+        onFinish()
+      } else {
+        history.push('/')
+      }
     }
+  }
+
+  expandFilter () {
+    this.setState({
+      filterExpanded: true
+    })
+
+    // zoom filter after finished expanding
+    setTimeout(() => {
+      this.zoomFilter()
+    }, DELAY_BETWEEN_SCREEN)
   }
 
   /**
    * zoom filter after finished expanding
    */
-  get zoomFilter () {
+  zoomFilter () {
     const { zoomFilter, filterExpanded } = this.state
-    return () => {
-      if (zoomFilter || !filterExpanded) {
-        return null
-      }
-
-      this.setState({ zoomFilter: true })
+    if (zoomFilter || !filterExpanded) {
+      return null
     }
+
+    this.setState({ zoomFilter: true })
   }
 
   render () {
-    const { onboarding } = this.props
-    const { currentPage, filterExpanded, zoomFilter } = this.state
+    const { onboarding, reverseIcon, useVerticalThumb } = this.props
+    const { currentPage, filterExpanded, zoomFilter, tutorialBegin } = this.state
 
     if (!onboarding) {
       return null
     }
+
+    const tutorialNavigation = tutorialBegin && (
+      <div className='TutorialNavigation Skip' style={styles.secondaryButtonWrapper}>
+        <Button onClick={this.moveToPreviousPage} className='ButtonSecondary'>
+          <img src={reverseIcon ? BackArrowWhiteSvg : BackArrowSvg} alt='back tutorial' />
+        </Button>
+        <Button onClick={this.exitTutorial} className='ButtonBordered'>Skip</Button>
+      </div>
+    )
 
     return (
       <div className='Tutorial'>
@@ -95,26 +130,19 @@ class Tutorial extends Component {
           <h1 className='animated fadeInDown'>Hello</h1>
           <h2 className='animated fadeInDown' style={{ animationDelay: '500ms' }}>Meet our new smart visual filter.</h2>
           <FloatButton id='vfTutorialButton' filters={defaultFilters} noShadow style={styles.filterButton} className='animated zoomIn delay-1s' />
-          <div style={styles.buttonWrapper}>
-            <Button onClick={this.moveToNextPage} style={styles.button} className='animated fadeInDown delay-1s'>YesPlz</Button>
-            <Button onClick={this.exitTutorial} style={styles.button} className='animated fadeInDown delay-1s'>No</Button>
+          <div className='TutorialNavigation'>
+            <Button onClick={this.exitTutorial} className='ButtonSecondary'>No</Button>
+            <Button onClick={this.startTutorial} className='ButtonPrimary'>Yes</Button>
           </div>
         </TutorialPage>
-        <TutorialPage pageKey={1} activeKey={currentPage} >
+        <TutorialPage pageKey={1} activeKey={currentPage} duration={4000} onFinish={this.moveToNextPage}>
           <h2 className='animated fadeInDown' style={{ marginTop: 65 }}>Meet our new smart visual filter.</h2>
-          <div className={classNames({ zoomFilter: zoomFilter })} style={styles.filterPanelMask}>
-            <ProductFilter {...fakeProductFilterProps} expanded={filterExpanded} toggleVisualFilter={this.toggleFilterPanel} hideMiniOnboarding />
+          <div className={classNames('ProductFilterWrapper', { zoomFilter: zoomFilter })} style={styles.filterPanelMask}>
+            <ProductFilter {...fakeProductFilterProps} expanded={filterExpanded} hideMiniOnboarding useVerticalThumb={useVerticalThumb} />
           </div>
-          {
-            filterExpanded && (
-              <div style={{ ...styles.floatButtonWrapper, bottom: 20 }}>
-                <Button onClick={this.moveToPreviousPage} style={styles.button} className='animated fadeInDown delay-2s'>Back</Button>
-                <Button onClick={this.moveToNextPage} style={styles.button} className='animated fadeInDown delay-2s'>Continue</Button>
-              </div>
-            )
-          }
+          {tutorialNavigation}
         </TutorialPage>
-        <TutorialPage pageKey={2} activeKey={currentPage}>
+        <TutorialPage pageKey={2} activeKey={currentPage} duration={3500} onFinish={this.moveToNextPage}>
           <h2 style={{ marginTop: 65 }}>All body parts are selectable.</h2>
           <TutorialBodypartFilter
             id='TutorialBodypartFilter-touchesPoints'
@@ -123,12 +151,9 @@ class Tutorial extends Component {
             lastBodyPart='coretype'
             style={styles.tutorialAnim}
           />
-          <div style={styles.floatButtonWrapper}>
-            <Button onClick={this.moveToPreviousPage} style={styles.button} className='animated fadeInDown delay-1s'>Back</Button>
-            <Button onClick={this.moveToNextPage} style={styles.button} className='animated fadeInDown delay-1s'>Continue</Button>
-          </div>
+          {tutorialNavigation}
         </TutorialPage>
-        <TutorialPage pageKey={3} activeKey={currentPage}>
+        <TutorialPage pageKey={3} activeKey={currentPage} duration={11000} onFinish={this.exitTutorial}>
           <h2 style={{ marginTop: 65 }}>So you can change its fits and shape.</h2>
           <TutorialBodypartFilter
             filters={defaultFilters}
@@ -136,10 +161,7 @@ class Tutorial extends Component {
             lastBodyPart='coretype'
             style={styles.tutorialAnim}
           />
-          <div style={styles.floatButtonWrapper}>
-            <Button onClick={this.moveToPreviousPage} style={styles.button} className='animated fadeInDown delay-1s'>Back</Button>
-            <Button onClick={this.exitTutorial} style={styles.button} className='animated fadeInDown delay-1s'>Continue</Button>
-          </div>
+          {tutorialNavigation}
         </TutorialPage>
       </div>
     )
@@ -198,11 +220,11 @@ const styles = {
     paddingTop: 30,
     marginTop: 30,
     marginBottom: 30,
-    animationDelay: '1000ms'
+    animationDelay: `${DELAY_BETWEEN_SCREEN}ms`
   },
-  buttonWrapper: {
+  secondaryButtonWrapper: {
     display: 'flex',
-    alignItems: 'center'
+    justifyContent: 'space-between'
   },
   floatButtonWrapper: {
     display: 'flex',
@@ -212,15 +234,6 @@ const styles = {
     left: 0,
     right: 0,
     bottom: '10%'
-  },
-  button: {
-    fontSize: 24,
-    color: '#000000',
-    width: 118,
-    background: 'white',
-    border: 0,
-    borderRadius: 0,
-    margin: '0px 10px'
   },
   filterPanelMask: {
     position: 'fixed',

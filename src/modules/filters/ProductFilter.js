@@ -22,6 +22,7 @@ export class ProductFilter extends Component {
     scrollBellowTheFold: PropTypes.bool,
     onboarding: PropTypes.bool,
     hideMiniOnboarding: PropTypes.bool,
+    useVerticalThumb: PropTypes.bool,
     setFilter: PropTypes.func.isRequired,
     fetchProducts: PropTypes.func.isRequired,
     syncFilter: PropTypes.func.isRequired,
@@ -101,7 +102,7 @@ export class ProductFilter extends Component {
   }
 
   render () {
-    const { filters, scrollBellowTheFold, isFilterSaved, lastBodyPart, expanded, onboarding, hideMiniOnboarding } = this.props
+    const { filters, scrollBellowTheFold, isFilterSaved, lastBodyPart, expanded, onboarding, hideMiniOnboarding, useVerticalThumb } = this.props
 
     return (
       <div
@@ -118,6 +119,7 @@ export class ProductFilter extends Component {
             filters={filters}
             lastBodyPart={lastBodyPart}
             hideMiniOnboarding={hideMiniOnboarding}
+            useVerticalThumb={useVerticalThumb}
             onFilterChange={this.handleFilterChange}
             onClose={this.handleFilterToggle}
             onFilterLike={this.handleFilterLike}

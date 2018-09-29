@@ -72,8 +72,8 @@
   -moz-box-shadow: 0 0 0 0 rgba(1, 1, 252, 1);
   box-shadow: 0 0 0 0 rgba(1, 1, 252, 1);
   position: absolute;
-  right: 10px;
-  bottom: 30px;
+  right: 75px;
+  bottom: 55px;
   animation-duration: 3s;
   animation-fill-mode: both;
   animation-name: pulseFilterDesktop;

@@ -164,7 +164,7 @@ export default class VisualFilter {
 
       for (let prop in this.currentPropState) {
         this.showGroup(this.getBodyPartGroupName(prop, this.currentPropState[prop]))
-      }      
+      }
 
       // onboarding
       if (!hideMiniOnboarding && VisualFilter.shouldShowOnboarding()) {
@@ -197,11 +197,7 @@ export default class VisualFilter {
       }
 
       if (showTouchesPoints) {
-        const floatingCirclePoints = this.findGroupById('Floating-Circle-Points')
-
-        floatingCirclePoints.animate({ visibility: 'visible', opacity: 0 }, 500, () => {
-          floatingCirclePoints.attr({ visibility: 'visible', opacity: 1 })
-        })
+        this.animateTouchesPoints()
       }
 
       // callback
@@ -442,6 +438,35 @@ export default class VisualFilter {
         onAnimationFinish()
       })
     }
+  }
+
+  async animateTouchesPoints () {
+    const floatingCirclePoints = this.findGroupById('Floating-Circle-Points')
+    for (let x = 0; x < 3; x++) {
+      await this.showTouchesPoints(floatingCirclePoints)
+      // shouldn't hide touches points during last cycle
+      if (x < 2) {
+        await this.hideTouchesPoints(floatingCirclePoints)
+      }
+    }
+  }
+
+  showTouchesPoints (group) {
+    return new Promise(resolve => (
+      group.animate({ visibility: 'visible', opacity: 0 }, 500, () => {
+        group.attr({ visibility: 'visible', opacity: 1 })
+        resolve()
+      })
+    ))
+  }
+
+  hideTouchesPoints (group) {
+    return new Promise(resolve => (
+      group.animate({ visibility: 'visible', opacity: 1 }, 500, () => {
+        group.attr({ visibility: 'visible', opacity: 0 })
+        resolve()
+      })
+    ))
   }
 
   updateState (filters) {

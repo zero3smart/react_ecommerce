@@ -7,7 +7,7 @@ import './button.css'
 export default class Button extends Component {
   static propTypes = {
     to: PropTypes.string,
-    children: PropTypes.string.isRequired,
+    children: PropTypes.any.isRequired,
     kind: PropTypes.oneOf(['default', 'rounded']),
     className: PropTypes.string
   }
