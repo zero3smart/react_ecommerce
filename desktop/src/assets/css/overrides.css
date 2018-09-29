@@ -44,3 +44,135 @@
   font-size: 30px;
   font-weight: 200;
 }
+
+/* Tutorials */
+.Tutorial-wrapper {
+  background: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+}
+
+.Tutorial {
+  max-width: 947px;
+  background: #6200EE;
+  margin: auto;
+}
+
+.Tutorial .TutorialPage {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-height: 700px;
+  padding: 30px 40px;
+}
+
+.Tutorial .TutorialPage h2 {
+  max-width: 300px;
+}
+
+.ProductFilterWrapper,
+.Tutorial .ProductFilter,
+.Tutorial .ProductFilter .FloatButton {
+  position: absolute!important;
+}
+
+.Tutorial .ProductFilter .FloatButton {
+  right: 29.3%;
+}
+
+.TutorialNavigation {
+  position: static;
+  background: none;
+}
+
+.TutorialNavigation .Button {
+  font-size: 1.250em;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.TutorialNavigation .Button > svg {
+  fill: #ffffff;
+}
+
+.TutorialNavigation .ButtonPrimary {
+  color: #6200EE;
+  background: white;
+}
+
+.TutorialNavigation .ButtonSecondary {
+  border: 1px solid #9B9B9B;
+}
+
+.TutorialNavigation.Skip {
+  justify-content: flex-end!important;
+  position: static;
+  width: 100%;
+  height: auto;
+  margin: 0;
+  padding: 10px 80px;
+}
+
+.TutorialBodypartFilter {
+  max-width: 530px;
+  margin-top: -20px!important;
+}
+
+.TutorialPage .ProductFilter {
+  margin-bottom: 10px;
+}
+
+.TutorialPage .FilterPanel > svg {
+  width: 350px;
+}
+
+.TutorialPage .FilterPanel-close {
+  display: none;
+}
+
+.TutorialPage .SecondaryFilters {
+  position: static;
+  width: 100%;
+}
+
+.TutorialPage .zoomFilter > .ProductFilter .FilterPanel {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  animation-name: tutorialFilterPanelZoom;
+  opacity: 1;
+}
+
+/* filter keyframes */
+@keyframes tutorialFilterPanelZoom {
+  0% {
+    transform: scale(1) translate(0,0);
+  }
+
+  100% {
+    transform: scale(1.15) translate(2.5%, -14.5%);
+  }
+}
+
+.ProductFilter .FloatButton.unstyled-exiting > svg {
+  animation-name: floatExit;
+}
+
+.ProductFilter .FloatButton.unstyled-exited {
+  opacity: 0;
+}
+
+/* filter keyframes */
+@keyframes floatExit {
+  0% {
+    transform: scale(1) translate(0,0);
+  }
+
+  100% {
+    transform: scale(2.35) translate(-37%, -48.2%);
+  }
+}

@@ -45,3 +45,22 @@
   -moz-border-radius: 2em;
   border-radius: 2em;
 }
+
+/* kind */
+.Button.ButtonPrimary {
+  color: #FFFFFF;
+  background: #6200EE;
+  border: 0;
+}
+
+.Button.ButtonSecondary {
+  color: #6200EE;
+  background: none;
+  border: 0;
+}
+
+.Button.ButtonBordered {
+  color: #6200EE;
+  background: none;
+  border: 1px solid #9B9B9B;
+}

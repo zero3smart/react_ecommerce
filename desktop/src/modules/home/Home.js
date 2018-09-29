@@ -7,16 +7,33 @@ import { fetchRecommendedProducts } from 'yesplz@ducks/products'
 import { ProductList } from 'yesplz@modules/products'
 import { AdvancedPresetList } from 'yesplz@modules/presets'
 import { InfoBanner } from 'yesplz@ui-kits/banners'
+import { Tutorial } from 'yesplz@modules/tutorials'
 import './home.css'
 
 class Home extends Component {
   static propTypes = {
     recommendedProducts: PropTypes.array,
+    onboarding: PropTypes.bool,
     fetchRecommendedProducts: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     recommendedProducts: []
+  }
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      tutorialActive: true
+    }
+  }
+
+  get handleTutorialFinish () {
+    return () => {
+      this.setState({
+        tutorialActive: false
+      })
+    }
   }
 
   async componentDidMount () {
@@ -28,7 +45,8 @@ class Home extends Component {
   }
 
   render () {
-    const { recommendedProducts } = this.props
+    const { recommendedProducts, onboarding } = this.props
+    const { tutorialActive } = this.state
 
     return (
       <div id='MainScroll' className='Home'>
@@ -53,13 +71,19 @@ class Home extends Component {
         <div className='container'>
           <AdvancedPresetList presetMatchesCount={3} />
         </div>
+        {onboarding && tutorialActive && (
+          <div className='Tutorial-wrapper'>
+            <Tutorial onFinish={this.handleTutorialFinish} reverseIcon useVerticalThumb={Boolean(false)} />
+          </div>
+        )}
       </div>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  recommendedProducts: state.products.recommendedList
+  recommendedProducts: state.products.recommendedList,
+  onboarding: state.filters.onboarding
 })
 
 export default compose(
