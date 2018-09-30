@@ -129,9 +129,10 @@
 }
 
 .PresetMatches .ProductGrid-detail {
-  font-size: 22px;
-  line-height: 22px;
-  padding: 10px 20px 20px;
+  font-size: 16px;
+  line-height: 24px;
+  color: rgba(0, 0, 0, 0.87);
+  padding: 10px 20px 15px;
 }
 
 .PresetMatches .ProductGrid-detail h5,
