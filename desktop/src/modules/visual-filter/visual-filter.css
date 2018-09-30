@@ -55,8 +55,8 @@
 
 .VisualFilter .SecondaryFilters .ColorPallete {
   position: absolute;
-  top: calc(100% + 16px);
-  bottom: auto;
+  top: auto;
+  bottom: 45px;
   justify-content: flex-start;
 }
 
@@ -67,8 +67,8 @@
 
 .VisualFilter .SecondaryFilters .DesignFilters {
   position: absolute;
-  top: calc(100% + 16px);
+  top: auto;
   left: 0;
   right: 0;
-  bottom: auto;
+  bottom: 45px;
 }
