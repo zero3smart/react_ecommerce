@@ -181,7 +181,7 @@ const renderProducts = (products, children, showOriginalPrice, toggleProductLike
       extraInfo: product.extra_info,
       showOriginalPrice: showOriginalPrice,
       favorite: product.favorite,
-      imgSrc: product.front_img,
+      imgSrc: product.front_img_sm,
       rawData: product,
       onToggleLike: toggleProductLike,
       productBasePath: productBasePath,
