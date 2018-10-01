@@ -50,7 +50,7 @@ class PresetMatches extends Component {
               originalPrice={product.original_price}
               extraInfo={product.extra_info}
               favorite={product.favorite}
-              imgSrc={product.front_img}
+              imgSrc={product.front_img_sm}
               productBasePath={`/preset-products/${preset.name}`}
               rawData={product}
               onToggleLike={this.handleToggleLike}
