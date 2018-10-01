@@ -36,12 +36,18 @@ class Home extends Component {
     }
   }
 
-  async componentDidMount () {
+  componentDidMount () {
     const { recommendedProducts, fetchRecommendedProducts } = this.props
     // make sure recommended fetch only run once
     if (recommendedProducts.length === 0) {
       fetchRecommendedProducts(11)
     }
+  }
+
+  componentWillUnmount () {
+    const { fetchRecommendedProducts } = this.props
+    // fetch recommended products on leave
+    fetchRecommendedProducts(11)
   }
 
   render () {

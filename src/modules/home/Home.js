@@ -19,12 +19,18 @@ class Home extends Component {
     recommendedProducts: []
   }
 
-  async componentDidMount () {
+  componentDidMount () {
     const { recommendedProducts, fetchRecommendedProducts } = this.props
     // make sure recommended fetch only run once
     if (recommendedProducts.length === 0) {
       fetchRecommendedProducts()
     }
+  }
+
+  componentWillUnmount () {
+    const { fetchRecommendedProducts } = this.props
+    // fetch recommended products on leave
+    fetchRecommendedProducts()
   }
 
   render () {
