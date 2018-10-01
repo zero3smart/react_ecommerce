@@ -610,15 +610,23 @@ export default class VisualFilter {
       // get scale value based on thumbnail size, add padding to get more volume.
       const scale = (thumbnailRect0.height * 1.38) / THUMBNAIL_TOUCH_AREA_SIZE.height
 
+      const viewBoxHeight = this.viewBox[3]
+      const svgHeight = this.snap.node.getBoundingClientRect().height
+
       let desc = `t${xoffset},${yoffset}s${scale},${thumbnailRect0.width},0`
 
       touchArea.selectAll('g > rect').items.forEach((el, index) => {
         let thumbnailGroup = this.findGroupById(this.getBodyPartGroupName(prop, `thumbnails_${index}`))
-
         // if thumbnail for current index is available, adjust touch area to its position
         // else hide the touch area
         if (thumbnailGroup) {
-          el.attr({ visibility: 'visible', opacity: 0 }) // set opacity to none 0 for debugging.
+          const thumbnailRect = thumbnailGroup.node.getBoundingClientRect()
+          // starting y should be set to thumbnails_0 top offset, since it will be the first item
+          const startTop = thumbnailRect0.top
+          // count y value of the thumbnail touch area to match the thumbnail y position
+          const y = (thumbnailRect.top - startTop) / scale * viewBoxHeight / svgHeight
+
+          el.attr({ visibility: 'visible', opacity: 0, y }) // set opacity to none 0 for debugging.
         } else {
           el.attr({ visibility: 'hidden', opacity: 0 })
         }
