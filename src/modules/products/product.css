@@ -160,3 +160,10 @@
   display: inline-block;
   margin: 4px 10px;
 }
+
+.Product-out-of-stock {
+  font-size: 1.4em;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.87);
+  margin-bottom: 0;
+}

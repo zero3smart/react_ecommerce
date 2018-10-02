@@ -70,6 +70,8 @@ class Product extends PureComponent {
 
     // sale is available if original price is different with price
     const isSale = originalPrice && originalPrice !== price
+    const isOutOfStock = price === 0
+
     return (
       <div id={id} className='Product'>
         <div className='Product-images'>
@@ -84,12 +86,16 @@ class Product extends PureComponent {
         <div className='Product-detail'>
           <h3 dangerouslySetInnerHTML={{ __html: brand }} />
           <h4 dangerouslySetInnerHTML={{ __html: name }} />
-          <div className='Product-pricing'>
-            {isSale && <div className='Product-original-price'>{currency}{originalPrice}</div>}
-            <div className={classNames('Product-price', { sale: isSale })}>{currency}{price}</div>
-          </div>
+          {
+            !isOutOfStock && (
+              <div className='Product-pricing'>
+                {isSale && <div className='Product-original-price'>{currency}{originalPrice}</div>}
+                <div className={classNames('Product-price', { sale: isSale })}>{currency}{price}</div>
+              </div>
+            )
+          }
           {retailer && <p className='Product-retailer'>from {retailer}</p>}
-          <p>Available Sizes:</p>
+          {!isOutOfStock && <p>Available Sizes:</p>}
           <ul className='Product-sizes'>
             {sizes.map(size => (
               <li key={size}>{size}</li>
@@ -97,7 +103,7 @@ class Product extends PureComponent {
           </ul>
         </div>
         <div className='Product-footer'>
-          <Button id='BuyNow' to={link}>Buy Now</Button>
+          {isOutOfStock ? <p className='Product-out-of-stock'>Out of Stock</p> : <Button id='BuyNow' to={link}>Buy Now</Button>}
         </div>
       </div>
     )

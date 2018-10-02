@@ -84,6 +84,11 @@
   margin: 10px 20px;
 }
 
+.ProductPage-desktop .Product-out-of-stock {
+  text-align: left;
+  margin-top: 10px;
+}
+
 .ProductPage-desktop .Product-detail > * {
   order: 0;
 }
