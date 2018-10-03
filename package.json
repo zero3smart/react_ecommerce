@@ -29,7 +29,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "NODE_ENV=test NODE_PATH=src mocha -r esm --require ./test-config.js src/*.test.js",
     "eject": "react-scripts eject",
     "analyze": "source-map-explorer build/static/js/main.*",
     "storybook": "start-storybook -p 9009 -c .storybook -s public"
@@ -40,6 +40,11 @@
     "@storybook/react": "^3.4.10",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.6",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "babel-plugin-transform-require-ignore": "^0.1.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react-app": "^3.1.1",
+    "dotenv": "^6.0.0",
     "eslint": "^5.2.0",
     "eslint-config-standard": "^11.0.0",
     "eslint-config-standard-react": "^6.0.0",
@@ -48,6 +53,12 @@
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-react": "^7.10.0",
     "eslint-plugin-standard": "^3.1.0",
-    "redux-devtools-extension": "^2.13.5"
+    "esm": "^3.0.84",
+    "jsdom": "^12.1.0",
+    "mixpanel-browser": "^2.22.4",
+    "mocha": "^5.2.0",
+    "mq-polyfill": "^1.1.8",
+    "redux-devtools-extension": "^2.13.5",
+    "require-hacker": "^3.0.1"
   }
 }
