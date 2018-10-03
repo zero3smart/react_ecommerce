@@ -129,12 +129,6 @@
   margin-right: -5px;
 }
 
-.ProductPage-desktop .ProductPage-products .TopSingle-top-wrapper {
-  order: 0;
-  width: calc(100% + 10px);
-  margin: -10px -5px 0px;
-}
-
 .ProductPage-desktop .ProductPage-products .ProductGrid {
   width: calc(20% - 10px);
   margin-left: 5px;
