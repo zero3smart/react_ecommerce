@@ -1,15 +1,18 @@
+var path = require('path')
 var jsdom = require('jsdom')
 var requireHacker = require('require-hacker')
 var mixpanel = require('mixpanel-browser')
 var matchMediaPolyfill = require('mq-polyfill').default
+var Enzyme = require('enzyme')
+var Adapter = require('enzyme-adapter-react-16')
 
 // load .env variables
 require('dotenv').config()
 
-require('babel-register')({
-  presets: ['react-app'],
-  plugins: ['transform-es2015-modules-commonjs']
-})
+require('babel-register')()
+
+// configure enzyme adapter
+Enzyme.configure({ adapter: new Adapter() })
 
 // setup the simplest document possible
 // get the window object out of the document
