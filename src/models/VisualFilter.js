@@ -53,6 +53,13 @@ export default class VisualFilter {
       ...defaultOptions,
       ...options
     }
+
+    // if snapsvg is not available, don't initialize
+    // avoid error on test env
+    if (!Snap) {
+      return false
+    }
+
     this.snap = Snap(selector)
 
     if (options.defaultState) {
