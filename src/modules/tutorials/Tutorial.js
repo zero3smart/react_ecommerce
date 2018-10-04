@@ -120,7 +120,7 @@ class Tutorial extends Component {
         <Button onClick={this.moveToPreviousPage} className='ButtonSecondary'>
           <img src={reverseIcon ? BackArrowWhiteSvg : BackArrowSvg} alt='back tutorial' />
         </Button>
-        <Button onClick={this.exitTutorial} className='ButtonBordered'>Skip</Button>
+        <Button onClick={this.exitTutorial} className='ButtonBordered'>Finish</Button>
       </div>
     )
 
