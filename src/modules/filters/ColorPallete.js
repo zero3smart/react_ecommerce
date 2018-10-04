@@ -10,7 +10,7 @@ import { withFocus } from 'hoc'
 import { Tracker } from 'models'
 import './color-pallete.css'
 
-class ColorPallete extends Component {
+export class ColorPallete extends Component {
   static propTypes = {
     values: PropTypes.array,
     onColorClick: PropTypes.func.isRequired,

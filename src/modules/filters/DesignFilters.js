@@ -8,7 +8,7 @@ import { Switch } from 'ui-kits/forms'
 import { withFocus } from 'hoc'
 import './design-filters.css'
 
-class DesignFilters extends Component {
+export class DesignFilters extends Component {
   static propTypes = {
     solid: PropTypes.bool,
     pattern: PropTypes.bool,
@@ -22,6 +22,7 @@ class DesignFilters extends Component {
     solid: false,
     pattern: false,
     details: false,
+    classes: {},
     onChange: (value, name) => {}
   }
 
