@@ -6,8 +6,12 @@ import { BASE_API_PATH } from 'config/constants'
 
 axios.defaults.baseURL = BASE_API_PATH
 
-it('renders without crashing', () => {
-  const div = document.createElement('div')
-  ReactDOM.render(<App />, div)
-  ReactDOM.unmountComponentAtNode(div)
+describe('<App />', () => {
+  describe('on initial render', () => {
+    it('should renders without crashing', () => {
+      const div = document.createElement('div')
+      ReactDOM.render(<App />, div)
+      ReactDOM.unmountComponentAtNode(div)
+    })
+  })
 })
