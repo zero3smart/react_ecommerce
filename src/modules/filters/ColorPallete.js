@@ -68,7 +68,8 @@ export class ColorPallete extends Component {
   }
 
   render () {
-    const { values, className, style } = this.props
+    const { className, style } = this.props
+    const { values } = this.state
 
     return (
       <div className={classNames('ColorPallete', { [className]: className })} style={style}>
