@@ -12,7 +12,11 @@ services:
     network_mode: "host"
     volumes:
        - type: bind
+         source: /home/sjcho/yesplz/data/asos_wtop/archive
+         target: /srv/www/imgs/asos_wtop
+         readonly: true
+       - type: bind
          source: /home/sjcho/yesplz/data/ns_woman_top/archive
-         target: /srv/www/imgs
+         target: /srv/www/imgs/ns_woman_top
          readonly: true
 

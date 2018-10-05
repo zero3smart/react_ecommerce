@@ -79,7 +79,7 @@ class Product extends PureComponent {
             <LikeButton active={favorite} onClick={this.toggleLike} />
           </div>
           <Slider {...this.sliderSettings}>
-            {imgSrc && <img src={`${BASE_IMG_PATH}imgs/ns_woman_top/${imgSrc}`} alt={name} className='img-responsive' />}
+            {imgSrc && <img src={`${BASE_IMG_PATH}imgs/${imgSrc}`} alt={name} className='img-responsive' />}
             {renderExtraImages(extraImgs, name)}
           </Slider>
         </div>
@@ -114,6 +114,6 @@ export default withProductLike()(Product)
 
 const renderExtraImages = (imgs = [], name = '') => (
   imgs.map((imgSrc, index) => (
-    <img key={imgSrc} src={`${BASE_IMG_PATH}imgs/ns_woman_top/${imgSrc}`} alt={name} className='img-responsive' />
+    <img key={imgSrc} src={`${BASE_IMG_PATH}imgs/${imgSrc}`} alt={name} className='img-responsive' />
   ))
 )
