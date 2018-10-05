@@ -2,7 +2,7 @@ import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import MaterialSwitch from '@material-ui/core/Switch'
 
-const Switch = (props) => (
+export const Switch = (props) => (
   <MaterialSwitch {...props} />
 )
 
