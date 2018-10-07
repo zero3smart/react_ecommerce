@@ -279,6 +279,7 @@ export default class VisualFilter {
   }
 
   initializeSwipableThumbnail () {
+    const { useVerticalThumb } = this.settings
     // initialize hammerjs manager
     const hmThumb = new Hammer.Manager(this.snap.node, {
       recognizers: [
@@ -287,17 +288,19 @@ export default class VisualFilter {
       inputClass: Hammer.TouchMouseInput
     })
 
-    // on swipeup, move to next thumbnail
-    hmThumb.on('swipeup', () => {
-      this.track('VF Thumbnail SwipeUp')
-      this.moveToNextThumbnails()
-    })
+    if (useVerticalThumb) {
+      // on swipeup, move to next thumbnail
+      hmThumb.on('swipeup', () => {
+        this.track('VF Thumbnail SwipeUp')
+        this.moveToNextThumbnails()
+      })
 
-    // on swipedown, move to prev thumbnail
-    hmThumb.on('swipedown', () => {
-      this.track('VF Thumbnail SwipeDown')
-      this.moveToPrevThumbnails()
-    })
+      // on swipedown, move to prev thumbnail
+      hmThumb.on('swipedown', () => {
+        this.track('VF Thumbnail SwipeDown')
+        this.moveToPrevThumbnails()
+      })
+    }
   }
 
   moveToPrevThumbnails () {
@@ -312,7 +315,7 @@ export default class VisualFilter {
         this.handleAfterSwipeThumbnail(nextProp, nextThumb)
       })
     } else {
-      this.animateHorizontalThumbnail(this.selectedBodyPart, nextProp, true, () => {
+      this.animateHorizontalThumbnail(this.selectedBodyPart, nextProp, false, () => {
         this.handleAfterSwipeThumbnail(nextProp, nextThumb)
       })
     }
