@@ -26,6 +26,7 @@ class ProductList extends Component {
     extraItem: PropTypes.element,
     willBeEmptyList: PropTypes.bool,
     showOriginalPrice: PropTypes.bool,
+    showHighResImage: PropTypes.bool,
     combined: PropTypes.bool,
     productBasePath: PropTypes.string,
     closeMatchingMessage: PropTypes.string,
@@ -47,6 +48,7 @@ class ProductList extends Component {
     children: childRenderer,
     extraItem: undefined,
     showOriginalPrice: false,
+    showHighResImage: false,
     closeMatchingMessage: 'The next close matching',
     style: {},
     onFetch: (next) => { next() },
@@ -111,6 +113,7 @@ class ProductList extends Component {
       className,
       extraItem,
       showOriginalPrice,
+      showHighResImage,
       onFetch,
       onTouchMove,
       willBeEmptyList,
@@ -131,11 +134,11 @@ class ProductList extends Component {
     // when `combined` is `true`, product list should render all products without separating the score
     let productList = null
     if (combined) {
-      productList = renderProducts(products, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount, productBasePath)
+      productList = renderProducts(products, children, showOriginalPrice, showHighResImage, toggleProductLike, useMinimumAnimation, loadedProductsCount, productBasePath)
     } else {
       productList = (
         <React.Fragment>
-          {renderProducts(matchingProducts, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount, productBasePath)}
+          {renderProducts(matchingProducts, children, showOriginalPrice, showHighResImage, toggleProductLike, useMinimumAnimation, loadedProductsCount, productBasePath)}
           {closeMatchingProducts.length > 0 ? <h4 className='animated fadeIn ProductList-subtitle'>{closeMatchingMessage}</h4> : <div style={{ display: 'none' }} />}
           {renderProducts(closeMatchingProducts, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount, productBasePath)}
         </React.Fragment>
@@ -169,7 +172,16 @@ class ProductList extends Component {
 
 export default withProductLike()(ProductList)
 
-const renderProducts = (products, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount, productBasePath) => (
+const renderProducts = (
+  products,
+  children,
+  showOriginalPrice,
+  showHighResImage,
+  toggleProductLike,
+  useMinimumAnimation,
+  loadedProductsCount,
+  productBasePath
+) => (
   products.map((product, index) => {
     const props = {
       key: product.product_id,
@@ -181,7 +193,7 @@ const renderProducts = (products, children, showOriginalPrice, toggleProductLike
       extraInfo: product.extra_info,
       showOriginalPrice: showOriginalPrice,
       favorite: product.favorite,
-      imgSrc: product.front_img_sm,
+      imgSrc: showHighResImage ? product.front_img : product.front_img_sm,
       rawData: product,
       onToggleLike: toggleProductLike,
       productBasePath: productBasePath,
