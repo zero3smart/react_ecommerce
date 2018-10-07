@@ -46,7 +46,7 @@ describe('<SecondaryFilters />', () => {
       // previous sale is 0, changed to 1 after click event
       const expectedFilters = { sale: 1, ...props.fabricFilters }
 
-      expect(props.onChange.calledWith(expectedFilters)).to.equal(true)
+      expect(props.onChange.calledWith(expectedFilters)).to.be.true
     })
   })
 
@@ -61,30 +61,30 @@ describe('<SecondaryFilters />', () => {
   describe('clicking on the Design button', () => {
     it('should show fabric filters panel', () => {
       // check previous condition before click
-      expect(wrapper.state('designFiltersVisible')).to.equal(false)
+      expect(wrapper.state('designFiltersVisible')).to.be.false
 
       // simulate click Design button
       wrapper.find('Button').at(1).simulate('click')
 
       // panel must be shown after clicking on the button
-      expect(wrapper.state('designFiltersVisible')).to.equal(true)
-      expect(wrapper.find('Transition').at(0).props().show).to.equal(true)
-      expect(wrapper.find('DesignFilters').length).to.equal(1)
+      expect(wrapper.state('designFiltersVisible')).to.be.true
+      expect(wrapper.find('Transition').at(0).props().show).to.be.true
+      expect(wrapper.find('DesignFilters')).to.be.exist
     })
   })
 
   describe('clicking on the Color button', () => {
     it('should show color pallete', () => {
       // check previous condition before click
-      expect(wrapper.state('collorPalleteVisible')).to.equal(false)
+      expect(wrapper.state('collorPalleteVisible')).to.be.false
 
       // simulate click Design button
       wrapper.find('Button').at(2).simulate('click')
 
       // color pallete must be shown after clicking on the button
-      expect(wrapper.state('collorPalleteVisible')).to.equal(true)
-      expect(wrapper.find('Transition').at(1).props().show).to.equal(true)
-      expect(wrapper.find('ColorPallete').length).to.equal(1)
+      expect(wrapper.state('collorPalleteVisible')).to.be.true
+      expect(wrapper.find('Transition').at(1).props().show).to.be.true
+      expect(wrapper.find('ColorPallete')).to.be.exist
     })
   })
 })

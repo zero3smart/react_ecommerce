@@ -41,7 +41,7 @@ describe('<DesignFilters />', () => {
       // should contain 'solid' value
       expect(switchField.props.value).to.equal('solid')
       // initial checked value as defined in props
-      expect(switchField.props.checked).to.equal(false)
+      expect(switchField.props.checked).to.be.false
     })
 
     it('should contains Pattern switch', () => {
@@ -55,7 +55,7 @@ describe('<DesignFilters />', () => {
       // should contain 'pattern' value
       expect(switchField.props.value).to.equal('pattern')
       // initial checked value as defined in props
-      expect(switchField.props.checked).to.equal(false)
+      expect(switchField.props.checked).to.be.false
     })
 
     it('should contains Detail switch', () => {
@@ -69,7 +69,7 @@ describe('<DesignFilters />', () => {
       // should contain 'details' value
       expect(switchField.props.value).to.equal('details')
       // initial checked value as defined in props
-      expect(switchField.props.checked).to.equal(false)
+      expect(switchField.props.checked).to.be.false
     })
   })
 
@@ -85,12 +85,12 @@ describe('<DesignFilters />', () => {
         }
       })
 
-      expect(props.onChange.calledWith(true, 'solid')).to.equal(true)
+      expect(props.onChange.calledWith(true, 'solid')).to.be.true
     })
 
     it('should set pattern to false', () => {
       setTimeout(() => {
-        expect(props.onChange.calledWith(false, 'pattern')).to.equal(true)
+        expect(props.onChange.calledWith(false, 'pattern')).to.be.true
       }, 100)
     })
   })
@@ -107,12 +107,12 @@ describe('<DesignFilters />', () => {
         }
       })
 
-      expect(props.onChange.calledWith(true, 'pattern')).to.equal(true)
+      expect(props.onChange.calledWith(true, 'pattern')).to.be.true
     })
 
     it('should set solid to false', () => {
       setTimeout(() => {
-        expect(props.onChange.calledWith(false, 'solid')).to.equal(true)
+        expect(props.onChange.calledWith(false, 'solid')).to.be.true
       }, 100)
     })
   })
@@ -129,7 +129,7 @@ describe('<DesignFilters />', () => {
         }
       })
 
-      expect(props.onChange.calledWith(true, 'pattern')).to.equal(true)
+      expect(props.onChange.calledWith(true, 'pattern')).to.be.true
     })
   })
 })

@@ -48,18 +48,18 @@ describe('<ColorPallete />', () => {
     it('should activate the color button', () => {
       button = wrapper.find('ColorButton').at(0) // red
       // check for color button active props, should be inactive / unselected
-      expect(button.props().active).to.equal(false)
+      expect(button.props().active).to.be.false
       // clicking the color button
       button.shallow().find('button').simulate('click')
       wrapper.update()
       // the button should now be active
-      expect(wrapper.find('ColorButton').at(0).props().active).to.equal(true)
+      expect(wrapper.find('ColorButton').at(0).props().active).to.be.true
     })
 
     it('should call the `onColorClick` prop with new color values', () => {
       expect(props.onColorClick.calledWith([
         ...props.values, button.props().name // previous values and new clicked name
-      ])).to.equal(true)
+      ])).to.be.true
     })
   })
 
@@ -68,17 +68,17 @@ describe('<ColorPallete />', () => {
     it('should deactivate the color button', () => {
       button = wrapper.find('ColorButton').at(2) // purple
       // check for color button active props, should be an active button
-      expect(button.props().active).to.equal(true)
+      expect(button.props().active).to.be.true
       // clicking the color button
       button.shallow().find('button').simulate('click')
       wrapper.update()
       // the button should now be inactive
-      expect(wrapper.find('ColorButton').at(0).props().active).to.equal(false)
+      expect(wrapper.find('ColorButton').at(0).props().active).to.be.false
     })
 
     it('should call the `onColorClick` prop with new color values', () => {
       // should be called without the button name
-      expect(props.onColorClick.calledWith(without(props.values, 'purple'))).to.equal(true)
+      expect(props.onColorClick.calledWith(without(props.values, 'purple'))).to.be.true
     })
   })
 
