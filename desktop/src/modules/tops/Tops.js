@@ -99,7 +99,8 @@ export default compose(
 
 const styles = {
   infoBanner: {
+    fontSize: 14,
     marginBottom: 20,
-    padding: '25px 70px 35px'
+    padding: '20px 20px 30px'
   }
 }
