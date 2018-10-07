@@ -11,6 +11,7 @@ export const SingleProductRoute = router => (
       { name: 'Product Detail' }
     ], { style: styles.breadcrumbs })}
     className='ProductPage-desktop'
+    showArrows
   />
 )
 
@@ -25,6 +26,7 @@ export const SinglePresetProductRoute = router => {
         { name: 'Detail' }
       ], { style: styles.breadcrumbs })}
       className='ProductPage-desktop'
+      showArrows
     />
   )
 }

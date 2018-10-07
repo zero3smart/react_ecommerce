@@ -18,6 +18,7 @@ class ProductPage extends Component {
     totalCount: PropTypes.number.isRequired,
     nextPage: PropTypes.number,
     scrollBellowTheFold: PropTypes.bool,
+    showArrows: PropTypes.bool,
     className: PropTypes.string,
     renderExtraItem: PropTypes.func,
     fetchProduct: PropTypes.func.isRequired,
@@ -89,7 +90,7 @@ class ProductPage extends Component {
   }
 
   render () {
-    const { product, relatedProducts, isProductFetched, isRelatedProductsFetched, nextPage, renderExtraItem, className } = this.props
+    const { product, relatedProducts, isProductFetched, isRelatedProductsFetched, nextPage, renderExtraItem, showArrows, className } = this.props
     let productBox = <ProductPlaceholder />
 
     if (isProductFetched) {
@@ -111,6 +112,7 @@ class ProductPage extends Component {
             sizes={product.sizes}
             extraInfo={product.extra_info}
             rawData={product}
+            showArrows={showArrows}
             showDots
           />
           <h2 className='SubHeader' align='center'>You might also like this</h2>
