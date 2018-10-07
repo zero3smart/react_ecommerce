@@ -66,6 +66,7 @@ class Home extends Component {
             className='Recommended-products'
             style={{ overflow: 'hidden' }}
             showOriginalPrice
+            showHighResImage
             show
             combined
           />
