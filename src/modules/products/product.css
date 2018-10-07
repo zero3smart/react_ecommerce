@@ -1,6 +1,11 @@
 .Product {
   background: white;
   width: 100%;
+  box-sizing: border-box;
+  padding: 15px 0px 30px;
+}
+
+.Product > .container {
   display: grid;
   grid-template-rows: auto;
   grid-template-columns: auto;
@@ -8,9 +13,9 @@
   "images detail"
   "footer footer";
   grid-gap: 20px 30px;
-  padding: 15px 30px 30px;
   box-sizing: border-box;
   position: relative;
+  width: calc(100% - 35px);
 }
 
 .LikeButton-wrapper {
@@ -92,6 +97,7 @@
   display: inline-block;
   width: 16px;
   height: 10px;
+  opacity: 1;
 }
 
 .Product .Product-images > .slick-slider .slick-prev:before {

@@ -9,7 +9,7 @@
 
 .BreadCrumbs > .container {
   display: flex;
-  width: 100%;
+  width: calc(100% - 24px);
 }
 
 .BreadCrumbs > *,

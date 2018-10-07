@@ -11,13 +11,12 @@
 
 .ProductPage-desktop .Product {
   max-height: none;
-  grid-template-areas: "images detail" "images footer";
-  grid-gap: 20px 30px;
   padding-top: 30px;
 }
 
-.ProductPage-desktop .Product .LikeButton-wrapper {
-  max-width: 315px;
+.ProductPage-desktop .Product > .container {
+  grid-template-areas: "images detail" "images footer";
+  grid-gap: 20px 30px;
 }
 
 .ProductPage-desktop .Product > .LikeButton > button {
@@ -76,12 +75,12 @@
 }
 
 .ProductPage-desktop .Product-detail .Product-sizes {
-  margin: -10px -20px;
+  margin: 0px -20px -10px;
 }
 
 .ProductPage-desktop .Product-detail .Product-sizes > li {
   font-size: 16px;
-  margin: 10px 20px;
+  margin: 10px 20px 10px;
 }
 
 .ProductPage-desktop .Product-out-of-stock {
