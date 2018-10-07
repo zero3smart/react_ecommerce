@@ -74,36 +74,38 @@ class Product extends PureComponent {
 
     return (
       <div id={id} className='Product'>
-        <div className='Product-images'>
-          <div className='LikeButton-wrapper'>
-            <LikeButton active={favorite} onClick={this.toggleLike} />
+        <div className='container'>
+          <div className='Product-images'>
+            <div className='LikeButton-wrapper'>
+              <LikeButton active={favorite} onClick={this.toggleLike} />
+            </div>
+            <Slider {...this.sliderSettings}>
+              {imgSrc && <img src={`${BASE_IMG_PATH}imgs/${imgSrc}`} alt={name} className='img-responsive' />}
+              {renderExtraImages(extraImgs, name)}
+            </Slider>
           </div>
-          <Slider {...this.sliderSettings}>
-            {imgSrc && <img src={`${BASE_IMG_PATH}imgs/${imgSrc}`} alt={name} className='img-responsive' />}
-            {renderExtraImages(extraImgs, name)}
-          </Slider>
-        </div>
-        <div className='Product-detail'>
-          <h3 dangerouslySetInnerHTML={{ __html: brand }} />
-          <h4 dangerouslySetInnerHTML={{ __html: name }} />
-          {
-            !isOutOfStock && (
-              <div className='Product-pricing'>
-                {isSale && <div className='Product-original-price'>{currency}{originalPrice}</div>}
-                <div className={classNames('Product-price', { sale: isSale })}>{currency}{price}</div>
-              </div>
-            )
-          }
-          {retailer && <p className='Product-retailer'>from {retailer}</p>}
-          {!isOutOfStock && <p>Available Sizes:</p>}
-          <ul className='Product-sizes'>
-            {sizes.map(size => (
-              <li key={size}>{size}</li>
-            ))}
-          </ul>
-        </div>
-        <div className='Product-footer'>
-          {isOutOfStock ? <p className='Product-out-of-stock'>Out of Stock</p> : <Button id='BuyNow' to={link}>Buy Now</Button>}
+          <div className='Product-detail'>
+            <h3 dangerouslySetInnerHTML={{ __html: brand }} />
+            <h4 dangerouslySetInnerHTML={{ __html: name }} />
+            {
+              !isOutOfStock && (
+                <div className='Product-pricing'>
+                  {isSale && <div className='Product-original-price'>{currency}{originalPrice}</div>}
+                  <div className={classNames('Product-price', { sale: isSale })}>{currency}{price}</div>
+                </div>
+              )
+            }
+            {retailer && <p className='Product-retailer'>from {retailer}</p>}
+            {!isOutOfStock && <p>Available Sizes:</p>}
+            <ul className='Product-sizes'>
+              {sizes.map(size => (
+                <li key={size}>{size}</li>
+              ))}
+            </ul>
+          </div>
+          <div className='Product-footer'>
+            {isOutOfStock ? <p className='Product-out-of-stock'>Out of Stock</p> : <Button id='BuyNow' to={link}>Buy Now</Button>}
+          </div>
         </div>
       </div>
     )

@@ -46,7 +46,7 @@ button, a {
 }
 
 .container {
-  width: 100%;
+  width: calc(100% - 30px);
   max-width: 1223px;
   margin: auto;
 }
