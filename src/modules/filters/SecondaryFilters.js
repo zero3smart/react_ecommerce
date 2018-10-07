@@ -38,9 +38,7 @@ export default class SecondaryFilters extends Component {
       collorPalleteVisible: false,
       designFiltersVisible: false
     }
-  }
 
-  componentDidMount () {
     // initialize toggle handler
     this.toggleDesignPanel = this.makeTogglePanelHandler('designFiltersVisible', 'Press design button')
     this.toggleColorPallete = this.makeTogglePanelHandler('collorPalleteVisible', 'Press color pallete button')
