@@ -27,7 +27,7 @@ class Favorites extends Component {
 
     syncFilter()
     syncFavoritePresets()
-    syncFavoriteProducts()
+    syncFavoriteProducts(true) // sync backend
   }
 
   render () {
