@@ -21,13 +21,21 @@ export default class Product {
   }
 
   /**
+   * set favorite products data (replace)
+   * @param {Object[]} favoriteProducts
+   */
+  static setFavoriteProducts (favoriteProducts) {
+    localStorage.setItem(FAVORITE_PRODUCTS, JSON.stringify(favoriteProducts))
+  }
+
+  /**
    * save productId to list of favorit product in local storage
    * @param {object} product
    */
   static like (product) {
     let favoriteProducts = Product.getFavoriteProducts()
     favoriteProducts = uniqBy([ ...favoriteProducts, { ...product, favorite: true } ], 'product_id')
-    localStorage.setItem(FAVORITE_PRODUCTS, JSON.stringify(favoriteProducts))
+    Product.setFavoriteProducts(favoriteProducts)
   }
 
   /**
@@ -37,7 +45,6 @@ export default class Product {
   static unlike (productId) {
     let favoriteProducts = Product.getFavoriteProducts()
     favoriteProducts = reject(favoriteProducts, { product_id: productId })
-
-    localStorage.setItem(FAVORITE_PRODUCTS, JSON.stringify(favoriteProducts))
+    Product.setFavoriteProducts(favoriteProducts)
   }
 }
