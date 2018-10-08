@@ -175,10 +175,43 @@ export function fetchRecommendedProducts (productCount = 9) {
 
 /**
  * sync favorite products data from local storage to store
+ * @param {boolean} syncRemote sync local data with latest backend data
  */
-export function syncFavoriteProducts () {
-  const favoriteProducts = Product.getFavoriteProducts()
-  return { type: SET_FAVORITE_PRODUCTS, payload: { favoriteProducts } }
+export function syncFavoriteProducts (syncRemote = false) {
+  return async dispatch => {
+    let favoriteProducts = []
+    if (syncRemote) {
+      // get favorite product ids and sync the data from backend
+      const productIds = Product.getFavoriteProductIds()
+      const favoriteProductsPromises = productIds.map(async (productId) => {
+        let finalProductId = productId
+
+        // check whether it contains xx_xxx_xxxx format
+        // if not, add `ns_` prefix
+        const isNewFormat = /^.+?(_).+?(_).+?$/.test(productId)
+        if (!isNewFormat) {
+          finalProductId = `ns_${productId}`
+        }
+
+        const response = await axios.get(`/products/woman_top/${finalProductId}`)
+
+        return {
+          ...response.data.products[0],
+          favorite: true
+        }
+      })
+
+      favoriteProducts = await Promise.all(favoriteProductsPromises)
+
+      // update data to local storage
+      Product.setFavoriteProducts(favoriteProducts)
+    } else {
+      favoriteProducts = Product.getFavoriteProducts()
+    }
+
+    // update store data
+    dispatch({ type: SET_FAVORITE_PRODUCTS, payload: { favoriteProducts } })
+  }
 }
 
 // Pure async
