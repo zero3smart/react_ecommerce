@@ -47,6 +47,12 @@ class ProductPage extends Component {
       resetProduct()
       this.productRequest = fetchProduct(productId)
       this.relatedsRequest = fetchRelatedProducts(productId)
+
+      // set main scroll top to 0
+      const scrollWrapper = document.getElementById('MainScroll')
+      if (scrollWrapper) {
+        scrollWrapper.scrollTop = 0
+      }
     }
   }
 
