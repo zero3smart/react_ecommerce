@@ -17,6 +17,7 @@
 | yarn build             | Build project |
 | yarn analyze           | Run bundle size analyzer. Must build the project first. |
 | yarn storybook         | Run storybook (port: 9009) |
+| yarn test              | Run tests. add `--watch` for auto reload |
 
 ## Desktop (/desktop)
 
