@@ -12,14 +12,16 @@ describe('VisualFilter Onboarding', () => {
     changePropSelection: sinon.spy(),
     updateThumbnailSelectionBox: sinon.spy(),
     handleBodyPartClick: sinon.spy(),
-    handleOnboardingFinished: sinon.spy(),
     initializeClickHitMap: sinon.spy()
   }
+  let fakeSaveConfig = sinon.spy()
 
   before(() => {
     VisualFilter.__Rewire__('setTimeout', () => {}) // don't run set delayed func
     contructorStub = sinon.stub(VisualFilter, 'constructor').callsFake(() => {})
     stubFakeFunctions(VisualFilter, fakeFn)
+    // spy saveConfig
+    sinon.stub(VisualFilter, 'saveConfig').callsFake(fakeSaveConfig)
 
     vf = new VisualFilter()
   })
@@ -92,12 +94,12 @@ describe('VisualFilter Onboarding', () => {
         expect(fakeFn.hideGroup.calledWith('mini_onboarding_3')).to.be.true
       })
 
-      it('should close the onboarding', () => {
-        expect(fakeFn.handleOnboardingFinished.calledOnce).to.be.true
-      })
-
       it('should initialize visual filter event', () => {
         expect(fakeFn.initializeClickHitMap.calledOnce).to.be.true
+      })
+
+      it('should set onboarding_completed flag to 1', () => {
+        expect(fakeSaveConfig.calledWith('onboarding_completed', 1)).to.be.true
       })
     })
   })
