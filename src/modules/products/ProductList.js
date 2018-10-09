@@ -103,44 +103,60 @@ class ProductList extends Component {
     }
   }
 
-  render () {
+  get productListOptions () {
     const {
-      id,
-      products,
       nextPage,
-      show,
-      children,
-      className,
-      extraItem,
       showOriginalPrice,
       showHighResImage,
-      onFetch,
-      onTouchMove,
-      willBeEmptyList,
-      style,
-      loaderStyle,
       toggleProductLike,
-      combined,
-      productBasePath,
-      closeMatchingMessage
+      productBasePath
     } = this.props
-    const { useMinimumAnimation, matchingProducts, closeMatchingProducts } = this.state
+    const { useMinimumAnimation } = this.state
 
     // get loaded products count
     const currentPage = (nextPage - 1)
     const loadedProductsCount = PRODUCT_COUNT_PER_PAGE * (currentPage < 0 ? 0 : currentPage)
 
+    return {
+      showOriginalPrice,
+      showHighResImage,
+      toggleProductLike,
+      useMinimumAnimation,
+      loadedProductsCount,
+      productBasePath
+    }
+  }
+
+  render () {
+    const {
+      id,
+      products,
+      show,
+      children,
+      className,
+      extraItem,
+      onFetch,
+      onTouchMove,
+      willBeEmptyList,
+      style,
+      loaderStyle,
+      combined,
+      closeMatchingMessage
+    } = this.props
+    const { useMinimumAnimation, matchingProducts, closeMatchingProducts } = this.state
+
     // get products
     // when `combined` is `true`, product list should render all products without separating the score
     let productList = null
+
     if (combined) {
-      productList = renderProducts(products, children, showOriginalPrice, showHighResImage, toggleProductLike, useMinimumAnimation, loadedProductsCount, productBasePath)
+      productList = renderProducts(products, children, this.productListOptions)
     } else {
       productList = (
         <React.Fragment>
-          {renderProducts(matchingProducts, children, showOriginalPrice, showHighResImage, toggleProductLike, useMinimumAnimation, loadedProductsCount, productBasePath)}
+          {renderProducts(matchingProducts, children, this.productListOptions)}
           {closeMatchingProducts.length > 0 ? <h4 className='animated fadeIn ProductList-subtitle'>{closeMatchingMessage}</h4> : <div style={{ display: 'none' }} />}
-          {renderProducts(closeMatchingProducts, children, showOriginalPrice, toggleProductLike, useMinimumAnimation, loadedProductsCount, productBasePath)}
+          {renderProducts(closeMatchingProducts, children, this.productListOptions)}
         </React.Fragment>
       )
     }
@@ -175,12 +191,14 @@ export default withProductLike()(ProductList)
 const renderProducts = (
   products,
   children,
-  showOriginalPrice,
-  showHighResImage,
-  toggleProductLike,
-  useMinimumAnimation,
-  loadedProductsCount,
-  productBasePath
+  {
+    showOriginalPrice,
+    showHighResImage,
+    toggleProductLike,
+    useMinimumAnimation,
+    loadedProductsCount,
+    productBasePath
+  }
 ) => (
   products.map((product, index) => {
     const props = {
