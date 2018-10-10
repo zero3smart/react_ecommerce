@@ -88,6 +88,7 @@
 .TutorialNavigation {
   position: static;
   background: none;
+  z-index: 100;
 }
 
 .TutorialNavigation .Button {

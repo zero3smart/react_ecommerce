@@ -129,7 +129,8 @@ class Tutorial extends Component {
         <TutorialPage pageKey={0} activeKey={currentPage}>
           <h1 className='animated fadeInDown'>Hello</h1>
           <h2 className='animated fadeInDown' style={{ animationDelay: '500ms' }}>Meet our new smart visual filter.</h2>
-          <FloatButton id='vfTutorialButton' filters={defaultFilters} noShadow style={styles.filterButton} className='animated zoomIn delay-1s' />
+          <FloatButton id='vfTutorialButton' filters={defaultFilters} noShadow 
+            style={styles.filterButton} className='animated zoomIn delay-1s' />
           <div className='TutorialNavigation'>
             <Button onClick={this.exitTutorial} className='ButtonSecondary'>No</Button>
             <Button onClick={this.startTutorial} className='ButtonPrimary'>Yes</Button>
@@ -214,8 +215,8 @@ const styles = {
   filterButton: {
     width: 290,
     height: 290,
-    maxWidth: 'none',
-    maxHeight: 'none',
+    //maxWidth: 'none',
+    //maxHeight: 'none',
     position: 'static',
     paddingTop: 30,
     marginTop: 30,
