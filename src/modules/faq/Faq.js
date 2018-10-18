@@ -60,7 +60,7 @@ class Faq extends Component {
                 onChange={this.makeAccordionChangeHandler(index)}
                 classes={{ expanded: 'expanded' }}>
                 <ExpansionPanelSummary
-                  expandIcon={<img src={includes(activePanels, index) ? IconOpenSrc : IconClosedSrc} />}
+                  expandIcon={<img src={includes(activePanels, index) ? IconOpenSrc : IconClosedSrc} alt='icon' />}
                   className={classes.headingWrapper}
                   classes={{ expanded: 'expanded', expandIcon: 'expandIcon' }}>
                   <Typography className={classes.heading}>

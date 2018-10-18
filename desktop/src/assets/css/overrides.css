@@ -63,12 +63,13 @@
 }
 
 .Tutorial .TutorialPage {
-  margin: auto;
+  margin: 0px 0px 75px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+  /* justify-content: space-between; */
   max-height: 700px;
-  padding: 30px 40px;
+  padding: 0px 40px;
 }
 
 .Tutorial .TutorialPage h2 {
@@ -86,9 +87,12 @@
 }
 
 .TutorialNavigation {
-  position: static;
+  /* position: static;*/
   background: none;
-  z-index: 100;
+  align-self: flex-end;
+  /* z-index: 100; */
+  margin-bottom: 20px;
+  height: 65px;
 }
 
 .TutorialNavigation .Button {
@@ -111,11 +115,10 @@
 }
 
 .TutorialNavigation.Skip {
-  justify-content: flex-end!important;
-  position: static;
+  /* justify-content: flex-end!important; */
+  /* position: fixed; */
+  align-self: flex-end;
   width: 100%;
-  height: auto;
-  margin: 0;
   padding: 10px 80px;
 }
 

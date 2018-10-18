@@ -2,13 +2,16 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import classNames from 'classnames'
+// import classNames from 'classnames'
 import TutorialPage from './TutorialPage'
 import { FloatButton, TutorialBodypartFilter } from 'modules/filters'
-import { ProductFilter } from 'modules/filters/ProductFilter'
+// import { ProductFilter } from 'modules/filters/ProductFilter'
 import { Button } from 'ui-kits/buttons'
-import BackArrowSvg from 'assets/svg/back-arrow.svg'
-import BackArrowWhiteSvg from 'assets/svg/back-arrow-white.svg'
+// import BackArrowSvg from 'assets/svg/back-arrow.svg'
+// import BackArrowWhiteSvg from 'assets/svg/back-arrow-white.svg'
+import ReplayArrowSvg from 'assets/svg/replay-arrow.svg'
+import ReplayArrowWhiteSvg from 'assets/svg/replay-arrow-white.svg'
+
 import { history } from 'config/store'
 import { withTrackingProvider } from 'hoc'
 import Tracker from 'models/Tracker'
@@ -40,10 +43,11 @@ class Tutorial extends Component {
   }
 
   get moveToPreviousPage () {
-    const { currentPage } = this.state
+    // const { currentPage } = this.state
     return () => {
       this.setState({
-        currentPage: currentPage === 0 ? 0 : currentPage - 1
+        currentPage: 1 // Restart animation
+        // currentPage: currentPage === 0 ? 0 : currentPage - 1
       })
     }
   }
@@ -108,8 +112,10 @@ class Tutorial extends Component {
   }
 
   render () {
-    const { onboarding, reverseIcon, useVerticalThumb } = this.props
-    const { currentPage, filterExpanded, zoomFilter, tutorialBegin } = this.state
+    const { onboarding, reverseIcon } = this.props
+    // const { useVerticalThumb } = this.props
+    const { currentPage, tutorialBegin } = this.state
+    // const { filterExpanded, zoomFilter } = this.state
 
     if (!onboarding) {
       return null
@@ -118,7 +124,7 @@ class Tutorial extends Component {
     const tutorialNavigation = tutorialBegin && (
       <div className='TutorialNavigation Skip' style={styles.secondaryButtonWrapper}>
         <Button onClick={this.moveToPreviousPage} className='ButtonSecondary'>
-          <img src={reverseIcon ? BackArrowWhiteSvg : BackArrowSvg} alt='back tutorial' />
+          <img src={reverseIcon ? ReplayArrowWhiteSvg : ReplayArrowSvg} alt=' ' />
         </Button>
         <Button onClick={this.exitTutorial} className='ButtonBordered'>Finish</Button>
       </div>
@@ -128,23 +134,23 @@ class Tutorial extends Component {
       <div className='Tutorial'>
         <TutorialPage pageKey={0} activeKey={currentPage}>
           <h1 className='animated fadeInDown'>Hello</h1>
-          <h2 className='animated fadeInDown' style={{ animationDelay: '500ms' }}>Meet our new smart visual filter.</h2>
-          <FloatButton id='vfTutorialButton' filters={defaultFilters} noShadow 
-            style={styles.filterButton} className='animated zoomIn delay-1s' />
+          <h2 className='animated fadeInDown' style={{ animationDelay: '200ms' }}>Meet our new smart visual filter</h2>
+          <FloatButton id='vfTutorialButton' filters={defaultFilters} noShadow
+            style={styles.filterButton} className='animated zoomIn' />
           <div className='TutorialNavigation'>
             <Button onClick={this.exitTutorial} className='ButtonSecondary'>No</Button>
             <Button onClick={this.startTutorial} className='ButtonPrimary'>Yes</Button>
           </div>
         </TutorialPage>
-        <TutorialPage pageKey={1} activeKey={currentPage} duration={4000} onFinish={this.moveToNextPage}>
-          <h2 className='animated fadeInDown' style={{ marginTop: 65 }}>Meet our new smart visual filter.</h2>
+        {/* <TutorialPage pageKey={1} activeKey={currentPage} duration={3000} onFinish={this.moveToNextPage}>
+          <h2 className='animated fadeInDown' style={{ marginTop: 25, height: 65 }}>Meet our new smart visual filter</h2>
           <div className={classNames('ProductFilterWrapper', { zoomFilter: zoomFilter })} style={styles.filterPanelMask}>
             <ProductFilter {...fakeProductFilterProps} expanded={filterExpanded} hideMiniOnboarding useVerticalThumb={useVerticalThumb} />
           </div>
           {tutorialNavigation}
-        </TutorialPage>
-        <TutorialPage pageKey={2} activeKey={currentPage} duration={3500} onFinish={this.moveToNextPage}>
-          <h2 style={{ marginTop: 65 }}>All body parts are selectable.</h2>
+        </TutorialPage> */}
+        <TutorialPage pageKey={1} activeKey={currentPage} duration={3500} onFinish={this.moveToNextPage}>
+          <h2 style={{ marginTop: 25 }}>All body parts are selectable</h2>
           <TutorialBodypartFilter
             id='TutorialBodypartFilter-touchesPoints'
             filters={defaultFilters}
@@ -154,8 +160,8 @@ class Tutorial extends Component {
           />
           {tutorialNavigation}
         </TutorialPage>
-        <TutorialPage pageKey={3} activeKey={currentPage} duration={11000} onFinish={this.exitTutorial}>
-          <h2 style={{ marginTop: 65 }}>So you can change its fits and shape.</h2>
+        <TutorialPage pageKey={2} activeKey={currentPage} duration={11000} onFinish={this.exitTutorial}>
+          <h2 style={{ marginTop: 25 }}>You can change its fits</h2>
           <TutorialBodypartFilter
             filters={defaultFilters}
             tutorialAnim
@@ -188,44 +194,49 @@ const defaultFilters = {
   favorite: false
 }
 
-const fakeProductFilterProps = {
-  filters: defaultFilters,
-  isFilterSaved: false,
-  lastBodyPart: null,
-  router: {
-    location: {
-      pathname: '/products'
-    }
-  },
-  expanded: false,
-  scrollBellowTheFold: true,
-  onboarding: false,
-  setFilter: () => {},
-  fetchProducts: () => {},
-  syncFilter: () => {},
-  syncFavoritePresets: () => {},
-  saveFilterAsPreset: () => {},
-  deleteFilterFromPreset: () => {},
-  setLastBodyPart: () => {},
-  toggleVisualFilter: () => {},
-  setOnboarding: () => {}
-}
+// const fakeProductFilterProps = {
+//   filters: defaultFilters,
+//   isFilterSaved: false,
+//   lastBodyPart: null,
+//   router: {
+//     location: {
+//       pathname: '/products'
+//     }
+//   },
+//   expanded: false,
+//   scrollBellowTheFold: true,
+//   onboarding: false,
+//   setFilter: () => {},
+//   fetchProducts: () => {},
+//   syncFilter: () => {},
+//   syncFavoritePresets: () => {},
+//   saveFilterAsPreset: () => {},
+//   deleteFilterFromPreset: () => {},
+//   setLastBodyPart: () => {},
+//   toggleVisualFilter: () => {},
+//   setOnboarding: () => {}
+// }
 
 const styles = {
   filterButton: {
     width: 290,
     height: 290,
-    //maxWidth: 'none',
-    //maxHeight: 'none',
-    position: 'static',
+    maxWidth: 'none',
+    maxHeight: 'none',
+    // position: 'static',
+    position: 'relative',
     paddingTop: 30,
-    marginTop: 30,
+    marginTop: 50,
     marginBottom: 30,
-    animationDelay: `${DELAY_BETWEEN_SCREEN}ms`
+    animationDelay: `${DELAY_BETWEEN_SCREEN}ms`,
+    zIndex: -1
   },
   secondaryButtonWrapper: {
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+    height: 65
   },
   floatButtonWrapper: {
     display: 'flex',
@@ -237,14 +248,19 @@ const styles = {
     bottom: '10%'
   },
   filterPanelMask: {
+    display: 'flex',
     position: 'fixed',
+    justifyContent: 'center',
+    top: 200,
     bottom: 0,
     left: 0,
     right: 0,
-    height: 350
+    height: '100%'
   },
   tutorialAnim: {
-    width: 'calc(100% + 150px)',
+    // width: 'calc(100% + 150px)',
+    width: '100%',
+    position: 'relative',
     marginLeft: -70,
     marginRight: -80,
     marginTop: 20
