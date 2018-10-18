@@ -134,7 +134,7 @@ class Tutorial extends Component {
       <div className='Tutorial'>
         <TutorialPage pageKey={0} activeKey={currentPage}>
           <h1 className='animated fadeInDown'>Hello</h1>
-          <h2 className='animated fadeInDown' style={{ animationDelay: '200ms' }}>Meet our new smart visual filter</h2>
+          <h2 className='animated fadeInDown' style={{ animationDelay: '200ms' }}>Meet smart visual filter</h2>
           <FloatButton id='vfTutorialButton' filters={defaultFilters} noShadow
             style={styles.filterButton} className='animated zoomIn' />
           <div className='TutorialNavigation'>
@@ -143,6 +143,7 @@ class Tutorial extends Component {
           </div>
         </TutorialPage>
         {/* <TutorialPage pageKey={1} activeKey={currentPage} duration={3000} onFinish={this.moveToNextPage}>
+          <h1 className='animated fadeInDown'>&nbsp;</h1>
           <h2 className='animated fadeInDown' style={{ marginTop: 25, height: 65 }}>Meet our new smart visual filter</h2>
           <div className={classNames('ProductFilterWrapper', { zoomFilter: zoomFilter })} style={styles.filterPanelMask}>
             <ProductFilter {...fakeProductFilterProps} expanded={filterExpanded} hideMiniOnboarding useVerticalThumb={useVerticalThumb} />
@@ -150,7 +151,8 @@ class Tutorial extends Component {
           {tutorialNavigation}
         </TutorialPage> */}
         <TutorialPage pageKey={1} activeKey={currentPage} duration={3500} onFinish={this.moveToNextPage}>
-          <h2 style={{ marginTop: 25 }}>All body parts are selectable</h2>
+          <h1>&nbsp;</h1>
+          <h2>All body parts are selectable</h2>
           <TutorialBodypartFilter
             id='TutorialBodypartFilter-touchesPoints'
             filters={defaultFilters}
@@ -161,7 +163,8 @@ class Tutorial extends Component {
           {tutorialNavigation}
         </TutorialPage>
         <TutorialPage pageKey={2} activeKey={currentPage} duration={11000} onFinish={this.exitTutorial}>
-          <h2 style={{ marginTop: 25 }}>You can change its fits</h2>
+          <h1>&nbsp;</h1>
+          <h2>You can change its fits</h2>
           <TutorialBodypartFilter
             filters={defaultFilters}
             tutorialAnim
