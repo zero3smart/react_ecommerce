@@ -16,7 +16,6 @@ export default class SimplePreset extends PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
     name: PropTypes.string,
-    collar: filterProps,
     coretype: filterProps,
     details: filterProps,
     neckline: filterProps,
@@ -33,7 +32,6 @@ export default class SimplePreset extends PureComponent {
 
   static defaultProps = {
     name: 'unknown',
-    collar: 0,
     coretype: 0,
     details: 0,
     neckline: 0,
@@ -47,9 +45,9 @@ export default class SimplePreset extends PureComponent {
   }
 
   get bodyPartFilters () {
-    const { collar, coretype, neckline, shoulder, sleeveLength, topLength } = this.props
+    const { coretype, neckline, shoulder, sleeveLength, topLength } = this.props
     return {
-      collar, coretype, neckline, shoulder, sleeve_length: sleeveLength, top_length: topLength
+      coretype, neckline, shoulder, sleeve_length: sleeveLength, top_length: topLength
     }
   }
 

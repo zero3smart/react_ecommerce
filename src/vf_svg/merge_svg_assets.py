@@ -71,7 +71,7 @@ def load_svg_fixed(svg_fn, vertical, remove_all):
             'neckline_thumbnails',
             'shoulder_thumbnails',
             'sleeves_thumbnails',
-            'top_collar_thumbnails',
+            #'top_collar_thumbnails',
             'top_core_thumbnails'
         ] }
     else:
@@ -79,20 +79,20 @@ def load_svg_fixed(svg_fn, vertical, remove_all):
         scale = None
         if remove_all: 
             pos_fixes = {
-                'length_thumbnails': [f'135 {tn_y}', scale], # 4 selections
-                'neckline_thumbnails': [f'135 {tn_y}', scale], # 4 selections
-                'shoulder_thumbnails': [f'68 {tn_y}', scale], # 6 selections
-                'sleeves_thumbnails': [f'35 {tn_y}', scale], # 7 selections
-                'top_collar_thumbnails': [f'135 {tn_y}', scale], # 4 selections
-                'top_core_thumbnails': [f'100 {tn_y}', scale], # 5 selections
+                'length_thumbnails': [f'135 {tn_y}', scale], # 3 selections
+                'neckline_thumbnails': [f'69 {tn_y}', scale], # 5 selections
+                'shoulder_thumbnails': [f'100 {tn_y}', scale], # 4 selections
+                'sleeves_thumbnails': [f'35 {tn_y}', scale], # 6 selections
+                #'top_collar_thumbnails': [f'135 {tn_y}', scale], # 4 selections
+                'top_core_thumbnails': [f'100 {tn_y}', scale], # 4 selections
             }
-        else:
+        else: # not used now
             pos_fixes = {
                 'length_thumbnails': [f'110 {tn_y}', scale], # 4 selections
-                'neckline_thumbnails': [f'110 {tn_y}', scale], # 4 selections
-                'shoulder_thumbnails': [f'50 {tn_y}', scale], # 6 selections
+                'neckline_thumbnails': [f'72 {tn_y}', scale], # 5 selections
+                'shoulder_thumbnails': [f'72 {tn_y}', scale], # 5 selections
                 'sleeves_thumbnails': [f'10 {tn_y}', scale], # 7 selections
-                'top_collar_thumbnails': [f'110 {tn_y}', scale], # 4 selections
+                #'top_collar_thumbnails': [f'110 {tn_y}', scale], # 4 selections
                 'top_core_thumbnails': [f'72 {tn_y}', scale], # 5 selections
             }
     pos_fixes.update({'BodyParts-Touch-Area' : [f'-9 -18', None]})
@@ -125,7 +125,7 @@ def merge_svgs(fn, vertical=False, remove_all=False):
             'neckline_thumbnails.svg',
             'shoulder_thumbnails.svg',
             'sleeves_thumbnails.svg',
-            'top_collar_thumbnails.svg',
+            #'top_collar_thumbnails.svg',
             'top_core_thumbnails.svg',
             'Thumbnail_Touch_Area.svg'] # Thumbnail_Touch_Area.svg should be at the bottom
     lower_svgs += [s.replace('.svg', '_vert.svg') if vertical else s for s in hv_svgs]

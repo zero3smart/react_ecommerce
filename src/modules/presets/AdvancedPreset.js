@@ -61,7 +61,6 @@ export default class AdvancedPreset extends Component {
           key={preset.name}
           id={id}
           name={preset.name}
-          collar={preset.collar}
           coretype={preset.coretype}
           neckline={preset.neckline}
           shoulder={preset.shoulder}
