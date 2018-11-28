@@ -18,10 +18,9 @@ const SET_ONBOARDING = 'filters/SET_ONBOARDING'
 const defaultState = {
   data: {
     coretype: 2,
-    collar: 0,
     top_length: 1,
     neckline: 1,
-    shoulder: 4,
+    shoulder: 3,
     sleeve_length: 0,
     solid: 0,
     pattern: 0,

@@ -43,7 +43,6 @@ class TopPresets extends Component {
               key={preset.name}
               id={`${camelCase(preset.name)}${index}`}
               name={preset.name}
-              collar={preset.collar}
               coretype={preset.coretype}
               neckline={preset.neckline}
               shoulder={preset.shoulder}

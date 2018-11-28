@@ -40,17 +40,16 @@ export const FABRIC_COLORS = {
 // state -1 is all,
 export const PROP_CONST = {
   coretype: [0, 3, 2, 'top_core'],
-  collar: [0, 2, 0, 'top_collar'],
   top_length: [0, 2, 1, 'length'],
-  neckline: [0, 2, 1, 'neckline'],
-  shoulder: [0, 4, 1, 'shoulder'],
+  neckline: [0, 4, 1, 'neckline'],
+  shoulder: [0, 3, 1, 'shoulder'],
   sleeve_length: [0, 5, 3, 'sleeves'],
   solid: [0, 1, 0, 'solid'],
   pattern: [0, 1, 0, 'pattern'],
   details: [0, 1, 0, 'details'],
   color: [0, 1, 0, 'color']
 }
-export const PROP_ORDERS = ['collar', 'shoulder', 'neckline', 'sleeve_length', 'coretype', 'top_length']
+export const PROP_ORDERS = ['shoulder', 'neckline', 'sleeve_length', 'coretype', 'top_length']
 
 export const ENABLE_BODYPART_ALL_BTN = false
 

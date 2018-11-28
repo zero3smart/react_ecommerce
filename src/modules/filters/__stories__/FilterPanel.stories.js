@@ -5,7 +5,6 @@ import { withInfo } from '@storybook/addon-info'
 import FilterPanel from '../FilterPanel'
 
 const filters = {
-  collar: 0,
   coretype: 0,
   details: 0,
   neckline: 1,

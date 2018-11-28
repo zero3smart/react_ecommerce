@@ -42,8 +42,8 @@ describe('VisualFilter Onboarding', () => {
       expect(fakeFn.showGroup.calledWith('mini_onboarding_1')).to.be.true
     })
 
-    it('should change selection to shoulder 4', () => {
-      expect(fakeFn.changePropSelection.calledWith('shoulder', 4)).to.be.true
+    it('should change selection to shoulder 3', () => {
+      expect(fakeFn.changePropSelection.calledWith('shoulder', 3)).to.be.true
     })
 
     it('should show shoulder thumbnails', () => {
@@ -124,7 +124,6 @@ describe('Visual Filter', () => {
     stubFakeFunctions(VisualFilter, fakeFn)
     vf = new VisualFilter()
     vf.currentPropState = {
-      collar: 1,
       coretype: 2,
       neckline: 0,
       shoulder: 0,

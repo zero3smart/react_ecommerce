@@ -5,7 +5,6 @@ import { withInfo } from '@storybook/addon-info'
 import TutorialBodypartFilter from '../TutorialBodypartFilter'
 
 const filters = {
-  collar: 0,
   coretype: 2,
   details: 0,
   neckline: 1,

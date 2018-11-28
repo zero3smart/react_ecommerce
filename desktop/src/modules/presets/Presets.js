@@ -209,7 +209,6 @@ export class Presets extends Component {
                       id={`${camelCase(preset.name)}${index}`}
                       presetKey={preset.key}
                       name={preset.name}
-                      collar={preset.collar}
                       coretype={preset.coretype}
                       neckline={preset.neckline}
                       shoulder={preset.shoulder}

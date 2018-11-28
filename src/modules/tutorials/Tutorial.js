@@ -185,7 +185,6 @@ const mapStateToProps = state => ({
 export default compose(connect(mapStateToProps), withTrackingProvider('Tutorial'))(Tutorial)
 
 const defaultFilters = {
-  collar: 0,
   coretype: 2,
   details: 0,
   neckline: 1,

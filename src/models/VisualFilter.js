@@ -34,7 +34,6 @@ const { Snap, localStorage } = window
 export default class VisualFilter {
   selectedBodyPart = null
   currentPropState = {
-    collar: '0',
     coretype: '0',
     neckline: '0',
     shoulder: '0',
@@ -87,23 +86,33 @@ export default class VisualFilter {
   }
 
   getbodyPartFilters (filters) {
-    return pick(filters, [ 'collar', 'coretype', 'neckline', 'shoulder', 'sleeve_length', 'top_length' ])
+    let filterSettings = pick(filters, [ 'coretype', 'neckline', 'shoulder', 'sleeve_length', 'top_length' ])
+    // Limit settings values to valid ones
+    for (var prop in filterSettings) {
+      var maxVal = PROP_CONST[prop][1]
+      if (parseInt(filterSettings[prop], 10) > maxVal) {
+        // Older settings
+        console.log('Limiting settings to valid range', prop, filterSettings[prop])
+        filterSettings[prop] = maxVal
+      }
+    }
+    return filterSettings
   }
 
   onboardingSeqIdx = 0
 
   onboardingCycleBodypart () {
     let onboardingSequences = [
-      {collar: 0, coretype: 2, neckline: 1, shoulder: 1, sleeve_length: 0, top_length: 2},
-      {collar: 0, coretype: 2, neckline: 1, shoulder: 2, sleeve_length: 0, top_length: 2},
-      {collar: 0, coretype: 2, neckline: 1, shoulder: 4, sleeve_length: 0, top_length: 2},
-      {collar: 0, coretype: 2, neckline: 1, shoulder: 0, sleeve_length: 1, top_length: 2},
-      {collar: 0, coretype: 2, neckline: 1, shoulder: 0, sleeve_length: 2, top_length: 2},
-      {collar: 0, coretype: 2, neckline: 1, shoulder: 0, sleeve_length: 4, top_length: 2},
-      {collar: 0, coretype: 2, neckline: 1, shoulder: 0, sleeve_length: 5, top_length: 2},
-      {collar: 0, coretype: 0, neckline: 2, shoulder: 4, sleeve_length: 5, top_length: 0},
-      {collar: 2, coretype: 1, neckline: 2, shoulder: 4, sleeve_length: 2, top_length: 2},
-      {collar: 0, coretype: 2, neckline: 1, shoulder: 4, sleeve_length: 0, top_length: 1}
+      {coretype: 2, neckline: 1, shoulder: 1, sleeve_length: 0, top_length: 2},
+      {coretype: 2, neckline: 1, shoulder: 2, sleeve_length: 0, top_length: 2},
+      {coretype: 2, neckline: 1, shoulder: 3, sleeve_length: 0, top_length: 2},
+      {coretype: 2, neckline: 1, shoulder: 0, sleeve_length: 1, top_length: 2},
+      {coretype: 2, neckline: 1, shoulder: 0, sleeve_length: 2, top_length: 2},
+      {coretype: 2, neckline: 1, shoulder: 0, sleeve_length: 4, top_length: 2},
+      {coretype: 2, neckline: 1, shoulder: 0, sleeve_length: 5, top_length: 2},
+      {coretype: 0, neckline: 2, shoulder: 3, sleeve_length: 5, top_length: 0},
+      {coretype: 1, neckline: 2, shoulder: 3, sleeve_length: 2, top_length: 2},
+      {coretype: 2, neckline: 1, shoulder: 3, sleeve_length: 0, top_length: 1}
     ]
     this.updateState(onboardingSequences[this.onboardingSeqIdx])
     this.onboardingSeqIdx = (this.onboardingSeqIdx + 1) % (onboardingSequences.length)
@@ -535,7 +544,7 @@ export default class VisualFilter {
       case 0:
         this.showGroup('mini_onboarding_touch')
         this.showGroup('mini_onboarding_1')
-        this.changePropSelection('shoulder', 4)
+        this.changePropSelection('shoulder', 3)
         this.updateThumbnailSelectionBox('shoulder')
         break
       case 1:
@@ -821,7 +830,12 @@ export default class VisualFilter {
    * @returns {string} last body part (prop)
    */
   static getLastBodyPart () {
-    return localStorage.getItem(LAST_BODY_PART)
+    let prop = localStorage.getItem(LAST_BODY_PART)
+    if (prop === 'collar') { // collar is deprecated
+      return 'neckline'
+    } else {
+      return prop
+    }
   }
 
   /**

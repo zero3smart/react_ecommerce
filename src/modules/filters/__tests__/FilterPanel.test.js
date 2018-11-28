@@ -8,14 +8,13 @@ describe('<FilterPanel />', () => {
   let wrapper
   let props = {
     filters: {
-      collar: 0,
       color: 'blue,green',
       coretype: 3,
       details: 1,
       neckline: 2,
       pattern: 0,
       sale: 1,
-      shoulder: 4,
+      shoulder: 3,
       sleeve_length: 1,
       solid: 1,
       top_length: 0
