@@ -52,7 +52,8 @@ class Home extends Component {
 
   render () {
     const { recommendedProducts, onboarding } = this.props
-    const { tutorialActive } = this.state
+    // const { tutorialActive } = this.state
+    const tutorialActive = false // disable tutorial until safari desktop issue is fixed
 
     return (
       <div id='MainScroll' className='Home'>
