@@ -40,14 +40,14 @@ class Home extends Component {
     const { recommendedProducts, fetchRecommendedProducts } = this.props
     // make sure recommended fetch only run once
     if (recommendedProducts.length === 0) {
-      fetchRecommendedProducts(11)
+      fetchRecommendedProducts(89)
     }
   }
 
   componentWillUnmount () {
     const { fetchRecommendedProducts } = this.props
     // fetch recommended products on leave
-    fetchRecommendedProducts(11)
+    fetchRecommendedProducts(89)
   }
 
   render () {

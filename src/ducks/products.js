@@ -144,7 +144,7 @@ export function fetchProducts (initialFetch = false) {
  * calculate and get recommended products based on current filter, favorite presets and favorite products
  * @param productCount number of products to be fetched
  */
-export function fetchRecommendedProducts (productCount = 9) {
+export function fetchRecommendedProducts (productCount = 90) {
   return async dispatch => {
     try {
       const currentFilter = VisualFilter.getFilters()
