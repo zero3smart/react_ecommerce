@@ -14,6 +14,6 @@ export const makeRecommendationMiddleware = productCount => store => next => act
   return next(action)
 }
 
-const middleware = makeRecommendationMiddleware(90)
+const middleware = makeRecommendationMiddleware(91)
 
 export default middleware
