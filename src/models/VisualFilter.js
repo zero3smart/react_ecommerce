@@ -179,7 +179,7 @@ export default class VisualFilter {
       }
 
       for (let prop in this.currentPropState) {
-        this.showGroup(this.getBodyPartGroupName(prop, this.currentPropState[prop]))
+        this.showGroup(this.getBodyPartGroupNameSpecial(this.currentPropState, prop))
       }
 
       // onboarding
@@ -503,9 +503,9 @@ export default class VisualFilter {
       // body part visibility handler
       for (let prop in newPropState) {
         // hide previous bodypart
-        this.hideGroup(this.getBodyPartGroupName(prop, this.currentPropState[prop]))
+        this.hideGroup(this.getBodyPartGroupNameSpecial(this.currentPropState, prop))
         // show next bodypart
-        this.showGroup(this.getBodyPartGroupName(prop, newPropState[prop]))
+        this.showGroup(this.getBodyPartGroupNameSpecial(newPropState, prop))
       }
       // update current prop state after body part visibility handler done
       this.currentPropState = newPropState
@@ -711,10 +711,44 @@ export default class VisualFilter {
     }
   }
 
-  changePropSelection (prop, sel, requestChange = true) {
-    this.hideGroup(this.getBodyPartGroupName(prop, this.currentPropState[prop]))
-    this.showGroup(this.getBodyPartGroupName(prop, sel))
+  getBodyPartGroupNameSpecial (propState, prop) {
+    if (prop === 'shoulder') {
+      // Special cases for shoulders:
+      // Shouder 1 / neckline 3,4 : shows 'shoulder_1_for_neck_34' instead of 'shoulder_1'
+      // Shouder 2 / neckline 3,4 : shows 'shoulder_2_for_neck_34' instead of 'shoulder_2'
+      // Shoulder 3 / sleeves 0 : shows 'shoulder_3_for_sleeves_0' instead of 'shoulder_3'
+      var shoulder = parseInt(propState['shoulder'], 10)
+      if (shoulder === 3 && propState['sleeve_length'] === '0') {
+        return 'shoulder_3_for_sleeves_0'
+      }
+      var neckline = parseInt(propState['neckline'], 10)
+      if (neckline === 3 || neckline === 4) {
+        if (shoulder === 1) {
+          return 'shoulder_1_for_neckline_34'
+        }
+        if (shoulder === 2) {
+          return 'shoulder_2_for_neckline_34'
+        }
+      }
+    }
+    // Default cases
+    return this.getBodyPartGroupName(prop, propState[prop])
+  }
 
+  updatePropSelectionViewState (prevPropState, newPropState) {
+    for (var prop in newPropState) {
+      var hideGrp = this.getBodyPartGroupNameSpecial(prevPropState, prop)
+      var showGrp = this.getBodyPartGroupNameSpecial(newPropState, prop)
+      if (hideGrp !== showGrp) {
+        console.log(prop, 'from', hideGrp, 'to', showGrp)
+        this.hideGroup(hideGrp)
+        this.showGroup(showGrp)
+      }
+    }
+  }
+
+  changePropSelection (prop, sel, requestChange = true) {
+    var prevPropState = Object.assign({}, this.currentPropState)
     /**
      * Special handling for tank top
      * ---
@@ -725,32 +759,20 @@ export default class VisualFilter {
     if (prop === 'coretype') {
       if (sel.toString() === '0') { // coretype is moving to 0. Change top length to 0 also
         this.savedTopLength = this.currentPropState['top_length']
-        this.hideGroup('length_' + this.currentPropState['top_length'])
         // change top length to 0
         this.currentPropState['top_length'] = '0'
-        // show 0 top length image
-        this.showGroup('length_0')
       } else if (this.currentPropState['coretype'] === '0') { // coretype is moving away from 0. Restore top length
-        this.hideGroup('length_0')
-        this.hideGroup('length_1')
-        this.hideGroup('length_2')
-        this.hideGroup('length_all')
-        if (isNil(this.savedTopLength)) {
-          this.showGroup('length_0')
-        } else {
-          this.showGroup('length_' + this.savedTopLength)
+        if (this.savedTopLength) {
           this.currentPropState['top_length'] = this.savedTopLength
           this.savedTopLength = null
         }
       }
     }
     if (prop === 'top_length' && this.currentPropState['coretype'].toString() === '0') {
-      this.hideGroup('top_core_0')
-      this.showGroup('top_core_1')
-      this.currentPropState['coretype'] = '1' // Avoid recursion
+      this.currentPropState['coretype'] = '1'
     }
-
     this.currentPropState[prop] = sel
+    this.updatePropSelectionViewState(prevPropState, this.currentPropState)
     if (requestChange) {
       this.settings.onFilterChange(this.currentPropState)
     }
@@ -895,7 +917,7 @@ export default class VisualFilter {
       group.animate({
         opacity: '.8'
         // transform: 'scale(1.01)' // Somehow scaling up animation looks shaky.
-      }, 100, null, () => { this.hideGroup(id) })
+      }, 300, null, () => { this.hideGroup(id) })
     }
     this.lastHighlightId = id
   }
