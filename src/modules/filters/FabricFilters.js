@@ -23,7 +23,7 @@ export default class FabricFilters extends PureComponent {
     kind: PropTypes.oneOf(['default', 'inline']),
     style: PropTypes.object,
     onChange: PropTypes.func,
-    disableEvent: PropTypes.bool
+    badgeMode: PropTypes.bool
   }
 
   static defaultProps = {
@@ -33,7 +33,7 @@ export default class FabricFilters extends PureComponent {
     color: null,
     kind: 'default',
     onChange: (filters) => { console.debug('FabricFilters - filters changed', filters) },
-    disableEvent: false
+    badgeMode: false
   }
 
   constructor (props) {
@@ -48,17 +48,17 @@ export default class FabricFilters extends PureComponent {
   }
 
   get toggleColorPallete () {
-    const { disableEvent } = this.props
+    const { badgeMode } = this.props
     const { collorPalleteVisible } = this.state
     return () => {
-      if (!disableEvent) {
+      if (!badgeMode) {
         this.setState({ collorPalleteVisible: !collorPalleteVisible })
       }
     }
   }
 
   get handleClick () {
-    const { details, pattern, solid, color, onChange, disableEvent } = this.props
+    const { details, pattern, solid, color, onChange, badgeMode } = this.props
     return (value, name) => {
       const filters = {
         details,
@@ -69,7 +69,7 @@ export default class FabricFilters extends PureComponent {
       // toggle value, between 0 and 1
       const newValue = this.isActive(value) ? 0 : 1
 
-      if (!disableEvent) {
+      if (!badgeMode) {
         onChange({ ...filters, [name]: newValue })
       }
     }
@@ -77,28 +77,28 @@ export default class FabricFilters extends PureComponent {
 
   get handleColorClick () {
     return (values) => {
-      const { details, pattern, solid, disableEvent, onChange } = this.props
+      const { details, pattern, solid, badgeMode, onChange } = this.props
       const filters = {
         details,
         pattern,
         solid,
         color: values && values.join(',')
       }
-      if (!disableEvent) {
+      if (!badgeMode) {
         onChange(filters)
       }
     }
   }
 
   render () {
-    const { details, pattern, solid, color, disableEvent, kind, style } = this.props
+    const { details, pattern, solid, color, badgeMode, kind, style } = this.props
     const { collorPalleteVisible } = this.state
     const colorValues = color ? color.split(',') : []
     const isSingleColor = colorValues.length === 1
 
     // define text
     let filterButtonChild = isSingleColor ? color : 'Colors'
-    if (!disableEvent) {
+    if (!badgeMode) {
       filterButtonChild = <img src={angleSVGSrc} alt='color-picker' className='arrow' />
     }
 
@@ -109,7 +109,7 @@ export default class FabricFilters extends PureComponent {
     // end of color button style
 
     return (
-      <div className={classNames('FabricFilters', { noEvents: disableEvent, [kind]: kind })} style={style}>
+      <div className={classNames('FabricFilters', { noEvents: badgeMode, [kind]: kind })} style={style}>
         <FilterButton
           name='solid'
           value={solid}

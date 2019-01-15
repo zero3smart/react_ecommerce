@@ -28,7 +28,9 @@ export default class Tracker {
     if (isDev) {
       console.debug('Track:', event, props)
     }
-    mixpanel.track(event, props)
+    if (mixpanel) {
+      mixpanel.track(event, props)
+    }
   }
 
   registerTrackLinks (selector, event, properties = {}) {
@@ -40,14 +42,17 @@ export default class Tracker {
     if (isDev) {
       console.debug('Register Track links:', selector, event, props)
     }
-
-    mixpanel.track_links(selector, event, props)
+    if (mixpanel) {
+      mixpanel.track_links(selector, event, props)
+    }
   }
 
   static track (event, props) {
-    mixpanel.track(event, {
-      dev: isDev,
-      ...props
-    })
+    if (mixpanel) {
+      mixpanel.track(event, {
+        dev: isDev,
+        ...props
+      })
+    }
   }
 }

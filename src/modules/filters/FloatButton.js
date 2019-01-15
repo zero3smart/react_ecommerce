@@ -33,7 +33,7 @@ export default class FloatButton extends PureComponent {
     // initialize visual filter
     this.visualFilterButton = new VisualFilter(`#${id}`, {
       defaultState: filters,
-      disableEvent: true,
+      badgeMode: true,
       hideThumbnail: true,
       hideMiniOnboarding: true,
       onSVGLoaded: this.handleSVGLoaded,

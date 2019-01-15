@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { PRODUCT_COUNT_PER_PAGE } from 'config/constants'
+import { PRODUCT_COUNT_PER_PAGE, PRD_CATEGORY } from 'config/constants'
 import { createCancelableAsyncAction } from 'utils/async'
 import { mapProductFavorites, updateProductFavorite } from './helpers'
 import { syncFavoriteProducts } from 'ducks/products'
@@ -20,7 +20,7 @@ const defaultState = {
   // related products
   relatedProducts: [],
   relatedProductsFetched: false,
-  nextPage: 0,
+  nextOffset: 0,
   totalCount: 0,
   scrollBellowTheFold: false // whether products page scroll position is bellow the fold
 }
@@ -41,14 +41,14 @@ export default function reducer (state = defaultState, action = {}) {
         relatedProducts: mapProductFavorites(payload.favoriteProductIds, payload.products),
         relatedProductsFetched: true,
         totalCount: payload.totalCount,
-        nextPage: 1
+        nextOffset: PRODUCT_COUNT_PER_PAGE
       }
     case APPEND_RELATED_PRODUCTS:
       let newProductList = mapProductFavorites(payload.favoriteProductIds, payload.products)
       return {
         ...state,
         relatedProducts: [...state.relatedProducts, ...newProductList],
-        nextPage: state.nextPage + 1
+        nextOffset: state.nextOffset + PRODUCT_COUNT_PER_PAGE
       }
     case LIKE_PRODUCT:
       let activeData = state.data
@@ -121,7 +121,7 @@ export function setScrollBellowTheFold (scrollState) {
 export const fetchProduct = createCancelableAsyncAction((productId, requestStatus = {}) => {
   return async dispatch => {
     try {
-      const response = await axios.get(`/products/woman_top/${productId}`)
+      const response = await axios.get(`/categories/${PRD_CATEGORY}/${productId}`)
       const favoriteProductIds = Product.getFavoriteProductIds()
 
       let product = response.data.products[0]
@@ -152,10 +152,10 @@ export const fetchRelatedProducts = createCancelableAsyncAction((productId, requ
     try {
       const { product } = getState()
 
-      const response = await axios.get('/products/woman_top', {
+      const response = await axios.get(`/categories/${PRD_CATEGORY}`, {
         params: {
-          page: product.nextPage,
-          cnt_per_page: PRODUCT_COUNT_PER_PAGE,
+          offset: product.nextOffset,
+          limit: PRODUCT_COUNT_PER_PAGE,
           selected_product_id: productId
         }
       })
@@ -165,7 +165,7 @@ export const fetchRelatedProducts = createCancelableAsyncAction((productId, requ
       if (!requestStatus.isCancelled) {
         // if next page is more than 0, append related products to the list
         // else, reset the product
-        if (product.nextPage > 0) {
+        if (product.nextOffset > 0) {
           dispatch(appendRelatedProducts(response.data.products, favoriteProductIds))
         } else {
           dispatch(setRelatedProducts(response.data.products, response.data.total_cnt, favoriteProductIds))

@@ -17,7 +17,7 @@ class Tops extends Component {
     totalCount: PropTypes.number,
     isProductsFetched: PropTypes.bool,
     onboarding: PropTypes.bool,
-    nextPage: PropTypes.number,
+    nextOffset: PropTypes.number,
     syncFilter: PropTypes.func.isRequired,
     fetchProducts: PropTypes.func.isRequired
   }
@@ -55,7 +55,7 @@ class Tops extends Component {
   }
 
   render () {
-    const { products, isProductsFetched, nextPage, onboarding } = this.props
+    const { products, isProductsFetched, nextOffset, onboarding } = this.props
 
     return (
       <div className={classNames('Tops', { onboarding })}>
@@ -70,7 +70,7 @@ class Tops extends Component {
               id='MainScroll'
               show={isProductsFetched}
               products={products}
-              nextPage={nextPage}
+              nextOffset={nextOffset}
               showOriginalPrice
               className='Tops-products'
               onFetch={this.handleFetch}
@@ -88,7 +88,7 @@ const mapStateToProps = (state, props) => ({
   products: state.products.list,
   totalCount: state.products.totalCount,
   isProductsFetched: state.products.fetched,
-  nextPage: state.products.nextPage,
+  nextOffset: state.products.nextOffset,
   onboarding: state.filters.onboarding
 })
 

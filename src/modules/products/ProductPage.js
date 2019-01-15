@@ -16,7 +16,7 @@ class ProductPage extends Component {
     product: PropTypes.object.isRequired,
     relatedProducts: PropTypes.array.isRequired,
     totalCount: PropTypes.number.isRequired,
-    nextPage: PropTypes.number,
+    nextOffset: PropTypes.number,
     scrollBellowTheFold: PropTypes.bool,
     showArrows: PropTypes.bool,
     className: PropTypes.string,
@@ -96,7 +96,7 @@ class ProductPage extends Component {
   }
 
   render () {
-    const { product, relatedProducts, isProductFetched, isRelatedProductsFetched, nextPage, renderExtraItem, showArrows, className } = this.props
+    const { product, relatedProducts, isProductFetched, isRelatedProductsFetched, nextOffset, renderExtraItem, showArrows, className } = this.props
     let productBox = <ProductPlaceholder />
 
     if (isProductFetched) {
@@ -132,7 +132,7 @@ class ProductPage extends Component {
           id='MainScroll'
           show={isRelatedProductsFetched}
           products={relatedProducts}
-          nextPage={nextPage}
+          nextOffset={nextOffset}
           onFetch={this.handleFetchNext}
           onScrollBellowTheFold={this.handleScrollBellowTheFold}
           extraItem={productBox}
@@ -150,7 +150,7 @@ const mapStateToProps = (state, props) => ({
   isRelatedProductsFetched: state.product.relatedProductsFetched,
   relatedProducts: state.product.relatedProducts,
   totalCount: state.product.totalCount,
-  nextPage: state.product.nextPage,
+  nextOffset: state.product.nextOffset,
   scrollBellowTheFold: state.product.scrollBellowTheFold
 })
 

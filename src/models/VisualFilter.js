@@ -3,55 +3,38 @@
  * contains functions to handle visual filter svg interactions
  */
 // Import Snap from window. Snap is loaded from template.
-import pick from 'lodash-es/pick'
 import isNil from 'lodash-es/isNil'
 import isEmpty from 'lodash-es/isEmpty'
 import isEqual from 'lodash-es/isEqual'
 import throttle from 'lodash-es/throttle'
 import Hammer from 'hammerjs'
 import {
-  PROP_CONST,
-  PROP_ORDERS,
-  THUMBNAIL_IMG_X_OFFSET,
-  VERT_THUMBNAIL_X_OFFSET,
-  VERT_THUMBNAIL_Y_OFFSET,
-  HORZ_THUMBNAIL_Y_OFFSET,
-  THUMBNAIL_HIGHLITER_SIZE,
-  THUMBNAIL_TOUCH_AREA_SIZE,
   LAST_BODY_PART,
-  ENABLE_BODYPART_ALL_BTN,
-  FILTERS
+  FILTERS,
+  PRD_CATEGORY
 } from 'config/constants'
 
-import vfBundleSvg from 'assets/svg/vf_bundle.svg'
-import vfBundleVertSvg from 'assets/svg/vf_bundle_thumb_vertical.svg'
-import miniOnboardingSvg from 'assets/svg/mini_onboarding.svg'
-import miniOnboardingVertSvg from 'assets/svg/mini_onboarding_thumb_vertical.svg'
 import { Tracker } from 'models'
+import { getCatData } from './VFCatViewData'
 
 const { Snap, localStorage } = window
 
 export default class VisualFilter {
   selectedBodyPart = null
-  currentPropState = {
-    coretype: '0',
-    neckline: '0',
-    shoulder: '0',
-    sleeve_length: '0',
-    top_length: '0'
-  }
   onboardingStage = 0
   colorPalletteOpened = 0
   svgLoaded = false
   lastHighlightId = null
   lastBodyPart = 'shoulder'
   swipeView = false
+  catdata = null
 
   constructor (selector = '#svg', options = {}) {
     this.settings = {
       ...defaultOptions,
       ...options
     }
+    this.catdata = getCatData(this.settings.category)
 
     // if snapsvg is not available, don't initialize
     // avoid error on test env
@@ -62,21 +45,21 @@ export default class VisualFilter {
     this.snap = Snap(selector)
 
     if (options.defaultState) {
-      this.currentPropState = this.getbodyPartFilters(options.defaultState)
+      this.catdata.currentPropState = this.catdata.getbodyPartFilters(options.defaultState)
     }
 
-    this.initialize() // initialize snap
+    this.initialize()
 
     this.moveToPrevThumbnails = throttle(this.moveToPrevThumbnails, 500, { leading: true, trailing: false })
     this.moveToNextThumbnails = throttle(this.moveToNextThumbnails, 500, { leading: true, trailing: false })
   }
 
   trackBodypart (event, prop) {
-    Tracker.track(event, {'bodypart': prop})
+    Tracker.track(event, {'category': this.settings.category, 'bodypart': prop})
   }
 
   track (event) {
-    Tracker.track(event)
+    Tracker.track(event, {'category': this.settings.category})
   }
 
   setLastBodyPart (lastBodyPart) {
@@ -85,54 +68,21 @@ export default class VisualFilter {
     }
   }
 
-  getbodyPartFilters (filters) {
-    let filterSettings = pick(filters, [ 'coretype', 'neckline', 'shoulder', 'sleeve_length', 'top_length' ])
-    // Limit settings values to valid ones
-    for (var prop in filterSettings) {
-      var maxVal = PROP_CONST[prop][1]
-      if (parseInt(filterSettings[prop], 10) > maxVal) {
-        // Older settings
-        console.log('Limiting settings to valid range', prop, filterSettings[prop])
-        filterSettings[prop] = maxVal
-      }
-    }
-    return filterSettings
-  }
-
   onboardingSeqIdx = 0
 
   onboardingCycleBodypart () {
-    let onboardingSequences = [
-      {coretype: 2, neckline: 1, shoulder: 1, sleeve_length: 0, top_length: 2},
-      {coretype: 2, neckline: 1, shoulder: 2, sleeve_length: 0, top_length: 2},
-      {coretype: 2, neckline: 1, shoulder: 3, sleeve_length: 0, top_length: 2},
-      {coretype: 2, neckline: 1, shoulder: 0, sleeve_length: 1, top_length: 2},
-      {coretype: 2, neckline: 1, shoulder: 0, sleeve_length: 2, top_length: 2},
-      {coretype: 2, neckline: 1, shoulder: 0, sleeve_length: 4, top_length: 2},
-      {coretype: 2, neckline: 1, shoulder: 0, sleeve_length: 5, top_length: 2},
-      {coretype: 0, neckline: 2, shoulder: 3, sleeve_length: 5, top_length: 0},
-      {coretype: 1, neckline: 2, shoulder: 3, sleeve_length: 2, top_length: 2},
-      {coretype: 2, neckline: 1, shoulder: 3, sleeve_length: 0, top_length: 1}
-    ]
-    this.updateState(onboardingSequences[this.onboardingSeqIdx])
-    this.onboardingSeqIdx = (this.onboardingSeqIdx + 1) % (onboardingSequences.length)
+    this.updateState(this.catdata.onboardingSequences[this.onboardingSeqIdx])
+    this.onboardingSeqIdx = (this.onboardingSeqIdx + 1) % (this.catdata.onboardingSequences.length)
     setTimeout(() => this.onboardingCycleBodypart(), 500)
   }
 
   setPointerHovering () {
-    for (let prop in this.currentPropState) {
+    for (let prop in this.catdata.currentPropState) {
       let hitArea = this.findGroupById(this.getBodyPartGroupName(prop, 'touch'))
       let vf = this
 
       hitArea.mouseover(function () {
-        // let nextState = parseInt(vf.currentPropState[prop], 10) + 1
-        // let opacity = '1'
-        // if (nextState > vf.getMaxSelectionIndx(prop)) {
-        //   nextState = vf.currentPropState[prop]
-        //   opacity = '.8'
-        // }
-        // vf.highlightGroup(vf.getBodyPartGroupName(prop, nextState), false, opacity)
-        vf.highlightGroup(vf.getBodyPartGroupName(prop, vf.getMaxSelectionIndx(prop)), false, '.5')
+        vf.highlightGroup(vf.getBodyPartGroupName(prop, this.catdata.getMaxSelectionIndx(prop)), false, '.5')
       })
       hitArea.mouseout(function () {
         vf.removeHighlight()
@@ -142,23 +92,11 @@ export default class VisualFilter {
 
   initialize () {
     const { hideMiniOnboarding, onSVGLoaded, hideThumbnail, useVerticalThumb,
-      swipeable, disableEvent, tutorialAnim, showTouchesPoints } = this.settings
+      swipeable, badgeMode, tutorialAnim, showTouchesPoints } = this.settings
 
-    this.viewBox = [0, 0, 490, 410]
-    let svgSource = ''
-    let svgOnboardingSource = ''
-    if (useVerticalThumb) {
-      this.viewBox = [0, 0, 480, 380]
-      svgSource = vfBundleVertSvg
-      svgOnboardingSource = miniOnboardingVertSvg
-    } else {
-      svgSource = vfBundleSvg
-      svgOnboardingSource = miniOnboardingSvg
-    }
-
-    if (hideThumbnail) {
-      this.viewBox = [0, 0, 480, 320]
-    }
+    this.viewBox = this.catdata.viewBox(hideThumbnail, useVerticalThumb)
+    let svgSource = this.catdata.svg(useVerticalThumb)
+    let svgOnboardingSource = this.catdata.miniOnboardingSvg(useVerticalThumb)
 
     this.snap.attr({ viewBox: this.viewBox })
 
@@ -171,15 +109,8 @@ export default class VisualFilter {
 
       this.showGroup('full-body')
 
-      if (!ENABLE_BODYPART_ALL_BTN) {
-        // Hide 'ALL' button
-        this.snapGroup.selectAll('#ALL').items.forEach((el, index) => {
-          el.attr({ visibility: 'hidden' })
-        })
-      }
-
-      for (let prop in this.currentPropState) {
-        this.showGroup(this.getBodyPartGroupNameSpecial(this.currentPropState, prop))
+      for (let prop in this.catdata.currentPropState) {
+        this.showGroup(this.getBodyPartGroupNameSpecial(this.catdata.currentPropState, prop))
       }
 
       // onboarding
@@ -194,17 +125,27 @@ export default class VisualFilter {
       }
 
       // on vertical thumb and event is enabled, show arrow and enable swipe if activated
-      if (!disableEvent) {
+      if (!badgeMode) {
         this.track('VF Opened')
 
         this.initializeArrowNavigation()
-
         if (swipeable) {
           this.initializeSwipableThumbnail()
         }
+        for (var i in this.catdata.catcfg.partList) {
+          const prop = this.catdata.catcfg.partList[i]
+          const tn = this.findGroupById(this.getBodyPartGroupName(prop, 'thumbnails'))
+          const offsets = this.catdata.tnOffsets(useVerticalThumb, prop)
+          console.log(prop, offsets)
+          var transform = `translate(${offsets.xoffset}, ${offsets.yoffset})`
+          if (useVerticalThumb) {
+            transform += ' scale(1.4)'
+          }
+          tn.attr({ transform: transform })
+        }
       }
 
-      if (!useVerticalThumb && !disableEvent) {
+      if (!useVerticalThumb && !badgeMode) {
         this.setPointerHovering()
       }
 
@@ -229,7 +170,7 @@ export default class VisualFilter {
       thumbTouchSize = { width: 62, height: 62 }
     }
     // This will be touch hit-area
-    for (var prop in this.currentPropState) {
+    for (var prop in this.catdata.currentPropState) {
       group = this.findGroupById(this.getBodyPartGroupName(prop, 'touch'))
 
       if (group === null) {
@@ -239,10 +180,9 @@ export default class VisualFilter {
 
       // Just make it not-visible. We still need it for hit-map
       group.attr({ visibility: 'visible' })
-      group.attr({ opacity: '0' })
-      // group.attr({ opacity: '1' }) // Uncomment to visualize touch area
+      group.attr({ opacity: this.settings.debugTouchArea ? 0.5 : 0.0 })
 
-      if (!this.settings.disableEvent) {
+      if (!this.settings.badgeMode) {
         group.click(function () { self.handleBodyPartClick(this) }, prop)
       }
     }
@@ -321,10 +261,8 @@ export default class VisualFilter {
 
   moveToPrevThumbnails () {
     const { useVerticalThumb } = this.settings
-    const currentPropIndex = PROP_ORDERS.indexOf(this.selectedBodyPart)
-    const nextPropIndex = currentPropIndex > 0 ? currentPropIndex - 1 : PROP_ORDERS.length - 1
-    const nextProp = PROP_ORDERS[nextPropIndex]
-    const nextThumb = this.currentPropState[nextProp]
+    const nextProp = this.catdata.prevProp(this.selectedBodyPart)
+    const nextThumb = this.catdata.currentPropState[nextProp]
 
     if (useVerticalThumb) {
       this.animateVerticalThumbnail(this.selectedBodyPart, nextProp, false, () => {
@@ -339,10 +277,8 @@ export default class VisualFilter {
 
   moveToNextThumbnails () {
     const { useVerticalThumb } = this.settings
-    const currentPropIndex = PROP_ORDERS.indexOf(this.selectedBodyPart)
-    const nextPropIndex = currentPropIndex < PROP_ORDERS.length - 1 ? currentPropIndex + 1 : 0
-    const nextProp = PROP_ORDERS[nextPropIndex]
-    const nextThumb = this.currentPropState[nextProp]
+    const nextProp = this.catdata.prevProp(this.selectedBodyPart)
+    const nextThumb = this.catdata.currentPropState[nextProp]
 
     if (useVerticalThumb) {
       this.animateVerticalThumbnail(this.selectedBodyPart, nextProp, true, () => {
@@ -370,7 +306,7 @@ export default class VisualFilter {
 
     // show / hide highlight
     this.removeHighlight()
-    this.highlightGroup(this.getBodyPartGroupName(prop, this.currentPropState[prop]))
+    this.highlightGroup(this.getBodyPartGroupName(prop, this.catdata.currentPropState[prop]))
 
     // set last body part when its changed
     this.lastBodyPart = prop
@@ -497,30 +433,22 @@ export default class VisualFilter {
       this.switchBodypartThumbnail(this.lastBodyPart)
     }
 
-    const newPropState = this.getbodyPartFilters(filters)
+    const newPropState = this.catdata.getbodyPartFilters(filters)
     // only update when svg is loaded and has changes on filters
-    if (!isEqual(this.currentPropState, newPropState)) {
+    if (!isEqual(this.catdata.currentPropState, newPropState)) {
       // body part visibility handler
       for (let prop in newPropState) {
         // hide previous bodypart
-        this.hideGroup(this.getBodyPartGroupNameSpecial(this.currentPropState, prop))
+        this.hideGroup(this.getBodyPartGroupNameSpecial(this.catdata.currentPropState, prop))
         // show next bodypart
         this.showGroup(this.getBodyPartGroupNameSpecial(newPropState, prop))
       }
       // update current prop state after body part visibility handler done
-      this.currentPropState = newPropState
+      this.catdata.currentPropState = newPropState
 
       if (!this.settings.hideThumbnail) {
         this.updateThumbnailSelectionBox(this.lastBodyPart)
       }
-
-      // if (newPropState['coretype'].toString() === '0') {
-      //   this.changePropSelection('top_length', 0, false)
-      //   // this.hideGroup('length_0')
-      //   // this.hideGroup('length_1')
-      //   // this.hideGroup('length_2')
-      //   // this.hideGroup('length_all')
-      // }
     }
   }
 
@@ -617,17 +545,15 @@ export default class VisualFilter {
 
   updateThumbnailSelectionBox (prop) {
     const touchArea = this.findGroupById('Thumbnail_Touch_Area')
+    const {xoffset, yoffset} = this.catdata.tnOffsets(this.settings.useVerticalThumb, prop)
     // Display current one
     if (this.settings.useVerticalThumb) {
-      // Move thumbnail hit area
-      const xoffset = VERT_THUMBNAIL_X_OFFSET
-      const yoffset = VERT_THUMBNAIL_Y_OFFSET
       // get target thumbnail
       const thumbnailGroup0 = this.findGroupById(this.getBodyPartGroupName(prop, 'thumbnails_0'))
       const thumbnailRect0 = thumbnailGroup0.node.getBoundingClientRect()
 
       // get scale value based on thumbnail size, add padding to get more volume.
-      const scale = (thumbnailRect0.height * 1.38) / THUMBNAIL_TOUCH_AREA_SIZE.height
+      const scale = (thumbnailRect0.height * 1.38) / this.catdata.thumbnailTouchSize.height
 
       const viewBoxHeight = this.viewBox[3]
       const svgHeight = this.snap.node.getBoundingClientRect().height
@@ -645,7 +571,8 @@ export default class VisualFilter {
           // count y value of the thumbnail touch area to match the thumbnail y position
           const y = (thumbnailRect.top - startTop) / scale * viewBoxHeight / svgHeight
 
-          el.attr({ visibility: 'visible', opacity: 0, y }) // set opacity to none 0 for debugging.
+          let opacity = this.settings.debugTouchArea ? 0.5 : 0.0
+          el.attr({ visibility: 'visible', opacity: opacity, y })
         } else {
           el.attr({ visibility: 'hidden', opacity: 0 })
         }
@@ -653,38 +580,29 @@ export default class VisualFilter {
 
       touchArea.transform(desc)
 
-      this.showVerticalSelectionBox(prop, this.currentPropState[prop])
+      console.log(this.catdata.currentPropState, typeof this.catdata.currentPropState, prop)
+      this.showVerticalSelectionBox(prop, this.catdata.currentPropState[prop])
     } else {
       // Move thumbnail hit area
-      const xoffset = VisualFilter.getThumbnailXOffset(prop) + 15
-      const yoffset = HORZ_THUMBNAIL_Y_OFFSET + 15
       let desc = 't' + xoffset + ',' + yoffset
       touchArea.transform(desc)
 
-      this.showHorizontalSelectionBox(prop, this.currentPropState[prop])
+      this.showHorizontalSelectionBox(prop, this.catdata.currentPropState[prop])
     }
 
     this.removeHighlight()
-    this.highlightGroup(this.getBodyPartGroupName(prop, this.currentPropState[prop]))
-  }
-
-  getMaxSelectionIndx (prop) {
-    if (ENABLE_BODYPART_ALL_BTN) {
-      return PROP_CONST[prop][1] + 1
-    } else {
-      return PROP_CONST[prop][1]
-    }
+    this.highlightGroup(this.getBodyPartGroupName(prop, this.catdata.currentPropState[prop]))
   }
 
   getBodyPartGroupName (prop, state) {
-    return PROP_CONST[prop][3] + '_' + state
+    return prop + '_' + state
   }
 
   /**
    * @todo: data mutation from argument should be removed
    */
   handleThumbnailClick (tnIdx) {
-    if (tnIdx > this.getMaxSelectionIndx(this.selectedBodyPart)) {
+    if (tnIdx > this.catdata.getMaxSelectionIndx(this.selectedBodyPart)) {
       return
     }
     this.trackBodypart('VF Thumbnail Touch', this.selectedBodyPart)
@@ -692,23 +610,15 @@ export default class VisualFilter {
     this.showSelectionBox(this.selectedBodyPart, tnIdx)
     this.changePropSelection(this.selectedBodyPart, tnIdx)
     this.removeHighlight()
-    this.highlightGroup(this.getBodyPartGroupName(this.selectedBodyPart, this.currentPropState[this.selectedBodyPart]))
+    this.highlightGroup(this.getBodyPartGroupName(this.selectedBodyPart, this.catdata.currentPropState[this.selectedBodyPart]))
   }
 
   cyclePropSelection (prop) {
-    if (this.currentPropState[prop] === 'all') {
-      this.changePropSelection(prop, '0')
-    } else {
-      let next = parseInt(this.currentPropState[prop], 10) + 1
-      if (next === this.getMaxSelectionIndx(prop) + 1) {
-        if (ENABLE_BODYPART_ALL_BTN) {
-          next = 'all'
-        } else {
-          next = 0
-        }
-      }
-      this.changePropSelection(prop, next)
+    let next = parseInt(this.catdata.currentPropState[prop], 10) + 1
+    if (next === this.catdata.getMaxSelectionIndx(prop) + 1) {
+      next = 0
     }
+    this.changePropSelection(prop, next)
   }
 
   getBodyPartGroupNameSpecial (propState, prop) {
@@ -748,7 +658,7 @@ export default class VisualFilter {
   }
 
   changePropSelection (prop, sel, requestChange = true) {
-    var prevPropState = Object.assign({}, this.currentPropState)
+    var prevPropState = Object.assign({}, this.catdata.currentPropState)
     /**
      * Special handling for tank top
      * ---
@@ -758,33 +668,30 @@ export default class VisualFilter {
      */
     if (prop === 'coretype') {
       if (sel.toString() === '0') { // coretype is moving to 0. Change top length to 0 also
-        this.savedTopLength = this.currentPropState['top_length']
+        this.savedTopLength = this.catdata.currentPropState['top_length']
         // change top length to 0
-        this.currentPropState['top_length'] = '0'
-      } else if (this.currentPropState['coretype'] === '0') { // coretype is moving away from 0. Restore top length
+        this.catdata.currentPropState['top_length'] = '0'
+      } else if (this.catdata.currentPropState['coretype'] === '0') { // coretype is moving away from 0. Restore top length
         if (this.savedTopLength) {
-          this.currentPropState['top_length'] = this.savedTopLength
+          this.catdata.currentPropState['top_length'] = this.savedTopLength
           this.savedTopLength = null
         }
       }
     }
-    if (prop === 'top_length' && this.currentPropState['coretype'].toString() === '0') {
-      this.currentPropState['coretype'] = '1'
+    if (prop === 'top_length' && this.catdata.currentPropState['coretype'].toString() === '0') {
+      this.catdata.currentPropState['coretype'] = '1'
     }
-    this.currentPropState[prop] = sel
-    this.updatePropSelectionViewState(prevPropState, this.currentPropState)
+    this.catdata.currentPropState[prop] = sel
+    this.updatePropSelectionViewState(prevPropState, this.catdata.currentPropState)
     if (requestChange) {
-      this.settings.onFilterChange(this.currentPropState)
+      this.settings.onFilterChange(this.catdata.currentPropState)
     }
   }
 
   showHorizontalSelectionBox (prop, sel) {
     const group = this.findGroupById('Thumbnail-Highliter')
-    if (sel === 'all') {
-      sel = this.getMaxSelectionIndx(prop) // All is at the end
-    }
-    const x = sel * 68 + VisualFilter.getThumbnailXOffset(prop)
-    const desc = 't' + x + ',' + HORZ_THUMBNAIL_Y_OFFSET
+    const x = sel * 68 + this.catdata.getThumbnailXOffset(prop)
+    const desc = 't' + x + ',' + this.catdata.tnOffsets(false)['yoffset']
     group.transform(desc)
     this.showGroup('Thumbnail-Highliter')
   }
@@ -793,24 +700,21 @@ export default class VisualFilter {
     const thumbnailHighlighterGroup = this.findGroupById('Thumbnail-Highliter')
     let desc = ''
 
-    if (sel === 'all') {
-      desc = `t${(VERT_THUMBNAIL_X_OFFSET - 1)},0`
-    } else {
-      // for non "ALL" thumbnail, highliter size and position should be adjusted based on thumbnail
-      let thumbnailGroup = this.findGroupById(this.getBodyPartGroupName(prop, `thumbnails_${sel}`))
-      const thumbnail0Rect = this.findGroupById(this.getBodyPartGroupName(prop, 'thumbnails_0')).node.getBoundingClientRect()
-      const thumbnailRect = thumbnailGroup.node.getBoundingClientRect()
-      const viewBoxHeight = this.viewBox[3]
-      const svgHeight = this.snap.node.getBoundingClientRect().height
+    // for non "ALL" thumbnail, highliter size and position should be adjusted based on thumbnail
+    let thumbnailGroup = this.findGroupById(this.getBodyPartGroupName(prop, `thumbnails_${sel}`))
+    const thumbnail0Rect = this.findGroupById(this.getBodyPartGroupName(prop, 'thumbnails_0')).node.getBoundingClientRect()
+    const thumbnailRect = thumbnailGroup.node.getBoundingClientRect()
+    const viewBoxHeight = this.viewBox[3]
+    const svgHeight = this.snap.node.getBoundingClientRect().height
 
-      // Scale highlighter box depending on thumbnail size
-      const scale = (thumbnailRect.height * 1.4) / THUMBNAIL_HIGHLITER_SIZE.height
+    // Scale highlighter box depending on thumbnail size
+    const scale = (thumbnailRect.height * 1.4) / this.catdata.thumbnailHighlightSize.height
 
-      // get y value based on thumbnail position.
-      // the y value should be compared between the original svg size (viewbox) and current svg size (after resize).
-      const y = VERT_THUMBNAIL_Y_OFFSET + (thumbnailRect.top - thumbnail0Rect.top) * viewBoxHeight / svgHeight
-      desc = `t${(VERT_THUMBNAIL_X_OFFSET - 3)},${y}s${scale},${thumbnailRect.width},0`
-    }
+    // get y value based on thumbnail position.
+    // the y value should be compared between the original svg size (viewbox) and current svg size (after resize).
+    const y = this.catdata.tnOffsets(true)['yoffset'] + (thumbnailRect.top - thumbnail0Rect.top) * viewBoxHeight / svgHeight
+    const x = this.catdata.tnOffsets(true)['xoffset'] - 3
+    desc = `t${x},${y}s${scale},${thumbnailRect.width},0`
 
     if (!isNil(animationDuration)) {
       thumbnailHighlighterGroup.stop().animate({ transform: desc }, animationDuration)
@@ -822,20 +726,8 @@ export default class VisualFilter {
 
   showSelectionBox (prop, tnIdx) {
     if (this.settings.useVerticalThumb) {
-      if (ENABLE_BODYPART_ALL_BTN) {
-        // on vertical thumbnails view, all should be at first
-        if (parseInt(tnIdx, 10) === 0) {
-          tnIdx = 'all'
-        } else {
-          tnIdx = parseInt(tnIdx, 10) - 1
-        }
-      }
       this.showVerticalSelectionBox(this.selectedBodyPart, tnIdx)
     } else {
-      // on horizontal thumbnails view, all should be at last
-      if (ENABLE_BODYPART_ALL_BTN && (parseInt(tnIdx, 10) === PROP_CONST[this.selectedBodyPart][1] + 1)) {
-        tnIdx = 'all'
-      }
       this.showHorizontalSelectionBox(this.selectedBodyPart, parseInt(tnIdx, 10))
     }
   }
@@ -943,16 +835,6 @@ export default class VisualFilter {
     return group
   }
 
-  static getThumbnailXOffset (prop) {
-    var tnCnt
-    if (ENABLE_BODYPART_ALL_BTN) {
-      tnCnt = PROP_CONST[prop][1] + 2
-    } else {
-      tnCnt = PROP_CONST[prop][1] + 1
-    }
-    return THUMBNAIL_IMG_X_OFFSET[tnCnt]
-  }
-
   /**
    * Check wheter onboarding screen needs to be loaded
    */
@@ -997,7 +879,8 @@ export default class VisualFilter {
 }
 
 const defaultOptions = {
-  disableEvent: false,
+  category: PRD_CATEGORY, // Should be changeable runtime
+  badgeMode: false, // Disable interaction and do not show thumbnails/bottom menus
   swipeable: false, // only supported for mobile
   defaultState: {},
   hideThumbnail: false,
@@ -1005,6 +888,7 @@ const defaultOptions = {
   useVerticalThumb: false,
   tutorialAnim: false,
   showTouchesPoints: false,
+  debugTouchArea: false,
   onFilterChange: (filters) => { console.debug('filter change', filters) },
   onPropChange: (prop) => { console.debug('prop change', prop) },
   onSVGLoaded: () => {},

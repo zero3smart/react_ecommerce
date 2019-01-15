@@ -19,7 +19,8 @@ export default class FilterPanel extends Component {
     onBodyPartChange: PropTypes.func,
     onFinishedOnboarding: PropTypes.func,
     useVerticalThumb: PropTypes.bool,
-    closable: PropTypes.bool
+    closable: PropTypes.bool,
+    debugTouchArea: PropTypes.bool
   }
 
   static defaultProps = {
@@ -41,7 +42,7 @@ export default class FilterPanel extends Component {
   }
 
   componentDidMount () {
-    const { filters, useVerticalThumb, lastBodyPart, hideMiniOnboarding, onBodyPartChange, onFinishedOnboarding } = this.props
+    const { filters, useVerticalThumb, debugTouchArea, lastBodyPart, hideMiniOnboarding, onBodyPartChange, onFinishedOnboarding } = this.props
     // initialize visual filter
     this.visualFilter = new VisualFilter('#VisualFilter', {
       defaultState: filters,
@@ -51,7 +52,8 @@ export default class FilterPanel extends Component {
       onSVGLoaded: this.handleSVGLoaded,
       hideMiniOnboarding: hideMiniOnboarding,
       useVerticalThumb: useVerticalThumb,
-      onFinishedOnboarding: onFinishedOnboarding
+      onFinishedOnboarding: onFinishedOnboarding,
+      debugTouchArea: debugTouchArea
     })
 
     this.visualFilter.setLastBodyPart(lastBodyPart)

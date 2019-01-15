@@ -1,7 +1,7 @@
 import axios from 'axios'
 import omit from 'lodash-es/omit'
 import uniqBy from 'lodash-es/uniqBy'
-import { PRODUCT_COUNT_PER_PAGE } from 'config/constants'
+import { PRODUCT_COUNT_PER_PAGE, PRD_CATEGORY } from 'config/constants'
 import { LIKE_PRODUCT, UNLIKE_PRODUCT } from './product'
 import { mapProductFavorites, updateProductFavorite } from './helpers'
 import { Product, Preset, VisualFilter } from 'models'
@@ -19,7 +19,7 @@ const defaultState = {
   recommendedList: [],
   fetched: false,
   willBeEmptyList: false,
-  nextPage: 0,
+  nextOffset: 0,
   totalCount: 0
 }
 
@@ -45,7 +45,7 @@ export default function reducer (state = defaultState, action = {}) {
           willBeEmptyList: list.length === 0,
           fetched: true,
           totalCount: payload.totalCount,
-          nextPage: 1
+          nextOffset: PRODUCT_COUNT_PER_PAGE
         }
       }
 
@@ -58,7 +58,7 @@ export default function reducer (state = defaultState, action = {}) {
       return {
         ...state,
         list: uniqBy([...state.list, ...newProductList], 'product_id'),
-        nextPage: state.nextPage + 1
+        nextOffset: state.nextOffset + PRODUCT_COUNT_PER_PAGE
       }
     case LIKE_PRODUCT:
       return {
@@ -73,7 +73,7 @@ export default function reducer (state = defaultState, action = {}) {
         recommendedList: updateProductFavorite(payload.productId, false, state.recommendedList)
       }
     case ENABLE_INITIAL_FETCH:
-      return { ...state, fetched: false, nextPage: 0 }
+      return { ...state, fetched: false, nextOffset: 0 }
     case SET_FAVORITE_PRODUCTS:
       return { ...state, favoriteList: payload.favoriteProducts }
     case SET_RECOMMENDED_PRODUCTS:
@@ -113,14 +113,14 @@ export function fetchProducts (initialFetch = false) {
     try {
       const { products, filters } = getState()
       // on initial fetch, set page should always start from 0
-      const nextPage = initialFetch ? 0 : products.nextPage
+      const nextOffset = initialFetch ? 0 : products.nextOffset
 
-      const response = await axios.get('/products/woman_top', {
+      const response = await axios.get(`/categories/${PRD_CATEGORY}`, {
         params: {
-          page: nextPage,
-          cnt_per_page: PRODUCT_COUNT_PER_PAGE,
+          offset: nextOffset,
+          limit: PRODUCT_COUNT_PER_PAGE,
           limit_per_pid: 1,
-          ...omit(filters.data, 'page', 'cnt_per_page') // use page and count per page defined from the system
+          ...omit(filters.data, 'offset', 'limit') // use page and count per page defined from the system
         }
       })
 
@@ -151,17 +151,17 @@ export function fetchRecommendedProducts (productCount = 90) {
       const favoritePresets = Preset.getFavoritePresets().map(preset => omit(preset, ['name', 'favorite']))
       const favoriteProductIds = Product.getFavoriteProductIds()
       const data = {
-        woman_top: {
+        wtop: {
           current: currentFilter,
           favorite_fits: favoritePresets,
           favorite_products: favoriteProductIds // ids
         }
       }
 
-      const response = await axios.post('/products/recommend', data, {
+      const response = await axios.post(`/categories/${PRD_CATEGORY}/recommends`, data, {
         params: {
-          page: 0,
-          cnt_per_page: productCount
+          offset: 0,
+          limit: productCount
         }
       })
 
@@ -193,8 +193,7 @@ export function syncFavoriteProducts (syncRemote = false) {
           finalProductId = `ns_${productId}`
         }
 
-        const response = await axios.get(`/products/woman_top/${finalProductId}`)
-
+        const response = await axios.get(`/categories/${PRD_CATEGORY}/${finalProductId}`)
         return {
           ...response.data.products[0],
           favorite: true
@@ -223,11 +222,11 @@ export function syncFavoriteProducts (syncRemote = false) {
  */
 export async function getProducts (filters = {}, productCount = PRODUCT_COUNT_PER_PAGE) {
   try {
-    const response = await axios.get('/products/woman_top', {
+    const response = await axios.get(`/categories/${PRD_CATEGORY}`, {
       params: {
         ...filters,
         limit_per_pid: 1,
-        cnt_per_page: productCount
+        limit: productCount
       }
     })
 
