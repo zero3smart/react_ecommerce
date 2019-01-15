@@ -57,10 +57,6 @@ class Home extends Component {
 
     return (
       <div id='MainScroll' className='Home'>
-        <InfoBanner style={styles.infoBanner}>
-          <h1>Today’s Pick for You</h1>
-          <p>the more you like, the better it gets</p>
-        </InfoBanner>
         <div className='container'>
           <ProductList
             products={recommendedProducts}

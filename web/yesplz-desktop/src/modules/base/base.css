@@ -20,14 +20,21 @@
   padding: 25px;
 }
 
-.Base-header-container {
+.Base-headerContainer {
   margin: auto;
   display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
-.Base-header > .Base-header-container > * {
+.Base-header > .Base-headerContainer > * {
   flex-shrink: 1;
+}
+
+.Base-rightNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .Base-header a {
@@ -44,7 +51,6 @@
 .Base-header .logo {
   font-size: 24px;
   color: #000000;
-  flex-basis: 100%;
 }
 
 .Base-header .menu-icon > img {

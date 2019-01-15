@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
-import LogoSrc from 'assets/images/yesplz-logo.png'
+import TopMenu from '@yesplz/core-web/ui-kits/navigations/TopMenu'
+import YesplzLogoSvg from '@yesplz/core-web/assets/svg/yesplz-logo.svg'
+import UserSvg from '@yesplz/core-web/assets/svg/user.svg'
 import BurgerSvg from '@yesplz/core-web/assets/svg/burger.svg'
-import SearchSvg from '@yesplz/core-web/assets/svg/search.svg'
 import FavoritesSvg from '@yesplz/core-web/assets/svg/favorites.svg'
 import FilterToggle from 'modules/filters/FilterToggle'
 import './base.css'
@@ -50,33 +51,40 @@ export default class Base extends Component {
     return (
       <div className='Base'>
         <div className='Base-header'>
-          <div className='container Base-header-container'>
-            <NavLink
-              exact
-              to={'/'}
-              onClick={this.handleLinkClick}
-              isActive={this.handleHomeLinkActive}
-              className='logo'>
-              <img src={LogoSrc} alt='YesPlz' />
-            </NavLink>
-            <NavLink to='/products' onClick={this.handleLinkClick} className='menu-icon'>
-              <img src={SearchSvg} alt='Visual Filter Page' />
-            </NavLink>
-            <NavLink
-              to={this.isFavoritesPage ? '#' : '/favorites/clothing'}
-              onClick={this.handleLinkClick}
-              isActive={this.handleFavoritesLinkActive}
-              className='menu-icon'>
-              <img src={FavoritesSvg} alt='Favorites Page' />
-            </NavLink>
+          <div className='container Base-headerContainer'>
             <NavLink
               to='/faq'
               onClick={this.handleLinkClick}
               className='menu-icon'>
               <img src={BurgerSvg} alt='FAQ Page' />
             </NavLink>
+            <NavLink
+              exact
+              to={'/'}
+              onClick={this.handleLinkClick}
+              isActive={this.handleHomeLinkActive}
+              className='logo'>
+              <img src={YesplzLogoSvg} alt='YesPlz' />
+            </NavLink>
+            <div className='Base-rightNav'>
+              <NavLink
+                to={this.isFavoritesPage ? '#' : '/favorites/clothing'}
+                onClick={this.handleLinkClick}
+                isActive={this.handleFavoritesLinkActive}
+                className='menu-icon'>
+                <img src={FavoritesSvg} alt='Favorites Page' />
+              </NavLink>
+              <NavLink to='/products' onClick={this.handleLinkClick} className='menu-icon'>
+                <img src={UserSvg} alt='Visual Filter Page' style={{ width: 17 }} />
+              </NavLink>
+            </div>
           </div>
         </div>
+        <TopMenu>
+          <NavLink to='/tops'>Tops</NavLink>
+          <NavLink to='/pants'>Jeans/Pants</NavLink>
+          <NavLink to='/shoes'>Shoes</NavLink>
+        </TopMenu>
         {children}
         <FilterToggle />
       </div>

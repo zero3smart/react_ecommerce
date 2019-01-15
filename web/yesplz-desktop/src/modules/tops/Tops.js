@@ -7,7 +7,6 @@ import withTrackingProvider from '@yesplz/core-web/hoc/withTrackingProvider'
 import { fetchProducts } from '@yesplz/core-redux/ducks/products'
 import { ProductList } from '@yesplz/core-web/modules/products'
 import { syncFilter } from '@yesplz/core-redux/ducks/filters'
-import { InfoBanner } from '@yesplz/core-web/ui-kits/banners'
 import { VisualFilter } from 'modules/visual-filter'
 import './tops.css'
 
@@ -59,10 +58,6 @@ class Tops extends Component {
 
     return (
       <div className={classNames('Tops', { onboarding })}>
-        <InfoBanner style={styles.infoBanner}>
-          <h1>Fit Search</h1>
-          <p>choose your fits</p>
-        </InfoBanner>
         <div className='container'>
           <div className='Tops-content'>
             <VisualFilter title='Choose your fits' />
@@ -96,10 +91,3 @@ export default compose(
   connect(mapStateToProps, { fetchProducts, syncFilter }),
   withTrackingProvider('Products Search')
 )(Tops)
-
-const styles = {
-  infoBanner: {
-    marginBottom: 20,
-    padding: '25px 20px 35px'
-  }
-}
