@@ -35,7 +35,7 @@ export default class TutorialBodypartFilter extends PureComponent {
     // initialize visual filter
     this.tutorialBodypartFilter = new VisualFilter(`#${id}`, {
       defaultState: filters,
-      disableEvent: true,
+      badgeMode: true,
       hideThumbnail: true,
       hideMiniOnboarding: true,
       tutorialAnim,

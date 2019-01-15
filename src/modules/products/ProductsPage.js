@@ -14,7 +14,7 @@ class ProductsPage extends Component {
     totalCount: PropTypes.number,
     isProductsFetched: PropTypes.bool,
     willBeEmptyList: PropTypes.bool,
-    nextPage: PropTypes.number,
+    nextOffset: PropTypes.number,
     visualFilterExpanded: PropTypes.bool,
     initialExpandVisualFilter: PropTypes.bool,
     productBasePath: PropTypes.string,
@@ -110,7 +110,7 @@ class ProductsPage extends Component {
   }
 
   render () {
-    const { products, isProductsFetched, nextPage, willBeEmptyList, renderExtraItem, productBasePath, className } = this.props
+    const { products, isProductsFetched, nextOffset, willBeEmptyList, renderExtraItem, productBasePath, className } = this.props
     const { extraVisible } = this.state
 
     const extra = !extraVisible ? null : renderExtraItem(this)
@@ -122,7 +122,7 @@ class ProductsPage extends Component {
           show={isProductsFetched}
           products={products}
           willBeEmptyList={willBeEmptyList}
-          nextPage={nextPage}
+          nextOffset={nextOffset}
           onFetch={this.handleFetch}
           className='ProductsPage-products'
           extraItem={extra}
@@ -140,7 +140,7 @@ const mapStateToProps = (state, props) => ({
   totalCount: state.products.totalCount,
   willBeEmptyList: state.products.willBeEmptyList,
   isProductsFetched: state.products.fetched,
-  nextPage: state.products.nextPage,
+  nextOffset: state.products.nextOffset,
   visualFilterExpanded: state.filters.expanded
 })
 

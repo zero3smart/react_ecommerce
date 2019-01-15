@@ -59,7 +59,7 @@ export default class ProductGridCompact extends PureComponent {
           <LikeButton active={favorite} onClick={this.toggleLike} />
           {
             imgSrc ? (
-              <img src={`${BASE_IMG_PATH}imgs/${imgSrc}`} alt={name} className='img-responsive' />
+              <img src={`${BASE_IMG_PATH}/${imgSrc}`} alt={name} className='img-responsive' />
             ) : (
               <div className='ProductGridCompact-noImage' />
             )

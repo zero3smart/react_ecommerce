@@ -62,7 +62,7 @@ export default class Preset extends Component {
     // initialize body part
     this.bodyPart = new VisualFilter(`#${id}-svg`, {
       defaultState: this.bodyPartFilters,
-      disableEvent: true,
+      badgeMode: true,
       hideThumbnail: true,
       hideMiniOnboarding: true
     })
@@ -107,7 +107,7 @@ export default class Preset extends Component {
           <svg id={`${id}-svg`} />
         </div>
         <div className='Preset-filter'>
-          <FabricFilters {...this.fabricFilters} disableEvent />
+          <FabricFilters {...this.fabricFilters} badgeMode />
         </div>
       </div>
     )

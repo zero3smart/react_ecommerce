@@ -2,6 +2,7 @@ import axios from 'axios'
 import { FILTERS } from 'config/constants'
 import { Preset, VisualFilter } from 'models'
 import { updatePresetFavorite, mapPresetFavorites } from './helpers'
+import { PRD_CATEGORY } from '../config/constants'
 const { localStorage } = window
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -132,7 +133,7 @@ export function setOnboarding (onboarding = true) {
 export function fetchPresets () {
   return async dispatch => {
     try {
-      const response = await axios.get('/products/woman_top/preset')
+      const response = await axios.get(`/categories/${PRD_CATEGORY}/presets`)
 
       const favoritePresetNames = Preset.getFavoritePresetNames()
       dispatch(setPresets(response.data, favoritePresetNames))

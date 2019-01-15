@@ -16,7 +16,7 @@ class Favorites extends Component {
     favoriteType: PropTypes.string,
     products: PropTypes.array,
     presets: PropTypes.array,
-    nextPage: PropTypes.number,
+    nextOffset: PropTypes.number,
     match: PropTypes.object,
     syncFilter: PropTypes.func.isRequired,
     syncFavoritePresets: PropTypes.func.isRequired,
@@ -32,7 +32,7 @@ class Favorites extends Component {
   }
 
   render () {
-    const { products, presets, nextPage, favoriteType, match } = this.props
+    const { products, presets, nextOffset, favoriteType, match } = this.props
 
     const showFits = favoriteType === 'fits'
     const tabNav = (
@@ -60,7 +60,7 @@ class Favorites extends Component {
             <ProductList
               id='MainScroll'
               products={products}
-              nextPage={nextPage}
+              nextOffset={nextOffset}
               extraItem={tabNav}
               className='Favorites-products'
               showOriginalPrice
@@ -79,7 +79,7 @@ const mapStateToProps = (state, props) => ({
   favoriteType: props.match.params.favoriteType,
   products: state.products.favoriteList,
   presets: state.filters.favoritePresets,
-  nextPage: state.products.nextPage
+  nextOffset: state.products.nextOffset
 })
 
 export default compose(

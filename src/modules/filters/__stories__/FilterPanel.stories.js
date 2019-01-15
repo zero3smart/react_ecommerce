@@ -32,6 +32,21 @@ storiesOf('filters/FilterPanel', module)
       />))
   )
   .add(
+    'mobile touch debug',
+    withInfo(`
+    mobile touch debug
+    `)(() => (
+      <FilterPanel
+        filters={filters}
+        lastBodyPart='coretype'
+        onFilterChange={action('filter changed')}
+        onClose={action('close visual filter')}
+        onFilterLike={action('favorite filter')}
+        onBodyPartChange={action('body part changed')}
+        debugTouchArea
+      />))
+  )
+  .add(
     'desktop default',
     withInfo(`
       mobile visual filter panel

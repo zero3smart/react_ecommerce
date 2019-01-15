@@ -19,7 +19,7 @@ class ProductList extends Component {
   static propTypes = {
     id: PropTypes.string,
     products: PropTypes.array,
-    nextPage: PropTypes.number,
+    nextOffset: PropTypes.number,
     show: PropTypes.bool,
     children: PropTypes.func,
     className: PropTypes.string,
@@ -41,7 +41,7 @@ class ProductList extends Component {
 
   static defaultProps = {
     products: [],
-    nextPage: 0,
+    nextOffset: 0,
     willBeEmptyList: false,
     show: false,
     combined: false, // when activated, it won't separate matching and close matching.
@@ -105,7 +105,7 @@ class ProductList extends Component {
 
   get productListOptions () {
     const {
-      nextPage,
+      nextOffset,
       showOriginalPrice,
       showHighResImage,
       toggleProductLike,
@@ -114,8 +114,8 @@ class ProductList extends Component {
     const { useMinimumAnimation } = this.state
 
     // get loaded products count
-    const currentPage = (nextPage - 1)
-    const loadedProductsCount = PRODUCT_COUNT_PER_PAGE * (currentPage < 0 ? 0 : currentPage)
+    const prevOffset = (nextOffset - PRODUCT_COUNT_PER_PAGE)
+    const loadedProductsCount = PRODUCT_COUNT_PER_PAGE * (prevOffset < 0 ? 0 : prevOffset)
 
     return {
       showOriginalPrice,
