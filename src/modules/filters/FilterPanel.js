@@ -8,6 +8,7 @@ import './filter-panel.css'
 
 export default class FilterPanel extends Component {
   static propTypes = {
+    category: PropTypes.string,
     filters: PropTypes.object,
     favorite: PropTypes.bool,
     lastBodyPart: PropTypes.string,
@@ -24,6 +25,7 @@ export default class FilterPanel extends Component {
   }
 
   static defaultProps = {
+    category: 'wtop',
     filters: {},
     favorite: false,
     className: '',
@@ -42,9 +44,10 @@ export default class FilterPanel extends Component {
   }
 
   componentDidMount () {
-    const { filters, useVerticalThumb, debugTouchArea, lastBodyPart, hideMiniOnboarding, onBodyPartChange, onFinishedOnboarding } = this.props
+    const { category, filters, useVerticalThumb, debugTouchArea, lastBodyPart, hideMiniOnboarding, onBodyPartChange, onFinishedOnboarding } = this.props
     // initialize visual filter
     this.visualFilter = new VisualFilter('#VisualFilter', {
+      category: category,
       defaultState: filters,
       swipeable: true,
       onFilterChange: this.handleBodyPartFilter,

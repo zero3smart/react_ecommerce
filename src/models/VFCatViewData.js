@@ -1,5 +1,7 @@
 import vfWtopSvg from 'assets/svg/vf_wtop.svg'
-import vfWtopVertSvg from 'assets/svg/vf_wtop_thumb_vert.svg'
+import vfWtopVertSvg from 'assets/svg/vf_wtop_vert.svg'
+import vfWshoesSvg from 'assets/svg/vf_wshoes.svg'
+import vfWshoesVertSvg from 'assets/svg/vf_wshoes_vert.svg'
 import miniOnboardingSvg from 'assets/svg/mini_onboarding.svg'
 import miniOnboardingVertSvg from 'assets/svg/mini_onboarding_thumb_vertical.svg'
 import pick from 'lodash-es/pick'
@@ -56,7 +58,6 @@ class VfCatViewData {
 
   tnOffsets (useVerticalThumb, prop = null) {
     if (useVerticalThumb) {
-      console.log('tnOffsets', prop)
       return {xoffset: 400 - 6, yoffset: 30}
     } else {
       return {xoffset: this.getThumbnailXOffset(prop) + 15, yoffset: 340}
@@ -112,6 +113,28 @@ class VfCatWtopViewData extends VfCatViewData {
   miniOnboardingSvg (useVerticalThumb) {
     return useVerticalThumb ? miniOnboardingVertSvg : miniOnboardingSvg
   }
+  thumbnailGroupName (prop, idx = null) {
+    if (idx === null) {
+      return prop + '_thumbnails'
+    } else {
+      return prop + '_thumbnails' + '_' + idx
+    }
+  }
+  touchGroupName (prop) {
+    return prop + '_touch'
+  }
+  fullbodyGroupName () {
+    return 'full-body'
+  }
+  thumbnailTouchGroupName (i = null) {
+    if (i === null) {
+      return 'Thumbnail_Touch_Area'
+    }
+    return 'thumbnail_touch_' + i
+  }
+  thumbnailHLGroupName () {
+    return 'Thumbnail-Highliter'
+  }
 }
 
 class VfCatWshoesViewData extends VfCatViewData {
@@ -125,6 +148,54 @@ class VfCatWshoesViewData extends VfCatViewData {
   constructor (vfcatcfg) {
     super(vfcatcfg)
     this.settings = {
+    }
+  }
+  svg (useVerticalThumb) {
+    return useVerticalThumb ? vfWshoesVertSvg : vfWshoesSvg
+  }
+  miniOnboardingSvg (useVerticalThumb) {
+    return null
+  }
+
+  thumbnailGroupName (prop, idx = null) {
+    if (idx === null) {
+      return 'tn_' + prop
+    } else {
+      return 'tn_' + prop + '_' + idx
+    }
+  }
+  touchGroupName (prop) {
+    return 'touch_' + prop
+  }
+  fullbodyGroupName () {
+    return 'full_bare_foot'
+  }
+  thumbnailTouchGroupName (i = null) {
+    if (i === null) {
+      return 'tn_touches'
+    }
+    return 'tn_touch_' + i
+  }
+  thumbnailHLGroupName () {
+    return 'tn_HL'
+  }
+
+  getThumbnailXOffset (prop) {
+    const tnCnt = this.catcfg.maxVal(prop) + 1
+    const THUMBNAIL_IMG_X_OFFSET = {
+      3: 132,
+      4: 97,
+      5: 63,
+      6: 30,
+      7: 3
+    }
+    return THUMBNAIL_IMG_X_OFFSET[tnCnt]
+  }
+  tnOffsets (useVerticalThumb, prop = null) {
+    if (useVerticalThumb) {
+      return {xoffset: 400 - 6, yoffset: 30}
+    } else {
+      return {xoffset: this.getThumbnailXOffset(prop), yoffset: 290}
     }
   }
 }

@@ -32,9 +32,9 @@ class VizFilterSvg:
 
     def translate(self, id, trans, scale=None):
         if re.search(f'<[^>]*id="{id}"[^>]*transform[^>]*>', self.contents):
-            if scale: dst = f'transform="translate({trans}) scale({scale})"'
-            else:     dst = f'transform="translate({trans})"'
-            self.contents = re.sub('transform=\"[^\"]*\"', dst, self.contents, count=1)
+            if scale: dst = f'id="{id}" transform="translate({trans}) scale({scale})"'
+            else:     dst = f'id="{id}" transform="translate({trans})"'
+            self.contents = re.sub(f'id="{id}" transform=\"[^\"]*\"', dst, self.contents, count=1)
         elif re.search(f'<[^>]*id="{id}"[^>]*>', self.contents):
             if scale: dst = f'id="{id}" transform="translate({trans}) scale({scale})"'
             else:     dst = f'id="{id}" transform="translate({trans})"'

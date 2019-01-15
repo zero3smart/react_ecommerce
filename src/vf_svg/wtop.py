@@ -87,7 +87,10 @@ def load_wtop_svg_fixed(svg_fn, vertical, remove_all):
                 #'top_collar_thumbnails': [f'110 {tn_y}', scale], # 4 selections
                 'coretype_thumbnails': [f'72 {tn_y}', scale], # 5 selections
             }
-    pos_fixes.update({'BodyParts-Touch-Area' : [f'-9 -18', None]})
+    pos_fixes.update({
+        'BodyParts-Touch-Area' : [f'-9 -18', None],
+        'visual-filter-updated-Aug-10.0': [f'50 15', 1.35]
+    })
 
     # Misc fixes
     str_sub_fixes = {
@@ -125,9 +128,9 @@ def merge_wtop(fn, vertical=False, remove_all=False):
     lower_svgs += ['Navigation-Arrows.svg', 'Floating-circle-point.svg']
 
     if vertical:
-        bodypart_mod = '<svg><g id="bodypart_area" transform="scale(1.35) translate(30, 15)">'
+        bodypart_mod = '<svg><g id="bodypart_area">' # transform="scale(1.35) translate(30, 15)">'
     else:
-        bodypart_mod = '<svg><g id="bodypart_area" transform="scale(1.35) translate(50, 15)">'
+        bodypart_mod = '<svg><g id="bodypart_area">' # transform="scale(1.35) translate(50, 15)">'
 
     print('Combining svgs into', fn)
     with open(fn, 'w') as f:
@@ -144,5 +147,5 @@ def merge_wtop(fn, vertical=False, remove_all=False):
 
 def merge_wtop_svgs(outdir):
     merge_wtop(outdir / 'vf_wtop.svg', vertical=False, remove_all=True)
-    merge_wtop(outdir / 'vf_wtop_thumb_vert.svg', vertical=True, remove_all=True)
+    merge_wtop(outdir / 'vf_wtop_vert.svg', vertical=True, remove_all=True)
 

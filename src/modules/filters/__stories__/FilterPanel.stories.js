@@ -4,7 +4,7 @@ import { withInfo } from '@storybook/addon-info'
 
 import FilterPanel from '../FilterPanel'
 
-const filters = {
+const wtopDefaultFilters = {
   coretype: 0,
   details: 0,
   neckline: 1,
@@ -16,6 +16,14 @@ const filters = {
   favorite: true
 }
 
+const wshoesDefaultFilters = {
+  toes: 0,
+  cover: 0,
+  counter: 0,
+  bottom: 0,
+  shaft: 0
+}
+
 storiesOf('filters/FilterPanel', module)
   .add(
     'mobile default',
@@ -23,7 +31,7 @@ storiesOf('filters/FilterPanel', module)
       mobile visual filter panel
     `)(() => (
       <FilterPanel
-        filters={filters}
+        filters={wtopDefaultFilters}
         lastBodyPart='coretype'
         onFilterChange={action('filter changed')}
         onClose={action('close visual filter')}
@@ -37,7 +45,7 @@ storiesOf('filters/FilterPanel', module)
     mobile touch debug
     `)(() => (
       <FilterPanel
-        filters={filters}
+        filters={wtopDefaultFilters}
         lastBodyPart='coretype'
         onFilterChange={action('filter changed')}
         onClose={action('close visual filter')}
@@ -52,12 +60,45 @@ storiesOf('filters/FilterPanel', module)
       mobile visual filter panel
     `)(() => (
       <FilterPanel
-        filters={filters}
+        filters={wtopDefaultFilters}
         lastBodyPart='coretype'
         onFilterChange={action('filter changed')}
         onClose={action('close visual filter')}
         onFilterLike={action('favorite filter')}
         onBodyPartChange={action('body part changed')}
         useVerticalThumb={false}
+      />))
+  )
+  .add(
+    'desktop wshoes default',
+    withInfo(`
+      mobile visual filter panel
+    `)(() => (
+      <FilterPanel
+        category='wshoes'
+        filters={wshoesDefaultFilters}
+        lastBodyPart='bottom'
+        onFilterChange={action('filter changed')}
+        onClose={action('close visual filter')}
+        onFilterLike={action('favorite filter')}
+        onBodyPartChange={action('body part changed')}
+        useVerticalThumb={false}
+      />))
+  )
+  .add(
+    'desktop wshoes touch',
+    withInfo(`
+      mobile visual filter panel
+    `)(() => (
+      <FilterPanel
+        category='wshoes'
+        filters={wshoesDefaultFilters}
+        lastBodyPart='bottom'
+        onFilterChange={action('filter changed')}
+        onClose={action('close visual filter')}
+        onFilterLike={action('favorite filter')}
+        onBodyPartChange={action('body part changed')}
+        useVerticalThumb={false}
+        debugTouchArea
       />))
   )

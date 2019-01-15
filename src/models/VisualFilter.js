@@ -78,11 +78,10 @@ export default class VisualFilter {
 
   setPointerHovering () {
     for (let prop in this.catdata.currentPropState) {
-      let hitArea = this.findGroupById(this.getBodyPartGroupName(prop, 'touch'))
+      let hitArea = this.findGroupById(this.catdata.touchGroupName(prop))
       let vf = this
-
       hitArea.mouseover(function () {
-        vf.highlightGroup(vf.getBodyPartGroupName(prop, this.catdata.getMaxSelectionIndx(prop)), false, '.5')
+        vf.highlightGroup(vf.getBodyPartGroupName(prop, vf.catdata.getMaxSelectionIndx(prop)), false, '.5')
       })
       hitArea.mouseout(function () {
         vf.removeHighlight()
@@ -107,14 +106,14 @@ export default class VisualFilter {
       // Hide all object and show what we want only later
       this.snapGroup.attr({ visibility: 'hidden' })
 
-      this.showGroup('full-body')
+      this.showGroup(this.catdata.fullbodyGroupName())
 
       for (let prop in this.catdata.currentPropState) {
         this.showGroup(this.getBodyPartGroupNameSpecial(this.catdata.currentPropState, prop))
       }
 
       // onboarding
-      if (!hideMiniOnboarding && VisualFilter.shouldShowOnboarding()) {
+      if (!hideMiniOnboarding && VisualFilter.shouldShowOnboarding() && svgOnboardingSource) {
         this.track('MiniOnboarding Start')
 
         Snap.load(svgOnboardingSource, (frag) => {
@@ -134,13 +133,12 @@ export default class VisualFilter {
         }
         for (var i in this.catdata.catcfg.partList) {
           const prop = this.catdata.catcfg.partList[i]
-          const tn = this.findGroupById(this.getBodyPartGroupName(prop, 'thumbnails'))
+          const tn = this.findGroupById(this.catdata.thumbnailGroupName(prop))
           const offsets = this.catdata.tnOffsets(useVerticalThumb, prop)
-          console.log(prop, offsets)
           var transform = `translate(${offsets.xoffset}, ${offsets.yoffset})`
-          if (useVerticalThumb) {
-            transform += ' scale(1.4)'
-          }
+          // if (useVerticalThumb) {
+          //   transform += ' scale(1.4)'
+          // }
           tn.attr({ transform: transform })
         }
       }
@@ -171,7 +169,7 @@ export default class VisualFilter {
     }
     // This will be touch hit-area
     for (var prop in this.catdata.currentPropState) {
-      group = this.findGroupById(this.getBodyPartGroupName(prop, 'touch'))
+      group = this.findGroupById(this.catdata.touchGroupName(prop))
 
       if (group === null) {
         console.debug('Touch area for', prop, 'not found')
@@ -188,10 +186,10 @@ export default class VisualFilter {
     }
     if (!this.settings.hideThumbnail) {
       for (let i = 0; i < 7; i++) {
-        group = this.findGroupById('thumbnail_touch_' + i)
+        group = this.findGroupById(this.catdata.thumbnailTouchGroupName(i))
         group.attr(thumbTouchSize)
         group.attr({ visibility: 'visible' })
-        group.attr({ opacity: '0' })
+        group.attr({ opacity: this.settings.debugTouchArea ? 0.2 : 0.0 })
         group.click(function () { self.handleThumbnailClick(this) }, i.toString())
       }
     }
@@ -322,8 +320,8 @@ export default class VisualFilter {
    * @param {number} animationDuration
    */
   animateHorizontalThumbnail (prop, nextProp, movingLeft = true, onAnimationFinish = () => {}, animationDuration = 300) {
-    const currentThumb = this.findGroupById(this.getBodyPartGroupName(prop, 'thumbnails'))
-    const nextThumbs = this.findGroupById(this.getBodyPartGroupName(nextProp, 'thumbnails'))
+    const currentThumb = this.findGroupById(this.catdata.thumbnailGroupName(prop))
+    const nextThumbs = this.findGroupById(this.catdata.thumbnailGroupName(nextProp))
     const currentThumbBBox = currentThumb.getBBox()
     const nextThumbBBox = nextThumbs.getBBox()
     const currentThumbInitialX = currentThumbBBox.x
@@ -363,8 +361,8 @@ export default class VisualFilter {
    * @param {number} animationDuration
    */
   animateVerticalThumbnail (prop, nextProp, movingUp = true, onAnimationFinish = () => {}, animationDuration = 300) {
-    const currentThumb = this.findGroupById(this.getBodyPartGroupName(prop, 'thumbnails'))
-    const nextThumbs = this.findGroupById(this.getBodyPartGroupName(nextProp, 'thumbnails'))
+    const currentThumb = this.findGroupById(this.catdata.thumbnailGroupName(prop))
+    const nextThumbs = this.findGroupById(this.catdata.thumbnailGroupName(nextProp))
     const currentThumbBBox = currentThumb.getBBox()
     const nextThumbBBox = nextThumbs.getBBox()
     const currentThumbInitialY = currentThumbBBox.y
@@ -514,10 +512,10 @@ export default class VisualFilter {
 
   switchBodypartThumbnail (prop) {
     if (!isNil(this.selectedBodyPart)) {
-      this.hideGroup(this.getBodyPartGroupName(this.selectedBodyPart, 'thumbnails'))
+      this.hideGroup(this.catdata.thumbnailGroupName(this.selectedBodyPart))
     }
     this.selectedBodyPart = prop
-    this.showGroup(this.getBodyPartGroupName(prop, 'thumbnails'))
+    this.showGroup(this.catdata.thumbnailGroupName(prop))
 
     this.updateThumbnailSelectionBox(prop)
   }
@@ -544,12 +542,12 @@ export default class VisualFilter {
   }
 
   updateThumbnailSelectionBox (prop) {
-    const touchArea = this.findGroupById('Thumbnail_Touch_Area')
+    const touchArea = this.findGroupById(this.catdata.thumbnailTouchGroupName())
     const {xoffset, yoffset} = this.catdata.tnOffsets(this.settings.useVerticalThumb, prop)
     // Display current one
     if (this.settings.useVerticalThumb) {
       // get target thumbnail
-      const thumbnailGroup0 = this.findGroupById(this.getBodyPartGroupName(prop, 'thumbnails_0'))
+      const thumbnailGroup0 = this.findGroupById(this.catdata.thumbnailGroupName(prop, 0))
       const thumbnailRect0 = thumbnailGroup0.node.getBoundingClientRect()
 
       // get scale value based on thumbnail size, add padding to get more volume.
@@ -561,7 +559,7 @@ export default class VisualFilter {
       let desc = `t${xoffset},${yoffset}s${scale},${thumbnailRect0.width},0`
 
       touchArea.selectAll('g > rect').items.forEach((el, index) => {
-        let thumbnailGroup = this.findGroupById(this.getBodyPartGroupName(prop, `thumbnails_${index}`))
+        let thumbnailGroup = this.findGroupById(this.catdata.thumbnailGroupName(prop, index))
         // if thumbnail for current index is available, adjust touch area to its position
         // else hide the touch area
         if (thumbnailGroup) {
@@ -689,11 +687,11 @@ export default class VisualFilter {
   }
 
   showHorizontalSelectionBox (prop, sel) {
-    const group = this.findGroupById('Thumbnail-Highliter')
+    const group = this.findGroupById(this.catdata.thumbnailHLGroupName())
     const x = sel * 68 + this.catdata.getThumbnailXOffset(prop)
     const desc = 't' + x + ',' + this.catdata.tnOffsets(false)['yoffset']
     group.transform(desc)
-    this.showGroup('Thumbnail-Highliter')
+    this.showGroup(this.catdata.thumbnailHLGroupName())
   }
 
   showVerticalSelectionBox (prop, sel, animationDuration = null) {
@@ -701,8 +699,8 @@ export default class VisualFilter {
     let desc = ''
 
     // for non "ALL" thumbnail, highliter size and position should be adjusted based on thumbnail
-    let thumbnailGroup = this.findGroupById(this.getBodyPartGroupName(prop, `thumbnails_${sel}`))
-    const thumbnail0Rect = this.findGroupById(this.getBodyPartGroupName(prop, 'thumbnails_0')).node.getBoundingClientRect()
+    let thumbnailGroup = this.findGroupById(this.catdata.thumbnailGroupName(prop, sel))
+    const thumbnail0Rect = this.findGroupById(this.catdata.thumbnailGroupName(prop, 0)).node.getBoundingClientRect()
     const thumbnailRect = thumbnailGroup.node.getBoundingClientRect()
     const viewBoxHeight = this.viewBox[3]
     const svgHeight = this.snap.node.getBoundingClientRect().height
@@ -800,6 +798,11 @@ export default class VisualFilter {
     id = id + '_HL'
     // Assume highlight objects are defined below body parts in svg file
     const group = this.findGroupById(id)
+    if (group === null) { // HL resource is not ready yet.
+      console.log('Ignoring highlightGroup', id, group)
+      return
+    }
+    console.log('highlightGroup', id, group)
     group.attr({
       visibility: 'visible',
       opacity: opacity,
