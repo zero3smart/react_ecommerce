@@ -63,5 +63,8 @@ export function getCatCfg (category) {
     return new VfCatWtopCfg()
   } else if (category === 'wshoes') {
     return new VfCatWshoesCfg()
+  } else if (category === 'wpants') {
+    // For now, use wtop as placeholder
+    return new VfCatWtopCfg()
   }
 }
