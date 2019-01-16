@@ -9,27 +9,45 @@ import { getCatCfg } from './VFCatCfg'
 
 class VfCatViewData {
   catcfg = null
-  viewBoxWithVertThumbnail = [0, 0, 480, 380]
-  viewBoxWithHorizThumbnail = [0, 0, 490, 410]
-  viewBoxWithNoThumnbnail = [0, 0, 480, 320]
-
-  constructor (vfcatcfg) {
+  viewBoxWithVertThumbnail = [0, 0, 380, 310]
+  viewBoxWithHorizThumbnail = [0, 0, 400, 330]
+  viewBoxWithNoThumnbnail = [0, 0, 300, 300]
+  thumbnailWidth = 50
+  thumbnailHeight = 50
+  constructor (vfcatcfg, useVerticalThumb) {
     this.catcfg = vfcatcfg
+    this.useVerticalThumb = useVerticalThumb
   }
-  getbodyPartFilters (filters) {
+
+  sanitizeFilters (filters) {
     let filterSettings = pick(filters, this.catcfg.partList)
     // Older settings may have different range.
     // Limit settings values to valid ones
-    for (var prop in filterSettings) {
+    for (let i in this.propList()) {
+      let prop = this.propList()[i]
       var maxVal = this.catcfg.maxVal(prop)
-      if (parseInt(filterSettings[prop], 10) > maxVal) {
-        // Older settings
-        console.log('Limiting settings to valid range', prop, filterSettings[prop])
-        filterSettings[prop] = maxVal
+      if (filterSettings[prop]) {
+        if (parseInt(filterSettings[prop], 10) > maxVal) {
+          console.log('Limiting settings to valid range', prop, filterSettings[prop])
+          filterSettings[prop] = maxVal
+        }
+      } else {
+        filterSettings[prop] = this.currentPropState[prop]
       }
     }
     return filterSettings
   }
+  thumbTouchSize () {
+    if (this.useVerticalThumb) {
+      return { width: this.thumbnailWidth, height: this.thumbnailHeight }
+    } else {
+      return { width: this.thumbnailWidth, height: this.thumbnailHeight }
+    }
+  }
+  setDefaultState (filters) {
+    this.currentPropState = this.sanitizeFilters(filters)
+  }
+
   viewBox (hideThumbnail, vertThumbnails) {
     if (hideThumbnail) {
       return this.viewBoxWithNoThumnbnail
@@ -40,28 +58,63 @@ class VfCatViewData {
       return this.viewBoxWithHorizThumbnail
     }
   }
+
+  propCount (prop) {
+    return this.catcfg.maxVal(prop) + 1
+  }
+
   getMaxSelectionIndx (prop) {
     return this.catcfg.maxVal(prop)
   }
 
-  getThumbnailXOffset (prop) {
-    const tnCnt = this.catcfg.maxVal(prop) + 1
+  // Offset relative to thumbnail offset
+  tnOffset (prop, idx) {
+    const tnCnt = this.propCount(prop)
+    if (this.useVerticalThumb) {
+      return {x: 0, y: 30 + idx * this.thumbnailWidth}
+    }
     const THUMBNAIL_IMG_X_OFFSET = {
       3: 132, // only in without ALL BTN
-      4: 97,
-      5: 63,
-      6: 30,
-      7: 3 // only in with ALL BTN
+      4: 105,
+      5: 83,
+      6: 30
     }
-    return THUMBNAIL_IMG_X_OFFSET[tnCnt]
+    if (tnCnt === 7) {
+      if (idx < 3) {
+        return {x: THUMBNAIL_IMG_X_OFFSET[3] + idx * this.thumbnailWidth, y: 0}
+      } else {
+        return {x: THUMBNAIL_IMG_X_OFFSET[4] + (idx - 3) * this.thumbnailWidth, y: 40}
+      }
+    }
+    return {x: THUMBNAIL_IMG_X_OFFSET[tnCnt] + idx * this.thumbnailWidth, y: 0}
   }
 
-  tnOffsets (useVerticalThumb, prop = null) {
-    if (useVerticalThumb) {
-      return {xoffset: 400 - 6, yoffset: 30}
+  tnAreaOffset () {
+    if (this.useVerticalThumb) {
+      return {x: 400 - 6, y: 30}
     } else {
-      return {xoffset: this.getThumbnailXOffset(prop) + 15, yoffset: 340}
+      return {x: 100, yoffset: 50}
     }
+  }
+  arrowBackOffset () {
+    let {x, y} = this.tnAreaOffset()
+    if (this.useVerticalThumb) {
+      return {x: x, y: y - 30}
+    } else {
+      return {x: x - 30, y: y}
+    }
+  }
+  arrowFowardOffset () {
+    let {x, y} = this.tnAreaOffset()
+    if (this.useVerticalThumb) {
+      return {x: x, y: y + 30}
+    } else {
+      return {x: x + 30, y: y}
+    }
+  }
+
+  propList () {
+    return this.catcfg.partList
   }
   prevProp (prop) {
     const currentPropIndex = this.catcfg.partList.indexOf(prop)
@@ -102,8 +155,9 @@ class VfCatWtopViewData extends VfCatViewData {
     {coretype: 2, neckline: 1, shoulder: 3, sleeve_length: 0, top_length: 1}
   ]
 
-  constructor (vfcatcfg) {
-    super(vfcatcfg)
+  constructor (vfcatcfg, useVerticalThumb) {
+    super(vfcatcfg, useVerticalThumb)
+    console.log('Creating VfCatWtopViewData')
     this.settings = {
     }
   }
@@ -140,13 +194,14 @@ class VfCatWtopViewData extends VfCatViewData {
 class VfCatWshoesViewData extends VfCatViewData {
   currentPropState = {
     toes: '0',
-    cover: '0',
-    counter: '0',
-    bottom: '0',
-    shaft: '0'
+    covers: '0',
+    counters: '0',
+    bottoms: '0',
+    shafts: '0'
   }
-  constructor (vfcatcfg) {
-    super(vfcatcfg)
+  constructor (vfcatcfg, useVerticalThumb) {
+    super(vfcatcfg, useVerticalThumb)
+    console.log('Creating VfCatWshoesViewData')
     this.settings = {
     }
   }
@@ -180,32 +235,32 @@ class VfCatWshoesViewData extends VfCatViewData {
     return 'tn_HL'
   }
 
-  getThumbnailXOffset (prop) {
-    const tnCnt = this.catcfg.maxVal(prop) + 1
-    const THUMBNAIL_IMG_X_OFFSET = {
-      3: 132,
-      4: 97,
-      5: 63,
-      6: 30,
-      7: 3
-    }
-    return THUMBNAIL_IMG_X_OFFSET[tnCnt]
-  }
-  tnOffsets (useVerticalThumb, prop = null) {
-    if (useVerticalThumb) {
-      return {xoffset: 400 - 6, yoffset: 30}
-    } else {
-      return {xoffset: this.getThumbnailXOffset(prop), yoffset: 290}
-    }
-  }
+  // getThumbnailXOffset (prop) {
+  //   const tnCnt = this.catcfg.maxVal(prop) + 1
+  //   const THUMBNAIL_IMG_X_OFFSET = {
+  //     3: 132,
+  //     4: 97,
+  //     5: 63,
+  //     6: 30,
+  //     7: 3
+  //   }
+  //   return THUMBNAIL_IMG_X_OFFSET[tnCnt]
+  // }
+  // tnOffsets (useVerticalThumb, prop = null) {
+  //   if (useVerticalThumb) {
+  //     return {xoffset: 400 - 6, yoffset: 30}
+  //   } else {
+  //     return {xoffset: this.getThumbnailXOffset(prop), yoffset: 290}
+  //   }
+  // }
 }
 
-export function getCatData (category) {
+export function getCatData (category, useVerticalThumb) {
   let cfg = getCatCfg(category)
   if (category === 'wtop') {
-    return new VfCatWtopViewData(cfg)
+    return new VfCatWtopViewData(cfg, useVerticalThumb)
   } else if (category === 'wshoes') {
-    return new VfCatWshoesViewData(cfg)
+    return new VfCatWshoesViewData(cfg, useVerticalThumb)
   } else {
     console.assert(false, 'Unknown category ' + category)
     return null

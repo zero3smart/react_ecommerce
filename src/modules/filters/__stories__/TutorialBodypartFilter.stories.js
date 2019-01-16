@@ -24,7 +24,6 @@ storiesOf('filters/TutorialBodypartFilter', module)
       <TutorialBodypartFilter
         filters={filters}
         lastBodyPart='coretype'
-        tutorialAnim
         onFilterChange={action('filter changed')}
         onClose={action('close visual filter')}
         onFilterLike={action('favorite filter')}
@@ -41,7 +40,6 @@ storiesOf('filters/TutorialBodypartFilter', module)
       <TutorialBodypartFilter
         filters={filters}
         lastBodyPart='coretype'
-        showTouchesPoints
         onFilterChange={action('filter changed')}
         onClose={action('close visual filter')}
         onFilterLike={action('favorite filter')}

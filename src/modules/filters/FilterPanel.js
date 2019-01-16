@@ -4,6 +4,7 @@ import isEqual from 'lodash-es/isEqual'
 import SecondaryFilters from './SecondaryFilters'
 import { VisualFilter } from 'models'
 import { LikeButton, CloseButton } from 'ui-kits/buttons'
+import { PRD_CATEGORY } from 'config/constants'
 import './filter-panel.css'
 
 export default class FilterPanel extends Component {
@@ -25,7 +26,7 @@ export default class FilterPanel extends Component {
   }
 
   static defaultProps = {
-    category: 'wtop',
+    category: PRD_CATEGORY,
     filters: {},
     favorite: false,
     className: '',

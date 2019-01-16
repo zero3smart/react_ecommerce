@@ -34,18 +34,16 @@ export default class VisualFilter {
       ...defaultOptions,
       ...options
     }
-    this.catdata = getCatData(this.settings.category)
+    this.catdata = getCatData(this.settings.category, this.settings.useVerticalThumb)
 
-    // if snapsvg is not available, don't initialize
-    // avoid error on test env
-    if (!Snap) {
+    if (!Snap) { // Skip init to avoid error on test env.
       return false
     }
 
     this.snap = Snap(selector)
 
     if (options.defaultState) {
-      this.catdata.currentPropState = this.catdata.getbodyPartFilters(options.defaultState)
+      this.catdata.setDefaultState(options.defaultState)
     }
 
     this.initialize()
@@ -68,14 +66,6 @@ export default class VisualFilter {
     }
   }
 
-  onboardingSeqIdx = 0
-
-  onboardingCycleBodypart () {
-    this.updateState(this.catdata.onboardingSequences[this.onboardingSeqIdx])
-    this.onboardingSeqIdx = (this.onboardingSeqIdx + 1) % (this.catdata.onboardingSequences.length)
-    setTimeout(() => this.onboardingCycleBodypart(), 500)
-  }
-
   setPointerHovering () {
     for (let prop in this.catdata.currentPropState) {
       let hitArea = this.findGroupById(this.catdata.touchGroupName(prop))
@@ -89,9 +79,21 @@ export default class VisualFilter {
     }
   }
 
+  arrangeThumbnails () {
+    for (var i in this.catdata.catcfg.partList) {
+      const prop = this.catdata.catcfg.partList[i]
+      for (var j = 0; j < this.catdata.propCount(prop); j++) {
+        const tn = this.findGroupById(this.catdata.thumbnailGroupName(prop, j))
+        const offsets = this.catdata.tnOffset(prop, j)
+        var transform = `translate(${offsets.x}, ${offsets.y})`
+        tn.attr({ transform: transform })
+      }
+    }
+  }
+
   initialize () {
     const { hideMiniOnboarding, onSVGLoaded, hideThumbnail, useVerticalThumb,
-      swipeable, badgeMode, tutorialAnim, showTouchesPoints } = this.settings
+      swipeable, badgeMode } = this.settings
 
     this.viewBox = this.catdata.viewBox(hideThumbnail, useVerticalThumb)
     let svgSource = this.catdata.svg(useVerticalThumb)
@@ -127,32 +129,21 @@ export default class VisualFilter {
       if (!badgeMode) {
         this.track('VF Opened')
 
-        this.initializeArrowNavigation()
+        // this.initializeArrowNavigation()
         if (swipeable) {
           this.initializeSwipableThumbnail()
         }
-        for (var i in this.catdata.catcfg.partList) {
-          const prop = this.catdata.catcfg.partList[i]
-          const tn = this.findGroupById(this.catdata.thumbnailGroupName(prop))
-          const offsets = this.catdata.tnOffsets(useVerticalThumb, prop)
-          var transform = `translate(${offsets.xoffset}, ${offsets.yoffset})`
-          // if (useVerticalThumb) {
-          //   transform += ' scale(1.4)'
-          // }
-          tn.attr({ transform: transform })
+        this.arrangeThumbnails(useVerticalThumb)
+
+        if (this.catdata.propList().indexOf(this.lastBodyPart) < 0) {
+          console.log('Unrecognized last bodypart', this.lastBodyPart, 'switching to default')
+          this.lastBodyPart = this.catdata.propList()[0]
         }
+        this.switchBodypartThumbnail(this.lastBodyPart)
       }
 
       if (!useVerticalThumb && !badgeMode) {
         this.setPointerHovering()
-      }
-
-      if (tutorialAnim) {
-        this.onboardingCycleBodypart()
-      }
-
-      if (showTouchesPoints) {
-        this.animateTouchesPoints()
       }
 
       // callback
@@ -163,16 +154,14 @@ export default class VisualFilter {
   initializeClickHitMap () {
     const self = this
     let group = null
-    let thumbTouchSize = { width: 68, height: 68 }
-    if (this.settings.useVerticalThumb) {
-      thumbTouchSize = { width: 62, height: 62 }
-    }
+    let thumbTouchSize = this.catdata.thumbTouchSize()
     // This will be touch hit-area
-    for (var prop in this.catdata.currentPropState) {
+    for (var i in this.catdata.propList()) {
+      const prop = this.catdata.propList()[i]
       group = this.findGroupById(this.catdata.touchGroupName(prop))
 
       if (group === null) {
-        console.debug('Touch area for', prop, 'not found')
+        console.log('Touch area for', prop, 'not found')
         continue
       }
 
@@ -206,13 +195,15 @@ export default class VisualFilter {
 
     this.showGroup('arrow_back')
     this.showGroup('arrow_forward')
+    const backOffset = this.catdata.arrowBackOffset()
+    const forwardOffset = this.catdata.arrowFowardOffset()
 
     if (useVerticalThumb) {
-      arrowBack.attr({ transform: 'translate(440,0) rotate(90)' })
-      arrowForward.attr({ transform: 'translate(415,365) rotate(270)' })
+      arrowBack.attr({ transform: `translate(${backOffset}.x,${backOffset}.y) rotate(90)` })
+      arrowForward.attr({ transform: `translate(${forwardOffset}.x,${forwardOffset}.y) rotate(270)` })
     } else {
-      arrowBack.attr({ transform: 'translate(0,350) rotate(0)' })
-      arrowForward.attr({ transform: 'translate(470,373) rotate(180)' })
+      arrowBack.attr({ transform: `translate(${backOffset}.x,${backOffset}.y) rotate(0)` })
+      arrowForward.attr({ transform: `translate(${forwardOffset}.x,${forwardOffset}.y) rotate(180)` })
     }
 
     // initialize navigation tap events
@@ -393,35 +384,6 @@ export default class VisualFilter {
     }
   }
 
-  async animateTouchesPoints () {
-    const floatingCirclePoints = this.findGroupById('Floating-Circle-Points')
-    for (let x = 0; x < 3; x++) {
-      await this.showTouchesPoints(floatingCirclePoints)
-      // shouldn't hide touches points during last cycle
-      if (x < 2) {
-        await this.hideTouchesPoints(floatingCirclePoints)
-      }
-    }
-  }
-
-  showTouchesPoints (group) {
-    return new Promise(resolve => (
-      group.animate({ visibility: 'visible', opacity: 0 }, 500, () => {
-        group.attr({ visibility: 'visible', opacity: 1 })
-        resolve()
-      })
-    ))
-  }
-
-  hideTouchesPoints (group) {
-    return new Promise(resolve => (
-      group.animate({ visibility: 'visible', opacity: 1 }, 500, () => {
-        group.attr({ visibility: 'visible', opacity: 0 })
-        resolve()
-      })
-    ))
-  }
-
   updateState (filters) {
     if (!this.svgLoaded) {
       return
@@ -431,7 +393,7 @@ export default class VisualFilter {
       this.switchBodypartThumbnail(this.lastBodyPart)
     }
 
-    const newPropState = this.catdata.getbodyPartFilters(filters)
+    const newPropState = this.catdata.sanitizeFilters(filters)
     // only update when svg is loaded and has changes on filters
     if (!isEqual(this.catdata.currentPropState, newPropState)) {
       // body part visibility handler
@@ -518,6 +480,17 @@ export default class VisualFilter {
     this.showGroup(this.catdata.thumbnailGroupName(prop))
 
     this.updateThumbnailSelectionBox(prop)
+    for (let i = 0; i < 7; i++) {
+      const group = this.catdata.thumbnailTouchGroupName(i)
+      if (i < this.catdata.propCount(prop)) {
+        const {x, y} = this.catdata.tnOffset(prop, i)
+        const g = this.findGroupById(group)
+        g.transform(`t${x - 100},${y}`)
+        this.showGroup(group)
+      } else {
+        this.hideGroup(group)
+      }
+    }
   }
 
   handleBodyPartClick (prop) {
@@ -543,7 +516,7 @@ export default class VisualFilter {
 
   updateThumbnailSelectionBox (prop) {
     const touchArea = this.findGroupById(this.catdata.thumbnailTouchGroupName())
-    const {xoffset, yoffset} = this.catdata.tnOffsets(this.settings.useVerticalThumb, prop)
+    const {x, y} = this.catdata.tnAreaOffset()
     // Display current one
     if (this.settings.useVerticalThumb) {
       // get target thumbnail
@@ -556,7 +529,7 @@ export default class VisualFilter {
       const viewBoxHeight = this.viewBox[3]
       const svgHeight = this.snap.node.getBoundingClientRect().height
 
-      let desc = `t${xoffset},${yoffset}s${scale},${thumbnailRect0.width},0`
+      let desc = `t${x},${y}s${scale},${thumbnailRect0.width},0`
 
       touchArea.selectAll('g > rect').items.forEach((el, index) => {
         let thumbnailGroup = this.findGroupById(this.catdata.thumbnailGroupName(prop, index))
@@ -578,11 +551,10 @@ export default class VisualFilter {
 
       touchArea.transform(desc)
 
-      console.log(this.catdata.currentPropState, typeof this.catdata.currentPropState, prop)
       this.showVerticalSelectionBox(prop, this.catdata.currentPropState[prop])
     } else {
       // Move thumbnail hit area
-      let desc = 't' + xoffset + ',' + yoffset
+      let desc = 't' + x + ',' + y
       touchArea.transform(desc)
 
       this.showHorizontalSelectionBox(prop, this.catdata.currentPropState[prop])
@@ -596,9 +568,6 @@ export default class VisualFilter {
     return prop + '_' + state
   }
 
-  /**
-   * @todo: data mutation from argument should be removed
-   */
   handleThumbnailClick (tnIdx) {
     if (tnIdx > this.catdata.getMaxSelectionIndx(this.selectedBodyPart)) {
       return
@@ -613,12 +582,13 @@ export default class VisualFilter {
 
   cyclePropSelection (prop) {
     let next = parseInt(this.catdata.currentPropState[prop], 10) + 1
-    if (next === this.catdata.getMaxSelectionIndx(prop) + 1) {
+    if (next === this.catdata.propCount(prop)) {
       next = 0
     }
     this.changePropSelection(prop, next)
   }
 
+  // TODO: Move to CatViewData
   getBodyPartGroupNameSpecial (propState, prop) {
     if (prop === 'shoulder') {
       // Special cases for shoulders:
@@ -648,7 +618,7 @@ export default class VisualFilter {
       var hideGrp = this.getBodyPartGroupNameSpecial(prevPropState, prop)
       var showGrp = this.getBodyPartGroupNameSpecial(newPropState, prop)
       if (hideGrp !== showGrp) {
-        console.log(prop, 'from', hideGrp, 'to', showGrp)
+        // console.log(prop, 'from', hideGrp, 'to', showGrp)
         this.hideGroup(hideGrp)
         this.showGroup(showGrp)
       }
@@ -688,8 +658,8 @@ export default class VisualFilter {
 
   showHorizontalSelectionBox (prop, sel) {
     const group = this.findGroupById(this.catdata.thumbnailHLGroupName())
-    const x = sel * 68 + this.catdata.getThumbnailXOffset(prop)
-    const desc = 't' + x + ',' + this.catdata.tnOffsets(false)['yoffset']
+    const {x, y} = this.catdata.tnOffset(prop, sel)
+    const desc = 't' + x + ',' + y
     group.transform(desc)
     this.showGroup(this.catdata.thumbnailHLGroupName())
   }
@@ -710,8 +680,8 @@ export default class VisualFilter {
 
     // get y value based on thumbnail position.
     // the y value should be compared between the original svg size (viewbox) and current svg size (after resize).
-    const y = this.catdata.tnOffsets(true)['yoffset'] + (thumbnailRect.top - thumbnail0Rect.top) * viewBoxHeight / svgHeight
-    const x = this.catdata.tnOffsets(true)['xoffset'] - 3
+    const y = this.catdata.tnAreaOffset().y + (thumbnailRect.top - thumbnail0Rect.top) * viewBoxHeight / svgHeight
+    const x = this.catdata.tnAreaOffset().x - 3
     desc = `t${x},${y}s${scale},${thumbnailRect.width},0`
 
     if (!isNil(animationDuration)) {
@@ -802,7 +772,7 @@ export default class VisualFilter {
       console.log('Ignoring highlightGroup', id, group)
       return
     }
-    console.log('highlightGroup', id, group)
+    // console.log('highlightGroup', id, group)
     group.attr({
       visibility: 'visible',
       opacity: opacity,
@@ -889,8 +859,6 @@ const defaultOptions = {
   hideThumbnail: false,
   hideMiniOnboarding: false,
   useVerticalThumb: false,
-  tutorialAnim: false,
-  showTouchesPoints: false,
   debugTouchArea: false,
   onFilterChange: (filters) => { console.debug('filter change', filters) },
   onPropChange: (prop) => { console.debug('prop change', prop) },

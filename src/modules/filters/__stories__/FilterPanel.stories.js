@@ -18,10 +18,10 @@ const wtopDefaultFilters = {
 
 const wshoesDefaultFilters = {
   toes: 0,
-  cover: 0,
-  counter: 0,
-  bottom: 0,
-  shaft: 0
+  covers: 0,
+  counters: 0,
+  bottoms: 0,
+  shafts: 0
 }
 
 storiesOf('filters/FilterPanel', module)
@@ -77,7 +77,7 @@ storiesOf('filters/FilterPanel', module)
       <FilterPanel
         category='wshoes'
         filters={wshoesDefaultFilters}
-        lastBodyPart='bottom'
+        lastBodyPart='bottoms'
         onFilterChange={action('filter changed')}
         onClose={action('close visual filter')}
         onFilterLike={action('favorite filter')}
@@ -93,7 +93,7 @@ storiesOf('filters/FilterPanel', module)
       <FilterPanel
         category='wshoes'
         filters={wshoesDefaultFilters}
-        lastBodyPart='bottom'
+        lastBodyPart='bottoms'
         onFilterChange={action('filter changed')}
         onClose={action('close visual filter')}
         onFilterLike={action('favorite filter')}

@@ -34,23 +34,23 @@ class VfCatWtopCfg extends VfCatCfg {
 }
 
 class VfCatWshoesCfg extends VfCatCfg {
-  partList = ['toes', 'cover', 'counter', 'bottom', 'shaft']
+  partList = ['toes', 'covers', 'counters', 'bottoms', 'shafts']
   propMaxVal = {
     'toes': 2,
-    'cover': 3,
-    'counter': 3,
-    'bottom': 6,
-    'shaft': 4,
+    'covers': 3,
+    'counters': 3,
+    'bottoms': 6,
+    'shafts': 4,
     'solid': 1,
     'pattern': 1,
     'details': 1
   }
   propDefaultVal = {
     'toes': 2,
-    'cover': 3,
-    'counter': 3,
-    'bottom': 1,
-    'shaft': 0,
+    'covers': 3,
+    'counters': 3,
+    'bottoms': 1,
+    'shafts': 0,
     'solid': 0,
     'pattern': 0,
     'details': 0,

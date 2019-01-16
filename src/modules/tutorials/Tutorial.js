@@ -23,7 +23,6 @@ class Tutorial extends Component {
   static propTypes = {
     onboarding: PropTypes.bool.isRequired,
     reverseIcon: PropTypes.bool,
-    useVerticalThumb: PropTypes.bool,
     onFinish: PropTypes.func
   }
 
@@ -113,9 +112,7 @@ class Tutorial extends Component {
 
   render () {
     const { onboarding, reverseIcon } = this.props
-    // const { useVerticalThumb } = this.props
     const { currentPage, tutorialBegin } = this.state
-    // const { filterExpanded, zoomFilter } = this.state
 
     if (!onboarding) {
       return null
@@ -156,9 +153,7 @@ class Tutorial extends Component {
           <TutorialBodypartFilter
             id='TutorialBodypartFilter-touchesPoints'
             filters={defaultFilters}
-            showTouchesPoints
             lastBodyPart='coretype'
-            style={styles.tutorialAnim}
           />
           {tutorialNavigation}
         </TutorialPage>
@@ -167,9 +162,7 @@ class Tutorial extends Component {
           <h2>You can change its fits</h2>
           <TutorialBodypartFilter
             filters={defaultFilters}
-            tutorialAnim
             lastBodyPart='coretype'
-            style={styles.tutorialAnim}
           />
           {tutorialNavigation}
         </TutorialPage>
@@ -258,13 +251,5 @@ const styles = {
     left: 0,
     right: 0,
     height: '100%'
-  },
-  tutorialAnim: {
-    // width: 'calc(100% + 150px)',
-    width: '100%',
-    position: 'relative',
-    marginLeft: -70,
-    marginRight: -80,
-    marginTop: 20
   }
 }
