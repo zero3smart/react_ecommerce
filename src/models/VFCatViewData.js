@@ -261,6 +261,9 @@ export function getCatData (category, useVerticalThumb) {
     return new VfCatWtopViewData(cfg, useVerticalThumb)
   } else if (category === 'wshoes') {
     return new VfCatWshoesViewData(cfg, useVerticalThumb)
+  } else if (category === 'wpants') {
+    // For now, use wtop as placeholder
+    return new VfCatWtopViewData(cfg, useVerticalThumb)
   } else {
     console.assert(false, 'Unknown category ' + category)
     return null
