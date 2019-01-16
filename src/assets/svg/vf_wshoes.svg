@@ -342,9 +342,20 @@
                         </g>
                     </g>
                 </g>
+                <g id="tn_touches" fill="#BD10E0" stroke="#D5D0D0">
+                    <rect id="tn_touch_7" x="0.419354839" y="0.419354839" width="51.1612903" height="50.3225806" rx="8"></rect>
+                    <rect id="tn_touch_6" x="0.419354839" y="0.419354839" width="51.1612903" height="50.3225806" rx="8"></rect>
+                    <rect id="tn_touch_5" x="0.419354839" y="0.419354839" width="51.1612903" height="50.3225806" rx="8"></rect>
+                    <rect id="tn_touch_4" x="0.419354839" y="0.419354839" width="51.1612903" height="50.3225806" rx="8"></rect>
+                    <rect id="tn_touch_3" x="0.419354839" y="0.419354839" width="51.1612903" height="50.3225806" rx="8"></rect>
+                    <rect id="tn_touch_2" x="0.419354839" y="0.419354839" width="51.1612903" height="50.3225806" rx="8"></rect>
+                    <rect id="tn_touch_1" x="0.419354839" y="0.419354839" width="51.1612903" height="50.3225806" rx="8"></rect>
+                    <rect id="tn_touch_0" x="0.419354839" y="0.419354839" width="51.1612903" height="50.3225806" rx="8"></rect>
+               </g>
             </g>
         </g>
     </g>
+
 
 
     <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
