@@ -7,26 +7,32 @@ class VizFilterSvg:
             self.contents = f.read()
         self.basic_cleanup()
 
-    def remove_viewbox(self):
-        self.contents = re.sub('viewBox=\"[^\"]*\"','', self.contents)
-
     def basic_cleanup(self):
-        self.contents = self.contents.replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?>','')
-        self.contents = self.contents.replace('<?xml version="1.0" encoding="UTF-8"?>','')
-        self.contents = re.sub(r'<svg width="[0-9]+px" height="[0-9]+px" ', '<svg ', self.contents)
+        to_remove = [
+            '<?xml version="1.0" encoding="UTF-8" standalone="no"?>',
+            '<?xml version="1.0" encoding="UTF-8"?>'
+        ]
+        for s in to_remove:
+            self.contents = self.contents.replace(s, '')
+        to_remove_reg = [
+            '<svg[^>]*>',
+            '</svg>'
+        ]
+        for r in to_remove_reg:
+            self.contents = re.sub(r, '', self.contents)
+
         # Remove unnecessary attributes
         for i in ['data-name']: #, 'width', 'height']:
             self.contents = re.sub(f' {i}=\"[^\"]*\"','', self.contents)
         # Remove unncessary blocks
         for i in ['title', 'desc']:
             self.contents = re.sub(f'<{i}>[^<]*</{i}>','', self.contents)
-        self.remove_viewbox()
        
     def rename_id(self, frm, to):
         g_frm, g_to = f' id=\"{frm}\"', f' id=\"{to}\"'
         cnt = self.contents.count(g_frm)
         if cnt != 1:
-            print(f'Invalid # of groups in {self.svg_fn} : found {cnt}')
+            print(f'Invalid # of groups in {self.svg_fn} : found {cnt} of {frm}')
         assert(cnt == 1)
         self.contents = self.contents.replace(g_frm, g_to)
 

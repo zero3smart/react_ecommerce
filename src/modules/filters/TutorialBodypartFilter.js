@@ -9,8 +9,6 @@ export default class TutorialBodypartFilter extends PureComponent {
     id: PropTypes.string,
     filters: PropTypes.object,
     noShadow: PropTypes.bool,
-    tutorialAnim: PropTypes.bool,
-    showTouchesPoints: PropTypes.bool,
     className: PropTypes.string,
     style: PropTypes.object,
     onClick: PropTypes.func
@@ -18,9 +16,7 @@ export default class TutorialBodypartFilter extends PureComponent {
 
   static defaultProps = {
     id: 'TutorialBodypartFilter',
-    noShadow: false,
-    tutorialAnim: false,
-    showTouchesPoints: false
+    noShadow: false
   }
 
   constructor (props) {
@@ -31,15 +27,13 @@ export default class TutorialBodypartFilter extends PureComponent {
   }
 
   componentDidMount () {
-    const { id, filters, tutorialAnim, showTouchesPoints } = this.props
+    const { id, filters } = this.props
     // initialize visual filter
     this.tutorialBodypartFilter = new VisualFilter(`#${id}`, {
       defaultState: filters,
       badgeMode: true,
       hideThumbnail: true,
       hideMiniOnboarding: true,
-      tutorialAnim,
-      showTouchesPoints,
       onSVGLoaded: this.handleSVGLoaded,
       onFilterChange: () => {}
     })
