@@ -7,8 +7,8 @@ import { syncFavoriteProducts } from 'ducks/products'
 import { syncFilter, syncFavoritePresets } from 'ducks/filters'
 import { withTrackingProvider } from 'hoc'
 import Tabs from '@yesplz/core-web/ui-kits/navigations/Tabs'
-import { ProductList } from 'modules/products'
-import { Presets } from 'modules/presets'
+import { ProductList } from '@yesplz/core-web/modules/products'
+import { Presets } from '@yesplz/core-web/modules/presets'
 import './favorites.css'
 
 class Favorites extends Component {

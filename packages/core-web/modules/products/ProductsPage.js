@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { fetchProducts } from 'ducks/products'
 import { syncFilter, toggleVisualFilter } from 'ducks/filters'
 import { withTrackingProvider } from 'hoc'
-import { ProductList } from 'modules/products'
+import { ProductList } from '@yesplz/core-web/modules/products'
 import './products-page.css'
 
 class ProductsPage extends Component {
