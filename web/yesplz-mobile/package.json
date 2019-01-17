@@ -27,8 +27,8 @@
     "source-map-explorer": "^1.6.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
     "test": "BABEL_DISABLE_CACHE=1 NODE_ENV=test NODE_PATH=src mocha -r esm --require ./test-config.js src/*.test.js src/**/*.test.js",
     "eject": "react-scripts eject",
     "analyze": "source-map-explorer build/static/js/main.*",
@@ -40,6 +40,8 @@
     "@storybook/react": "^3.4.10",
     "dotenv": "^6.0.0",
     "mixpanel-browser": "^2.22.4",
+    "react-app-rewire-yarn-workspaces": "^1.0.3",
+    "react-app-rewired": "^2.0.2",
     "redux-devtools-extension": "^2.13.5"
   },
   "browserslist": [
