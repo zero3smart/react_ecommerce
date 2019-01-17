@@ -3,7 +3,7 @@
   "npmClient": "yarn",
   "useWorkspaces": true,
   "packages": [
-    "packages/core-web", "packages/core-models", "web/*"
+    "packages/*", "web/*"
   ],
   "version": "0.0.0"
 }

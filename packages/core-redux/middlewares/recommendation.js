@@ -1,7 +1,7 @@
 import includes from 'lodash-es/includes'
-import { fetchRecommendedProducts } from 'ducks/products'
-import { LIKE_PRODUCT, UNLIKE_PRODUCT } from 'ducks/product'
-import { LIKE_PRESET, UNLIKE_PRESET } from 'ducks/filters'
+import { fetchRecommendedProducts } from '@yesplz/core-redux/ducks/products'
+import { LIKE_PRODUCT, UNLIKE_PRODUCT } from '@yesplz/core-redux/ducks/product'
+import { LIKE_PRESET, UNLIKE_PRESET } from '@yesplz/core-redux/ducks/filters'
 
 export const makeRecommendationMiddleware = productCount => store => next => action => {
   const { type } = action
