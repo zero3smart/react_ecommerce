@@ -8,13 +8,12 @@ import pick from 'lodash-es/pick'
 import { getCatCfg } from './VFCatCfg'
 
 class VfCatViewData {
-  catcfg = null
-  viewBoxWithVertThumbnail = [0, 0, 480, 380]
-  viewBoxWithHorizThumbnail = [0, 0, 490, 410]
-  viewBoxWithNoThumnbnail = [0, 0, 480, 320]
 
   constructor (vfcatcfg) {
     this.catcfg = vfcatcfg
+    this.viewBoxWithVertThumbnail = [0, 0, 480, 380]
+    this.viewBoxWithHorizThumbnail = [0, 0, 490, 410]
+    this.viewBoxWithNoThumnbnail = [0, 0, 480, 320]
   }
   getbodyPartFilters (filters) {
     let filterSettings = pick(filters, this.catcfg.partList)
@@ -82,30 +81,28 @@ class VfCatViewData {
 }
 
 class VfCatWtopViewData extends VfCatViewData {
-  currentPropState = {
-    coretype: '0',
-    neckline: '0',
-    shoulder: '0',
-    sleeve_length: '0',
-    top_length: '0'
-  }
-  onboardingSequences = [
-    {coretype: 2, neckline: 1, shoulder: 1, sleeve_length: 0, top_length: 2},
-    {coretype: 2, neckline: 1, shoulder: 2, sleeve_length: 0, top_length: 2},
-    {coretype: 2, neckline: 1, shoulder: 3, sleeve_length: 0, top_length: 2},
-    {coretype: 2, neckline: 1, shoulder: 0, sleeve_length: 1, top_length: 2},
-    {coretype: 2, neckline: 1, shoulder: 0, sleeve_length: 2, top_length: 2},
-    {coretype: 2, neckline: 1, shoulder: 0, sleeve_length: 4, top_length: 2},
-    {coretype: 2, neckline: 1, shoulder: 0, sleeve_length: 5, top_length: 2},
-    {coretype: 0, neckline: 2, shoulder: 3, sleeve_length: 5, top_length: 0},
-    {coretype: 1, neckline: 2, shoulder: 3, sleeve_length: 2, top_length: 2},
-    {coretype: 2, neckline: 1, shoulder: 3, sleeve_length: 0, top_length: 1}
-  ]
-
   constructor (vfcatcfg) {
     super(vfcatcfg)
-    this.settings = {
+    this.settings = {}
+    this.currentPropState = {
+      coretype: '0',
+      neckline: '0',
+      shoulder: '0',
+      sleeve_length: '0',
+      top_length: '0'
     }
+    this.onboardingSequences = [
+      {coretype: 2, neckline: 1, shoulder: 1, sleeve_length: 0, top_length: 2},
+      {coretype: 2, neckline: 1, shoulder: 2, sleeve_length: 0, top_length: 2},
+      {coretype: 2, neckline: 1, shoulder: 3, sleeve_length: 0, top_length: 2},
+      {coretype: 2, neckline: 1, shoulder: 0, sleeve_length: 1, top_length: 2},
+      {coretype: 2, neckline: 1, shoulder: 0, sleeve_length: 2, top_length: 2},
+      {coretype: 2, neckline: 1, shoulder: 0, sleeve_length: 4, top_length: 2},
+      {coretype: 2, neckline: 1, shoulder: 0, sleeve_length: 5, top_length: 2},
+      {coretype: 0, neckline: 2, shoulder: 3, sleeve_length: 5, top_length: 0},
+      {coretype: 1, neckline: 2, shoulder: 3, sleeve_length: 2, top_length: 2},
+      {coretype: 2, neckline: 1, shoulder: 3, sleeve_length: 0, top_length: 1}
+    ]
   }
   svg (useVerticalThumb) {
     return useVerticalThumb ? vfWtopVertSvg : vfWtopSvg
@@ -138,16 +135,15 @@ class VfCatWtopViewData extends VfCatViewData {
 }
 
 class VfCatWshoesViewData extends VfCatViewData {
-  currentPropState = {
-    toes: '0',
-    cover: '0',
-    counter: '0',
-    bottom: '0',
-    shaft: '0'
-  }
   constructor (vfcatcfg) {
     super(vfcatcfg)
-    this.settings = {
+    this.settings = {}
+    this.currentPropState = {
+      toes: '0',
+      cover: '0',
+      counter: '0',
+      bottom: '0',
+      shaft: '0'
     }
   }
   svg (useVerticalThumb) {

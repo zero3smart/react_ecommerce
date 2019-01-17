@@ -14,26 +14,25 @@ import {
   PRD_CATEGORY
 } from 'config/constants'
 
-import { Tracker } from 'models'
+import Tracker from './Tracker'
 import { getCatData } from './VFCatViewData'
 
 const { Snap, localStorage } = window
 
 export default class VisualFilter {
-  selectedBodyPart = null
-  onboardingStage = 0
-  colorPalletteOpened = 0
-  svgLoaded = false
-  lastHighlightId = null
-  lastBodyPart = 'shoulder'
-  swipeView = false
-  catdata = null
-
   constructor (selector = '#svg', options = {}) {
     this.settings = {
       ...defaultOptions,
       ...options
     }
+    this.selectedBodyPart = null
+    this.onboardingStage = 0
+    this.colorPalletteOpened = 0
+    this.svgLoaded = false
+    this.lastHighlightId = null
+    this.lastBodyPart = 'shoulder'
+    this.swipeView = false
+    this.onboardingSeqIdx = 0
     this.catdata = getCatData(this.settings.category)
 
     // if snapsvg is not available, don't initialize
@@ -67,8 +66,6 @@ export default class VisualFilter {
       this.lastBodyPart = lastBodyPart
     }
   }
-
-  onboardingSeqIdx = 0
 
   onboardingCycleBodypart () {
     this.updateState(this.catdata.onboardingSequences[this.onboardingSeqIdx])
