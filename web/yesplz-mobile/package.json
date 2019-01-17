@@ -1,0 +1,51 @@
+{
+  "name": "yesplz-mobile",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^3.0.3",
+    "axios": "^0.18.0",
+    "classnames": "^2.2.6",
+    "connected-react-router": "^4.3.0",
+    "hammerjs": "^2.0.8",
+    "history": "^4.7.2",
+    "lodash-es": "^4.17.10",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-redux": "^5.0.7",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.1.3",
+    "react-slick": "^0.23.1",
+    "react-transition-group": "^2.4.0",
+    "redux": "^4.0.0",
+    "redux-mixpanel-middleware": "^1.0.1",
+    "redux-thunk": "^2.3.0",
+    "reselect": "^3.0.1",
+    "slick-carousel": "^1.8.1",
+    "source-map-explorer": "^1.6.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "BABEL_DISABLE_CACHE=1 NODE_ENV=test NODE_PATH=src mocha -r esm --require ./test-config.js src/*.test.js src/**/*.test.js",
+    "eject": "react-scripts eject",
+    "analyze": "source-map-explorer build/static/js/main.*",
+    "storybook": "start-storybook -p 9009 -c .storybook -s public"
+  },
+  "devDependencies": {
+    "@storybook/addon-info": "^3.4.10",
+    "@storybook/addon-viewport": "^3.4.10",
+    "@storybook/react": "^3.4.10",
+    "dotenv": "^6.0.0",
+    "mixpanel-browser": "^2.22.4",
+    "redux-devtools-extension": "^2.13.5"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

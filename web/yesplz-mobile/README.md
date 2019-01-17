@@ -21,9 +21,9 @@
 
 ## Desktop (/desktop)
 
-Note that mobile `/src` directory is also included in desktop module path. So you'll be able to access mobile code directly like `ui-kits/banners/FlatBanner`. Unfortunately, importing mobile code like that can be dangerous, since it can cause conflict when there is duplicated folder name, e.g: `/src/ui-kits/banners/` vs `/desktop/src/ui-kits/banners/`.
+Note that mobile `/src` directory is also included in desktop module path. So you'll be able to access mobile code directly like `@yesplz/core-web/ui-kits/banners/FlatBanner`. Unfortunately, importing mobile code like that can be dangerous, since it can cause conflict when there is duplicated folder name, e.g: `/src/@yesplz/core-web/ui-kits/banners/` vs `/desktop/src/@yesplz/core-web/ui-kits/banners/`.
 
-To avoid conflict and better imports readability, aliases were provided by using `yesplz@` prefix, e.g: `yesplz@ui-kits/banners/FlatBanner`. See `/desktop/src/products/index.js` for a referrence to avoid conflict between same module names.
+To avoid conflict and better imports readability, aliases were provided by using `yesplz@` prefix, e.g: `yesplz@@yesplz/core-web/ui-kits/banners/FlatBanner`. See `/desktop/src/products/index.js` for a referrence to avoid conflict between same module names.
 
 | Scripts                | Descriptions           |
 | ------------------     |:-----------------------|
