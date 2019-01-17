@@ -2,15 +2,15 @@ import React from 'react'
 import { Route, Switch } from 'react-router'
 import { NavLink } from 'react-router-dom'
 // pages
-import { Base, NotFound } from '@yesplz/core-web/modules/base'
-import { Home } from '@yesplz/core-web/modules/home'
 import { ProductsPage, ProductPage } from '@yesplz/core-web/modules/products'
 import { TopsInfoBanner } from '@yesplz/core-web/modules/tops'
-import { Favorites } from '@yesplz/core-web/modules/favorites'
 import { Faq } from '@yesplz/core-web/modules/faq'
 import { Tutorial } from '@yesplz/core-web/modules/tutorials'
-// presentational
 import { BreadCrumbs } from '@yesplz/core-web/ui-kits/misc'
+
+import { Base, NotFound } from 'modules/base'
+import { Home } from 'modules/home'
+import { Favorites } from 'modules/favorites'
 
 const createRoutes = () => (
   <Switch>

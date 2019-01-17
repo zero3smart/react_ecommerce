@@ -6,7 +6,7 @@ import { fetchRecommendedProducts } from '@yesplz/core-redux/ducks/products'
 import { ProductList } from '@yesplz/core-web/modules/products'
 import { AdvancedPresetList } from '@yesplz/core-web/modules/presets'
 import { InfoBanner } from '@yesplz/core-web/ui-kits/banners'
-import { withTrackingProvider } from '../../hoc'
+import { withTrackingProvider } from '@yesplz/core-web/hoc'
 import './home.css'
 
 class Home extends Component {
