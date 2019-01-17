@@ -6,7 +6,7 @@ import { compose } from 'redux'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { likeProduct, unlikeProduct } from '@yesplz/core-redux/ducks/product'
-import { withTrackingConsumer } from 'hoc'
+import withTrackingConsumer from './withTrackingConsumer'
 
 export default () => WrappedComponent => {
   class ProductLikeHOC extends Component {

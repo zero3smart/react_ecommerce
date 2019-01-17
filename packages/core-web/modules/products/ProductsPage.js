@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { fetchProducts } from '@yesplz/core-redux/ducks/products'
 import { syncFilter, toggleVisualFilter } from '@yesplz/core-redux/ducks/filters'
-import { withTrackingProvider } from 'hoc'
+import { withTrackingProvider } from '../../hoc'
 import { ProductList } from '@yesplz/core-web/modules/products'
 import './products-page.css'
 

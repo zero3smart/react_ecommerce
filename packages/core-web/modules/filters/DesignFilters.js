@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import { Switch } from '@yesplz/core-web/ui-kits/forms'
-import { withFocus } from 'hoc'
+import { withFocus } from '../../hoc'
 import './design-filters.css'
 
 export class DesignFilters extends Component {

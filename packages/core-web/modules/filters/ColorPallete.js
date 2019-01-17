@@ -6,7 +6,7 @@ import includes from 'lodash-es/includes'
 import classNames from 'classnames'
 import { FABRIC_COLORS } from '@yesplz/core-web/config/constants'
 import { ColorButton, Button } from '@yesplz/core-web/ui-kits/buttons'
-import { withFocus } from 'hoc'
+import { withFocus } from '../../hoc'
 import { Tracker } from '@yesplz/core-models'
 import './color-pallete.css'
 

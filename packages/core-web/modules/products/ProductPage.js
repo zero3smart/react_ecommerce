@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { Product, ProductPlaceholder, ProductList } from '@yesplz/core-web/modules/products'
 import { fetchProduct, fetchRelatedProducts, resetProduct, setScrollBellowTheFold } from '@yesplz/core-redux/ducks/product'
 import history from '@yesplz/core-web/config/history'
-import { withTrackingProvider } from 'hoc'
+import { withTrackingProvider } from '../../hoc'
 import './product-page.css'
 
 class ProductPage extends Component {

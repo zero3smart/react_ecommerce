@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import omit from 'lodash-es/omit'
 import ProductGrid from '@yesplz/core-web/modules/products/ProductGrid'
-import { withProductLike } from 'hoc'
+import { withProductLike } from '../../hoc'
 import './preset-matches.css'
 
 class PresetMatches extends Component {

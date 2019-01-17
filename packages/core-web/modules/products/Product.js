@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { BASE_IMG_PATH } from '@yesplz/core-web/config/constants'
 import { Button, LikeButton } from '@yesplz/core-web/ui-kits/buttons'
-import { withProductLike } from 'hoc'
+import { withProductLike } from '../../hoc'
 import Slider from 'react-slick'
 import './product.css'
 

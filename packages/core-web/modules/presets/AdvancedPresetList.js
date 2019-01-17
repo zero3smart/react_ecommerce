@@ -9,7 +9,7 @@ import { fetchPresets, setFilter, likePreset, unlikePreset } from '@yesplz/core-
 import Transition from '@yesplz/core-web/ui-kits/transitions/Transition'
 import { DotLoader } from '@yesplz/core-web/ui-kits/loaders'
 import AdvancedPreset from './AdvancedPreset'
-import { withTrackingConsumer } from 'hoc'
+import { withTrackingConsumer } from '../../hoc'
 
 export class AdvancedPresetList extends Component {
   static propTypes = {

@@ -7,7 +7,7 @@ import { ScrollFetcher } from '@yesplz/core-web/ui-kits/fetchers'
 import { DotLoader } from '@yesplz/core-web/ui-kits/loaders'
 import ProductsNotFound from './ProductsNotFound'
 import { PRODUCT_COUNT_PER_PAGE } from '@yesplz/core-web/config/constants'
-import { withProductLike } from 'hoc'
+import { withProductLike } from '../../hoc'
 import { matchingProductsSelector, closeMatchingProductsSelector } from './selectors'
 import './product-list.css'
 
