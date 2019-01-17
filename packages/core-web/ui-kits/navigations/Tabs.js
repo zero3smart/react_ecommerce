@@ -7,19 +7,6 @@ import isNil from 'lodash-es/isNil'
 import './tabs.css'
 
 export default class Tabs extends Component {
-  static propTypes = {
-    children: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.any),
-      PropTypes.element
-    ]),
-    kind: PropTypes.oneOf(['default', 'capsule']),
-    style: PropTypes.object
-  }
-
-  static defaultProps = {
-    kind: 'default'
-  }
-
   render () {
     const { children, kind, style } = this.props
 
@@ -44,3 +31,16 @@ const manageChildren = (children) => (
     return React.cloneElement(element, { activeClassName: 'active' })
   })
 )
+
+Tabs.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.any),
+    PropTypes.element
+  ]),
+  kind: PropTypes.oneOf(['default', 'capsule']),
+  style: PropTypes.object
+}
+
+Tabs.defaultProps = {
+  kind: 'default'
+}

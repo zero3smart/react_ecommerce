@@ -3,11 +3,6 @@ import PropTypes from 'prop-types'
 import './breadcrumbs.css'
 
 export default class BreadCrumbs extends Component {
-  static propTypes = {
-    children: PropTypes.any,
-    style: PropTypes.object
-  }
-
   render () {
     const { children, style } = this.props
 
@@ -19,4 +14,9 @@ export default class BreadCrumbs extends Component {
       </div>
     )
   }
+}
+
+BreadCrumbs.propTypes = {
+  children: PropTypes.any,
+  style: PropTypes.object
 }

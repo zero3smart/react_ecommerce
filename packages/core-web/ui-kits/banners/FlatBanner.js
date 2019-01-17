@@ -3,10 +3,6 @@ import PropTypes from 'prop-types'
 import './flat-banner.css'
 
 export default class FlatBanner extends Component {
-  static defaultProps = {
-    className: 'FlatBanner'
-  }
-
   render () {
     const { children, className, style } = this.props
 
@@ -22,4 +18,8 @@ FlatBanner.propTypes = {
   children: PropTypes.any,
   className: PropTypes.string,
   style: PropTypes.object
+}
+
+FlatBanner.defaultProps = {
+  className: 'FlatBanner'
 }
