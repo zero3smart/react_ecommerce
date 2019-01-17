@@ -1,7 +1,8 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
-import store, { history } from './config/store'
+import history from '@yesplz/core-web/config/history'
+import store from './config/store'
 import routes from './config/routes'
 // import global styles
 import 'slick-carousel/slick/slick.css'

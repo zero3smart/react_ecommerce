@@ -1,4 +1,4 @@
-import { FAVORITE_PRESETS, CUSTOM_PRESET_NAME } from 'config/constants'
+import { FAVORITE_PRESETS, CUSTOM_PRESET_NAME } from '@yesplz/core-web/config/constants'
 import uniqBy from 'lodash-es/uniqBy'
 import reject from 'lodash-es/reject'
 import filter from 'lodash-es/filter'

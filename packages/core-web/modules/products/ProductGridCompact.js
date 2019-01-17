@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Link } from 'react-router-dom'
-import { BASE_IMG_PATH } from 'config/constants'
+import { BASE_IMG_PATH } from '@yesplz/core-web/config/constants'
 import { LikeButton } from '@yesplz/core-web/ui-kits/buttons'
 import './product-grid-compact.css'
 

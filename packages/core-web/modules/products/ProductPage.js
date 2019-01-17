@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Product, ProductPlaceholder, ProductList } from '@yesplz/core-web/modules/products'
 import { fetchProduct, fetchRelatedProducts, resetProduct, setScrollBellowTheFold } from 'ducks/product'
-import { history } from 'config/store'
+import history from '@yesplz/core-web/config/history'
 import { withTrackingProvider } from 'hoc'
 import './product-page.css'
 

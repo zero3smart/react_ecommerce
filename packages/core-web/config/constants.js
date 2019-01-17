@@ -5,7 +5,6 @@ export const DEBUG_PARAM = 'dbg'
 export const PRD_CATEGORY = process.env.REACT_APP_PRD_CATEGORY || 'wtop'
 
 // local storage
-export const FAVORITE_PRODUCTS = 'favorite_products'
 export const FAVORITE_PRESETS = 'favorite_presets'
 export const FILTERS = 'filters'
 export const LAST_BODY_PART = 'last_body_part'

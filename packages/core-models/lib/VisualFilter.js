@@ -12,7 +12,7 @@ import {
   LAST_BODY_PART,
   FILTERS,
   PRD_CATEGORY
-} from 'config/constants'
+} from '@yesplz/core-web/config/constants'
 
 import Tracker from './Tracker'
 import { getCatData } from './VFCatViewData'

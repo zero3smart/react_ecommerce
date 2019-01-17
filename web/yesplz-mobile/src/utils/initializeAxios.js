@@ -2,7 +2,7 @@
  * Axios initialization
  */
 import axios from 'axios'
-import { BASE_API_PATH, DEBUG_PARAM } from 'config/constants'
+import { BASE_API_PATH, DEBUG_PARAM } from '@yesplz/core-web/config/constants'
 
 export default () => {
   // configure axios

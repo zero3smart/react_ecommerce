@@ -12,7 +12,7 @@ import { Button } from '@yesplz/core-web/ui-kits/buttons'
 import ReplayArrowSvg from '@yesplz/core-web/assets/svg/replay-arrow.svg'
 import ReplayArrowWhiteSvg from '@yesplz/core-web/assets/svg/replay-arrow-white.svg'
 
-import { history } from 'config/store'
+import history from '@yesplz/core-web/config/history'
 import { withTrackingProvider } from 'hoc'
 import { Tracker } from '@yesplz/core-models'
 import './tutorial.css'

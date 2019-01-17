@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
 import axios from 'axios'
-import { BASE_API_PATH } from 'config/constants'
+import { BASE_API_PATH } from '@yesplz/core-web/config/constants'
 
 axios.defaults.baseURL = BASE_API_PATH
 

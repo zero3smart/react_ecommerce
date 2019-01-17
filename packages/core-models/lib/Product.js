@@ -1,4 +1,4 @@
-import { FAVORITE_PRODUCTS } from 'config/constants'
+import { FAVORITE_PRODUCTS } from '../config/constants'
 import uniqBy from 'lodash-es/uniqBy'
 import reject from 'lodash-es/reject'
 import map from 'lodash-es/map'

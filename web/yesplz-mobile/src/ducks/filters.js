@@ -1,8 +1,8 @@
 import axios from 'axios'
-import { FILTERS } from 'config/constants'
+import { FILTERS } from '@yesplz/core-web/config/constants'
 import { Preset, VisualFilter } from '@yesplz/core-models'
 import { updatePresetFavorite, mapPresetFavorites } from './helpers'
-import { PRD_CATEGORY } from '../config/constants'
+import { PRD_CATEGORY } from '@yesplz/core-web/config/constants'
 const { localStorage } = window
 const isDev = process.env.NODE_ENV === 'development'
 

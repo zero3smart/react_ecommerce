@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { PRODUCT_COUNT_PER_PAGE, PRD_CATEGORY } from 'config/constants'
+import { PRODUCT_COUNT_PER_PAGE, PRD_CATEGORY } from '@yesplz/core-web/config/constants'
 import { createCancelableAsyncAction } from 'utils/async'
 import { mapProductFavorites, updateProductFavorite } from './helpers'
 import { syncFavoriteProducts } from 'ducks/products'

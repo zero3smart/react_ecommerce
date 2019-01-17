@@ -1,7 +1,7 @@
 import axios from 'axios'
 import omit from 'lodash-es/omit'
 import uniqBy from 'lodash-es/uniqBy'
-import { PRODUCT_COUNT_PER_PAGE, PRD_CATEGORY } from 'config/constants'
+import { PRODUCT_COUNT_PER_PAGE, PRD_CATEGORY } from '@yesplz/core-web/config/constants'
 import { LIKE_PRODUCT, UNLIKE_PRODUCT } from './product'
 import { mapProductFavorites, updateProductFavorite } from './helpers'
 import { Product, Preset, VisualFilter } from '@yesplz/core-models'

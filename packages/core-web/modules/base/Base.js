@@ -7,7 +7,7 @@ import SearchSvg from '@yesplz/core-web/assets/svg/search.svg'
 import FavoritesSvg from '@yesplz/core-web/assets/svg/favorites.svg'
 import { ProductFilter } from '@yesplz/core-web/modules/filters'
 import { VisualFilter } from '@yesplz/core-models'
-import { history } from 'config/store'
+import history from '@yesplz/core-web/config/history'
 import './base.css'
 
 export default class Base extends Component {
