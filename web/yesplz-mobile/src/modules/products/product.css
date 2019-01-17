@@ -92,7 +92,7 @@
 .Product .Product-images > .slick-slider .slick-prev:before,
 .Product .Product-images > .slick-slider .slick-next:before {
   content: '';
-  background: url('../../../src/assets/svg/angle.svg') center center no-repeat;
+  background: url('./angle.svg') center center no-repeat;
   background-size: 100%;
   display: inline-block;
   width: 16px;

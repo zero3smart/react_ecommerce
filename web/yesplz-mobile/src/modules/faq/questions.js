@@ -1,4 +1,4 @@
-import instagramSvgSrc from 'assets/svg/instagram.svg'
+import instagramSvgSrc from '@yesplz/core-web/assets/svg/instagram.svg'
 
 export default [
   // {

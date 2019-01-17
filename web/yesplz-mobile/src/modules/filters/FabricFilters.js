@@ -7,10 +7,10 @@ import { FilterButton } from '@yesplz/core-web/ui-kits/buttons'
 import Transition from '@yesplz/core-web/ui-kits/transitions/Transition'
 import ColorPallete from './ColorPallete'
 // icons
-import detailSVGSrc from 'assets/svg/detail.svg'
-import patternSVGSrc from 'assets/svg/pattern.svg'
-import colorSVGSrc from 'assets/svg/color.svg'
-import angleSVGSrc from 'assets/svg/angle.svg'
+import detailSVGSrc from '@yesplz/core-web/assets/svg/detail.svg'
+import patternSVGSrc from '@yesplz/core-web/assets/svg/pattern.svg'
+import colorSVGSrc from '@yesplz/core-web/assets/svg/color.svg'
+import angleSVGSrc from '@yesplz/core-web/assets/svg/angle.svg'
 
 import './fabric-filters.css'
 

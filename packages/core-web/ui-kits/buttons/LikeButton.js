@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import likeSVGSrc from 'assets/svg/like.svg'
-import likeActiveSVGSrc from 'assets/svg/like-active.svg'
+import likeSVGSrc from '../../assets/svg/like.svg'
+import likeActiveSVGSrc from '../../assets/svg/like-active.svg'
 import './like-button.css'
 
 export default class LikeButton extends PureComponent {

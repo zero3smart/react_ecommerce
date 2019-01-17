@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import closeSvgSrc from 'assets/svg/close.svg'
+import closeSvgSrc from '../../assets/svg/close.svg'
 import './close-button.css'
 
 export default class CloseButton extends PureComponent {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { FlatBanner } from '@yesplz/core-web/ui-kits/banners'
-import instagramSvgSrc from 'assets/svg/instagram.svg'
+import instagramSvgSrc from '@yesplz/core-web/assets/svg/instagram.svg'
 import './feedbacks.css'
 
 class Feedbacks extends Component {

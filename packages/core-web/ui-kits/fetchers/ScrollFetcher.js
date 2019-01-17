@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import reduce from 'lodash-es/reduce'
 import isEqual from 'lodash-es/isEqual'
-import DotLoader from 'ui-kits/loaders/DotLoader'
+import DotLoader from '../loaders/DotLoader'
 
 class ScrollFetcher extends Component {
   constructor (props) {
