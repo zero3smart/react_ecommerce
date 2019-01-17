@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Placeholder } from 'ui-kits/misc'
+import { Placeholder } from '@yesplz/core-web/ui-kits/misc'
 
 const TEXT_LINE_HEIGHT = 18
 

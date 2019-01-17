@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import TutorialPage from './TutorialPage'
 import { FloatButton, TutorialBodypartFilter } from 'modules/filters'
 // import { ProductFilter } from 'modules/filters/ProductFilter'
-import { Button } from 'ui-kits/buttons'
+import { Button } from '@yesplz/core-web/ui-kits/buttons'
 // import BackArrowSvg from 'assets/svg/back-arrow.svg'
 // import BackArrowWhiteSvg from 'assets/svg/back-arrow-white.svg'
 import ReplayArrowSvg from 'assets/svg/replay-arrow.svg'
@@ -14,7 +14,7 @@ import ReplayArrowWhiteSvg from 'assets/svg/replay-arrow-white.svg'
 
 import { history } from 'config/store'
 import { withTrackingProvider } from 'hoc'
-import Tracker from 'models/Tracker'
+import { Tracker } from '@yesplz/core-models'
 import './tutorial.css'
 
 const DELAY_BETWEEN_SCREEN = 1000

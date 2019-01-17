@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
-import { Switch } from 'ui-kits/forms'
+import { Switch } from '@yesplz/core-web/ui-kits/forms'
 import { withFocus } from 'hoc'
 import './design-filters.css'
 

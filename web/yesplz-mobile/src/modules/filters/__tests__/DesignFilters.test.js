@@ -3,7 +3,7 @@ import { shallow } from 'enzyme'
 import { expect } from 'chai'
 import sinon from 'sinon'
 import { DesignFilters, __Rewire__ as designFiltersRewire } from '../DesignFilters'
-import { Switch } from 'ui-kits/forms/Switch'
+import { Switch } from '@yesplz/core-web/ui-kits/forms/Switch'
 
 describe('<DesignFilters />', () => {
   let wrapper

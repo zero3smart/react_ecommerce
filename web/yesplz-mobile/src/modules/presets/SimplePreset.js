@@ -5,7 +5,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { VisualFilter } from 'models'
+import { VisualFilter } from '@yesplz/core-models'
 import './simple-preset.css'
 
 const filterProps = PropTypes.oneOfType([

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Link } from 'react-router-dom'
 import { BASE_IMG_PATH } from 'config/constants'
-import { LikeButton } from 'ui-kits/buttons'
+import { LikeButton } from '@yesplz/core-web/ui-kits/buttons'
 import './product-grid.css'
 
 export default class ProductGrid extends PureComponent {

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { fetchRecommendedProducts } from 'ducks/products'
 import { ProductList } from 'modules/products'
 import { AdvancedPresetList } from 'modules/presets'
-import { InfoBanner } from 'ui-kits/banners'
+import { InfoBanner } from '@yesplz/core-web/ui-kits/banners'
 import { withTrackingProvider } from 'hoc'
 import './home.css'
 

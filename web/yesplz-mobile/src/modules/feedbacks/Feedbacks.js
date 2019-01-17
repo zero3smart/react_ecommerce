@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FlatBanner } from 'ui-kits/banners'
+import { FlatBanner } from '@yesplz/core-web/ui-kits/banners'
 import instagramSvgSrc from 'assets/svg/instagram.svg'
 import './feedbacks.css'
 

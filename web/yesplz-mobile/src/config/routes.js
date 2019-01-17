@@ -10,7 +10,7 @@ import { Favorites } from 'modules/favorites'
 import { Faq } from 'modules/faq'
 import { Tutorial } from 'modules/tutorials'
 // presentational
-import { BreadCrumbs } from 'ui-kits/misc'
+import { BreadCrumbs } from '@yesplz/core-web/ui-kits/misc'
 
 const createRoutes = () => (
   <Switch>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { InfoBanner } from 'ui-kits/banners'
+import { InfoBanner } from '@yesplz/core-web/ui-kits/banners'
 
 export default class TopsInfoBanner extends Component {
   render () {

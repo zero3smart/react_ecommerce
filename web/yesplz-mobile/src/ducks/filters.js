@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { FILTERS } from 'config/constants'
-import { Preset, VisualFilter } from 'models'
+import { Preset, VisualFilter } from '@yesplz/core-models'
 import { updatePresetFavorite, mapPresetFavorites } from './helpers'
 import { PRD_CATEGORY } from '../config/constants'
 const { localStorage } = window

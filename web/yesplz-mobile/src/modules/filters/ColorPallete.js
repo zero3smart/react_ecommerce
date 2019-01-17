@@ -5,9 +5,9 @@ import without from 'lodash-es/without'
 import includes from 'lodash-es/includes'
 import classNames from 'classnames'
 import { FABRIC_COLORS } from 'config/constants'
-import { ColorButton, Button } from 'ui-kits/buttons'
+import { ColorButton, Button } from '@yesplz/core-web/ui-kits/buttons'
 import { withFocus } from 'hoc'
-import { Tracker } from 'models'
+import { Tracker } from '@yesplz/core-models'
 import './color-pallete.css'
 
 export class ColorPallete extends Component {

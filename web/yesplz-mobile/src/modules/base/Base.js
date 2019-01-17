@@ -6,7 +6,7 @@ import BurgerSvg from 'assets/svg/burger.svg'
 import SearchSvg from 'assets/svg/search.svg'
 import FavoritesSvg from 'assets/svg/favorites.svg'
 import { ProductFilter } from 'modules/filters'
-import { VisualFilter } from 'models'
+import { VisualFilter } from '@yesplz/core-models'
 import { history } from 'config/store'
 import './base.css'
 

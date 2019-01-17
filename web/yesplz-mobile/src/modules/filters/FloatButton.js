@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import isEqual from 'lodash-es/isEqual'
-import { VisualFilter } from 'models'
+import { VisualFilter } from '@yesplz/core-models'
 import './float-button.css'
 
 export default class FloatButton extends PureComponent {

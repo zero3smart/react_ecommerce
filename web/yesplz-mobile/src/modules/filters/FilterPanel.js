@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import isEqual from 'lodash-es/isEqual'
 import SecondaryFilters from './SecondaryFilters'
-import { VisualFilter } from 'models'
-import { LikeButton, CloseButton } from 'ui-kits/buttons'
+import { VisualFilter } from '@yesplz/core-models'
+import { LikeButton, CloseButton } from '@yesplz/core-web/ui-kits/buttons'
 import './filter-panel.css'
 
 export default class FilterPanel extends Component {

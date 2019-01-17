@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { FabricFilters } from 'modules/filters'
-import { VisualFilter } from 'models'
-import { LikeButton } from 'ui-kits/buttons'
+import { VisualFilter } from '@yesplz/core-models'
+import { LikeButton } from '@yesplz/core-web/ui-kits/buttons'
 import './preset.css'
 
 const filterProps = PropTypes.oneOfType([

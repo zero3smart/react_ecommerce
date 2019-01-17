@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Transition from 'ui-kits/transitions/Transition'
+import Transition from '@yesplz/core-web/ui-kits/transitions/Transition'
 import './tutorial-page.css'
 
 export default class TutorialPage extends Component {

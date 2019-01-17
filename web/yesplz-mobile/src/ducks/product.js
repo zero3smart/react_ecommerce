@@ -3,7 +3,7 @@ import { PRODUCT_COUNT_PER_PAGE, PRD_CATEGORY } from 'config/constants'
 import { createCancelableAsyncAction } from 'utils/async'
 import { mapProductFavorites, updateProductFavorite } from './helpers'
 import { syncFavoriteProducts } from 'ducks/products'
-import { Product } from 'models'
+import { Product } from '@yesplz/core-models'
 
 // Actions
 const SET_PRODUCT = 'product/SET_PRODUCT'

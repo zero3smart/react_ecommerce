@@ -4,7 +4,7 @@ import uniqBy from 'lodash-es/uniqBy'
 import { PRODUCT_COUNT_PER_PAGE, PRD_CATEGORY } from 'config/constants'
 import { LIKE_PRODUCT, UNLIKE_PRODUCT } from './product'
 import { mapProductFavorites, updateProductFavorite } from './helpers'
-import { Product, Preset, VisualFilter } from 'models'
+import { Product, Preset, VisualFilter } from '@yesplz/core-models'
 
 // Actions
 const SET_PRODUCTS = 'products/SET_PRODUCTS'

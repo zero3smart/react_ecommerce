@@ -9,7 +9,7 @@ import Preset from './Preset'
 import PresetMatches from './PresetMatches'
 import { getProducts } from 'ducks/products'
 import { mapProductFavorites } from 'ducks/helpers'
-import { Product } from 'models'
+import { Product } from '@yesplz/core-models'
 import './advanced-preset.css'
 
 export default class AdvancedPreset extends Component {
