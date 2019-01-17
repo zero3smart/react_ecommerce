@@ -1,0 +1,22 @@
+{
+  "presets": [
+    "react-app"
+  ],
+  "plugins": [
+    "transform-es2015-modules-commonjs",
+    "@babel/plugin-proposal-class-properties"
+  ],
+  "env": {
+    "test": {
+      "plugins": [
+        "rewire",
+        [
+          "babel-plugin-transform-require-ignore",
+          {
+           "extensions": [".scss", ".css"]
+          }
+        ]
+      ]
+    }
+  }
+}
