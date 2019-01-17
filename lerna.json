@@ -1,0 +1,9 @@
+{
+  "lerna": "2.11.0",
+  "npmClient": "yarn",
+  "useWorkspaces": true,
+  "packages": [
+    "packages/core-web", "packages/core-models", "web/*"
+  ],
+  "version": "0.0.0"
+}

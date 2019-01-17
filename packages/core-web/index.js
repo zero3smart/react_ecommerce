@@ -1,1 +1,5 @@
-export * from './ui-kits'
+/**
+ * core web
+ */
+
+export default 'Import directly from the module directory'
