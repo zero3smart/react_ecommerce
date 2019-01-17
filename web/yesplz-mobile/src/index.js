@@ -2,8 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
-import { loadSvgSource } from 'utils/svgHelpers'
-import initializeAxios from 'utils/initializeAxios'
+import { loadSvgSource } from '@yesplz/core-web/utils/svgHelpers'
+import initializeAxios from '@yesplz/core-web/utils/initializeAxios'
 
 initializeAxios()
 

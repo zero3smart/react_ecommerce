@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { PRODUCT_COUNT_PER_PAGE, PRD_CATEGORY } from '@yesplz/core-web/config/constants'
-import { createCancelableAsyncAction } from 'utils/async'
+import { createCancelableAsyncAction } from '@yesplz/core-web/utils/async'
 import { mapProductFavorites, updateProductFavorite } from './helpers'
 import { syncFavoriteProducts } from '@yesplz/core-redux/ducks/products'
 import { Product } from '@yesplz/core-models'
