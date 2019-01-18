@@ -70,30 +70,34 @@ class VfCatViewData {
   // Offset relative to thumbnail offset
   tnOffset (prop, idx) {
     const tnCnt = this.propCount(prop)
+    const base = this.tnAreaOffset()
     if (this.useVerticalThumb) {
-      return {x: 0, y: 30 + idx * this.thumbnailWidth}
+      return {x: base.x, y: base.y + idx * this.thumbnailWidth}
     }
     const THUMBNAIL_IMG_X_OFFSET = {
-      3: 132, // only in without ALL BTN
-      4: 105,
-      5: 83,
-      6: 30
+      3: 120, // only in without ALL BTN
+      4: 90,
+      5: 68,
+      6: 40
     }
-    if (tnCnt === 7) {
+    if (tnCnt === 7) { // Show in two rows
       if (idx < 3) {
-        return {x: THUMBNAIL_IMG_X_OFFSET[3] + idx * this.thumbnailWidth, y: 0}
+        return {x: base.x + THUMBNAIL_IMG_X_OFFSET[3] + idx * this.thumbnailWidth,
+                y: base.y - this.thumbnailHeight / 2}
       } else {
-        return {x: THUMBNAIL_IMG_X_OFFSET[4] + (idx - 3) * this.thumbnailWidth, y: 40}
+        return {x: base.x + THUMBNAIL_IMG_X_OFFSET[4] + (idx - 3) * this.thumbnailWidth,
+                y: base.y + this.thumbnailHeight / 2}
       }
     }
-    return {x: THUMBNAIL_IMG_X_OFFSET[tnCnt] + idx * this.thumbnailWidth, y: 0}
+    return {x: base.x + THUMBNAIL_IMG_X_OFFSET[tnCnt] + idx * this.thumbnailWidth,
+            y: base.y - this.thumbnailHeight / 2}
   }
 
   tnAreaOffset () {
     if (this.useVerticalThumb) {
       return {x: 400 - 6, y: 30}
     } else {
-      return {x: 100, yoffset: 50}
+      return {x: 10, y: 30}
     }
   }
   arrowBackOffset () {
@@ -101,7 +105,7 @@ class VfCatViewData {
     if (this.useVerticalThumb) {
       return {x: x, y: y - 30}
     } else {
-      return {x: x - 30, y: y}
+      return {x: x, y: y}
     }
   }
   arrowFowardOffset () {
@@ -109,7 +113,7 @@ class VfCatViewData {
     if (this.useVerticalThumb) {
       return {x: x, y: y + 30}
     } else {
-      return {x: x + 30, y: y}
+      return {x: x + 330, y: y}
     }
   }
 
@@ -234,25 +238,6 @@ class VfCatWshoesViewData extends VfCatViewData {
   thumbnailHLGroupName () {
     return 'tn_HL'
   }
-
-  // getThumbnailXOffset (prop) {
-  //   const tnCnt = this.catcfg.maxVal(prop) + 1
-  //   const THUMBNAIL_IMG_X_OFFSET = {
-  //     3: 132,
-  //     4: 97,
-  //     5: 63,
-  //     6: 30,
-  //     7: 3
-  //   }
-  //   return THUMBNAIL_IMG_X_OFFSET[tnCnt]
-  // }
-  // tnOffsets (useVerticalThumb, prop = null) {
-  //   if (useVerticalThumb) {
-  //     return {xoffset: 400 - 6, yoffset: 30}
-  //   } else {
-  //     return {xoffset: this.getThumbnailXOffset(prop), yoffset: 290}
-  //   }
-  // }
 }
 
 export function getCatData (category, useVerticalThumb) {

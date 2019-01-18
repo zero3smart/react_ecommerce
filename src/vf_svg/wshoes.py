@@ -59,7 +59,7 @@ def load_wshoes_svg_fixed(svg_fn):
     }
     tn_y = 0
     pos_fixes = {
-        'shoes_parts_filters': [f'80 50', .8],
+        'shoes_parts_filters': [f'80 90', .8], # Main filter area
     }
     str_sub_fixes = { }
 
@@ -78,7 +78,7 @@ def load_wshoes_svg_fixed(svg_fn):
 
 def merge_wshoes_svgs(fn, vertical=False):
     fv_svgs = ['shoes_parts_filters.svg']
-    tn_svgs = ['tn_shoes.svg', 'Navigation-Arrows.svg', 'filter_buttons.svg']
+    tn_svgs = ['tn_shoes.svg', '../common/arrows.svg', 'filter_buttons.svg']
 
     print('Combining svgs into', fn)
     with open(fn, 'w') as f:
