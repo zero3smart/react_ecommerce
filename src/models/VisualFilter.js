@@ -115,12 +115,17 @@ export default class VisualFilter {
       }
 
       // onboarding
-      if (!hideMiniOnboarding && VisualFilter.shouldShowOnboarding() && svgOnboardingSource) {
-        this.track('MiniOnboarding Start')
+      if (!hideMiniOnboarding && VisualFilter.shouldShowOnboarding()) {
+        if (svgOnboardingSource) {
+          this.track('MiniOnboarding Start')
 
-        Snap.load(svgOnboardingSource, (frag) => {
-          this.showOnboarding(frag)
-        })
+          Snap.load(svgOnboardingSource, (frag) => {
+            this.showOnboarding(frag)
+          })
+        } else { // No mini onboarding resources yet. Skip it
+          this.handleOnboardingFinished()
+          this.initializeClickHitMap()
+        }
       } else {
         this.initializeClickHitMap()
       }
@@ -129,7 +134,7 @@ export default class VisualFilter {
       if (!badgeMode) {
         this.track('VF Opened')
 
-        // this.initializeArrowNavigation()
+        this.initializeArrowNavigation()
         if (swipeable) {
           this.initializeSwipableThumbnail()
         }
@@ -184,40 +189,35 @@ export default class VisualFilter {
     }
   }
 
+  transformAttr (x, y, rotate) {
+    let t = `translate(${x},${y})`
+    if (rotate) {
+      t += ` rotate(${rotate})`
+    }
+    return { transform: t }
+  }
+
   initializeArrowNavigation () {
     const { useVerticalThumb } = this.settings
 
     // set arrow navigation visibility and position
     const arrowBack = this.findGroupById('arrow_back')
     const arrowForward = this.findGroupById('arrow_forward')
-    const defaultAttr = { fill: '#4A4A4A', stroke: '#979797' }
-    const focusAttr = { fill: '#6200EE', stroke: 'rgba(98, 0, 238, 0.4)' }
 
     this.showGroup('arrow_back')
     this.showGroup('arrow_forward')
     const backOffset = this.catdata.arrowBackOffset()
     const forwardOffset = this.catdata.arrowFowardOffset()
-
-    if (useVerticalThumb) {
-      arrowBack.attr({ transform: `translate(${backOffset}.x,${backOffset}.y) rotate(90)` })
-      arrowForward.attr({ transform: `translate(${forwardOffset}.x,${forwardOffset}.y) rotate(270)` })
-    } else {
-      arrowBack.attr({ transform: `translate(${backOffset}.x,${backOffset}.y) rotate(0)` })
-      arrowForward.attr({ transform: `translate(${forwardOffset}.x,${forwardOffset}.y) rotate(180)` })
-    }
+    let rotate = useVerticalThumb ? 90 : 0
+    arrowBack.attr(this.transformAttr(backOffset.x, backOffset.y, rotate))
+    arrowForward.attr(this.transformAttr(forwardOffset.x, forwardOffset.y, rotate))
 
     // initialize navigation tap events
     arrowBack.click(() => {
-      // on focus, change arrow color
-      arrowForward.select('#Sharp').attr(defaultAttr)
-      arrowBack.select('#Sharp').attr(focusAttr)
       // move thumbnails
       this.moveToPrevThumbnails()
     })
     arrowForward.click(() => {
-      // on focus, change arrow color
-      arrowBack.select('#Sharp').attr(defaultAttr)
-      arrowForward.select('#Sharp').attr(focusAttr)
       // move thumbnails
       this.moveToNextThumbnails()
     })
@@ -254,13 +254,14 @@ export default class VisualFilter {
     const nextThumb = this.catdata.currentPropState[nextProp]
 
     if (useVerticalThumb) {
-      this.animateVerticalThumbnail(this.selectedBodyPart, nextProp, false, () => {
-        this.handleAfterSwipeThumbnail(nextProp, nextThumb)
-      })
+      // Animation is disabled for now..
+      // this.animateVerticalThumbnail(this.selectedBodyPart, nextProp, false, () => {
+      this.handleAfterSwipeThumbnail(nextProp, nextThumb)
+      // })
     } else {
-      this.animateHorizontalThumbnail(this.selectedBodyPart, nextProp, false, () => {
-        this.handleAfterSwipeThumbnail(nextProp, nextThumb)
-      })
+      // this.animateHorizontalThumbnail(this.selectedBodyPart, nextProp, false, () => {
+      this.handleAfterSwipeThumbnail(nextProp, nextThumb)
+      // })
     }
   }
 
@@ -270,13 +271,13 @@ export default class VisualFilter {
     const nextThumb = this.catdata.currentPropState[nextProp]
 
     if (useVerticalThumb) {
-      this.animateVerticalThumbnail(this.selectedBodyPart, nextProp, true, () => {
-        this.handleAfterSwipeThumbnail(nextProp, nextThumb)
-      })
+      // this.animateVerticalThumbnail(this.selectedBodyPart, nextProp, true, () => {
+      this.handleAfterSwipeThumbnail(nextProp, nextThumb)
+      // })
     } else {
-      this.animateHorizontalThumbnail(this.selectedBodyPart, nextProp, true, () => {
-        this.handleAfterSwipeThumbnail(nextProp, nextThumb)
-      })
+      // this.animateHorizontalThumbnail(this.selectedBodyPart, nextProp, true, () => {
+      this.handleAfterSwipeThumbnail(nextProp, nextThumb)
+      // })
     }
   }
 
@@ -485,7 +486,7 @@ export default class VisualFilter {
       if (i < this.catdata.propCount(prop)) {
         const {x, y} = this.catdata.tnOffset(prop, i)
         const g = this.findGroupById(group)
-        g.transform(`t${x - 100},${y}`)
+        g.transform(`t${x - 10},${y - 30}`) // not sure where this offset coming from.
         this.showGroup(group)
       } else {
         this.hideGroup(group)

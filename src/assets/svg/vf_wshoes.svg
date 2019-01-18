@@ -8,7 +8,7 @@
     
     <defs></defs>
     <g id="BodyParts-VisualFilter-Final-Distribution" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="shoes_parts_filters" transform="translate(80 50) scale(0.8)">
+        <g id="shoes_parts_filters" transform="translate(80 90) scale(0.8)">
             <g id="full_bare_foot" transform="translate(19.000000, 44.000000)" stroke="#4A4A4A">
                 <path d="M149.181281,0 C154.897544,39.5828089 157.755675,68.9872298 157.755675,88.2132626 C157.755675,107.439295 154.897544,119.85956 149.181281,125.474056 C146,126.037804 145.20468,132.330519 146.79532,144.352202 C148.385961,156.373885 150.63466,172.635961 153.541419,193.138431 C151.860168,203.471748 151.019543,210.35998 151.019543,213.803128 C151.019543,217.246275 154.171063,222.491507 160.474103,229.538823 C167.142077,233.037387 174.212127,234.78667 181.684254,234.78667 C193.609256,234.347902 199.000566,234.347902 203.43485,229.538823 C207.869133,224.729744 215.55221,207.994022 215.048419,203.153083 C214.544628,198.312145 210.451261,188.833458 208.447318,184.373939 C206.876485,180.878249 203.888624,173.165692 203.43485,164.798383 C203.43485,152.296463 205.10441,145.081574 205.10441,139.281714 C205.10441,135.415141 203.910236,130.812589 201.521887,125.474056 C200.646667,119.671014 201.840841,107.25075 205.10441,88.2132626 C208.367979,69.1757756 214.343751,39.7713548 223.031726,0" id="right_foot"></path>
                 <path d="M107.771397,8 C100.375854,54.1756528 97.0064586,87.3782222 97.6632091,107.607708 C98.0556058,119.694465 98.7588448,130.138662 101.362329,136.743073 C105.294984,146.719269 109.630335,149.014824 112.951986,152.648988 C116.273636,156.283152 115.418985,161.403872 115.418985,163.561692 C115.418985,164.126167 112.532496,169.337288 104.075017,175.275572 C97.6053253,179.818162 87.057525,183.791691 76.9399174,192.383316 C53.596107,212.20631 47.8511346,222.359888 41.6804546,225.173959 C37.566668,227.050006 31.1530334,227.050006 22.439551,225.173959 C15.3051344,223.1245 10.5281655,221.545552 8.10864436,220.437115 C4.47936266,218.77446 1.74952063,217.84552 0.283561211,215.023806 C-0.693745068,213.142663 0.855195703,211.504378 4.93038352,210.108951 L24.9111111,199.58838 L41.6804546,131.920516 C43.8091294,110.44971 44.464924,89.4496697 43.6478384,68.9203945 C42.8307528,48.3911193 41.1044969,28.0843211 38.4690705,8" id="left_foot"></path>
@@ -358,25 +358,21 @@
 
 
 
-    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <!-- Generator: Sketch 51.1 (57501) - http://www.bohemiancoding.com/sketch -->
     
     
     <defs></defs>
-    <g id="Navigation-Arrows" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="arrow_back">
-            <g id="arrow_back_bounding_boxes" transform="translate(-7, -12)" fill="#ffffff" fill-rule="nonzero" opacity="1">
-                <polygon id="Shape" points="0 0 40 0 40 50 0 50"></polygon>
-            </g>
-            <g id="Sharp" transform="translate(5.000000, 2.000000)" fill="#4A4A4A" fill-rule="nonzero" stroke="#979797" stroke-width="2">
-                <polygon id="Shape" points="12.51 1.87 10.73 0.1 0.84 10 10.74 19.9 12.51 18.13 4.38 10"></polygon>
-            </g>
-        </g>
-        <g id="arrow_forward">
-            <g id="arrow_forward_bounding_boxes" transform="translate(-7, -12)" fill="#ffffff" fill-rule="nonzero" opacity="1">
-                <polygon id="Shape" points="0 0 40 0 40 50 0 50"></polygon>
-            </g>
-            <g id="Sharp" transform="translate(5.000000, 2.000000)" fill="#4A4A4A" fill-rule="nonzero" stroke="#979797" stroke-width="2">
-                <polygon id="Shape" points="12.51 1.87 10.73 0.1 0.84 10 10.74 19.9 12.51 18.13 4.38 10"></polygon>
+    <g id="Shoes" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="iPhone-8-Copy-21" transform="translate(-146.000000, -299.000000)">
+            <g id="arrows" transform="translate(146.000000, 299.000000)">
+                <g id="arrow_back">
+                    <rect id="touch_arrow" fill="#FFFFFF" x="0" y="0" width="69" height="72"></rect>
+                    <polyline id="arrow_left" stroke="#6E00FF" stroke-linecap="round" stroke-linejoin="round" points="42.882 19 27 35.495 42.882 51"></polyline>
+                </g>
+                <g id="arrow_forward">
+                    <rect id="touch_arrow" fill="#FFFFFF" x="0" y="0" width="69" height="72"></rect>
+                    <polyline id="arroaw_right" stroke="#6E00FF" stroke-linecap="round" stroke-linejoin="round" transform="translate(34.941000, 35.000000) scale(-1, 1) translate(-34.941000, -35.000000) " points="42.882 19 27 35.495 42.882 51"></polyline>
+                </g>
             </g>
         </g>
     </g>
