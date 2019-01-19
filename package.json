@@ -53,7 +53,8 @@
     "clean": "lerna clean --yes && rm -rf node_modules",
     "reset": "yarn run clean && yarn",
     "test": "lerna run test --parallel -- --no-watch",
-    "storybook": "start-storybook -p 9001 -c .storybook",
+    "storybook": "start-storybook -p 9009 -s web/yesplz-mobile/public",
     "build-storybook": "build-storybook"
-  }
+  },
+  "dependencies": {}
 }
