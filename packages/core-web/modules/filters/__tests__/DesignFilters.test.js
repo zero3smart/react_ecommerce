@@ -14,7 +14,7 @@ describe('<DesignFilters />', () => {
     onChange: sinon.spy()
   }
 
-  before(() => {
+  beforeAll(() => {
     // mock control label
     const FormControlLabel = ({ control }) => (
       <div className='SwitchWrapper'>

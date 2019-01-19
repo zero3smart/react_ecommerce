@@ -1,9 +1,9 @@
 import { FAVORITE_PRESETS, CUSTOM_PRESET_NAME } from '@yesplz/core-web/config/constants'
-import uniqBy from 'lodash-es/uniqBy'
-import reject from 'lodash-es/reject'
-import filter from 'lodash-es/filter'
-import map from 'lodash-es/map'
-import max from 'lodash-es/max'
+import uniqBy from 'lodash/uniqBy'
+import reject from 'lodash/reject'
+import filter from 'lodash/filter'
+import map from 'lodash/map'
+import max from 'lodash/max'
 
 const { localStorage } = window
 

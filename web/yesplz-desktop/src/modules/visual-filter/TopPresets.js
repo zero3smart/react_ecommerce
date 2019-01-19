@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import camelCase from 'lodash-es/camelCase'
+import camelCase from 'lodash/camelCase'
 import history from '@yesplz/core-web/config/history'
 import { fetchPresets, setFilter } from '@yesplz/core-redux/ducks/filters'
 import SimplePreset from '@yesplz/core-web/modules/presets/SimplePreset'

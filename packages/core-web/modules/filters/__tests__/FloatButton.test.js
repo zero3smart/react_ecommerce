@@ -27,7 +27,7 @@ describe('<FloatButton />', () => {
   })
 
   describe('when `noShadow` is activated', () => {
-    before(() => {
+    beforeAll(() => {
       props.noShadow = true
     })
 

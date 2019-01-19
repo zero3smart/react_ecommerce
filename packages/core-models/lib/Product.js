@@ -1,7 +1,7 @@
 import { FAVORITE_PRODUCTS } from '../config/constants'
-import uniqBy from 'lodash-es/uniqBy'
-import reject from 'lodash-es/reject'
-import map from 'lodash-es/map'
+import uniqBy from 'lodash/uniqBy'
+import reject from 'lodash/reject'
+import map from 'lodash/map'
 
 const { localStorage } = window
 

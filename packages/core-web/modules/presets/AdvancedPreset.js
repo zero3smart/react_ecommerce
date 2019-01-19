@@ -4,7 +4,7 @@
  */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import omit from 'lodash-es/omit'
+import omit from 'lodash/omit'
 import Preset from './Preset'
 import PresetMatches from './PresetMatches'
 import { getProducts } from '@yesplz/core-redux/ducks/products'

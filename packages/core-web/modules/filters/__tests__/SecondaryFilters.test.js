@@ -50,7 +50,7 @@ describe('<SecondaryFilters />', () => {
     })
   })
 
-  before(() => {
+  beforeAll(() => {
     // change `DesignFilters` and `ColorPallete` with original element without hoc
     // design filters
     SecondaryFilters.__Rewire__('DesignFilters', DesignFilters)

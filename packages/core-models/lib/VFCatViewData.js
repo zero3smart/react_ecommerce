@@ -4,7 +4,7 @@ import vfWshoesSvg from '@yesplz/core-web/assets/svg/vf_wshoes.svg'
 import vfWshoesVertSvg from '@yesplz/core-web/assets/svg/vf_wshoes_vert.svg'
 import miniOnboardingSvg from '@yesplz/core-web/assets/svg/mini_onboarding.svg'
 import miniOnboardingVertSvg from '@yesplz/core-web/assets/svg/mini_onboarding_thumb_vertical.svg'
-import pick from 'lodash-es/pick'
+import pick from 'lodash/pick'
 import { getCatCfg } from './VFCatCfg'
 
 class VfCatViewData {

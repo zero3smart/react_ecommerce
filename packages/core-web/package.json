@@ -4,8 +4,19 @@
   "description": "core modules for yesplz web",
   "main": "index.js",
   "scripts": {
-    "test": "BABEL_DISABLE_CACHE=1 NODE_ENV=test NODE_PATH=src mocha -r esm --require ./test-config.js **/*.test.js **/*.test.js"
+    "test": "NODE_ENV=test BABEL_ENV=test react-app-rewired test"
   },
   "author": "yesplz",
-  "license": "ISC"
+  "license": "ISC", 
+  "dependencies": {
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0"
+  },
+  "jest": {
+    "setupTestFrameworkScriptFile": "<rootDir>../../setupTests.global.js",
+    "testMatch": [
+      "<rootDir>/**/__tests__/**/*.{js,jsx,mjs}",
+      "<rootDir>/**/?(*.)(spec|test).{js,jsx,mjs}"
+    ]
+  }
 }

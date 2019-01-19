@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import filter from 'lodash-es/filter'
+import filter from 'lodash/filter'
 
 // getters
 const getProducts = (state) => (state.products.list)

@@ -3,10 +3,10 @@
  * contains functions to handle visual filter svg interactions
  */
 // Import Snap from window. Snap is loaded from template.
-import isNil from 'lodash-es/isNil'
-import isEmpty from 'lodash-es/isEmpty'
-import isEqual from 'lodash-es/isEqual'
-import throttle from 'lodash-es/throttle'
+import isNil from 'lodash/isNil'
+import isEmpty from 'lodash/isEmpty'
+import isEqual from 'lodash/isEqual'
+import throttle from 'lodash/throttle'
 import Hammer from 'hammerjs'
 import {
   LAST_BODY_PART,

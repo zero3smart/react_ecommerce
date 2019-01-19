@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Tracker } from '@yesplz/core-models'
 import TrackingContext from './TrackingContext'
-import isFunction from 'lodash-es/isFunction'
+import isFunction from 'lodash/isFunction'
 
 /**
  * wrap component with tracking properties through context provider

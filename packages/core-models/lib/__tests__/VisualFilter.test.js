@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
-import each from 'lodash-es/each'
+import each from 'lodash/each'
 import VisualFilter from '../VisualFilter'
 
 describe('VisualFilter Onboarding', () => {
@@ -16,7 +16,7 @@ describe('VisualFilter Onboarding', () => {
   }
   let fakeSaveConfig = sinon.spy()
 
-  before(() => {
+  beforeAll(() => {
     VisualFilter.__Rewire__('setTimeout', () => {}) // don't run set delayed func
     contructorStub = sinon.stub(VisualFilter, 'constructor').callsFake(() => {})
     stubFakeFunctions(VisualFilter, fakeFn)
@@ -104,7 +104,7 @@ describe('VisualFilter Onboarding', () => {
     })
   })
 
-  after(() => {
+  afterAll(() => {
     contructorStub.restore()
     restoreFakeStubs()
     VisualFilter.__ResetDependency__('setTimeout')
@@ -119,7 +119,7 @@ describe('Visual Filter', () => {
     hideGroup: sinon.spy()
   }
 
-  before(() => {
+  beforeAll(() => {
     contructorStub = sinon.stub(VisualFilter, 'constructor').callsFake(() => {})
     stubFakeFunctions(VisualFilter, fakeFn)
     vf = new VisualFilter()
@@ -174,7 +174,7 @@ describe('Visual Filter', () => {
     })
   })
 
-  after(() => {
+  afterAll(() => {
     contructorStub.restore()
     restoreFakeStubs()
   })

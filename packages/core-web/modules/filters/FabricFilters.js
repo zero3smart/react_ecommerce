@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import includes from 'lodash-es/includes'
+import includes from 'lodash/includes'
 import { FABRIC_COLORS } from '@yesplz/core-web/config/constants'
 import { FilterButton } from '@yesplz/core-web/ui-kits/buttons'
 import Transition from '@yesplz/core-web/ui-kits/transitions/Transition'

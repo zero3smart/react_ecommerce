@@ -1,6 +1,6 @@
 import { createSelectorCreator, defaultMemoize } from 'reselect'
-import filter from 'lodash-es/filter'
-import isEqual from 'lodash-es/isEqual'
+import filter from 'lodash/filter'
+import isEqual from 'lodash/isEqual'
 
 const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,

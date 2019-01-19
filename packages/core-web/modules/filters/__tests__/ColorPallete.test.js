@@ -2,7 +2,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import { expect } from 'chai'
 import sinon from 'sinon'
-import without from 'lodash-es/without'
+import without from 'lodash/without'
 import { ColorPallete } from '../ColorPallete'
 
 describe('<ColorPallete />', () => {

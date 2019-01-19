@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect'
-import filter from 'lodash-es/filter'
-import find from 'lodash-es/find'
-import isEmpty from 'lodash-es/isEmpty'
-import omit from 'lodash-es/omit'
+import filter from 'lodash/filter'
+import find from 'lodash/find'
+import isEmpty from 'lodash/isEmpty'
+import omit from 'lodash/omit'
 
 const getFavoritePresets = state => state.filters.favoritePresets
 const getFilters = state => state.filters.data

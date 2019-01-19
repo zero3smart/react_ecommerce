@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import isEqual from 'lodash-es/isEqual'
+import isEqual from 'lodash/isEqual'
 import { VisualFilter } from '@yesplz/core-models'
 
 export default class TutorialBodypartFilter extends PureComponent {

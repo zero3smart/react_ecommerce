@@ -1,63 +1,68 @@
-## Table of Contents
-- [List of Commands](#list-of-commands)
-  - [Mobile (/)](#mobile)
-  - [Desktop (/desktop)](#desktop-desktop)
-- [Deployment](#deployment)
-- [Update Visual Filter SVG](#update-visual-filter-svg)
-- [Docker Settings](#docker-settings)
-- [Tips](#tips)
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-# List of Commands
-## Mobile (/)
+## Available Scripts
 
-| Scripts                | Descriptions           |
-| ------------------     |:-----------------------|
-| yarn install           | install dependencies |
-| yarn start             | Serve development server in specific port (default: 3002) |
-| yarn build             | Build project |
-| yarn analyze           | Run bundle size analyzer. Must build the project first. |
-| yarn storybook         | Run storybook (port: 9009) |
-| yarn test              | Run tests. add `--watch` for auto reload |
+In the project directory, you can run:
 
-## Desktop (/desktop)
+### `npm start`
 
-Note that mobile `/src` directory is also included in desktop module path. So you'll be able to access mobile code directly like `@yesplz/core-web/ui-kits/banners/FlatBanner`. Unfortunately, importing mobile code like that can be dangerous, since it can cause conflict when there is duplicated folder name, e.g: `/src/@yesplz/core-web/ui-kits/banners/` vs `/desktop/src/@yesplz/core-web/ui-kits/banners/`.
+Runs the app in the development mode.<br>
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-To avoid conflict and better imports readability, aliases were provided by using `yesplz@` prefix, e.g: `yesplz@@yesplz/core-web/ui-kits/banners/FlatBanner`. See `/desktop/src/products/index.js` for a referrence to avoid conflict between same module names.
+The page will reload if you make edits.<br>
+You will also see any lint errors in the console.
 
-| Scripts                | Descriptions           |
-| ------------------     |:-----------------------|
-| yarn install           | install dependencies |
-| yarn start             | Serve development server in specific port (default: 3002) |
-| yarn build             | Build project |
+### `npm test`
 
+Launches the test runner in the interactive watch mode.<br>
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-# Deployment
-1. ssh to yesplz server.
-2. Go to `~/yesplz_front/` directory.
-3. `git pull` to get last code updates or change branch if necessary.
-4. Run `docker-compose stop` to stop running containers (use `sudo` for non root users).
-5. Run `docker-compose up -d --build` to start building the images (use `sudo` for non root users). To start container without building the image, run `docker-compose up -d`.
+### `npm run build`
 
-# Update Visual Filter SVG
-1. Go to `/backend/webapp/assets`. You’ll find 2 different source folders, `svg` for visual filter with horizontal thumbnails and `svg-thumb-vertical` for visual filter with vertical thumbnails.
-2. You can edit the svg parts. Note: The filters button won’t be merged, since it was moved to React component for reusability purpose.
-3. To merge assets, run `python merge_svg_assets.py` (or with using `python3`) to produce `vf_bundle.svg` file (vf with horizontal thumbnails) and `python merge_svg_thumb_vertical_assets.py` to produce `vf_bundle_thumb_vertical.svg` (vf with vertical thumbnails).
-4. Copy both files to `/public/svg/`, replace the files there.
+Builds the app for production to the `build` folder.<br>
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-# Docker Settings
-- To update docker script, go to `/docker/` directory and modify `Dockerfile`. Docker compose file is located on root directory.
-- There are environment variable configurations for mobile web (`/docker/.env`) and desktop web (`/docker/.env.desktop`). (PRODUCTION)
-- You can also modify the nginx configuration at `/docker/nginx.conf` to change routing / redirect rules.
+The build is minified and the filenames include the hashes.<br>
+Your app is ready to be deployed!
 
-# Tips
-Add these extension in your **chrome** browser to help with debugging:
-- [React DevTools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en)
-- [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-For vscode users, please install [eslint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) addons and add this to vscode user settings:
-```
-"eslint.options": {
-    "configFile": ".eslintrc"
-}
-```
+### `npm run eject`
+
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+
+### Analyzing the Bundle Size
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+
+### Making a Progressive Web App
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+
+### Advanced Configuration
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+
+### Deployment
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+
+### `npm run build` fails to minify
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify

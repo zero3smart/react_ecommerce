@@ -1,5 +1,5 @@
-import findIndex from 'lodash-es/findIndex'
-import includes from 'lodash-es/includes'
+import findIndex from 'lodash/findIndex'
+import includes from 'lodash/includes'
 
 /**
  * update favorite of a product in product list

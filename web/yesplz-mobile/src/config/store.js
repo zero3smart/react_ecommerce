@@ -10,11 +10,12 @@ import * as reducers from '@yesplz/core-redux/ducks'
 const mixpanelMiddleware = new MixpanelMiddleware(window.mixpanel)
 
 const rootReducer = combineReducers({
+  router: connectRouter(history),
   ...reducers
 })
 
 const store = createStore(
-  connectRouter(history)(rootReducer), // new root reducer with router state
+  rootReducer,
   composeWithDevTools(
     applyMiddleware(
       routerMiddleware(history), // for dispatching history actions

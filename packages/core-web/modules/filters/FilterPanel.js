@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import isEqual from 'lodash-es/isEqual'
+import isEqual from 'lodash/isEqual'
 import SecondaryFilters from './SecondaryFilters'
 import { VisualFilter } from '@yesplz/core-models'
 import { LikeButton, CloseButton } from '@yesplz/core-web/ui-kits/buttons'

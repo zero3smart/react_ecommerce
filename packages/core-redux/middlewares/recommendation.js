@@ -1,4 +1,4 @@
-import includes from 'lodash-es/includes'
+import includes from 'lodash/includes'
 import { fetchRecommendedProducts } from '@yesplz/core-redux/ducks/products'
 import { LIKE_PRODUCT, UNLIKE_PRODUCT } from '@yesplz/core-redux/ducks/product'
 import { LIKE_PRESET, UNLIKE_PRESET } from '@yesplz/core-redux/ducks/filters'

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import isEqual from 'lodash-es/isEqual'
+import isEqual from 'lodash/isEqual'
 import ProductGrid from './ProductGrid'
 import Transition from '@yesplz/core-web/ui-kits/transitions/Transition'
 import { ScrollFetcher } from '@yesplz/core-web/ui-kits/fetchers'

@@ -3,7 +3,16 @@
   "version": "1.0.0",
   "description": "core redux for yesplz app",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "NODE_ENV=test BABEL_ENV=test react-app-rewired test"
+  },
   "author": "yesplz",
-  "license": "ISC"
+  "license": "ISC",
+  "jest": {
+    "setupTestFrameworkScriptFile": "<rootDir>../../setupTests.global.js",
+    "testMatch": [
+      "<rootDir>/**/__tests__/**/*.{js,jsx,mjs}",
+      "<rootDir>/**/?(*.)(spec|test).{js,jsx,mjs}"
+    ]
+  }
 }

@@ -3,7 +3,7 @@
  */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import isNil from 'lodash-es/isNil'
+import isNil from 'lodash/isNil'
 import './tabs.css'
 
 export default class Tabs extends Component {
