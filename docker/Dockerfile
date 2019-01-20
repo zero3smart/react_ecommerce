@@ -10,42 +10,46 @@ ENV PATH /srv/src/node_modules/.bin:$PATH
 
 # install and cache app dependencies
 COPY package.json /srv/src/package.json
+COPY lerna.json /srv/src/lerna.json
 COPY yarn.lock /srv/src/yarn.lock
-COPY desktop/package.json /srv/src/desktop/package.json
-COPY desktop/yarn.lock /srv/src/desktop/yarn.lock
+# install and cache packages dependencies
+COPY packages/core-web/package.json /srv/src/packages/core-web/package.json
+COPY packages/core-models/package.json /srv/src/packages/core-models/package.json
+COPY packages/core-redux/package.json /srv/src/packages/core-redux/package.json
+COPY web/yesplz-mobile/package.json /srv/src/web/yesplz-mobile/package.json
+COPY web/yesplz-desktop/package.json /srv/src/web/yesplz-desktop/package.json
 
 # install yarn, change permission
 RUN npm install -g yarn
+RUN npm install -global lerna
 RUN chmod a+rwx  /usr/local/lib/node_modules/yarn/bin/yarn*
 RUN chmod a+rwx  /usr/local/bin/yarn*
 
 # install package to enable caching
-RUN yarn install
-RUN cd ./desktop && yarn install
+RUN yarn reset
 
 # copy project file
 COPY . /srv/src
-COPY ./desktop /srv/src/desktop
 
 # use react .env for production
-COPY $mobile_env /srv/src/.env
-COPY $desktop_env /srv/src/desktop/.env
+COPY $mobile_env /srv/src/web/yesplz-mobile/.env
+COPY $desktop_env /srv/src/web/yesplz-desktop/.env
 
 # build mobile script
 ARG PUBLIC_URL=/mobile/public
-RUN yarn build
+RUN cd ./web/yesplz-mobile && yarn build
 
 # build desktop script
 ARG PUBLIC_URL=/desktop/public
-RUN cd ./desktop && yarn build
+RUN cd ./web/yesplz-desktop && yarn build
 
 # production environment
 # serve static files with nginx
 FROM nginx:latest
 
 COPY ./docker/nginx.conf /etc/nginx/nginx.conf
-COPY --from=builder /srv/src/build /srv/www/mobile
-COPY --from=builder /srv/src/desktop/build /srv/www/desktop
+COPY --from=builder /srv/src/web/yesplz-mobile/build /srv/www/mobile
+COPY --from=builder /srv/src/web/yesplz-desktop/build /srv/www/desktop
 
 EXPOSE 80
 
