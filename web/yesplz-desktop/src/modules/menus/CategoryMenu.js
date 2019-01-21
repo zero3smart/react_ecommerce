@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { setActiveCategory } from '@yesplz/core-redux/ducks/products'
+import { setActiveCategory, enableInitialFetch } from '@yesplz/core-redux/ducks/products'
 import TopMenu from '@yesplz/core-web/ui-kits/navigations/TopMenu'
 import { Button } from '@yesplz/core-web/ui-kits/buttons'
 import CategoryDivisorSrc from './category-divisor.png'
@@ -23,7 +23,8 @@ class CategoryMenu extends Component {
   }
 
   handleMenuClick (categoryKey) {
-    const { setActiveCategory } = this.props
+    const { enableInitialFetch, setActiveCategory } = this.props
+    enableInitialFetch()
     setActiveCategory(categoryKey)
   }
 
@@ -48,6 +49,7 @@ class CategoryMenu extends Component {
 }
 
 CategoryMenu.propTypes = {
+  enableInitialFetch: PropTypes.func.isRequired,
   setActiveCategory: PropTypes.func.isRequired,
   style: PropTypes.object
 }
@@ -145,4 +147,7 @@ const styles = {
   }
 }
 
-export default connect(null, { setActiveCategory })(CategoryMenu)
+export default connect(null, {
+  setActiveCategory,
+  enableInitialFetch
+})(CategoryMenu)
