@@ -92,6 +92,8 @@ def load_wtop_svg_fixed(svg_fn, vertical, remove_all):
                 'sleeves_thumbnails': [f'10 {tn_y}', scale], # 7 selections
                 #'top_collar_thumbnails': [f'110 {tn_y}', scale], # 4 selections
                 'coretype_thumbnails': [f'72 {tn_y}', scale], # 5 selections
+                'preset_back': ['5 150', 1],
+                'preset_forward': ['345 150', 1],
             }
     pos_fixes.update({
         'BodyParts-Touch-Area' : [f'-9 -18', None],
@@ -119,7 +121,7 @@ def merge_wtop(fn, vertical=False, remove_all=False):
     upper_svgs = ['full_body.svg']
     upper_svgs += ['BodyParts-Touch-Area.svg']
     
-    lower_svgs = ['Thumbnail-Highliter.svg', 'filter_buttons.svg']
+    lower_svgs = ['Thumbnail-Highliter.svg', 'filter_buttons.svg', '../common/preset_arrows.svg', '../common/arrows.svg']
 
     hv_svgs = [
             'length_thumbnails.svg', 

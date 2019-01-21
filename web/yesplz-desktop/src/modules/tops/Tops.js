@@ -62,7 +62,7 @@ class Tops extends Component {
         <SectionTitle title='Search' style={{ marginTop: 44 }} />
         <div className='container-wide'>
           <div className='Tops-content'>
-            <VisualFilter title='Choose your fits' />
+            <VisualFilter />
             <ProductList
               id='MainScroll'
               show={isProductsFetched}
