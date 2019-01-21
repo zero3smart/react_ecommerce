@@ -23,6 +23,7 @@ export default class MinimalPreset extends Component {
     sleeveLength: filterProps,
     solid: filterProps,
     color: filterProps,
+    category: PropTypes.string,
     topLength: filterProps,
     className: filterProps,
     favorite: PropTypes.bool,
@@ -58,13 +59,14 @@ export default class MinimalPreset extends Component {
   }
 
   componentDidMount () {
-    const { id } = this.props
+    const { id, category } = this.props
     // initialize body part
     this.bodyPart = new VisualFilter(`#${id}-svg`, {
       defaultState: this.bodyPartFilters,
       badgeMode: true,
       hideThumbnail: true,
-      hideMiniOnboarding: true
+      hideMiniOnboarding: true,
+      category
     })
   }
 

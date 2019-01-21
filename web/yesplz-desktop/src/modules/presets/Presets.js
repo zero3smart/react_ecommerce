@@ -27,6 +27,7 @@ export class Presets extends Component {
     totalCount: PropTypes.number,
     isProductsFetched: PropTypes.bool,
     nextOffset: PropTypes.number,
+    activeCategory: PropTypes.string,
     // misc
     extraItem: PropTypes.element,
     style: PropTypes.object,
@@ -181,7 +182,9 @@ export class Presets extends Component {
   }
 
   render () {
-    const { isPresetsFetched, presets, extraItem, isProductsFetched, products, nextOffset, activePresetName, style } = this.props
+    const {
+      isPresetsFetched, presets, extraItem, isProductsFetched, products,
+      nextOffset, activePresetName, activeCategory, style } = this.props
     const splitView = !isNil(activePresetName)
 
     return (
@@ -219,6 +222,7 @@ export class Presets extends Component {
                       details={preset.details}
                       color={preset.color}
                       favorite={preset.favorite}
+                      category={preset.category}
                       onClick={this.handlePresetClick}
                       onToggleLike={this.togglePresetLike}
                       style={{ animationDelay: `${50 * index}ms`, opacity: fade ? 0.25 : 1 }}

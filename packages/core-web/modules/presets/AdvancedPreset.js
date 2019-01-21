@@ -56,7 +56,7 @@ export default class AdvancedPreset extends Component {
   }
 
   render () {
-    const { id, preset, useMinimalPreset, onClick, onToggleLike } = this.props
+    const { id, preset, useMinimalPreset, activeCategory, onClick, onToggleLike } = this.props
     const { products } = this.state
 
     return (
@@ -77,6 +77,7 @@ export default class AdvancedPreset extends Component {
               details={preset.details}
               color={preset.color}
               favorite={preset.favorite}
+              category={activeCategory}
               onClick={onClick}
               onToggleLike={onToggleLike}
             />
@@ -95,6 +96,7 @@ export default class AdvancedPreset extends Component {
               details={preset.details}
               color={preset.color}
               favorite={preset.favorite}
+              category={activeCategory}
               onClick={onClick}
               onToggleLike={onToggleLike}
             />
