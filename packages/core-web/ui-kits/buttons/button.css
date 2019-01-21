@@ -10,6 +10,7 @@
   padding: 10px;
   margin: auto;
   outline: none;
+  border: none;
 }
 
 .Button:hover {
@@ -35,9 +36,6 @@
 
 /* shape */
 .Button.default {
-  border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
 }
 
 .Button.rounded {
@@ -56,6 +54,12 @@
 .Button.ButtonSecondary {
   color: #6200EE;
   background: none;
+  border: 0;
+}
+
+.Button.ButtonTertiary {
+  color: #6200EE;
+  background: white;
   border: 0;
 }
 

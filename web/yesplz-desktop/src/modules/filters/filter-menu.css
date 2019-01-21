@@ -1,0 +1,106 @@
+.FilterMenu {
+  position: relative;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.FilterMenu-item {
+  padding: 30px;
+  cursor: pointer;
+  position: relative;
+  z-index: 1000;
+}
+
+.FilterMenu-dropdown {
+  padding: 30px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(98, 0, 238, 0.86);
+  z-index: 999;
+}
+
+.FilterMenu-dropdown .container-wide {
+  display: flex;
+}
+
+.FilterMenu-dropdown .container-wide > .FilterMenu-list {
+  flex-basis: 295px;
+  border-right: 2px solid white;
+}
+
+.FilterMenu-list {
+  font-size: 16px;
+  color: #ffffff;
+}
+
+.FilterMenu-list > h5 {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.FilterMenu-list > ul {
+  list-style: none;
+  padding: 0;
+}
+
+.FilterMenu-list > ul > li {
+  text-transform: none;
+  margin-bottom: 2px;
+  cursor: pointer;
+}
+
+.FilterMenu-list > ul > li:hover {
+  font-weight: bold;
+}
+
+.FilterMenu-list > ul > li.is-active {
+  position: relative;
+}
+
+.FilterMenu-list > ul > li.is-active:before {
+  content: '';
+  display: inline-block;
+  background: white;
+  width: 6px;
+  height: 6px;
+  border-radius: 100%;
+  position: absolute;
+  top: 10px;
+  left: -16px;
+}
+
+.FilterMenu-rightCol {
+  display: flex;
+  flex-wrap: wrap;
+  flex-basis: calc(100% - 295px);
+}
+
+.FilterMenu-filterCategories {
+  display: flex;
+  flex-wrap: wrap;
+  flex-basis: calc(100% - 350px);
+  justify-content: space-between;
+}
+
+.FilterMenu-filterCategories > * {
+  margin: 0 25px;
+}
+
+.FilterMenu-categoryDivisor {
+  width: 300px;
+  max-width: 100%;
+  margin: 0 25px;
+}
+
+.FilterMenu-buttonWrapper {
+  display: flex;
+  justify-content: center;
+  flex-basis: 100%;
+}
+
+.FilterMenu-buttonWrapper > .Button {
+  width: 143px;
+  margin: 0px 7px;
+}
