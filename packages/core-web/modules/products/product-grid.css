@@ -12,6 +12,14 @@
   height: 400px;
 }
 
+.ProductGrid-thumbnail.is-wtop {
+}
+.ProductGrid-thumbnail.is-wpants {
+}
+.ProductGrid-thumbnail.is-wshoes {
+  height: 300px;
+}
+
 .ProductGrid-detail {
   display: flex;
   flex-direction: column;

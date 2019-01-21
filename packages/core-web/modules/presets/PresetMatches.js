@@ -51,6 +51,7 @@ class PresetMatches extends Component {
               extraInfo={product.extra_info}
               favorite={product.favorite}
               imgSrc={product.front_img_sm}
+              category={product.category}
               productBasePath={`/preset-products/${preset.name}`}
               rawData={product}
               onToggleLike={this.handleToggleLike}
