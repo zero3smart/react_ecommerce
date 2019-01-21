@@ -15,6 +15,7 @@ class CategoryMenu extends Component {
       hoveredItem: ''
     }
     this.handleMenuClick = this.handleMenuClick.bind(this)
+    this.handleMenuHover = this.handleMenuHover.bind(this)
     this.closeDropdown = this.closeDropdown.bind(this)
   }
 
@@ -37,11 +38,27 @@ class CategoryMenu extends Component {
   render () {
     const { hoveredItem } = this.state
     const { style } = this.props
+
     return (
       <TopMenu className='CategoryMenu' style={style} onMouseLeave={this.closeDropdown}>
-        <CategoryMenuItem categoryKey='wtop' onClick={this.handleMenuClick}>Tops</CategoryMenuItem>
-        <CategoryMenuItem categoryKey='wpants' onClick={this.handleMenuClick}>Jeans/Pants</CategoryMenuItem>
-        <CategoryMenuItem categoryKey='wshoes' onClick={this.handleMenuClick}>Shoes</CategoryMenuItem>
+        <CategoryMenuItem
+          categoryKey='wtop'
+          onClick={this.handleMenuClick}
+          onMouseEnter={this.handleMenuHover}>
+          Tops
+        </CategoryMenuItem>
+        <CategoryMenuItem
+          categoryKey='wpants'
+          onClick={this.handleMenuClick}
+          onMouseEnter={this.handleMenuHover}>
+          Jeans/Pants
+        </CategoryMenuItem>
+        <CategoryMenuItem
+          categoryKey='wshoes'
+          onClick={this.handleMenuClick}
+          onMouseEnter={this.handleMenuHover}>
+          Shoes
+        </CategoryMenuItem>
         {renderMenuDropdown(hoveredItem)}
       </TopMenu>
     )
@@ -56,7 +73,7 @@ CategoryMenu.propTypes = {
 
 const renderMenuDropdown = (itemKey) => {
   switch (itemKey) {
-    case 'wtops':
+    case 'wtop':
       return <MenuDropdown title='Tops' />
     case 'wshoes':
       return <MenuDropdown title='Shoes' />
