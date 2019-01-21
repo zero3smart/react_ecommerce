@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { setActiveCategory } from 'yesplz@ducks/products'
-import TopMenu from 'yesplz@ui-kits/navigations/TopMenu'
+import { setActiveCategory } from '@yesplz/core-redux/ducks/products'
+import TopMenu from '@yesplz/core-web/ui-kits/navigations/TopMenu'
+import { Button } from '@yesplz/core-web/ui-kits/buttons'
 import CategoryDivisorSrc from './category-divisor.png'
-import { Button } from 'yesplz@ui-kits/buttons'
 import CategoryMenuItem from './CategoryMenuItem'
 import './category-menu.css'
 
@@ -60,6 +60,8 @@ const renderMenuDropdown = (itemKey) => {
       return <MenuDropdown title='Shoes' />
     case 'wpants':
       return <MenuDropdown title='Pants' />
+    default:
+      return null
   }
 }
 
