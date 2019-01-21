@@ -18,6 +18,9 @@ class VfCatViewData {
     this.catcfg = vfcatcfg
     this.useVerticalThumb = useVerticalThumb
   }
+  currentPreset = null
+
+  presetList = [ ]
 
   sanitizeFilters (filters) {
     let filterSettings = pick(filters, this.catcfg.partList)
@@ -26,7 +29,7 @@ class VfCatViewData {
     for (let i in this.propList()) {
       let prop = this.propList()[i]
       var maxVal = this.catcfg.maxVal(prop)
-      if (filterSettings[prop]) {
+      if (filterSettings[prop] >= 0) {
         if (parseInt(filterSettings[prop], 10) > maxVal) {
           console.log('Limiting settings to valid range', prop, filterSettings[prop])
           filterSettings[prop] = maxVal
@@ -80,17 +83,17 @@ class VfCatViewData {
       5: 68,
       6: 40
     }
+    let calcX = (btnCnt, idx) => {
+      return base.x + THUMBNAIL_IMG_X_OFFSET[btnCnt] + idx * this.thumbnailWidth
+    }
     if (tnCnt === 7) { // Show in two rows
       if (idx < 3) {
-        return {x: base.x + THUMBNAIL_IMG_X_OFFSET[3] + idx * this.thumbnailWidth,
-                y: base.y - this.thumbnailHeight / 2}
+        return {x: calcX(3, idx), y: base.y - this.thumbnailHeight / 2}
       } else {
-        return {x: base.x + THUMBNAIL_IMG_X_OFFSET[4] + (idx - 3) * this.thumbnailWidth,
-                y: base.y + this.thumbnailHeight / 2}
+        return {x: calcX(4, idx - 3), y: base.y + this.thumbnailHeight / 2}
       }
     }
-    return {x: base.x + THUMBNAIL_IMG_X_OFFSET[tnCnt] + idx * this.thumbnailWidth,
-            y: base.y - this.thumbnailHeight / 2}
+    return {x: calcX(tnCnt, idx), y: base.y - this.thumbnailHeight / 2}
   }
 
   tnAreaOffset () {
@@ -130,6 +133,15 @@ class VfCatViewData {
     const nextPropIndex = currentPropIndex < this.catcfg.partList.length - 1 ? currentPropIndex + 1 : 0
     return this.catcfg.partList[nextPropIndex]
   }
+  nextPreset (backward) {
+    if (this.currentPreset === null) {
+      this.currentPreset = 0
+    }
+    this.currentPreset += backward ? -1 : 1
+    this.currentPreset = (this.currentPreset + this.presetList.length) % this.presetList.length
+    return this.presetList[this.currentPreset]
+  }
+
   thumbnailTouchSize () {
     return {width: 62, height: 62}
   }
@@ -164,18 +176,6 @@ class VfCatWtopViewData extends VfCatViewData {
     console.log('Creating VfCatWtopViewData')
     this.settings = {
     }
-    this.onboardingSequences = [
-      {coretype: 2, neckline: 1, shoulder: 1, sleeve_length: 0, top_length: 2},
-      {coretype: 2, neckline: 1, shoulder: 2, sleeve_length: 0, top_length: 2},
-      {coretype: 2, neckline: 1, shoulder: 3, sleeve_length: 0, top_length: 2},
-      {coretype: 2, neckline: 1, shoulder: 0, sleeve_length: 1, top_length: 2},
-      {coretype: 2, neckline: 1, shoulder: 0, sleeve_length: 2, top_length: 2},
-      {coretype: 2, neckline: 1, shoulder: 0, sleeve_length: 4, top_length: 2},
-      {coretype: 2, neckline: 1, shoulder: 0, sleeve_length: 5, top_length: 2},
-      {coretype: 0, neckline: 2, shoulder: 3, sleeve_length: 5, top_length: 0},
-      {coretype: 1, neckline: 2, shoulder: 3, sleeve_length: 2, top_length: 2},
-      {coretype: 2, neckline: 1, shoulder: 3, sleeve_length: 0, top_length: 1}
-    ]
   }
   svg (useVerticalThumb) {
     return useVerticalThumb ? vfWtopVertSvg : vfWtopSvg
@@ -215,6 +215,17 @@ class VfCatWshoesViewData extends VfCatViewData {
     bottoms: '0',
     shafts: '0'
   }
+  presetList = [
+    {'toes': 2, 'covers': 0, 'shafts': 0, 'counters': 2, 'bottoms': 6},
+    {'toes': 2, 'covers': 0, 'shafts': 1, 'counters': 1, 'bottoms': 6},
+    {'toes': 1, 'covers': 2, 'shafts': 0, 'counters': 2, 'bottoms': 1},
+    {'toes': 2, 'covers': 3, 'shafts': 2, 'counters': 2, 'bottoms': 5},
+    {'toes': 2, 'covers': 3, 'shafts': 4, 'counters': 2, 'bottoms': 3},
+    {'toes': 0, 'covers': 3, 'shafts': 2, 'counters': 0, 'bottoms': 3},
+    {'toes': 0, 'covers': 0, 'shafts': 0, 'counters': 0, 'bottoms': 0},
+    {'toes': 2, 'covers': 3, 'shafts': 1, 'counters': 3, 'bottoms': 0}
+  ]
+
   constructor (vfcatcfg, useVerticalThumb) {
     super(vfcatcfg, useVerticalThumb)
     console.log('Creating VfCatWshoesViewData')

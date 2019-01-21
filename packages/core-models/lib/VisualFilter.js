@@ -48,7 +48,6 @@ export default class VisualFilter {
 
     this.initialize()
 
-    this.moveToPrevThumbnails = throttle(this.moveToPrevThumbnails, 500, { leading: true, trailing: false })
     this.moveToNextThumbnails = throttle(this.moveToNextThumbnails, 500, { leading: true, trailing: false })
   }
 
@@ -85,8 +84,7 @@ export default class VisualFilter {
       for (var j = 0; j < this.catdata.propCount(prop); j++) {
         const tn = this.findGroupById(this.catdata.thumbnailGroupName(prop, j))
         const offsets = this.catdata.tnOffset(prop, j)
-        var transform = `translate(${offsets.x}, ${offsets.y})`
-        tn.attr({ transform: transform })
+        tn.attr(this.transformAttr(offsets.x, offsets.y))
       }
     }
   }
@@ -197,8 +195,25 @@ export default class VisualFilter {
     return { transform: t }
   }
 
+  moveToNextPreset (backward = false) {
+    this.updateState(this.catdata.nextPreset(backward))
+    this.settings.onFilterChange(this.catdata.currentPropState)
+  }
+
   initializeArrowNavigation () {
     const { useVerticalThumb } = this.settings
+
+    // Initialize preset arrow
+    const presetBack = this.findGroupById('preset_back')
+    const presetForward = this.findGroupById('preset_forward')
+    this.showGroup('preset_back')
+    this.showGroup('preset_forward')
+    presetBack.click(() => {
+      this.moveToNextPreset(true)
+    })
+    presetForward.click(() => {
+      this.moveToNextPreset()
+    })
 
     // set arrow navigation visibility and position
     const arrowBack = this.findGroupById('arrow_back')
@@ -214,11 +229,9 @@ export default class VisualFilter {
 
     // initialize navigation tap events
     arrowBack.click(() => {
-      // move thumbnails
-      this.moveToPrevThumbnails()
+      this.moveToNextThumbnails(true)
     })
     arrowForward.click(() => {
-      // move thumbnails
       this.moveToNextThumbnails()
     })
   }
@@ -243,31 +256,15 @@ export default class VisualFilter {
       // on swipedown, move to prev thumbnail
       hmThumb.on('swipedown', () => {
         this.track('VF Thumbnail SwipeDown')
-        this.moveToPrevThumbnails()
+        this.moveToNextThumbnails(true)
       })
     }
   }
 
-  moveToPrevThumbnails () {
+  moveToNextThumbnails (backward = false) {
     const { useVerticalThumb } = this.settings
-    const nextProp = this.catdata.prevProp(this.selectedBodyPart)
-    const nextThumb = this.catdata.currentPropState[nextProp]
-
-    if (useVerticalThumb) {
-      // Animation is disabled for now..
-      // this.animateVerticalThumbnail(this.selectedBodyPart, nextProp, false, () => {
-      this.handleAfterSwipeThumbnail(nextProp, nextThumb)
-      // })
-    } else {
-      // this.animateHorizontalThumbnail(this.selectedBodyPart, nextProp, false, () => {
-      this.handleAfterSwipeThumbnail(nextProp, nextThumb)
-      // })
-    }
-  }
-
-  moveToNextThumbnails () {
-    const { useVerticalThumb } = this.settings
-    const nextProp = this.catdata.prevProp(this.selectedBodyPart)
+    const nextProp = backward ? this.catdata.prevProp(this.selectedBodyPart)
+      : this.catdata.nextProp(this.selectedBodyPart)
     const nextThumb = this.catdata.currentPropState[nextProp]
 
     if (useVerticalThumb) {

@@ -38,7 +38,7 @@ class VfCatWshoesCfg extends VfCatCfg {
   propMaxVal = {
     'toes': 2,
     'covers': 3,
-    'counters': 3,
+    'counters': 2,
     'bottoms': 6,
     'shafts': 4,
     'solid': 1,
@@ -48,7 +48,7 @@ class VfCatWshoesCfg extends VfCatCfg {
   propDefaultVal = {
     'toes': 2,
     'covers': 3,
-    'counters': 3,
+    'counters': 2,
     'bottoms': 1,
     'shafts': 0,
     'solid': 0,
