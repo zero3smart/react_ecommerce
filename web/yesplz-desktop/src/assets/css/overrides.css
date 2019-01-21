@@ -1,4 +1,7 @@
 /* override mobile module settings */
+.Base {
+  background: white;
+}
 
 /* buttons */
 .FilterButton {
@@ -13,18 +16,6 @@
   padding-bottom: 36px;
   margin-left: 5px;
   margin-right: 5px;
-}
-
-/* product grid */
-.ProductGrid .LikeButton {
-  top: 15px;
-  left: 7px;
-}
-
-.ProductGrid-thumbnail {
-  padding-top: 25px;
-  padding-left: 20px;
-  padding-right: 20px;
 }
 
 /* info banner */

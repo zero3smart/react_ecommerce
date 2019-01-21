@@ -209,6 +209,7 @@ const renderProducts = (
       price: product.price,
       originalPrice: product.original_price,
       extraInfo: product.extra_info,
+      category: product.category,
       showOriginalPrice: showOriginalPrice,
       favorite: product.favorite,
       imgSrc: showHighResImage ? product.front_img : product.front_img_sm,

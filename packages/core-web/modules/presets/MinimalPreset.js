@@ -4,13 +4,13 @@ import classNames from 'classnames'
 import { FabricFilters } from '@yesplz/core-web/modules/filters'
 import { VisualFilter } from '@yesplz/core-models'
 import { LikeButton } from '@yesplz/core-web/ui-kits/buttons'
-import './preset.css'
+import './minimal-preset.css'
 
 const filterProps = PropTypes.oneOfType([
   PropTypes.number, PropTypes.string
 ])
 
-export default class Preset extends Component {
+export default class MinimalPreset extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
     presetKey: PropTypes.string,
@@ -102,13 +102,13 @@ export default class Preset extends Component {
     const { id, name, className, favorite, style } = this.props
 
     return (
-      <div id={id} onClick={this.handleClick} className={classNames('Preset', { [className]: className })} style={style}>
+      <div id={id} onClick={this.handleClick} className={classNames('MinimalPreset', { [className]: className })} style={style}>
         <h2>{name}</h2>
-        <div className='Preset-svg'>
+        <div className='MinimalPreset-svg'>
           <LikeButton active={favorite} onClick={this.toggleLike} />
           <svg id={`${id}-svg`} />
         </div>
-        <div className='Preset-filter'>
+        <div className='MinimalPreset-filter'>
           <FabricFilters {...this.fabricFilters} badgeMode />
         </div>
       </div>

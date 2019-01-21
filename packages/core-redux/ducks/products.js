@@ -12,6 +12,7 @@ const APPEND_PRODUCTS = 'products/APPEND_PRODUCTS'
 const ENABLE_INITIAL_FETCH = 'products/ENABLE_INITIAL_FETCH'
 const SET_FAVORITE_PRODUCTS = 'products/SET_FAVORITE_PRODUCTS'
 const SET_RECOMMENDED_PRODUCTS = 'products/SET_RECOMMENDED_PRODUCTS'
+const SET_ACTIVE_CATEGORY = 'products/SET_ACTIVE_CATEGORY'
 
 const defaultState = {
   list: [],
@@ -20,7 +21,8 @@ const defaultState = {
   fetched: false,
   willBeEmptyList: false,
   nextOffset: 0,
-  totalCount: 0
+  totalCount: 0,
+  activeCategory: PRD_CATEGORY
 }
 
 // Reducer
@@ -81,6 +83,11 @@ export default function reducer (state = defaultState, action = {}) {
         ...state,
         recommendedList: mapProductFavorites(payload.favoriteProductIds, payload.products)
       }
+    case SET_ACTIVE_CATEGORY:
+      return {
+        ...state,
+        activeCategory: payload.activeCategory
+      }
     default: return state
   }
 }
@@ -102,6 +109,10 @@ export function setRecommendedProducts (products = [], favoriteProductIds = []) 
   return { type: SET_RECOMMENDED_PRODUCTS, payload: { products, favoriteProductIds } }
 }
 
+export function setActiveCategory (activeCategory) {
+  return { type: SET_ACTIVE_CATEGORY, payload: { activeCategory } }
+}
+
 // Side effects, only as applicable
 
 /**
@@ -115,7 +126,7 @@ export function fetchProducts (initialFetch = false) {
       // on initial fetch, set page should always start from 0
       const nextOffset = initialFetch ? 0 : products.nextOffset
 
-      const response = await axios.get(`/categories/${PRD_CATEGORY}`, {
+      const response = await axios.get(`/categories/${products.activeCategory}`, {
         params: {
           offset: nextOffset,
           limit: PRODUCT_COUNT_PER_PAGE,
@@ -145,8 +156,9 @@ export function fetchProducts (initialFetch = false) {
  * @param productCount number of products to be fetched
  */
 export function fetchRecommendedProducts (productCount = 90) {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     try {
+      const { products } = getState()
       const currentFilter = VisualFilter.getFilters()
       const favoritePresets = Preset.getFavoritePresets().map(preset => omit(preset, ['name', 'favorite']))
       const favoriteProductIds = Product.getFavoriteProductIds()
@@ -158,7 +170,7 @@ export function fetchRecommendedProducts (productCount = 90) {
         }
       }
 
-      const response = await axios.post(`/categories/${PRD_CATEGORY}/recommends`, data, {
+      const response = await axios.post(`/categories/${products.activeCategory}/recommends`, data, {
         params: {
           offset: 0,
           limit: productCount
@@ -178,7 +190,8 @@ export function fetchRecommendedProducts (productCount = 90) {
  * @param {boolean} syncRemote sync local data with latest backend data
  */
 export function syncFavoriteProducts (syncRemote = false) {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const { products } = getState()
     let favoriteProducts = []
     if (syncRemote) {
       // get favorite product ids and sync the data from backend
@@ -193,7 +206,7 @@ export function syncFavoriteProducts (syncRemote = false) {
           finalProductId = `ns_${productId}`
         }
 
-        const response = await axios.get(`/categories/${PRD_CATEGORY}/${finalProductId}`)
+        const response = await axios.get(`/categories/${products.activeCategory}/${finalProductId}`)
         return {
           ...response.data.products[0],
           favorite: true
@@ -220,9 +233,9 @@ export function syncFavoriteProducts (syncRemote = false) {
  * @param {object} filters
  * @param {object} count
  */
-export async function getProducts (filters = {}, productCount = PRODUCT_COUNT_PER_PAGE) {
+export async function getProducts (filters = {}, productCount = PRODUCT_COUNT_PER_PAGE, activeCategory = PRD_CATEGORY) {
   try {
-    const response = await axios.get(`/categories/${PRD_CATEGORY}`, {
+    const response = await axios.get(`/categories/${activeCategory}`, {
       params: {
         ...filters,
         limit_per_pid: 1,

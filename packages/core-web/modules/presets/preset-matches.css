@@ -22,18 +22,17 @@
 }
 
 .PresetMatches .PresetLink {
-  font-size: 16px;
-  font-weight: bold;
-  text-transform: uppercase;
-  color: white;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #6200EE;
   display: flex;
-  width: 25%;
+  white-space: nowrap;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.3);
   position: absolute;
   top: 0;
-  right: 0;
+  left: calc(100% + 10px);
   bottom: 0;
 }
 
@@ -43,7 +42,7 @@
 
 .PresetMatches .ProductGrid-detail h5,
 .PresetMatches .ProductGrid-price,
-.PresetMatches .ProductGrid-original-price {
+.PresetMatches .ProductGrid-originalPrice {
   font-size: 10px;
   vertical-align: top;
 }

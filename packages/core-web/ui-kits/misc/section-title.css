@@ -1,0 +1,51 @@
+.SectionTitle {
+  margin: 30px auto;
+  text-align: center;
+}
+
+.SectionTitle .container-wide {
+  position: relative;
+  overflow-x: hidden;
+}
+
+.SectionTitle h3 {
+  font-size: 28px;
+  font-weight: 300;
+  display: inline-block;
+  margin: 0 auto 15px;
+  position: relative;
+}
+
+.SectionTitle h3::before,
+.SectionTitle h3::after {
+  content: '';
+  width: 1000px;
+  height: 1px;
+  background: #C1C8C8;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.SectionTitle h3::before {
+  right: calc(100% + 15px);
+}
+
+.SectionTitle h3::after {
+  left: calc(100% + 15px);
+}
+
+.SectionTitle p {
+  font-size: 21px;
+  font-weight: 300;
+  color: #707070;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+.SectionTitle p > img {
+  margin: 0 12px;
+}

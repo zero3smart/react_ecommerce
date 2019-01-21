@@ -11,6 +11,7 @@ class FilterToggle extends Component {
   static propTypes = {
     filters: PropTypes.object.isRequired,
     router: PropTypes.object.isRequired,
+    activeCategory: PropTypes.string.isRequired,
     scrollBellowTheFold: PropTypes.bool,
     onboarding: PropTypes.bool
   }
@@ -58,7 +59,7 @@ class FilterToggle extends Component {
   }
 
   render () {
-    const { filters, scrollBellowTheFold, onboarding } = this.props
+    const { activeCategory, filters, scrollBellowTheFold, onboarding } = this.props
     const { show } = this.state
 
     return (
@@ -68,7 +69,7 @@ class FilterToggle extends Component {
         onboarding,
         animated: !onboarding
       })}>
-        <FloatButton filters={filters} onClick={this.handleFilterToggle} className='animated' />
+        <FloatButton category={activeCategory} filters={filters} onClick={this.handleFilterToggle} className='animated' />
       </div>
     )
   }
@@ -78,7 +79,8 @@ const mapStateToProps = state => ({
   filters: state.filters.data,
   router: state.router,
   scrollBellowTheFold: state.product.scrollBellowTheFold,
-  onboarding: state.filters.onboarding
+  onboarding: state.filters.onboarding,
+  activeCategory: state.products.activeCategory
 })
 
 export default connect(mapStateToProps, { toggleVisualFilter })(FilterToggle)

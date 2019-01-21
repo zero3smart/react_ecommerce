@@ -3,11 +3,11 @@ import { compose } from 'redux'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
-import withTrackingProvider from '@yesplz/core-web/hoc/withTrackingProvider'
 import { fetchProducts } from '@yesplz/core-redux/ducks/products'
-import { ProductList } from '@yesplz/core-web/modules/products'
 import { syncFilter } from '@yesplz/core-redux/ducks/filters'
-import { InfoBanner } from '@yesplz/core-web/ui-kits/banners'
+import withTrackingProvider from '@yesplz/core-web/hoc/withTrackingProvider'
+import { ProductList } from '@yesplz/core-web/modules/products'
+import { SectionTitle } from '@yesplz/core-web/ui-kits/misc'
 import { VisualFilter } from 'modules/visual-filter'
 import './tops.css'
 
@@ -59,11 +59,8 @@ class Tops extends Component {
 
     return (
       <div className={classNames('Tops', { onboarding })}>
-        <InfoBanner style={styles.infoBanner}>
-          <h1>Fit Search</h1>
-          <p>choose your fits</p>
-        </InfoBanner>
-        <div className='container'>
+        <SectionTitle title='Search' style={{ marginTop: 44 }} />
+        <div className='container-wide'>
           <div className='Tops-content'>
             <VisualFilter title='Choose your fits' />
             <ProductList
@@ -75,6 +72,7 @@ class Tops extends Component {
               className='Tops-products'
               onFetch={this.handleFetch}
               closeMatchingMessage='Our next best suggestion.'
+              extraItem={<h2 className='Tops-productsTitle'>Our Suggestion</h2>}
             />
           </div>
         </div>
@@ -96,10 +94,3 @@ export default compose(
   connect(mapStateToProps, { fetchProducts, syncFilter }),
   withTrackingProvider('Products Search')
 )(Tops)
-
-const styles = {
-  infoBanner: {
-    marginBottom: 20,
-    padding: '25px 20px 35px'
-  }
-}
