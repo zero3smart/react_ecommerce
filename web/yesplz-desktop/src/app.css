@@ -55,6 +55,12 @@ button, a {
   width: auto;
 }
 
+.container-wide {
+  width: calc(100% - 30px);
+  max-width: 1440px;
+  margin: auto;
+}
+
 .SubHeader {
   margin-top: 40px!important;
   margin-bottom: 37px;

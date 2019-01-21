@@ -7,7 +7,7 @@
   height: 100%;
   display: grid;
   grid-template-rows: 100%;
-  grid-template-columns: calc(100% - 520px) 510px;
+  grid-template-columns: calc(100% - 480px) 480px;
   grid-template-areas:
   "productList visualFilter";
   overflow: hidden;
@@ -38,19 +38,29 @@
 
 .Tops .Tops-products {
   grid-area: productList;
+  padding-right: 70px;
+  border-right: 1px solid #707070;
 }
 
-.Tops > .container {
+.Tops .Tops-products h2.Tops-productsTitle {
+  font-size: 28px;
+  font-weight: 300;
+  margin-bottom: 60px;
+}
+
+.Tops > .container-wide {
   height: calc(100% - 143px);
   overflow: auto;
 }
 
 .Tops-products {
-  padding-left: 5px;
-  padding-right: 5px;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
+}
+
+.Tops-products > .container {
+  width: auto;
 }
 
 .Tops-products .ProductList-wrapper > h4 {
@@ -65,15 +75,11 @@
 }
 
 .Tops-products .ProductGrid {
-  width: calc(33.333% - 10px);
-  margin-left: 5px;
-  margin-right: 5px;
-  margin-bottom: 10px;
+  width: calc(25% - 20px);
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 20px;
   order: 1;
-}
-
-.Tops-products .ProductGrid .ProductGrid-detail h5 {
-  width: 50%;
 }
 
 /* from ScrollFetcher */

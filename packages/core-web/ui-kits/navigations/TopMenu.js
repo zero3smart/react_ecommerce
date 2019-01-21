@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './top-menu.css'
 
-const TopMenu = ({ children }) => (
-  <div className='TopMenu'>
+const TopMenu = ({ children, style }) => (
+  <div className='TopMenu' style={style}>
     <div className='container'>
       {children}
     </div>
@@ -11,7 +11,8 @@ const TopMenu = ({ children }) => (
 )
 
 TopMenu.propTypes = {
-  children: PropTypes.any
+  children: PropTypes.any,
+  style: PropTypes.object
 }
 
 export default TopMenu

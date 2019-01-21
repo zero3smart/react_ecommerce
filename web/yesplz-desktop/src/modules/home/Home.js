@@ -1,16 +1,15 @@
 import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { NavLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import withTrackingProvider from '@yesplz/core-web/hoc/withTrackingProvider'
 import { fetchRecommendedProducts } from '@yesplz/core-redux/ducks/products'
 import { ProductList } from '@yesplz/core-web/modules/products'
 import { Tutorial } from '@yesplz/core-web/modules/tutorials'
 import { AdvancedPresetList } from '@yesplz/core-web/modules/presets'
-import TopMenu from '@yesplz/core-web/ui-kits/navigations/TopMenu'
 import { SectionTitle } from '@yesplz/core-web/ui-kits/misc'
 import LikeSvg from '@yesplz/core-web/assets/svg/like.svg'
+import { TypeMenu } from 'modules/base'
 import './home.css'
 
 class Home extends Component {
@@ -59,12 +58,8 @@ class Home extends Component {
     const tutorialActive = false // disable tutorial until safari desktop issue is fixed
 
     return (
-      <div id='MainScroll' className='Home'>
-        <TopMenu>
-          <NavLink to='/tops'>Tops</NavLink>
-          <NavLink to='/pants'>Jeans/Pants</NavLink>
-          <NavLink to='/shoes'>Shoes</NavLink>
-        </TopMenu>
+      <div id='MainScroll' className='Home' style={{ paddingBottom: 100 }}>
+        <TypeMenu />
         {/* new arrival section */}
         <SectionTitle
           title='New Arrivals'

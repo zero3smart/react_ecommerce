@@ -4,7 +4,7 @@ import './section-title.css'
 
 const SectionTitle = ({ title, subtitle, style, titleStyle }) => (
   <div className='SectionTitle' style={style}>
-    <div className='container'>
+    <div className='container-wide'>
       <h3 style={titleStyle}>{title}</h3>
       <p>{subtitle}</p>
     </div>
