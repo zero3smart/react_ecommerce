@@ -1,10 +1,12 @@
 import { configure } from '@storybook/react'
 
 // load stories from `src` directory, with `stories.js` suffix
-const req = require.context('../src', true, /\.stories\.js$/)
+const reqWeb = require.context('../web', true, /\.stories\.js$/)
+const reqPackages = require.context('../packages', true, /\.stories\.js$/)
 
 function loadStories() {
-  req.keys().forEach(req);
+  reqWeb.keys().forEach(reqWeb);
+  reqPackages.keys().forEach(reqPackages);
 }
 
 configure(loadStories, module)
