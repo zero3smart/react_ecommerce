@@ -14,11 +14,6 @@ export default class FilterButton extends PureComponent {
   render () {
     const { iconSrc, children, iconStyle, className, active, style } = this.props
 
-    // dont show button when inactive
-    if (!active) {
-      return null
-    }
-
     return (
       <div className={classNames('FilterButton', { [className]: className })} onClick={this.handleClick} style={style}>
         <div className='FilterButton-icon' style={iconStyle}>
