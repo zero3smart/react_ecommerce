@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
-import TopMenu from '@yesplz/core-web/ui-kits/navigations/TopMenu'
 import YesplzLogoSvg from '@yesplz/core-web/assets/svg/yesplz-logo.svg'
 import UserSvg from '@yesplz/core-web/assets/svg/user.svg'
 import BurgerSvg from '@yesplz/core-web/assets/svg/burger.svg'
@@ -80,11 +79,6 @@ export default class Base extends Component {
             </div>
           </div>
         </div>
-        <TopMenu>
-          <NavLink to='/tops'>Tops</NavLink>
-          <NavLink to='/pants'>Jeans/Pants</NavLink>
-          <NavLink to='/shoes'>Shoes</NavLink>
-        </TopMenu>
         {children}
         <FilterToggle />
       </div>

@@ -4,26 +4,29 @@
   -webkit-overflow-scrolling: touch;
 }
 
-.Home .ProductGrid-detail h5 {
-  width: 85px;
+.Home-video {
+  width: 100%;
+  max-width: 1145px;
+  height: 700px;
+  background: #000000;
+  margin: auto;
 }
 
 /* Recommended-products */
 .Recommended-products .ProductGrid {
-  width: calc(33.3333% - 20px);
-  margin-left: 10px;
-  margin-right: 10px;
+  width: calc(25% - 50px);
+  margin-left: 25px;
+  margin-right: 25px;
   margin-bottom: 20px;
   order: 1;
 }
 
 .Recommended-products .ProductList-wrapper {
-  margin-left: -10px;
-  margin-right: -10px;
+  margin-left: -25px;
+  margin-right: -25px;
 }
 
 .Recommended-products .ProductGrid-thumbnail {
-  max-width: 250px;
   margin: auto;
 }
 
@@ -35,19 +38,7 @@
   font-size: 16px;
   line-height: 24px;
   color: rgba(0, 0, 0, 0.87);
-  padding: 10px 30px 15px;
-}
-
-.Recommended-products .ProductGrid-detail h5,
-.Recommended-products .ProductGrid-price,
-.Recommended-products .ProductGrid-original-price {
-  font-size: inherit;
-  line-height: inherit;
-}
-
-.Recommended-products .ProductGrid .LikeButton {
-  top: 15px;
-  left: 30px;
+  padding: 30px 30px 15px;
 }
 
 .Recommended-products .LikeButton > button {
@@ -55,57 +46,26 @@
   height: 30px;
 }
 
-.Recommended-products .ProductGrid:nth-child(1),
-.Recommended-products .ProductGrid:nth-child(2) {
-  width: calc(50% - 20px);
-}
-
-.Recommended-products .ProductGrid:nth-child(1) .ProductGrid-thumbnail,
-.Recommended-products .ProductGrid:nth-child(2) .ProductGrid-thumbnail {
-  max-width: 300px;
-  margin: auto;
-}
-
-.Recommended-products .ProductGrid:nth-child(1) .LikeButton > button,
-.Recommended-products .ProductGrid:nth-child(2) .LikeButton > button {
-  width: 40px;
-  height: 40px;
-}
-
-.Recommended-products .ProductGrid:nth-child(1) .ProductGrid-thumbnail .img-responsive,
-.Recommended-products .ProductGrid:nth-child(2) .ProductGrid-thumbnail .img-responsive {
-  width: 100%;
-}
-
 /* AdvancedPreset */
 .AdvancedPreset {
   display: flex;
-  margin-top: 110px;
-  margin-left: -10px;
-  margin-right: -10px;
+  margin-left: -25px;
+  margin-right: -25px;
   margin-bottom: 20px;
   position: relative;
 }
 
-.AdvancedPreset .Preset {
-  width: 450px;
-  flex-basis: 450px;
+.AdvancedPreset .MinimalPreset {
+  width: 330px;
+  flex-basis: 330px;
   flex-shrink: 0;
   flex-grow: 0;
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
-.AdvancedPreset .Preset h2 {
-  font-size: 36px;
-  font-weight: bold;
-  color: rgba(0, 0, 0, 0.87);
-  position: absolute;
-  bottom: calc(100% + 10px);
+  margin-left: -35px;
+  margin-right: 25px;
 }
 
 .AdvancedPreset .PresetMatches {
-  flex-basis: calc(100% - 450px - 20px);
+  flex-basis: calc(100% - 270px - 50px);
   flex-shrink: 0;
   flex-grow: 0;
 }
@@ -116,14 +76,13 @@
 }
 
 .PresetMatches .ProductGrid {
-  width: calc(33.333% - 20px);
-  margin-left: 10px;
-  margin-right: 10px;
+  width: calc(33.333% - 50px);
+  margin-left: 25px;
+  margin-right: 25px;
   border: 0;
 }
 
 .PresetMatches .ProductGrid .ProductGrid-thumbnail {
-  width: 180px;
   padding-left: 0;
   padding-right: 0;
   margin: auto;
@@ -142,12 +101,8 @@
 
 .PresetMatches .ProductGrid-detail h5,
 .PresetMatches .ProductGrid-price,
-.PresetMatches .ProductGrid-original-price {
+.PresetMatches .ProductGrid-originalPrice {
   font-size: inherit;
   line-height: inherit;
 }
 
-.PresetMatches .PresetLink {
-  width: calc(33.333% - 20px);
-  right: 10px;
-}

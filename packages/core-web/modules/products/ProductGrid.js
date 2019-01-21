@@ -60,22 +60,18 @@ export default class ProductGrid extends PureComponent {
     return (
       <Link to={`${productBasePath}/${id}`} className={`ProductGrid ${className}`} style={style} title={`${name} - ${brand}${extraInfo}`}>
         {!disableLike && <LikeButton active={favorite} onClick={this.toggleLike} />}
-        <div className='ProductGrid-thumbnail'>
+        <div className='ProductGrid-thumbnail' style={{ backgroundImage: imgSrc ? `url(${BASE_IMG_PATH}/${imgSrc})` : '' }}>
           {
-            imgSrc ? (
-              <img src={`${BASE_IMG_PATH}/${imgSrc}`} alt={name} className='img-responsive' />
-            ) : (
+            !imgSrc && (
               <div className='ProductGrid-noImage' />
             )
           }
         </div>
         <div className='ProductGrid-detail'>
           <h5 dangerouslySetInnerHTML={{ __html: brand }} />
-          <div className='ProductGrid-price-tag'>
-            {isSale && showOriginalPrice && <div className='ProductGrid-original-price'>{currency}{originalPrice}</div>}
-            <div className={classNames('ProductGrid-price', { sale: isSale })}>
-              {currency}{price}
-            </div>
+          {isSale && showOriginalPrice && <div className='ProductGrid-originalPrice'>{currency}{originalPrice}</div>}
+          <div className={classNames('ProductGrid-price', { sale: isSale })}>
+            {currency}{price}
           </div>
         </div>
       </Link>

@@ -22,11 +22,13 @@ export class AdvancedPresetList extends Component {
     unlikePreset: PropTypes.func.isRequired,
     enableInitialFetch: PropTypes.func.isRequired,
     tracker: PropTypes.object,
+    useMinimalPreset: PropTypes.bool,
     style: PropTypes.object
   }
 
   static defaultProps = {
     presets: [],
+    useMinimalPreset: false,
     isPresetsFetched: false
   }
 
@@ -63,7 +65,7 @@ export class AdvancedPresetList extends Component {
   }
 
   render () {
-    const { isPresetsFetched, presets, presetMatchesCount, style } = this.props
+    const { isPresetsFetched, presets, presetMatchesCount, useMinimalPreset, style } = this.props
 
     return (
       <div className='AdvancedPresetList' style={style}>
@@ -78,6 +80,7 @@ export class AdvancedPresetList extends Component {
                 onClick={this.handlePresetClick}
                 onToggleLike={this.togglePresetLike}
                 presetMatchesCount={presetMatchesCount}
+                useMinimalPreset={useMinimalPreset}
               />
             ))
           }

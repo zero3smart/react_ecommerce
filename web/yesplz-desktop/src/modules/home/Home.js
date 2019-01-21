@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
+import { NavLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import withTrackingProvider from '@yesplz/core-web/hoc/withTrackingProvider'
 import { fetchRecommendedProducts } from '@yesplz/core-redux/ducks/products'
 import { ProductList } from '@yesplz/core-web/modules/products'
-import { AdvancedPresetList } from '@yesplz/core-web/modules/presets'
-import { InfoBanner } from '@yesplz/core-web/ui-kits/banners'
 import { Tutorial } from '@yesplz/core-web/modules/tutorials'
+import { AdvancedPresetList } from '@yesplz/core-web/modules/presets'
+import TopMenu from '@yesplz/core-web/ui-kits/navigations/TopMenu'
+import { SectionTitle } from '@yesplz/core-web/ui-kits/misc'
+import LikeSvg from '@yesplz/core-web/assets/svg/like.svg'
 import './home.css'
 
 class Home extends Component {
@@ -40,14 +43,14 @@ class Home extends Component {
     const { recommendedProducts, fetchRecommendedProducts } = this.props
     // make sure recommended fetch only run once
     if (recommendedProducts.length === 0) {
-      fetchRecommendedProducts(89)
+      fetchRecommendedProducts(12)
     }
   }
 
   componentWillUnmount () {
     const { fetchRecommendedProducts } = this.props
     // fetch recommended products on leave
-    fetchRecommendedProducts(89)
+    fetchRecommendedProducts(12)
   }
 
   render () {
@@ -57,6 +60,22 @@ class Home extends Component {
 
     return (
       <div id='MainScroll' className='Home'>
+        <TopMenu>
+          <NavLink to='/tops'>Tops</NavLink>
+          <NavLink to='/pants'>Jeans/Pants</NavLink>
+          <NavLink to='/shoes'>Shoes</NavLink>
+        </TopMenu>
+        {/* new arrival section */}
+        <SectionTitle
+          title='New Arrivals'
+          subtitle={
+            <React.Fragment>
+              The more you
+              <img src={LikeSvg} />
+              the better it gets!
+            </React.Fragment>
+          }
+        />
         <div className='container'>
           <ProductList
             products={recommendedProducts}
@@ -68,18 +87,31 @@ class Home extends Component {
             combined
           />
         </div>
-        <InfoBanner style={styles.infoBanner}>
-          <h1>Editor's Pick</h1>
-          <p style={styles.infoBannerDescription}>shortcut to the fits</p>
-        </InfoBanner>
+        {/* editor's pick section */}
+        <SectionTitle
+          title={'Editor\'s Pick'}
+          subtitle='Styles We Love'
+          style={{ marginTop: 100, marginBottom: 80 }}
+          titleStyle={{ color: '#6200EE' }}
+        />
         <div className='container'>
-          <AdvancedPresetList presetMatchesCount={3} />
+          <AdvancedPresetList presetMatchesCount={3} useMinimalPreset />
         </div>
         {onboarding && tutorialActive && (
           <div className='Tutorial-wrapper'>
             <Tutorial onFinish={this.handleTutorialFinish} reverseIcon useVerticalThumb={Boolean(false)} />
           </div>
         )}
+        {/* video section */}
+        <SectionTitle
+          title='We Shop Differently'
+          subtitle='Watch Video'
+          style={{ marginTop: 100 }}
+          titleStyle={{ color: '#6200EE' }}
+        />
+        <div className='container'>
+          <div className='Home-video' />
+        </div>
       </div>
     )
   }
@@ -94,10 +126,3 @@ export default compose(
   connect(mapStateToProps, { fetchRecommendedProducts }),
   withTrackingProvider('Home')
 )(Home)
-
-const styles = {
-  infoBanner: {
-    marginBottom: 20,
-    padding: '25px 70px 35px'
-  }
-}

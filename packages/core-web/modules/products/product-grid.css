@@ -1,61 +1,57 @@
 .ProductGrid {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  background: white;
   color: #000000;
+  max-width: 270px;
   text-decoration: none;
   position: relative;
 }
 
 .ProductGrid-thumbnail {
+  background-size: cover;
   width: 100%;
-  min-height: 25px;
-  padding-left: 15px;
-  padding-right: 15px;
+  height: 400px;
 }
 
 .ProductGrid-detail {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
   padding: 8px 8px 10px 8px;
 }
 
-.ProductGrid-detail h5,
-.ProductGrid-price,
-.ProductGrid-original-price {
-  font-size: 0.875em; /* 14px */
-}
-
 .ProductGrid-detail h5 {
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  /* 18px */
+  font-size: 1.125em;
+  font-weight: 300;
+  line-height: 18px;
+  color: #212121;
+  text-transform: uppercase;
   overflow: hidden;
-  width: 60px;
-  margin-bottom: 0px;
-  flex-basis: 100%;
-  flex-shrink: 1;
+  margin-bottom: 20px;
 }
 
-.ProductGrid-price-tag > * {
-  display: inline;
-  margin-left: 3px;
+.ProductGrid-originalPrice {
+  /* 14px */
+  font-size: 0.875em;
+  font-weight: 300;
+  margin-bottom: 20px;
 }
 
-.ProductGrid-original-price {
-  text-decoration: line-through;
+.ProductGrid-price {
+  /* 24px */
+  font-size: 1.5em;
+  font-weight: 600;
+  color: #6200EE;
 }
 
 .ProductGrid-price.sale {
-  color: #D0021B;
   vertical-align: top;
 }
 
 .ProductGrid .LikeButton {
   position: absolute;
-  top: 4px;
-  left: 4px;
+  top: 5px;
+  left: 5px;
 }
 
 /* misc */
