@@ -9,7 +9,6 @@ import withTrackingProvider from '@yesplz/core-web/hoc/withTrackingProvider'
 import { ProductList } from '@yesplz/core-web/modules/products'
 import { SectionTitle } from '@yesplz/core-web/ui-kits/misc'
 import { VisualFilter } from 'modules/visual-filter'
-import { FilterMenu } from 'modules/filters'
 import './tops.css'
 
 class Tops extends Component {
@@ -60,7 +59,6 @@ class Tops extends Component {
 
     return (
       <div className={classNames('Tops', { onboarding })}>
-        <FilterMenu />
         <SectionTitle title='Search' style={{ marginTop: 44 }} />
         <div className='container-wide'>
           <div className='Tops-content'>

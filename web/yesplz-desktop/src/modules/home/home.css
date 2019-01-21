@@ -1,5 +1,5 @@
 .Home {
-  height: calc(100% - 78px);
+  height: calc(100% - 165px);
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 }

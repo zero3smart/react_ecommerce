@@ -1,5 +1,5 @@
 .Tops {
-  height: calc(100% - 78px);
+  height: calc(100% - 165px);
   overflow: auto;
 }
 
@@ -45,11 +45,12 @@
 .Tops .Tops-products h2.Tops-productsTitle {
   font-size: 28px;
   font-weight: 300;
+  margin-top: 10px;
   margin-bottom: 60px;
 }
 
 .Tops > .container-wide {
-  height: calc(100% - 143px);
+  height: 100%;
   overflow: auto;
 }
 

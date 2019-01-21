@@ -9,7 +9,6 @@ import { Tutorial } from '@yesplz/core-web/modules/tutorials'
 import { AdvancedPresetList } from '@yesplz/core-web/modules/presets'
 import { SectionTitle } from '@yesplz/core-web/ui-kits/misc'
 import LikeSvg from '@yesplz/core-web/assets/svg/like.svg'
-import { FilterMenu } from 'modules/filters'
 import './home.css'
 
 class Home extends Component {
@@ -59,7 +58,6 @@ class Home extends Component {
 
     return (
       <div id='MainScroll' className='Home' style={{ paddingBottom: 100 }}>
-        <FilterMenu />
         {/* new arrival section */}
         <SectionTitle
           title='New Arrivals'

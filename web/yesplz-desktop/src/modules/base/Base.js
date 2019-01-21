@@ -6,6 +6,7 @@ import UserSvg from '@yesplz/core-web/assets/svg/user.svg'
 import BurgerSvg from '@yesplz/core-web/assets/svg/burger.svg'
 import FavoritesSvg from '@yesplz/core-web/assets/svg/favorites.svg'
 import FilterToggle from 'modules/filters/FilterToggle'
+import { FilterMenu } from 'modules/filters'
 import './base.css'
 
 export default class Base extends Component {
@@ -79,6 +80,7 @@ export default class Base extends Component {
             </div>
           </div>
         </div>
+        <FilterMenu />
         {children}
         <FilterToggle />
       </div>
