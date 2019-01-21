@@ -9,6 +9,7 @@ export default class FloatButton extends PureComponent {
   static propTypes = {
     id: PropTypes.string,
     filters: PropTypes.object,
+    category: PropTypes.string,
     noShadow: PropTypes.bool,
     className: PropTypes.string,
     style: PropTypes.object,
@@ -29,9 +30,10 @@ export default class FloatButton extends PureComponent {
   }
 
   componentDidMount () {
-    const { id, filters } = this.props
+    const { id, filters, category } = this.props
     // initialize visual filter
     this.visualFilterButton = new VisualFilter(`#${id}`, {
+      category: category,
       defaultState: filters,
       badgeMode: true,
       hideThumbnail: true,

@@ -17,6 +17,7 @@ export default class AdvancedPreset extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
     preset: PropTypes.object.isRequired,
+    activeCategory: PropTypes.string.isRequired,
     presetMatchesCount: PropTypes.number,
     useMinimalPreset: PropTypes.bool,
     onClick: PropTypes.func,
@@ -36,10 +37,10 @@ export default class AdvancedPreset extends Component {
   }
 
   async componentDidMount () {
-    const { preset, presetMatchesCount } = this.props
+    const { preset, presetMatchesCount, activeCategory } = this.props
 
     // get 4 products relevant to the preset
-    const response = await getProducts(omit(preset, 'favorite', 'name'), presetMatchesCount)
+    const response = await getProducts(omit(preset, 'favorite', 'name'), presetMatchesCount, activeCategory)
     this.setState({
       products: mapProductFavorites(Product.getFavoriteProductIds(), response.products)
     })

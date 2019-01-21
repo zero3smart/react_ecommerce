@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { FabricFilters } from 'modules/filters'
+import FabricFilters from 'modules/filters/FabricFilters'
 import { VisualFilter } from 'models'
 import { LikeButton } from 'ui-kits/buttons'
 import './minimal-preset.css'

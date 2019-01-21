@@ -17,6 +17,7 @@ export class ProductFilter extends Component {
     filters: PropTypes.object,
     isFilterSaved: PropTypes.bool,
     lastBodyPart: PropTypes.string,
+    activeCategory: PropTypes.string,
     router: PropTypes.object,
     expanded: PropTypes.bool,
     scrollBellowTheFold: PropTypes.bool,
@@ -102,7 +103,10 @@ export class ProductFilter extends Component {
   }
 
   render () {
-    const { filters, scrollBellowTheFold, isFilterSaved, lastBodyPart, expanded, onboarding, hideMiniOnboarding, useVerticalThumb } = this.props
+    const {
+      activeCategory, filters, scrollBellowTheFold, isFilterSaved, lastBodyPart,
+      expanded, onboarding, hideMiniOnboarding, useVerticalThumb
+    } = this.props
 
     return (
       <div
@@ -115,6 +119,7 @@ export class ProductFilter extends Component {
       >
         <Transition timeout={{ enter: 100, exit: 300 }} show={expanded}>
           <FilterPanel
+            category={activeCategory}
             favorite={isFilterSaved}
             filters={filters}
             lastBodyPart={lastBodyPart}
@@ -141,7 +146,8 @@ const mapStateToProps = state => ({
   scrollBellowTheFold: state.product.scrollBellowTheFold,
   router: state.router,
   expanded: state.filters.expanded,
-  onboarding: state.filters.onboarding
+  onboarding: state.filters.onboarding,
+  activeCategory: state.products.activeCategory
 })
 
 export default connect(

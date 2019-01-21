@@ -1,28 +1,33 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { setActiveCategory } from 'yesplz@ducks/products'
 import TopMenu from 'yesplz@ui-kits/navigations/TopMenu'
 import CategoryDivisorSrc from './category-divisor.png'
 import { Button } from 'yesplz@ui-kits/buttons'
-import './filter-menu.css'
+import CategoryMenuItem from './CategoryMenuItem'
+import './category-menu.css'
 
-class FilterMenu extends Component {
+class CategoryMenu extends Component {
   constructor (props) {
     super(props)
     this.state = {
       hoveredItem: ''
     }
+    this.handleMenuClick = this.handleMenuClick.bind(this)
     this.closeDropdown = this.closeDropdown.bind(this)
   }
 
-  handleMenuHover (itemKey) {
-    console.debug('hover', itemKey)
-    this.setState({
-      hoveredItem: itemKey
-    })
+  handleMenuHover (categoryKey) {
+    this.setState({ hoveredItem: categoryKey })
+  }
+
+  handleMenuClick (categoryKey) {
+    const { setActiveCategory } = this.props
+    setActiveCategory(categoryKey)
   }
 
   closeDropdown () {
-    console.debug('mouse leave')
     this.setState({
       hoveredItem: ''
     })
@@ -32,28 +37,29 @@ class FilterMenu extends Component {
     const { hoveredItem } = this.state
     const { style } = this.props
     return (
-      <TopMenu className='FilterMenu' style={style} onMouseLeave={this.closeDropdown}>
-        <div className='FilterMenu-item' onMouseEnter={() => { this.handleMenuHover('tops') }}>Tops</div>
-        <div className='FilterMenu-item' onMouseEnter={() => { this.handleMenuHover('pants') }}>Jeans/Pants</div>
-        <div className='FilterMenu-item' onMouseEnter={() => { this.handleMenuHover('shoes') }}>Shoes</div>
+      <TopMenu className='CategoryMenu' style={style} onMouseLeave={this.closeDropdown}>
+        <CategoryMenuItem categoryKey='wtop' onClick={this.handleMenuClick}>Tops</CategoryMenuItem>
+        <CategoryMenuItem categoryKey='wpants' onClick={this.handleMenuClick}>Jeans/Pants</CategoryMenuItem>
+        <CategoryMenuItem categoryKey='wshoes' onClick={this.handleMenuClick}>Shoes</CategoryMenuItem>
         {renderMenuDropdown(hoveredItem)}
       </TopMenu>
     )
   }
 }
 
-FilterMenu.propTypes = {
+CategoryMenu.propTypes = {
+  setActiveCategory: PropTypes.func.isRequired,
   style: PropTypes.object
 }
 
 const renderMenuDropdown = (itemKey) => {
   switch (itemKey) {
-    case 'tops':
+    case 'wtops':
       return <MenuDropdown title='Tops' />
-    case 'pants':
-      return <MenuDropdown title='Pants' />
-    case 'shoes':
+    case 'wshoes':
       return <MenuDropdown title='Shoes' />
+    case 'wpants':
+      return <MenuDropdown title='Pants' />
   }
 }
 
@@ -61,9 +67,9 @@ const renderMenuDropdown = (itemKey) => {
  * @todo: dummy still need refactor
  */
 const MenuDropdown = ({ title }) => (
-  <div className='FilterMenu-dropdown animated fadeIn' style={styles.filterMenuDropdown}>
+  <div className='CategoryMenu-dropdown animated fadeIn' style={styles.menuDropdown}>
     <div className='container-wide'>
-      <div className='FilterMenu-list'>
+      <div className='CategoryMenu-list'>
         <h5>{title}</h5>
         <ul>
           <li>turinics</li>
@@ -79,10 +85,10 @@ const MenuDropdown = ({ title }) => (
           <li>all tops</li>
         </ul>
       </div>
-      <div className='FilterMenu-rightCol'>
-        <img src={CategoryDivisorSrc} className='FilterMenu-categoryDivisor' />
-        <div className='FilterMenu-filterCategories'>
-          <div className='FilterMenu-list'>
+      <div className='CategoryMenu-rightCol'>
+        <img src={CategoryDivisorSrc} className='CategoryMenu-categoryDivisor' />
+        <div className='CategoryMenu-filterCategories'>
+          <div className='CategoryMenu-list'>
             <h5>Occassions</h5>
             <ul>
               <li>work</li>
@@ -90,7 +96,7 @@ const MenuDropdown = ({ title }) => (
               <li>workout</li>
             </ul>
           </div>
-          <div className='FilterMenu-list'>
+          <div className='CategoryMenu-list'>
             <h5>Sales</h5>
             <ul>
               <li>30%</li>
@@ -98,7 +104,7 @@ const MenuDropdown = ({ title }) => (
               <li>70%</li>
             </ul>
           </div>
-          <div className='FilterMenu-list'>
+          <div className='CategoryMenu-list'>
             <h5>Prices</h5>
             <ul>
               <li>-$50</li>
@@ -108,7 +114,7 @@ const MenuDropdown = ({ title }) => (
               <li>$200 - $300</li>
             </ul>
           </div>
-          <div className='FilterMenu-list'>
+          <div className='CategoryMenu-list'>
             <h5>Sizes</h5>
             <ul>
               <li>regular</li>
@@ -118,7 +124,7 @@ const MenuDropdown = ({ title }) => (
             </ul>
           </div>
         </div>
-        <div className='FilterMenu-buttonWrapper'>
+        <div className='CategoryMenu-buttonWrapper'>
           <Button className='ButtonTertiary'>Clear</Button>
           <Button className='ButtonTertiary'>Filter</Button>
         </div>
@@ -132,9 +138,9 @@ MenuDropdown.propTypes = {
 }
 
 const styles = {
-  filterMenuDropdown: {
+  menuDropdown: {
     animationDuration: '500ms'
   }
 }
 
-export default FilterMenu
+export default connect(null, { setActiveCategory })(CategoryMenu)

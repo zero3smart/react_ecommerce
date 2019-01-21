@@ -2,7 +2,6 @@ import axios from 'axios'
 import { FILTERS } from '@yesplz/core-web/config/constants'
 import { Preset, VisualFilter } from '@yesplz/core-models'
 import { updatePresetFavorite, mapPresetFavorites } from './helpers'
-import { PRD_CATEGORY } from '@yesplz/core-web/config/constants'
 const { localStorage } = window
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -131,9 +130,10 @@ export function setOnboarding (onboarding = true) {
  * get list of presets available
  */
 export function fetchPresets () {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const { products } = getState()
     try {
-      const response = await axios.get(`/categories/${PRD_CATEGORY}/presets`)
+      const response = await axios.get(`/categories/${products.activeCategory}/presets`)
 
       const favoritePresetNames = Preset.getFavoritePresetNames()
       dispatch(setPresets(response.data, favoritePresetNames))

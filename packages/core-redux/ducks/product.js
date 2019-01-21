@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { PRODUCT_COUNT_PER_PAGE, PRD_CATEGORY } from '@yesplz/core-web/config/constants'
+import { PRODUCT_COUNT_PER_PAGE } from '@yesplz/core-web/config/constants'
 import { createCancelableAsyncAction } from '@yesplz/core-web/utils/async'
 import { mapProductFavorites, updateProductFavorite } from './helpers'
 import { syncFavoriteProducts } from '@yesplz/core-redux/ducks/products'
@@ -119,9 +119,10 @@ export function setScrollBellowTheFold (scrollState) {
  * @param {string} productId
  */
 export const fetchProduct = createCancelableAsyncAction((productId, requestStatus = {}) => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const { products } = getState()
     try {
-      const response = await axios.get(`/categories/${PRD_CATEGORY}/${productId}`)
+      const response = await axios.get(`/categories/${products.activeCategory}/${productId}`)
       const favoriteProductIds = Product.getFavoriteProductIds()
 
       let product = response.data.products[0]
@@ -150,9 +151,9 @@ export const fetchProduct = createCancelableAsyncAction((productId, requestStatu
 export const fetchRelatedProducts = createCancelableAsyncAction((productId, requestStatus = {}) => {
   return async (dispatch, getState) => {
     try {
-      const { product } = getState()
+      const { product, products } = getState()
 
-      const response = await axios.get(`/categories/${PRD_CATEGORY}`, {
+      const response = await axios.get(`/categories/${products.activeCategory}`, {
         params: {
           offset: product.nextOffset,
           limit: PRODUCT_COUNT_PER_PAGE,

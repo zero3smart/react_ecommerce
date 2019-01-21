@@ -15,6 +15,7 @@ class VisualFilter extends Component {
     lastBodyPart: PropTypes.string,
     router: PropTypes.object,
     title: PropTypes.string,
+    activeCategory: PropTypes.string,
     setFilter: PropTypes.func.isRequired,
     fetchProducts: PropTypes.func.isRequired,
     syncFilter: PropTypes.func.isRequired,
@@ -77,12 +78,13 @@ class VisualFilter extends Component {
   }
 
   render () {
-    const { filters, isFilterSaved, lastBodyPart, title } = this.props
+    const { activeCategory, filters, isFilterSaved, lastBodyPart, title } = this.props
 
     return (
       <div className='VisualFilter'>
         {title && <h2>{title}</h2>}
         <FilterPanel
+          category={activeCategory}
           favorite={isFilterSaved}
           filters={filters}
           lastBodyPart={lastBodyPart}
@@ -102,7 +104,8 @@ const mapStateToProps = state => ({
   filters: state.filters.data,
   isFilterSaved: isFilterSavedSelector(state, { customPresetName: CUSTOM_PRESET_NAME }),
   lastBodyPart: state.filters.lastBodyPart,
-  router: state.router
+  router: state.router,
+  activeCategory: state.products.activeCategory
 })
 
 export default connect(

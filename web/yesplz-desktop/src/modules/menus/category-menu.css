@@ -1,17 +1,17 @@
-.FilterMenu {
+.CategoryMenu {
   position: relative;
   padding-top: 0;
   padding-bottom: 0;
 }
 
-.FilterMenu-item {
+.CategoryMenu-item {
   padding: 30px;
   cursor: pointer;
   position: relative;
   z-index: 1000;
 }
 
-.FilterMenu-dropdown {
+.CategoryMenu-dropdown {
   padding: 30px;
   position: absolute;
   top: 100%;
@@ -21,45 +21,45 @@
   z-index: 999;
 }
 
-.FilterMenu-dropdown .container-wide {
+.CategoryMenu-dropdown .container-wide {
   display: flex;
 }
 
-.FilterMenu-dropdown .container-wide > .FilterMenu-list {
+.CategoryMenu-dropdown .container-wide > .CategoryMenu-list {
   flex-basis: 295px;
   border-right: 2px solid white;
 }
 
-.FilterMenu-list {
+.CategoryMenu-list {
   font-size: 16px;
   color: #ffffff;
 }
 
-.FilterMenu-list > h5 {
+.CategoryMenu-list > h5 {
   font-size: 20px;
   font-weight: bold;
 }
 
-.FilterMenu-list > ul {
+.CategoryMenu-list > ul {
   list-style: none;
   padding: 0;
 }
 
-.FilterMenu-list > ul > li {
+.CategoryMenu-list > ul > li {
   text-transform: none;
   margin-bottom: 2px;
   cursor: pointer;
 }
 
-.FilterMenu-list > ul > li:hover {
+.CategoryMenu-list > ul > li:hover {
   font-weight: bold;
 }
 
-.FilterMenu-list > ul > li.is-active {
+.CategoryMenu-list > ul > li.is-active {
   position: relative;
 }
 
-.FilterMenu-list > ul > li.is-active:before {
+.CategoryMenu-list > ul > li.is-active:before {
   content: '';
   display: inline-block;
   background: white;
@@ -71,36 +71,36 @@
   left: -16px;
 }
 
-.FilterMenu-rightCol {
+.CategoryMenu-rightCol {
   display: flex;
   flex-wrap: wrap;
   flex-basis: calc(100% - 295px);
 }
 
-.FilterMenu-filterCategories {
+.CategoryMenu-filterCategories {
   display: flex;
   flex-wrap: wrap;
   flex-basis: calc(100% - 350px);
   justify-content: space-between;
 }
 
-.FilterMenu-filterCategories > * {
+.CategoryMenu-filterCategories > * {
   margin: 0 25px;
 }
 
-.FilterMenu-categoryDivisor {
+.CategoryMenu-categoryDivisor {
   width: 300px;
   max-width: 100%;
   margin: 0 25px;
 }
 
-.FilterMenu-buttonWrapper {
+.CategoryMenu-buttonWrapper {
   display: flex;
   justify-content: center;
   flex-basis: 100%;
 }
 
-.FilterMenu-buttonWrapper > .Button {
+.CategoryMenu-buttonWrapper > .Button {
   width: 143px;
   margin: 0px 7px;
 }

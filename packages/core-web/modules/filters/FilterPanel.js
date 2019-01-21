@@ -4,12 +4,11 @@ import isEqual from 'lodash/isEqual'
 import SecondaryFilters from './SecondaryFilters'
 import { VisualFilter } from '@yesplz/core-models'
 import { LikeButton, CloseButton } from '@yesplz/core-web/ui-kits/buttons'
-import { PRD_CATEGORY } from '@yesplz/core-web/config/constants'
 import './filter-panel.css'
 
 export default class FilterPanel extends Component {
   static propTypes = {
-    category: PropTypes.string,
+    category: PropTypes.string.isRequired,
     filters: PropTypes.object,
     favorite: PropTypes.bool,
     lastBodyPart: PropTypes.string,
@@ -26,7 +25,6 @@ export default class FilterPanel extends Component {
   }
 
   static defaultProps = {
-    category: PRD_CATEGORY,
     filters: {},
     favorite: false,
     className: '',
