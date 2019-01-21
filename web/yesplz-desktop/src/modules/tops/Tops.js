@@ -59,7 +59,6 @@ class Tops extends Component {
 
     return (
       <div className={classNames('Tops', { onboarding })}>
-        <SectionTitle title='Search' style={{ marginTop: 44 }} />
         <div className='container-wide'>
           <div className='Tops-content'>
             <VisualFilter />
@@ -72,7 +71,6 @@ class Tops extends Component {
               className='Tops-products'
               onFetch={this.handleFetch}
               closeMatchingMessage='Our next best suggestion.'
-              extraItem={<h2 className='Tops-productsTitle'>Our Suggestion</h2>}
             />
           </div>
         </div>
