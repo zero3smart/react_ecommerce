@@ -132,7 +132,7 @@ export class ProductFilter extends Component {
             onFinishedOnboarding={this.handleFinishOnboarding} />
         </Transition>
         <Transition timeout={{ enter: 100, exit: 1500 }} show={!expanded} transition='unstyled'>
-          <FloatButton filters={filters} onClick={this.handleFilterToggle} />
+          <FloatButton filters={filters} category={activeCategory} onClick={this.handleFilterToggle} />
         </Transition>
       </div>
     )

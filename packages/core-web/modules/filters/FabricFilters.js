@@ -115,7 +115,7 @@ export default class FabricFilters extends PureComponent {
           value={solid}
           onClick={this.handleClick}
           active={this.isActive(solid)}
-          iconStyle={{ ...styles.solidIcon, backgroundColor: colorHex }}>
+          iconStyle={styles.solidIcon}>
           Solid
         </FilterButton>
         <FilterButton
@@ -123,8 +123,7 @@ export default class FabricFilters extends PureComponent {
           value={details}
           onClick={this.handleClick}
           active={this.isActive(details)}
-          iconSrc={detailSVGSrc}
-          iconStyle={this.isActive(details) ? styles.activeFilter : null}>
+          iconSrc={detailSVGSrc}>
           Details
         </FilterButton>
         <FilterButton
@@ -132,8 +131,7 @@ export default class FabricFilters extends PureComponent {
           value={pattern}
           onClick={this.handleClick}
           active={this.isActive(pattern)}
-          iconSrc={patternSVGSrc}
-          iconStyle={this.isActive(details) ? styles.activeFilter : null}>
+          iconSrc={patternSVGSrc}>
           Patterns
         </FilterButton>
         <FilterButton
@@ -161,9 +159,5 @@ export default class FabricFilters extends PureComponent {
 const styles = {
   solidIcon: {
     border: '1px solid #707070'
-  },
-  activeFilter: {
-    background: '#000',
-    borderRadius: '100%'
   }
 }

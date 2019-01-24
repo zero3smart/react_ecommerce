@@ -28,6 +28,7 @@ class ProductList extends Component {
     showOriginalPrice: PropTypes.bool,
     showHighResImage: PropTypes.bool,
     combined: PropTypes.bool,
+    useButton: PropTypes.bool,
     productBasePath: PropTypes.string,
     closeMatchingMessage: PropTypes.string,
     onFetch: PropTypes.func.isRequired,
@@ -45,6 +46,7 @@ class ProductList extends Component {
     willBeEmptyList: false,
     show: false,
     combined: false, // when activated, it won't separate matching and close matching.
+    useButton: false,
     children: childRenderer,
     extraItem: undefined,
     showOriginalPrice: false,
@@ -141,6 +143,7 @@ class ProductList extends Component {
       style,
       loaderStyle,
       combined,
+      useButton,
       closeMatchingMessage
     } = this.props
     const { useMinimumAnimation, matchingProducts, closeMatchingProducts } = this.state
@@ -168,6 +171,7 @@ class ProductList extends Component {
         onScroll={this.handleScroll}
         onTouchMove={onTouchMove}
         className={className}
+        useButton={useButton}
         style={{ ...styles.wrapper, overflowY: willBeEmptyList ? 'hidden' : 'scroll', ...style }}
         disableInitalFetch
       >

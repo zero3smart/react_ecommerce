@@ -41,7 +41,8 @@ h5, p {
   font-size: 0.875em; /* 14px */
 }
 
-.container {
+.container,
+.container-wide {
   max-width: calc(100% - 24px);
   margin: auto;
 }

@@ -1,10 +1,12 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import Slider from 'react-slick'
 import { BASE_IMG_PATH } from '@yesplz/core-web/config/constants'
 import { Button, LikeButton } from '@yesplz/core-web/ui-kits/buttons'
 import { withProductLike } from '../../hoc'
-import Slider from 'react-slick'
+import { WideSlider } from '@yesplz/core-web/ui-kits/sliders'
+import { IS_MOBILE } from '../../config/constants'
 import './product.css'
 
 class Product extends PureComponent {
@@ -71,18 +73,33 @@ class Product extends PureComponent {
     // sale is available if original price is different with price
     const isSale = originalPrice && originalPrice !== price
     const isOutOfStock = price === 0
+    const sliderChildren = [
+      imgSrc && (
+        <div className='Product-imageWrapper'>
+          <div key='primary-slide' style={{ backgroundImage: `url(${BASE_IMG_PATH}/${imgSrc})` }} className='Product-image' />
+        </div>
+      ),
+      ...renderExtraImages(extraImgs, name)
+    ]
 
     return (
       <div id={id} className='Product'>
-        <div className='container'>
+        <div className='container-wide'>
           <div className='Product-images'>
             <div className='LikeButton-wrapper'>
               <LikeButton active={favorite} onClick={this.toggleLike} />
             </div>
-            <Slider {...this.sliderSettings}>
-              {imgSrc && <img src={`${BASE_IMG_PATH}/${imgSrc}`} alt={name} className='img-responsive' />}
-              {renderExtraImages(extraImgs, name)}
-            </Slider>
+            {
+              IS_MOBILE ? (
+                <Slider {...this.sliderSettings}>
+                  {sliderChildren}
+                </Slider>
+              ) : (
+                <WideSlider>
+                  {sliderChildren}
+                </WideSlider>
+              )
+            }
           </div>
           <div className='Product-detail'>
             <h3 dangerouslySetInnerHTML={{ __html: brand }} />
@@ -115,7 +132,9 @@ class Product extends PureComponent {
 export default withProductLike()(Product)
 
 const renderExtraImages = (imgs = [], name = '') => (
-  imgs.map((imgSrc, index) => (
-    <img key={imgSrc} src={`${BASE_IMG_PATH}/${imgSrc}`} alt={name} className='img-responsive' />
+  imgs.map(imgSrc => (
+    <div className='Product-imageWrapper'>
+      <div key={imgSrc} style={{ backgroundImage: `url(${BASE_IMG_PATH}/${imgSrc})` }} className='Product-image' />
+    </div>
   ))
 )

@@ -37,12 +37,17 @@
 }
 
 .PresetMatches .ProductGrid-detail {
-  padding: 3px 8px;
+  padding: 10px 8px;
+}
+
+.PresetMatches .ProductGrid-detail h5 {
+  margin-bottom: 5px;
 }
 
 .PresetMatches .ProductGrid-detail h5,
 .PresetMatches .ProductGrid-price,
 .PresetMatches .ProductGrid-originalPrice {
   font-size: 10px;
+  line-height: 1.4em;
   vertical-align: top;
 }

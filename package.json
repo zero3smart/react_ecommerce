@@ -46,6 +46,7 @@
     "lerna": "^2.11.0",
     "lodash": "^4.17.11",
     "mq-polyfill": "^1.1.8",
+    "node-sass": "^4.11.0",
     "require-hacker": "^3.0.1",
     "sinon": "^7.2.2",
     "source-map-explorer": "^1.6.0"
@@ -58,5 +59,8 @@
     "storybook": "start-storybook -p 9009 -s web/yesplz-mobile/public",
     "build-storybook": "build-storybook"
   },
-  "dependencies": {}
+  "dependencies": {
+    "nuka-carousel": "^4.4.7",
+    "react-slick": "^0.23.2"
+  }
 }
