@@ -71,6 +71,7 @@ class Tops extends Component {
               className='Tops-products'
               onFetch={this.handleFetch}
               closeMatchingMessage='Our next best suggestion.'
+              style={{ paddingTop: 15 }}
             />
           </div>
         </div>

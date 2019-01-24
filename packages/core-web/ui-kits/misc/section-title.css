@@ -29,11 +29,11 @@
 }
 
 .SectionTitle h3::before {
-  right: calc(100% + 15px);
+  right: calc(100% + 25px);
 }
 
 .SectionTitle h3::after {
-  left: calc(100% + 15px);
+  left: calc(100% + 25px);
 }
 
 .SectionTitle p {

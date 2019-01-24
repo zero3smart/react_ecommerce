@@ -5,7 +5,7 @@
   padding: 15px 0px 30px;
 }
 
-.Product > .container {
+.Product > .container-wide {
   display: grid;
   grid-template-rows: auto;
   grid-template-columns: auto;
@@ -51,6 +51,12 @@
   min-width: 125px;
   min-height: 215px;
   position: relative;
+}
+
+.Product-image {
+  height: 200px;
+  background-size: cover;
+  background-position: 50% 50%;
 }
 
 .Product .Product-images > .slick-slider {

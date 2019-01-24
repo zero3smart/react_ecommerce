@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { Product, ProductPlaceholder, ProductList } from '@yesplz/core-web/modules/products'
 import { fetchProduct, fetchRelatedProducts, resetProduct, setScrollBellowTheFold } from '@yesplz/core-redux/ducks/product'
 import history from '@yesplz/core-web/config/history'
+import { SectionTitle } from '../../ui-kits/misc'
 import { withTrackingProvider } from '../../hoc'
 import './product-page.css'
 
@@ -121,7 +122,10 @@ class ProductPage extends Component {
             showArrows={showArrows}
             showDots
           />
-          <h2 className='SubHeader' align='center'>You might also like this</h2>
+          <SectionTitle
+            title='You May Also Like This'
+            style={{ marginTop: 100, marginBottom: 50 }}
+          />
         </div>
       )
     }
@@ -136,6 +140,7 @@ class ProductPage extends Component {
           onFetch={this.handleFetchNext}
           onScrollBellowTheFold={this.handleScrollBellowTheFold}
           extraItem={productBox}
+          useButton
           className='ProductPage-products'
         />
       </div>

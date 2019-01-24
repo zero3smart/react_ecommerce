@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import reduce from 'lodash/reduce'
 import isEqual from 'lodash/isEqual'
 import DotLoader from '../loaders/DotLoader'
+import { ButtonSeparator } from '../buttons'
 
 class ScrollFetcher extends Component {
   constructor (props) {
@@ -63,9 +64,13 @@ class ScrollFetcher extends Component {
   }
 
   get handleScrollFrame () {
-    const { offsetScroll, onScroll } = this.props
+    const { offsetScroll, onScroll, useButton } = this.props
     const { isFetchingData } = this.state
     return (e) => {
+      if (useButton) {
+        return false
+      }
+
       const currentTarget = e.currentTarget
       const top = currentTarget.scrollTop + currentTarget.offsetHeight
       onScroll(top)
@@ -78,8 +83,12 @@ class ScrollFetcher extends Component {
   }
 
   get handleTouchMove () {
-    const { onTouchMove } = this.props
+    const { onTouchMove, useButton } = this.props
     return (e) => {
+      if (useButton) {
+        return false
+      }
+
       const currentTarget = e.currentTarget
       const top = currentTarget.scrollTop + currentTarget.offsetHeight
 
@@ -94,12 +103,14 @@ class ScrollFetcher extends Component {
   }
 
   render () {
-    const { id, className, style } = this.props
+    const { id, useButton, className, style } = this.props
     const { isFetchingData } = this.state
+
     return (
       <div id={id} ref={this.loadRef} className={className} onScroll={this.handleScrollFrame} onTouchMove={this.handleTouchMove} style={{ ...styles.wrapper, ...style }}>
         {this.props.children}
-        <DotLoader visible={isFetchingData} style={styles.loader} />
+        {useButton && !isFetchingData && <ButtonSeparator label='More' onClick={this.handleFetch} style={styles.moreButton} />}
+        <DotLoader visible={isFetchingData} style={{ ...styles.loader, ...(useButton ? styles.loaderSpace : {}) }} />
       </div>
     )
   }
@@ -111,6 +122,7 @@ ScrollFetcher.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
   disableInitalFetch: PropTypes.bool,
+  useButton: PropTypes.bool,
   offsetScroll: PropTypes.number, // fetch will be triggered before touching this offset
   onFetch: PropTypes.func.isRequired,
   onScroll: PropTypes.func,
@@ -118,6 +130,7 @@ ScrollFetcher.propTypes = {
 }
 
 ScrollFetcher.defaultProps = {
+  useButton: false,
   onFetch: (next) => { next() },
   onScroll: (top) => {},
   onTouchMove: (top) => {},
@@ -137,6 +150,13 @@ const styles = {
     width: '100%',
     flexBasis: '100%',
     order: 999 // place at the end
+  },
+  loaderSpace: {
+    marginTop: 40,
+    marginBottom: 100
+  },
+  moreButton: {
+    marginBottom: 100
   }
 }
 

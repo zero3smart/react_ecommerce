@@ -178,3 +178,9 @@
   display: flex;
   width: calc(100% - 30px);
 }
+
+/* ProductGrid */
+
+.ProductGrid-thumbnail {
+  height: 400px;
+}

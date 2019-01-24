@@ -1,6 +1,5 @@
 .ProductGrid {
   color: #000000;
-  max-width: 270px;
   text-decoration: none;
   position: relative;
 }
@@ -9,7 +8,7 @@
   background-size: cover;
   background-position: 50% 50%;
   width: 100%;
-  height: 400px;
+  height: 250px;
 }
 
 .ProductGrid-thumbnail.is-wtop {
