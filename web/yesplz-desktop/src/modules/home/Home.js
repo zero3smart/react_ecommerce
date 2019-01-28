@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import withTrackingProvider from '@yesplz/core-web/hoc/withTrackingProvider'
 import { fetchRecommendedProducts } from '@yesplz/core-redux/ducks/products'
 import { ProductList } from '@yesplz/core-web/modules/products'
-import { Tutorial } from '@yesplz/core-web/modules/tutorials'
+import { Tutorial } from 'modules/tutorials'
 import { AdvancedPresetList } from '@yesplz/core-web/modules/presets'
 import { SectionTitle } from '@yesplz/core-web/ui-kits/misc'
 import LikeSvg from '@yesplz/core-web/assets/svg/like.svg'
@@ -53,8 +53,7 @@ class Home extends Component {
 
   render () {
     const { recommendedProducts, onboarding } = this.props
-    // const { tutorialActive } = this.state
-    const tutorialActive = false // disable tutorial until safari desktop issue is fixed
+    const { tutorialActive } = this.state
 
     return (
       <div id='MainScroll' className='Home' style={{ paddingBottom: 100 }}>
@@ -92,7 +91,7 @@ class Home extends Component {
         </div>
         {onboarding && tutorialActive && (
           <div className='Tutorial-wrapper'>
-            <Tutorial onFinish={this.handleTutorialFinish} reverseIcon useVerticalThumb={Boolean(false)} />
+            <Tutorial onFinish={this.handleTutorialFinish} />
           </div>
         )}
         {/* video section */}
