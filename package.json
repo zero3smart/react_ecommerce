@@ -61,6 +61,7 @@
   },
   "dependencies": {
     "nuka-carousel": "^4.4.7",
+    "react-addons-css-transition-group": "^15.6.2",
     "react-slick": "^0.23.2"
   }
 }

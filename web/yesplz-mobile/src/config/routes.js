@@ -1,7 +1,6 @@
 import React from 'react'
 import { Route, Switch } from 'react-router'
 // pages
-import {} from './routesHelpers'
 import { Faq } from '@yesplz/core-web/modules/faq'
 import { Tutorial } from '@yesplz/core-web/modules/tutorials'
 
