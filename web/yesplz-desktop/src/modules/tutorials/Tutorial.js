@@ -9,6 +9,7 @@ import SlideImage from './SlideImage'
 import TutorialImage1 from './images/yesplz-tutorial-1.svg'
 import TutorialImage2a from './images/yesplz-tutorial-2a.svg'
 import TutorialImage2b from './images/yesplz-tutorial-2b.svg'
+import TutorialImage2c from './images/yesplz-tutorial-2c.svg'
 import TutorialImage3a from './images/yesplz-tutorial-3a.svg'
 import TutorialImage3b from './images/yesplz-tutorial-3b.svg'
 import TutorialImage3c from './images/yesplz-tutorial-3c.svg'
@@ -100,8 +101,10 @@ class Tutorial extends PureComponent {
                 <SlideImage
                   imageSources={[
                     TutorialImage2a,
-                    TutorialImage2b
+                    TutorialImage2b,
+                    TutorialImage2c
                   ]}
+                  repeatedTimes={2}
                   beforeStart={this.disableNext}
                   onFinish={this.allowNext}
                 />
@@ -128,6 +131,7 @@ class Tutorial extends PureComponent {
                     TutorialImage3b,
                     TutorialImage3c
                   ]}
+                  repeatedTimes={2}
                   beforeStart={this.disableNext}
                   onFinish={this.allowNext}
                 />

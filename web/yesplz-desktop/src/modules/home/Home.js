@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import withTrackingProvider from '@yesplz/core-web/hoc/withTrackingProvider'
 import { fetchRecommendedProducts } from '@yesplz/core-redux/ducks/products'
 import { ProductList } from '@yesplz/core-web/modules/products'
-import { Tutorial } from 'modules/tutorials'
+import withTutorial from 'hoc/withTutorial'
 import { AdvancedPresetList } from '@yesplz/core-web/modules/presets'
 import { SectionTitle } from '@yesplz/core-web/ui-kits/misc'
 import LikeSvg from '@yesplz/core-web/assets/svg/like.svg'
@@ -14,27 +14,11 @@ import './home.css'
 class Home extends Component {
   static propTypes = {
     recommendedProducts: PropTypes.array,
-    onboarding: PropTypes.bool,
     fetchRecommendedProducts: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     recommendedProducts: []
-  }
-
-  constructor (props) {
-    super(props)
-    this.state = {
-      tutorialActive: true
-    }
-  }
-
-  get handleTutorialFinish () {
-    return () => {
-      this.setState({
-        tutorialActive: false
-      })
-    }
   }
 
   componentDidMount () {
@@ -52,8 +36,7 @@ class Home extends Component {
   }
 
   render () {
-    const { recommendedProducts, onboarding } = this.props
-    const { tutorialActive } = this.state
+    const { recommendedProducts } = this.props
 
     return (
       <div id='MainScroll' className='Home' style={{ paddingBottom: 100 }}>
@@ -89,11 +72,6 @@ class Home extends Component {
         <div className='container'>
           <AdvancedPresetList presetMatchesCount={3} useMinimalPreset />
         </div>
-        {onboarding && tutorialActive && (
-          <div className='Tutorial-wrapper'>
-            <Tutorial onFinish={this.handleTutorialFinish} />
-          </div>
-        )}
         {/* video section */}
         <SectionTitle
           title='We Shop Differently'
@@ -110,11 +88,11 @@ class Home extends Component {
 }
 
 const mapStateToProps = state => ({
-  recommendedProducts: state.products.recommendedList,
-  onboarding: state.filters.onboarding
+  recommendedProducts: state.products.recommendedList
 })
 
 export default compose(
+  withTutorial(),
   connect(mapStateToProps, { fetchRecommendedProducts }),
   withTrackingProvider('Home')
 )(Home)

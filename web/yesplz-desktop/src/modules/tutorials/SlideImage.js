@@ -4,11 +4,14 @@ import PropTypes from 'prop-types'
 import delay from '@yesplz/core-web/utils/delay'
 import './SlideImage.scss'
 
+const { Image } = window
+
 class SlideImage extends PureComponent {
   static propTypes = {
     imageSources: PropTypes.arrayOf(PropTypes.string),
     duration: PropTypes.number, // duration for each image displayed
     infinite: PropTypes.bool,
+    repeatedTimes: PropTypes.number,
     beforeStart: PropTypes.func, // before starting the image animation
     onFinish: PropTypes.func // when touched the end of the image
   }
@@ -17,6 +20,7 @@ class SlideImage extends PureComponent {
     imageSources: [],
     duration: 1000,
     infinite: false,
+    repeatedTimes: 1,
     beforeStart: () => {},
     onFinish: () => {}
   }
@@ -26,13 +30,24 @@ class SlideImage extends PureComponent {
     this.state = {
       imageIndex: 0
     }
+    this.repeatedTimes = props.repeatedTimes
+    this.imageRef = React.createRef()
     this.delayPromise = null
   }
 
   async componentDidMount () {
-    const { beforeStart } = this.props
+    const { imageSources, beforeStart } = this.props
     beforeStart()
-    this.startAnimation()
+
+    this.imageRef.current.onload = () => {
+      this.startAnimation()
+    }
+
+    // load the rest of the images in background
+    imageSources.slice(1).forEach(imageSrc => {
+      var tempImg = new Image()
+      tempImg.src = imageSrc
+    })
   }
 
   componentWillUnmount () {
@@ -64,8 +79,9 @@ class SlideImage extends PureComponent {
     const { imageIndex } = this.state
 
     if (imageIndex === imageSources.length - 1) {
+      this.repeatedTimes = this.repeatedTimes - 1
+
       await (this.delayPromise = delay(duration))
-      onFinish()
 
       if (infinite) {
         // reset index
@@ -74,6 +90,18 @@ class SlideImage extends PureComponent {
         })
         // restart image cycle
         this.startAnimation()
+      } else if (this.repeatedTimes > 0) {
+        // reset index
+        this.setState({
+          imageIndex: 0
+        })
+        // restart image cycle
+        this.startAnimation()
+      }
+
+      // trigger onFinish after animation ended
+      if (this.repeatedTimes === 0) {
+        onFinish()
       }
     }
   }
@@ -88,7 +116,7 @@ class SlideImage extends PureComponent {
           transitionName='fade'
           transitionEnterTimeout={500}
           transitionLeaveTimeout={500}>
-          <img src={imageSources[imageIndex]} key={imageIndex} alt='Yesplz Tutorial' />
+          <img src={imageSources[imageIndex]} key={imageIndex} alt='Yesplz Tutorial' ref={this.imageRef} />
         </ReactCSSTransitionGroup>
       </div>
     )
