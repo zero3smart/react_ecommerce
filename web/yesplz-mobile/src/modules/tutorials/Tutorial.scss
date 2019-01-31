@@ -1,0 +1,70 @@
+.Tutorial {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: white;
+  z-index: 99999;
+
+  &-main {
+    width: 100%;
+    flex-basis: 100%;
+
+    & > .container {
+      max-width: calc(100% - 36px);
+    }
+  }
+
+  &-footer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  &-skipButton {
+    font-size: 16px;
+    font-weight: 900;
+    line-height: normal;
+    letter-spacing: 1.1px;
+    color: var(--dark-grey);
+    padding: 20px 32px;
+  }
+
+  &-nextButton {
+    color: white;
+    width: 76px;
+    height: 72px;
+    background-color: #6200ee;
+    outline: none;
+    border: none;
+    &:disabled {
+      background: rgba(#746983, 0.3);
+    }
+  }
+
+  .SliderDots {
+    justify-content: flex-start;
+    padding: 0px 5px;
+
+    &-item {
+      width: 8px;
+      height: 8px;
+      background: #8c3bff;
+      margin: 6px;
+      border: none;
+      opacity: 0.3;
+
+      &.is-active {
+        opacity: 1;
+      }
+    }
+  }
+}
