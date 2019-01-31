@@ -1,24 +1,28 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import FavoritesSvg from '@yesplz/core-web/assets/svg/favorites.svg'
 import { ProductFilter } from '@yesplz/core-web/modules/filters'
 import { VisualFilter } from '@yesplz/core-models'
 import history from '@yesplz/core-web/config/history'
+import { setActiveCategory } from '@yesplz/core-redux/ducks/products'
 import MenuButton from './MenuButton'
 import SidebarMenu from './SidebarMenu'
 import './base.css'
 
-export default class Base extends Component {
+class Base extends Component {
   static propTypes = {
     children: PropTypes.element,
-    location: PropTypes.object
+    location: PropTypes.object,
+    activeCategory: PropTypes.string.isRequired,
+    setActiveCategory: PropTypes.func.isRequired
   }
 
   constructor (props) {
     super(props)
     this.state = {
-      menuOpened: true
+      menuOpened: false
     }
     this.toggleSidebarMenu = this.toggleSidebarMenu.bind(this)
     this.handleSidebarMenuClose = this.handleSidebarMenuClose.bind(this)
@@ -27,7 +31,7 @@ export default class Base extends Component {
   componentDidMount () {
     // when onboarding active, show the tutorial page first
     if (VisualFilter.shouldShowOnboarding()) {
-      history.push('/tutorial')
+      // history.push('/tutorial')
     }
   }
 
@@ -80,11 +84,11 @@ export default class Base extends Component {
   }
 
   render () {
-    const { children } = this.props
+    const { children, activeCategory, setActiveCategory } = this.props
     const { menuOpened } = this.state
 
     return (
-      <div className='Base'>
+      <div className='Base' key={activeCategory}>
         <div className='Base-header'>
           <div className='container Base-header-container'>
             <div style={styles.buttonMenuWrapper}>
@@ -107,9 +111,9 @@ export default class Base extends Component {
             </NavLink>
           </div>
         </div>
-        <SidebarMenu opened={menuOpened} onClose={this.handleSidebarMenuClose} />
+        <SidebarMenu opened={menuOpened} onCategoryChange={setActiveCategory} onClose={this.handleSidebarMenuClose} />
         {children}
-        {this.showVisualFilter ? <ProductFilter /> : null}
+        {this.showVisualFilter ? <ProductFilter key={activeCategory} /> : null}
       </div>
     )
   }
@@ -122,3 +126,9 @@ const styles = {
     flexShrink: 0
   }
 }
+
+const mapStateToProps = state => ({
+  activeCategory: state.products.activeCategory
+})
+
+export default connect(mapStateToProps, { setActiveCategory })(Base)

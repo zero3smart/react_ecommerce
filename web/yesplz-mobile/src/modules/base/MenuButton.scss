@@ -1,3 +1,6 @@
+$transition-timing-fn: cubic-bezier(.55,.055,.675,.19);
+$transition-duration: 100ms;
+
 .MenuButton {
   background: white;
   width: 40px;
@@ -14,7 +17,7 @@
 
   &-inner {
     position: relative;
-    transition: transform 200ms cubic-bezier(.55,.055,.675,.19), background 0ms linear 200ms;
+    transition: transform $transition-duration $transition-timing-fn, background 0ms linear $transition-duration;
     width: 72px;
     height: 72px;
     margin: -16px;
@@ -28,8 +31,13 @@
       width: 24px;
       height: 2px;
       background: #000000;
-      margin: 0 auto 4px;
-      transition: transform 200ms cubic-bezier(.55,.055,.675,.19);
+      margin: auto;
+      position: relative;
+      transition: transform $transition-duration $transition-timing-fn, top $transition-duration $transition-timing-fn;
+    }
+
+    &:after {
+      top: 4px;
     }
   }
 
@@ -44,8 +52,8 @@
     > .MenuButton-inner {
       transform: rotate(45deg);
       background: none;
-      transition: transform 200ms cubic-bezier(.55,.055,.675,.19), background 0ms linear 0ms;
-      top: 4px;
+      transition: transform $transition-duration $transition-timing-fn, background 0ms linear 0ms;
+      top: 2px;
 
       &:before,
       &:after {
@@ -55,6 +63,7 @@
       }
 
       &:before {
+        transition: transform $transition-duration $transition-timing-fn $transition-duration, top $transition-duration $transition-timing-fn;
         transform: rotate(90deg);
         top: 1px;
       }

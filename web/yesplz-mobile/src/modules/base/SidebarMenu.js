@@ -8,7 +8,8 @@ import './SidebarMenu.scss'
 class SidebarMenu extends PureComponent {
   static propTypes = {
     opened: PropTypes.bool,
-    onClose: PropTypes.func
+    onClose: PropTypes.func,
+    onCategoryChange: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -20,6 +21,7 @@ class SidebarMenu extends PureComponent {
     super(props)
 
     this.handleLinkClick = this.handleLinkClick.bind(this)
+    this.changeCategory = this.changeCategory.bind(this)
   }
 
   handleLinkClick () {
@@ -32,6 +34,12 @@ class SidebarMenu extends PureComponent {
     onClose()
   }
 
+  changeCategory (categoryKey) {
+    const { onCategoryChange, onClose } = this.props
+    onCategoryChange(categoryKey)
+    onClose()
+  }
+
   render () {
     const { opened } = this.props
 
@@ -41,15 +49,17 @@ class SidebarMenu extends PureComponent {
           <NavLink to='/' onClick={this.handleLinkClick} className='is-primary'>
             Home
           </NavLink>
-          <NavLink to='/products' onClick={this.handleLinkClick}>
+          {/* category menu */}
+          <a href='javascript:void(0)' onClick={() => this.changeCategory('wtop')}>
             Tops
-          </NavLink>
-          <NavLink to='/products' onClick={this.handleLinkClick}>
+          </a>
+          <a href='javascript:void(0)' onClick={() => this.changeCategory('wpants')}>
             Jeans
-          </NavLink>
-          <NavLink to='/products' onClick={this.handleLinkClick}>
+          </a>
+          <a href='javascript:void(0)' onClick={() => this.changeCategory('wshoes')}>
             Shoes
-          </NavLink>
+          </a>
+          {/* end of category menu */}
           <div className='SidebarMenu-separator' style={{ marginTop: 44 }} />
           <NavLink to='/favorites' onClick={this.handleLinkClick}>
             Favorites
