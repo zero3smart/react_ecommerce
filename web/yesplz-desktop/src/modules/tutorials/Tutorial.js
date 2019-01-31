@@ -1,9 +1,8 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Carousel from 'nuka-carousel'
-import TutorialSliderDots from './TutorialSliderDots'
 import TutorialItem from './TutorialItem'
-import SlideImage from './SlideImage'
+import { SlideImage, SliderDots } from '@yesplz/core-web/modules/sliders'
 
 // image sources
 import TutorialImage1 from './images/yesplz-tutorial-1.svg'
@@ -59,7 +58,7 @@ class Tutorial extends PureComponent {
     const { currentSlide, preventNext } = this.state
 
     const sliderDots = (
-      <TutorialSliderDots
+      <SliderDots
         currentSlide={currentSlide}
         slideCount={3}
         goToSlide={this.handleSlideTo}
