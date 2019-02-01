@@ -1,10 +1,12 @@
 .SlideImage {
-  animation-duration: 2s;
-  transition-timing-function: ease-in-out;
-  animation-fill-mode: both;
-  animation-iteration-count: infinite;
-  -webkit-animation-name: baseImageAnimation;
-  animation-name: baseImageAnimation;
+  &:not(.no-animation) {
+    animation-duration: 2s;
+    transition-timing-function: ease-in-out;
+    animation-fill-mode: both;
+    animation-iteration-count: infinite;
+    -webkit-animation-name: baseImageAnimation;
+    animation-name: baseImageAnimation;
+  }  
 
   &.has-multiple-images {
     width: 587px;

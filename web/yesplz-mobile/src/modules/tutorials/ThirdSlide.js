@@ -38,6 +38,7 @@ const ThirdSlide = ({ activeIndex, onBeforeStart, onFinish }) => (
         beforeStart={onBeforeStart}
         onFinish={onFinish}
         duration={700}
+        noAnimation
       />
     </TutorialItem>
   )

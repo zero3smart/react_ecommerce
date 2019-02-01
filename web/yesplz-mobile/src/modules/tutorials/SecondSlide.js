@@ -16,8 +16,8 @@ import TutorialImage2cAt3x from './images/yesplz-2-c-mobile@3x.png'
 const SecondSlide = ({ activeIndex, onBeforeStart, onFinish }) => (
   activeIndex !== 1 ? null : (
     <TutorialItem
-      title='Hello'
-      subtitle='meet your smart filter'
+      title='Click'
+      subtitle='the smart filter button'
     >
       <SlideImage
         imageSources={[
@@ -38,6 +38,7 @@ const SecondSlide = ({ activeIndex, onBeforeStart, onFinish }) => (
         beforeStart={onBeforeStart}
         onFinish={onFinish}
         duration={700}
+        noAnimation
       />
     </TutorialItem>
   )
