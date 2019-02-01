@@ -6,6 +6,7 @@ import FavoritesSvg from '@yesplz/core-web/assets/svg/favorites.svg'
 import { ProductFilter } from '@yesplz/core-web/modules/filters'
 import { VisualFilter } from '@yesplz/core-models'
 import { setActiveCategory } from '@yesplz/core-redux/ducks/products'
+import history from '@yesplz/core-web/config/history'
 import MenuButton from 'modules/menus/MenuButton'
 import SidebarMenu from 'modules/menus/SidebarMenu'
 import './base.css'
@@ -32,7 +33,7 @@ class Base extends Component {
   componentDidMount () {
     // when onboarding active, show the tutorial page first
     if (VisualFilter.shouldShowOnboarding()) {
-      // history.push('/tutorial')
+      history.push('/tutorial')
     }
   }
 
