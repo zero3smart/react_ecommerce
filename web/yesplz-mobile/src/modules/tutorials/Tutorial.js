@@ -1,7 +1,8 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import Carousel from 'nuka-carousel'
 import { SliderDots } from '@yesplz/core-web/modules/sliders'
 import history from '@yesplz/core-web/config/history'
+import { Button } from 'ui-kits/buttons'
 
 // slides
 import FirstSlide from './FirstSlide'
@@ -84,12 +85,26 @@ class Tutorial extends PureComponent {
           </div>
         </div>
         <div className='Tutorial-footer'>
-          <button className='Tutorial-skipButton' onClick={this.handleFinish}>
-          Skip
-          </button>
-          <button className='Tutorial-nextButton' onClick={this.handleSlideNext} disabled={disableNext}>
-          >
-          </button>
+          {
+            currentSlide === 2 ? (
+              <Button
+                kind='secondary'
+                disabled={disableNext}
+                style={styles.buttonStyle}
+                onClick={this.handleFinish}>
+                Explore
+              </Button>
+            ) : (
+              <Fragment>
+                <button className='Tutorial-skipButton' onClick={this.handleFinish}>
+                Skip
+                </button>
+                <button className='Tutorial-nextButton' onClick={this.handleSlideNext} disabled={disableNext}>
+                >
+                </button>
+              </Fragment>
+            )
+          }
         </div>
       </div>
     )
@@ -97,5 +112,11 @@ class Tutorial extends PureComponent {
 }
 
 const noop = () => null
+const styles = {
+  buttonStyle: {
+    width: 'calc(100% - 60px)',
+    marginBottom: 27
+  }
+}
 
 export default Tutorial
