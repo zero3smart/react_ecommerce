@@ -64,6 +64,8 @@ class Tutorial extends PureComponent {
               renderCenterLeftControls={noop}
               renderCenterRightControls={noop}
               renderBottomCenterControls={noop}
+              dragging={Boolean(false)}
+              swiping={Boolean(false)}
             >
               <FirstSlide activeIndex={currentSlide} />
               <SecondSlide
@@ -81,7 +83,7 @@ class Tutorial extends PureComponent {
               currentSlide={currentSlide}
               slideCount={3}
               goToSlide={this.handleSlideTo}
-              style={{ margin: '30px auto' }}
+              style={{ margin: '3.69vh auto' }}
             />
           </div>
         </div>
