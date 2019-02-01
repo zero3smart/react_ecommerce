@@ -21,7 +21,6 @@ $transition-duration: 100ms;
     width: 72px;
     height: 72px;
     margin: -16px;
-    background: white;
     padding: 32px 10px;
 
     &:before,
@@ -51,7 +50,6 @@ $transition-duration: 100ms;
 
     > .MenuButton-inner {
       transform: rotate(45deg);
-      background: none;
       transition: transform $transition-duration $transition-timing-fn, background 0ms linear 0ms;
       top: 2px;
 
