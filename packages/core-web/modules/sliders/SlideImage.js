@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import PropTypes from 'prop-types'
+import isObject from 'lodash/isObject'
 import delay from '@yesplz/core-web/utils/delay'
 import './SlideImage.scss'
 
@@ -8,7 +9,13 @@ const { Image } = window
 
 class SlideImage extends PureComponent {
   static propTypes = {
-    imageSources: PropTypes.arrayOf(PropTypes.string),
+    imageSources: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.string),
+      PropTypes.arrayOf(PropTypes.shape({
+        src: PropTypes.string,
+        srcset: PropTypes.string
+      }))
+    ]),
     duration: PropTypes.number, // duration for each image displayed
     infinite: PropTypes.bool,
     repeatedTimes: PropTypes.number,
@@ -46,7 +53,7 @@ class SlideImage extends PureComponent {
     // load the rest of the images in background
     imageSources.slice(1).forEach(imageSrc => {
       var tempImg = new Image()
-      tempImg.src = imageSrc
+      tempImg.src = isObject(imageSrc) ? imageSrc.src : imageSrc
     })
   }
 
@@ -110,13 +117,24 @@ class SlideImage extends PureComponent {
     const { imageSources } = this.props
     const { imageIndex } = this.state
 
+    const imageSource = imageSources[imageIndex]
+    const sourceIsObject = isObject(imageSource)
+    const imgSrc = sourceIsObject ? imageSource.src : imageSource
+    const imgSet = sourceIsObject ? imageSource.srcset : null
+
     return (
       <div className='SlideImage has-multiple-images'>
         <ReactCSSTransitionGroup
           transitionName='fade'
           transitionEnterTimeout={500}
           transitionLeaveTimeout={500}>
-          <img src={imageSources[imageIndex]} key={imageIndex} alt='Yesplz Tutorial' ref={this.imageRef} />
+          <img
+            src={imgSrc}
+            srcSet={imgSet}
+            key={imageIndex}
+            alt='Yesplz Tutorial'
+            ref={this.imageRef}
+          />
         </ReactCSSTransitionGroup>
       </div>
     )

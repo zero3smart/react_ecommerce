@@ -1,0 +1,30 @@
+.TutorialItem {
+  h2 {
+    font-family: Muli;
+    font-size: 24px;
+    font-weight: 900;
+    line-height: normal;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--dark-grey);
+    margin-bottom: 20px;
+  }
+
+  p {
+    font-family: Muli;
+    font-size: 16px;
+    line-height: 1.25;
+    letter-spacing: 0.8px;
+    color: var(--dark-grey);
+  }
+
+  &-imageWrapper {
+    > img {
+      max-width: 100%;
+    }
+  }
+
+  &-content {
+    padding: 0px 11px;
+  }
+}
