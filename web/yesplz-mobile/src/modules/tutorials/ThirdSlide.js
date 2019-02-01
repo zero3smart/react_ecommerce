@@ -37,6 +37,7 @@ const ThirdSlide = ({ activeIndex, onBeforeStart, onFinish }) => (
         repeatedTimes={2}
         beforeStart={onBeforeStart}
         onFinish={onFinish}
+        duration={700}
       />
     </TutorialItem>
   )
