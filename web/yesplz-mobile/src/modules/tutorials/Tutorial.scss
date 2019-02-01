@@ -1,9 +1,11 @@
+@import 'assets/styles/variables.scss';
+
 .Tutorial {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   flex-direction: column;
-  height: calc(100% -  56px);
+  height: $content-height;
 
   z-index: 99999;
 
