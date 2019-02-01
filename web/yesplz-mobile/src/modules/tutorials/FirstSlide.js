@@ -18,6 +18,7 @@ const FirstSlide = () => (
           srcset: `${TutorialImage1at2x} 2x, ${TutorialImage1at3x} 3x`
         }
       ]}
+      noAnimation
     />
   </TutorialItem>
 )

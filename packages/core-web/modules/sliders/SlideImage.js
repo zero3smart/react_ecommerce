@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 import isObject from 'lodash/isObject'
 import delay from '@yesplz/core-web/utils/delay'
 import './SlideImage.scss'
@@ -19,6 +20,7 @@ class SlideImage extends PureComponent {
     duration: PropTypes.number, // duration for each image displayed
     infinite: PropTypes.bool,
     repeatedTimes: PropTypes.number,
+    noAnimation: PropTypes.bool,
     beforeStart: PropTypes.func, // before starting the image animation
     onFinish: PropTypes.func // when touched the end of the image
   }
@@ -28,6 +30,7 @@ class SlideImage extends PureComponent {
     duration: 1000,
     infinite: false,
     repeatedTimes: 1,
+    noAnimation: false,
     beforeStart: () => {},
     onFinish: () => {}
   }
@@ -114,7 +117,7 @@ class SlideImage extends PureComponent {
   }
 
   render () {
-    const { imageSources } = this.props
+    const { imageSources, noAnimation } = this.props
     const { imageIndex } = this.state
 
     const imageSource = imageSources[imageIndex]
@@ -123,7 +126,7 @@ class SlideImage extends PureComponent {
     const imgSet = sourceIsObject ? imageSource.srcset : null
 
     return (
-      <div className='SlideImage has-multiple-images'>
+      <div className={classNames('SlideImage has-multiple-images', { 'no-animation': noAnimation })}>
         <ReactCSSTransitionGroup
           transitionName='fade'
           transitionEnterTimeout={500}
