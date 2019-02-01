@@ -5,10 +5,9 @@ import { NavLink } from 'react-router-dom'
 import FavoritesSvg from '@yesplz/core-web/assets/svg/favorites.svg'
 import { ProductFilter } from '@yesplz/core-web/modules/filters'
 import { VisualFilter } from '@yesplz/core-models'
-import history from '@yesplz/core-web/config/history'
 import { setActiveCategory } from '@yesplz/core-redux/ducks/products'
-import MenuButton from './MenuButton'
-import SidebarMenu from './SidebarMenu'
+import MenuButton from 'modules/menus/MenuButton'
+import SidebarMenu from 'modules/menus/SidebarMenu'
 import './base.css'
 
 class Base extends Component {
@@ -22,10 +21,12 @@ class Base extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      menuOpened: false
+      menuOpened: false,
+      hideMenuButton: false
     }
     this.toggleSidebarMenu = this.toggleSidebarMenu.bind(this)
     this.handleSidebarMenuClose = this.handleSidebarMenuClose.bind(this)
+    this.handleMenuGroupChange = this.handleMenuGroupChange.bind(this)
   }
 
   componentDidMount () {
@@ -83,16 +84,22 @@ class Base extends Component {
     })
   }
 
+  handleMenuGroupChange (groupKey) {
+    this.setState({
+      hideMenuButton: groupKey !== 'main'
+    })
+  }
+
   render () {
     const { children, activeCategory, setActiveCategory } = this.props
-    const { menuOpened } = this.state
+    const { menuOpened, hideMenuButton } = this.state
 
     return (
       <div className='Base' key={activeCategory}>
         <div className='Base-header'>
           <div className='container Base-header-container'>
             <div style={styles.buttonMenuWrapper}>
-              <MenuButton closeMode={menuOpened} onClick={this.toggleSidebarMenu} />
+              {!hideMenuButton && <MenuButton closeMode={menuOpened} onClick={this.toggleSidebarMenu} />}
             </div>
             <NavLink
               exact
@@ -111,7 +118,12 @@ class Base extends Component {
             </NavLink>
           </div>
         </div>
-        <SidebarMenu opened={menuOpened} onCategoryChange={setActiveCategory} onClose={this.handleSidebarMenuClose} />
+        <SidebarMenu
+          opened={menuOpened}
+          onCategoryChange={setActiveCategory}
+          onClose={this.handleSidebarMenuClose}
+          onMenuGroupChange={this.handleMenuGroupChange}
+        />
         {children}
         {this.showVisualFilter ? <ProductFilter key={activeCategory} /> : null}
       </div>
