@@ -33,6 +33,11 @@ export default class Base extends Component {
     return /^\/favorites\//.test(location.pathname)
   }
 
+  get showVisualFilter () {
+    const { location } = this.props
+    return !(/^\/tutorial/.test(location.pathname))
+  }
+
   get handleHomeLinkActive () {
     return match => match // || this.isProductDetailPage
   }
@@ -87,7 +92,7 @@ export default class Base extends Component {
           </div>
         </div>
         {children}
-        <ProductFilter />
+        {this.showVisualFilter ? <ProductFilter /> : null}
       </div>
     )
   }
