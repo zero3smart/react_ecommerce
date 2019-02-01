@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>icons/arrow-right</title>
+    <desc>Created with Sketch.</desc>
+    <g id="icons/arrow-40" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g>
+            <rect id="Rectangle" x="0" y="0" width="40" height="40"></rect>
+            <polygon id="Path" stroke="#FFFFFF" stroke-width="0.3" fill="#FFFFFF" transform="translate(20.000000, 19.500000) scale(-1, 1) rotate(-180.000000) translate(-20.000000, -19.500000) " points="8 20.3518229 26.0877784 20.3518229 26.0877784 24 32 19.5 26.0877784 15 26.0877784 18.6486885 8 18.6486885"></polygon>
+        </g>
+    </g>
+</svg>

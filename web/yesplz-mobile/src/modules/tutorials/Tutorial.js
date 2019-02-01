@@ -8,6 +8,7 @@ import { Button } from 'ui-kits/buttons'
 import FirstSlide from './FirstSlide'
 import SecondSlide from './SecondSlide'
 import ThirdSlide from './ThirdSlide'
+import ArrowRight from './images/arrow-right.svg'
 
 import './Tutorial.scss'
 
@@ -100,7 +101,7 @@ class Tutorial extends PureComponent {
                 Skip
                 </button>
                 <button className='Tutorial-nextButton' onClick={this.handleSlideNext} disabled={disableNext}>
-                >
+                  <img src={ArrowRight} alt='Tutorial Next' />
                 </button>
               </Fragment>
             )
