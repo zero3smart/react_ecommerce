@@ -14,6 +14,18 @@ body {
 
 h1, h2, h3, h4, h5, p {
   margin-bottom: 10px;
+
+  &.SubHeader {
+    font-weight: 900;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 5px;
+    color: #000000;
+    text-transform: uppercase;
+    margin-top: 52px;
+    margin-bottom: 48px;
+  }
 }
 
 h1 {
@@ -43,21 +55,22 @@ h5, p {
 
 .container,
 .container-wide {
-  max-width: calc(100% - 24px);
+  max-width: calc(100% - 60px);
   margin: auto;
 }
 
-.SubHeader {
-  font-size: 16px;
-  font-weight: normal;
-  color: #000000;
-  margin-top: 20px;
-  margin-bottom: 18px;
+.container-wide {
+  max-width: calc(100% - 24px);
 }
 
 #MainScroll {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+}
+
+#svg-filters {
+  position: fixed;
+  z-index: -9999;
 }
 
 /* Misc */

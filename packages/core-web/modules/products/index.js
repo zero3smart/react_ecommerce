@@ -8,6 +8,8 @@ import ProductGrid from './ProductGrid'
 import ProductGridCompact from './ProductGridCompact'
 import ProductPlaceholder from './ProductPlaceholder'
 import ProductList from './ProductList'
+import ProductListHorizontal from './ProductListHorizontal'
+import ProductListVertical from './ProductListVertical'
 import ProductsNotFound from './ProductsNotFound'
 
 export {
@@ -18,5 +20,7 @@ export {
   ProductGridCompact,
   ProductPlaceholder,
   ProductList,
+  ProductListHorizontal,
+  ProductListVertical,
   ProductsNotFound
 }

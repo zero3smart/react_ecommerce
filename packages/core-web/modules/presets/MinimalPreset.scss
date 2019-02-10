@@ -1,30 +1,40 @@
+@import 'assets/styles/variables.scss';
+
 .MinimalPreset {
   background: white;
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding: 30px 30px 13px;
   margin-bottom: 10px;
   box-sizing: border-box;
-  text-align: center;
-  border: 1px solid #6200EE;
+  text-align: left;
 }
 
-.MinimalPreset > h2 {
-  font-size: 28px;
-  font-weight: 300;
-  color: #6200EE;
-  margin-bottom: 50px;
+.MinimalPreset > h3 {
+  font-size: 1em;
+  font-weight: 900;
+  line-height: 16px;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: $type-primary;
+  margin: 0;
+  padding: 20px 0px 12px 0px;
 }
 
 .MinimalPreset-svg {
+  width: 231px;
+  height: 341px;
   position: relative;
+  overflow: hidden;
 }
 
 .MinimalPreset-svg > svg {
-  height: 218px;
+  width: 231px;
+  height: 341px;
+  width: 100%;
   margin: auto;
-  max-width: 50vw;
+  vertical-align: top;
+  flex-shrink: 0;
 }
 
 .MinimalPreset-svg svg #bodypart_area {
@@ -36,26 +46,7 @@
 
 .MinimalPreset-svg .LikeButton {
   position: absolute;
-  left: 0;
-  top: 0;
+  right: 0px;
+  top: 0px;
   z-index: 2;
-}
-
-.MinimalPreset-svg .LikeButton > button {
-  width: 30px;
-  height: 30px;
-}
-
-.MinimalPreset-filter .FabricFilters {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  margin-top: 40px;
-}
-
-.MinimalPreset-filter .FabricFilters .FilterButton {
-  max-width: none;
-  flex-basis: 40%;
-  flex-shrink: 0;
-  margin: 7px 0;
 }

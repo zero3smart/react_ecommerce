@@ -1,0 +1,41 @@
+@import 'assets/styles/variables.scss';
+
+.AdvancedPreset {
+  &-title {
+    font-size: 13px;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 3px;
+    color: $type-primary;
+    text-decoration: none;
+    text-transform: uppercase;
+  
+    display: block;
+    margin-top: 40px;
+    margin-bottom: 24px;
+  
+    svg {
+      vertical-align: middle;
+      margin-top: -3px;
+    }
+  }
+
+  .slick-slider {
+    max-width: 251px;
+
+    .slick-list {
+      overflow: visible;
+    }
+  }
+
+  .MinimalPreset,
+  .ProductGrid {
+    max-width: 231px;
+    margin-right: 20px;
+  }
+
+  .ProductGrid-thumbnail {
+    height: 341px;
+  }
+}
