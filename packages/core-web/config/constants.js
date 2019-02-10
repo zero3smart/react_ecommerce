@@ -35,3 +35,8 @@ export const FABRIC_COLORS = {
   grey: '#999999',
   white: '#FFFFFF'
 }
+
+// categories
+export const CATEGORY_TOPS = 'wtop'
+export const CATEGORY_SHOES = 'wshoes'
+export const CATEGORY_PANTS = 'wpants'

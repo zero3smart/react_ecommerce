@@ -188,14 +188,18 @@ export function likeProduct (product, tracker = {}) {
 
     dispatch({
       type: LIKE_PRODUCT,
-      payload: { productId: product.product_id },
+      payload: {
+        productId: product.product_id,
+        category: product.category
+      },
       meta: {
         mixpanel: {
           event: 'Like Product',
           props: {
             ...tracker.defaultProperties,
             product_id: product.product_id,
-            brand: product.brand
+            brand: product.brand,
+            category: product.category
           }
         }
       }
@@ -211,13 +215,17 @@ export function unlikeProduct (product, tracker = {}) {
 
     dispatch({
       type: UNLIKE_PRODUCT,
-      payload: { productId: product.product_id },
+      payload: {
+        productId: product.product_id,
+        category: product.category
+      },
       meta: {
         mixpanel: {
           event: 'Unlike Product',
           props: {
             ...tracker.defaultProperties,
             product_id: product.product_id,
+            category: product.category,
             brand: product.brand
           }
         }

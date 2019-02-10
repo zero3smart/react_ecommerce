@@ -1,13 +1,17 @@
 .LikeButton {
   background: transparent;
   position: relative;
+  background: white;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .LikeButton > button {
   display: inline-block;
   background: transparent;
-  width: 22px;
-  height: 22px;
   padding: 0;
   margin: auto;
   outline: none;
@@ -18,17 +22,6 @@
   -webkit-border-radius: 100%;
   -moz-border-radius: 100%;
   -o-border-radius: 100%;
-
-  box-shadow: 0 0 0 0 rgba(61, 61, 61, 0.7);
-  -webkit-box-shadow: 0 0 0 0 rgba(61, 61, 61, 0.7);
-  -moz-box-shadow: 0 0 0 0 rgba(61, 61, 61, 0.7);
-  -o-box-shadow: 0 0 0 0 rgba(61, 61, 61, 0.7);
-
-  transition: all 0.1s ease-in;
-  -webkit-transition: all 0.1s ease-in;
-  -moz-transition: all 0.1s ease-in;
-  -o-transition: all 0.1s ease-in;
-  cursor: pointer;
 }
 
 .LikeButton > button > img {
@@ -36,12 +29,4 @@
   max-width: 100%;
   margin: auto;
   vertical-align: top;
-}
-
-/* click state */
-.LikeButton.active > button:focus:not(:active) {
-  -webkit-animation: buttonPulse 0.5s cubic-bezier(0.66, 0, 0, 1);
-  -moz-animation: buttonPulse 0.5s cubic-bezier(0.66, 0, 0, 1);
-  -ms-animation: buttonPulse 0.5s cubic-bezier(0.66, 0, 0, 1);
-  animation: buttonPulse 0.5s cubic-bezier(0.66, 0, 0, 1);
 }

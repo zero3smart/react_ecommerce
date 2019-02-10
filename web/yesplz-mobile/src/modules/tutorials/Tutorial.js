@@ -2,13 +2,14 @@ import React, { PureComponent, Fragment } from 'react'
 import Carousel from 'nuka-carousel'
 import { SliderDots } from '@yesplz/core-web/modules/sliders'
 import history from '@yesplz/core-web/config/history'
+import ArrowLine from '@yesplz/core-web/ui-kits/icons/ArrowLine'
+import noop from '@yesplz/core-web/utils/noop'
 import { Button } from 'ui-kits/buttons'
 
 // slides
 import FirstSlide from './FirstSlide'
 import SecondSlide from './SecondSlide'
 import ThirdSlide from './ThirdSlide'
-import ArrowRight from './images/arrow-right.svg'
 
 import './Tutorial.scss'
 
@@ -103,7 +104,7 @@ class Tutorial extends PureComponent {
                 Skip
                 </button>
                 <button className='Tutorial-nextButton' onClick={this.handleSlideNext} disabled={disableNext}>
-                  <img src={ArrowRight} alt='Tutorial Next' />
+                  <ArrowLine color='#FFFFFF' />
                 </button>
               </Fragment>
             )
@@ -114,7 +115,6 @@ class Tutorial extends PureComponent {
   }
 }
 
-const noop = () => null
 const styles = {
   buttonStyle: {
     width: 'calc(100% - 60px)',

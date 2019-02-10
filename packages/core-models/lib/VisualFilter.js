@@ -91,9 +91,9 @@ export default class VisualFilter {
 
   initialize () {
     const { hideMiniOnboarding, onSVGLoaded, hideThumbnail, useVerticalThumb,
-      swipeable, badgeMode } = this.settings
+      swipeable, badgeMode, customViewBox } = this.settings
 
-    this.viewBox = this.catdata.viewBox(hideThumbnail, useVerticalThumb)
+    this.viewBox = customViewBox || this.catdata.viewBox(hideThumbnail, useVerticalThumb)
     let svgSource = this.catdata.svg(useVerticalThumb)
     let svgOnboardingSource = this.catdata.miniOnboardingSvg(useVerticalThumb)
 
@@ -858,6 +858,7 @@ const defaultOptions = {
   hideMiniOnboarding: false,
   useVerticalThumb: false,
   debugTouchArea: false,
+  customViewBox: null,
   onFilterChange: (filters) => { console.debug('filter change', filters) },
   onPropChange: (prop) => { console.debug('prop change', prop) },
   onSVGLoaded: () => {},

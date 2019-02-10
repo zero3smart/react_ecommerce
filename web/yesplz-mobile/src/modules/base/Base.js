@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
+import classNames from 'classnames'
 import FavoritesSvg from '@yesplz/core-web/assets/svg/favorites.svg'
 import { ProductFilter } from '@yesplz/core-web/modules/filters'
 import { VisualFilter } from '@yesplz/core-models'
@@ -23,7 +24,8 @@ class Base extends Component {
     super(props)
     this.state = {
       menuOpened: false,
-      hideMenuButton: false
+      hideMenuButton: false,
+      stickyHeader: false
     }
     this.toggleSidebarMenu = this.toggleSidebarMenu.bind(this)
     this.handleSidebarMenuClose = this.handleSidebarMenuClose.bind(this)
@@ -35,6 +37,29 @@ class Base extends Component {
     if (VisualFilter.shouldShowOnboarding()) {
       history.push('/tutorial')
     }
+    this.initializeHeaderScroll()
+  }
+
+  /**
+   * sticky header
+   */
+  initializeHeaderScroll () {
+    window.addEventListener('scroll', (el) => {
+      const { stickyHeader } = this.state
+
+      const scrollTop = el.target.documentElement.scrollTop
+      if (!stickyHeader && scrollTop > 40) {
+        this.setState({
+          stickyHeader: true
+        })
+      }
+
+      if (stickyHeader && scrollTop <= 40) {
+        this.setState({
+          stickyHeader: false
+        })
+      }
+    })
   }
 
   get isProductDetailPage () {
@@ -93,12 +118,12 @@ class Base extends Component {
 
   render () {
     const { children, activeCategory, setActiveCategory } = this.props
-    const { menuOpened, hideMenuButton } = this.state
+    const { menuOpened, hideMenuButton, stickyHeader } = this.state
 
     return (
       <div className='Base' key={activeCategory}>
-        <div className='Base-header'>
-          <div className='container Base-header-container'>
+        <div className={classNames('Base-header', { 'is-sticky': stickyHeader })}>
+          <div className='container-wide Base-header-container'>
             <div style={styles.buttonMenuWrapper}>
               {!hideMenuButton && <MenuButton closeMode={menuOpened} onClick={this.toggleSidebarMenu} />}
             </div>
@@ -117,14 +142,14 @@ class Base extends Component {
               className='menu-icon'>
               <img src={FavoritesSvg} alt='Favorites Page' />
             </NavLink>
+            <SidebarMenu
+              opened={menuOpened}
+              onCategoryChange={setActiveCategory}
+              onClose={this.handleSidebarMenuClose}
+              onMenuGroupChange={this.handleMenuGroupChange}
+            />
           </div>
         </div>
-        <SidebarMenu
-          opened={menuOpened}
-          onCategoryChange={setActiveCategory}
-          onClose={this.handleSidebarMenuClose}
-          onMenuGroupChange={this.handleMenuGroupChange}
-        />
         {children}
         {this.showVisualFilter ? <ProductFilter key={activeCategory} /> : null}
       </div>

@@ -136,9 +136,9 @@ def merge_wtop(fn, vertical=False, remove_all=False):
     lower_svgs += ['Navigation-Arrows.svg', 'Floating-circle-point.svg']
 
     if vertical:
-        bodypart_mod = '<svg><g id="bodypart_area">' # transform="scale(1.35) translate(30, 15)">'
+        bodypart_mod = '<g id="bodypart_area">' # transform="scale(1.35) translate(30, 15)">'
     else:
-        bodypart_mod = '<svg><g id="bodypart_area">' # transform="scale(1.35) translate(50, 15)">'
+        bodypart_mod = '<g id="bodypart_area">' # transform="scale(1.35) translate(50, 15)">'
 
     print('Combining svgs into', fn)
     with open(fn, 'w') as f:
@@ -151,7 +151,6 @@ def merge_wtop(fn, vertical=False, remove_all=False):
         for svg in lower_svgs:
             f.write(load_wtop_svg_fixed(svg, vertical, remove_all))
         f.write('</g>')
-        f.write('</svg>')
 
 def merge_wtop_svgs(outdir):
     merge_wtop(outdir / 'vf_wtop.svg', vertical=False, remove_all=True)

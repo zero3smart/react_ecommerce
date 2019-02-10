@@ -2,11 +2,10 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import classNames from 'classnames'
+import ArrowLine from '@yesplz/core-web/ui-kits/icons/ArrowLine'
 import SidebarMenuGroup from './SidebarMenuGroup'
 import SidebarMenuItem from './SidebarMenuItem'
 import TopsFilterMenu from './TopsFilterMenu'
-
-import ArrowLeftSvg from './arrow-left.svg'
 import './SidebarMenu.scss'
 
 class SidebarMenu extends PureComponent {
@@ -78,7 +77,7 @@ class SidebarMenu extends PureComponent {
     return (
       <div className={classNames('SidebarMenu', { 'is-opened': opened })}>
         <div className='SidebarMenu-back' onClick={this.resetMenuGroup}>
-          <img src={ArrowLeftSvg} alt='Sidebare Menu Close' />
+          <ArrowLine direction='left' />
         </div>
         <SidebarMenuGroup eventKey='main' activeKey={activeGroupKey}>
           <SidebarMenuItem eventKey='home' activeKey={activeMainMenuKey} to='/' onClick={this.handleLinkClick}>

@@ -1,77 +1,49 @@
 import React, { Component } from 'react'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { fetchRecommendedProducts } from '@yesplz/core-redux/ducks/products'
-import { ProductList } from '@yesplz/core-web/modules/products'
 import { AdvancedPresetList } from '@yesplz/core-web/modules/presets'
-import { InfoBanner } from '@yesplz/core-web/ui-kits/banners'
 import { withTrackingProvider } from '@yesplz/core-web/hoc'
+import { CATEGORY_TOPS, CATEGORY_SHOES, CATEGORY_PANTS } from '@yesplz/core-web/config/constants'
+import HomeSlider from './HomeSlider'
+import { CategorizedProducts, RecommendedProducts } from 'modules/products'
 import './home.css'
 
 class Home extends Component {
-  static propTypes = {
-    recommendedProducts: PropTypes.array,
-    fetchRecommendedProducts: PropTypes.func.isRequired
-  }
-
-  static defaultProps = {
-    recommendedProducts: []
-  }
-
-  componentDidMount () {
-    const { recommendedProducts, fetchRecommendedProducts } = this.props
-    // make sure recommended fetch only run once
-    if (recommendedProducts.length === 0) {
-      fetchRecommendedProducts()
-    }
-  }
-
-  componentWillUnmount () {
-    const { fetchRecommendedProducts } = this.props
-    // fetch recommended products on leave
-    fetchRecommendedProducts()
-  }
-
   render () {
-    const { recommendedProducts } = this.props
-
     return (
-      <div id='MainScroll' className='Home'>
-        <InfoBanner style={styles.infoBanner}>
-          <h2>Today’s Pick for You</h2>
-          <p>the more you like, the better it gets</p>
-        </InfoBanner>
-        <ProductList
-          products={recommendedProducts}
-          className='Recommended-products'
-          style={{ overflow: 'hidden' }}
-          // showHighResImage
-          showOriginalPrice
-          show
-          combined
-        />
-        <InfoBanner style={styles.infoBanner}>
-          <h2>Editor's Pick</h2>
-          <p>shortcut to the fits</p>
-        </InfoBanner>
-        <AdvancedPresetList />
+      <div className='Home'>
+        <HomeSlider />
+        <div style={{ overflowX: 'hidden' }}>
+          <div className='container'>
+            <CategorizedProducts
+              title='New Tops'
+              category={CATEGORY_TOPS}
+              limitPerPage={10}
+            />
+            <CategorizedProducts
+              title='New Jeans'
+              category={CATEGORY_PANTS}
+              limitPerPage={10}
+            />
+            <CategorizedProducts
+              title='New Shoes'
+              category={CATEGORY_SHOES}
+              limitPerPage={10}
+            />
+          </div>
+        </div>
+        <div style={{ overflowX: 'hidden' }}>
+          <div className='container'>
+            <h2 className='SubHeader'>Editors Picks</h2>
+            <AdvancedPresetList presetMatchesCount={3} useMinimalPreset />
+          </div>
+        </div>
+
+        <div className='container'>
+          <h2 className='SubHeader'>Explore</h2>
+          <RecommendedProducts limitPerPage={3} />
+        </div>
       </div>
     )
   }
 }
 
-const mapStateToProps = state => ({
-  recommendedProducts: state.products.recommendedList
-})
-
-export default compose(
-  connect(mapStateToProps, { fetchRecommendedProducts }),
-  withTrackingProvider('Home')
-)(Home)
-
-const styles = {
-  infoBanner: {
-    marginBottom: 8
-  }
-}
+export default withTrackingProvider('Home')(Home)

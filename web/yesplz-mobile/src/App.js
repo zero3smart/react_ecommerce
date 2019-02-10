@@ -11,7 +11,7 @@ import '@yesplz/core-web/assets/css/animations.css'
 import '@yesplz/core-web/assets/css/reset.css'
 import 'assets/styles/overrides.scss'
 import 'react-perfect-scrollbar/dist/css/styles.css'
-import 'app.css'
+import 'App.scss'
 
 const App = () => (
   <Provider store={store}>
