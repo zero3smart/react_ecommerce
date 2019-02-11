@@ -7,7 +7,7 @@ import { fetchProducts } from '@yesplz/core-redux/ducks/products'
 import { syncFilter } from '@yesplz/core-redux/ducks/filters'
 import withTrackingProvider from '@yesplz/core-web/hoc/withTrackingProvider'
 import { ProductList } from '@yesplz/core-web/modules/products'
-import { SectionTitle } from '@yesplz/core-web/ui-kits/misc'
+// import { SectionTitle } from '@yesplz/core-web/ui-kits/misc'
 import { VisualFilter } from 'modules/visual-filter'
 import './tops.css'
 

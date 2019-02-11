@@ -37,7 +37,7 @@ class VfCatWshoesCfg extends VfCatCfg {
   partList = ['toes', 'covers', 'counters', 'bottoms', 'shafts']
   propMaxVal = {
     'toes': 2,
-    'covers': 3,
+    'covers': 2,
     'counters': 2,
     'bottoms': 6,
     'shafts': 4,
@@ -47,7 +47,7 @@ class VfCatWshoesCfg extends VfCatCfg {
   }
   propDefaultVal = {
     'toes': 2,
-    'covers': 3,
+    'covers': 2,
     'counters': 2,
     'bottoms': 1,
     'shafts': 0,
@@ -58,13 +58,28 @@ class VfCatWshoesCfg extends VfCatCfg {
   }
 }
 
+class VfCatWpantsCfg extends VfCatCfg {
+  partList = ['rise', 'thigh', 'knee', 'ankle']
+  propMaxVal = {
+    rise: 2,
+    thigh: 3,
+    knee: 2,
+    ankle: 4
+  }
+  propDefaultVal = {
+    rise: 0,
+    thigh: 0,
+    knee: 0,
+    ankle: 0
+  }
+}
+
 export function getCatCfg (category) {
   if (category === 'wtop') {
     return new VfCatWtopCfg()
   } else if (category === 'wshoes') {
     return new VfCatWshoesCfg()
   } else if (category === 'wpants') {
-    // For now, use wtop as placeholder
-    return new VfCatWtopCfg()
+    return new VfCatWpantsCfg()
   }
 }

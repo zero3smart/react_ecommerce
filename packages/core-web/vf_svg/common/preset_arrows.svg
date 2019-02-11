@@ -5,17 +5,13 @@
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Shoes" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="iPhone-8-Copy-21" transform="translate(-146.000000, -299.000000)">
-            <g id="preset_arrows" transform="translate(146.000000, 299.000000)">
-                <g id="preset_back">
-                    <rect id="touch_arrow" fill="#FFFFFF" x="0" y="0" width="69" height="72"></rect>
-                    <polyline id="arrow_left" stroke="#6E00FF" stroke-linecap="round" stroke-linejoin="round" points="42.882 19 27 35.495 42.882 51"></polyline>
-                </g>
-                <g id="preset_forward">
-                    <rect id="touch_arrow" fill="#FFFFFF" x="0" y="0" width="69" height="72"></rect>
-                    <polyline id="arroaw_right" stroke="#6E00FF" stroke-linecap="round" stroke-linejoin="round" transform="translate(34.941000, 35.000000) scale(-1, 1) translate(-34.941000, -35.000000) " points="42.882 19 27 35.495 42.882 51"></polyline>
-                </g>
-            </g>
+        <g id="preset_back">
+            <polyline id="arrow_left" stroke="#6E00FF" stroke-linecap="round" stroke-linejoin="round" points="42.882 19 27 35.495 42.882 51"></polyline>
+            <rect id="touch_arrow" opacity="0" fill="#FFFFFF" x="0" y="0" width="69" height="72"></rect>
+        </g>
+        <g id="preset_forward">
+            <polyline id="arroaw_right" stroke="#6E00FF" stroke-linecap="round" stroke-linejoin="round" transform="translate(34.941000, 35.000000) scale(-1, 1) translate(-34.941000, -35.000000) " points="42.882 19 27 35.495 42.882 51"></polyline>
+            <rect id="touch_arrow" opacity="0" fill="#FFFFFF" x="0" y="0" width="69" height="72"></rect>
         </g>
     </g>
 </svg>
