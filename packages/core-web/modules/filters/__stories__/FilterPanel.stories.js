@@ -25,13 +25,20 @@ const wshoesDefaultFilters = {
   shafts: 0
 }
 
+const wpantsDefaultFilters = {
+  thigh: 0,
+  knee: 0,
+  ankle: 0
+}
+
 storiesOf('filters/FilterPanel', module)
-  .add(
+/*  .add(
     'mobile default',
     withInfo(`
       mobile visual filter panel
     `)(() => (
       <FilterPanel
+        category='wtop'
         filters={wtopDefaultFilters}
         lastBodyPart='coretype'
         onFilterChange={action('filter changed')}
@@ -46,6 +53,7 @@ storiesOf('filters/FilterPanel', module)
     mobile touch debug
     `)(() => (
       <FilterPanel
+        category='wtop'
         filters={wtopDefaultFilters}
         lastBodyPart='coretype'
         onFilterChange={action('filter changed')}
@@ -55,12 +63,14 @@ storiesOf('filters/FilterPanel', module)
         debugTouchArea
       />))
   )
+*/
   .add(
-    'desktop default',
+    'desktop wtop default',
     withInfo(`
       mobile visual filter panel
     `)(() => (
       <FilterPanel
+        category='wtop'
         filters={wtopDefaultFilters}
         lastBodyPart='coretype'
         onFilterChange={action('filter changed')}
@@ -68,6 +78,23 @@ storiesOf('filters/FilterPanel', module)
         onFilterLike={action('favorite filter')}
         onBodyPartChange={action('body part changed')}
         useVerticalThumb={false}
+      />))
+  )
+  .add(
+    'desktop wtop touch',
+    withInfo(`
+      mobile visual filter panel
+    `)(() => (
+      <FilterPanel
+        category='wtop'
+        filters={wtopDefaultFilters}
+        lastBodyPart='coretype'
+        onFilterChange={action('filter changed')}
+        onClose={action('close visual filter')}
+        onFilterLike={action('favorite filter')}
+        onBodyPartChange={action('body part changed')}
+        useVerticalThumb={false}
+        debugTouchArea
       />))
   )
   .add(
@@ -95,6 +122,39 @@ storiesOf('filters/FilterPanel', module)
         category='wshoes'
         filters={wshoesDefaultFilters}
         lastBodyPart='bottoms'
+        onFilterChange={action('filter changed')}
+        onClose={action('close visual filter')}
+        onFilterLike={action('favorite filter')}
+        onBodyPartChange={action('body part changed')}
+        useVerticalThumb={false}
+        debugTouchArea
+      />))
+  )
+  .add(
+    'desktop wpants',
+    withInfo(`
+      desktop wpants visual filter panel
+    `)(() => (
+      <FilterPanel
+        category='wpants'
+        filters={wpantsDefaultFilters}
+        lastBodyPart='length'
+        onFilterChange={action('filter changed')}
+        onClose={action('close visual filter')}
+        onFilterLike={action('favorite filter')}
+        onBodyPartChange={action('body part changed')}
+        useVerticalThumb={false}
+      />))
+  )
+  .add(
+    'desktop wpants touch',
+    withInfo(`
+      desktop wpants visual filter panel
+    `)(() => (
+      <FilterPanel
+        category='wpants'
+        filters={wpantsDefaultFilters}
+        lastBodyPart='length'
         onFilterChange={action('filter changed')}
         onClose={action('close visual filter')}
         onFilterLike={action('favorite filter')}

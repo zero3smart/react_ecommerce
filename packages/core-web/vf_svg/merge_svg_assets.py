@@ -1,14 +1,12 @@
 #
 # Merge individual svg files while setting proper group names
 #
-import os
-from pathlib import Path
-from wtop import merge_wtop_svgs
-from wshoes import build_wshoes_svgs
+import sys
+from vfsvgtool import VfSvgGenerator
+
+def generate_all_vf_svg(category):
+    outdir = 'output'
+    VfSvgGenerator(category).generate(outdir)
 
 if __name__ == '__main__':
-    outdir = Path('output')
-    outdir.mkdir(parents=True, exist_ok=True)
-    merge_wtop_svgs(outdir)
-    build_wshoes_svgs(outdir)
-
+    generate_all_vf_svg(sys.argv[1])
