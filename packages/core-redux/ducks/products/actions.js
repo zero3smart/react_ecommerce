@@ -43,10 +43,11 @@ export function fetchProducts (
   return async (dispatch, getState) => {
     try {
       const { products, filters } = getState()
+      const activeCategory = category || products.activeCategory
       // on initial fetch, set page should always start from 0
-      const nextOffset = initialFetch ? 0 : products[category].nextOffset
+      const nextOffset = initialFetch ? 0 : products[activeCategory].nextOffset
 
-      const response = await getProducts(category, {
+      const response = await getProducts(activeCategory, {
         offset: nextOffset,
         limit_per_pid: 1,
         ...omit(filters.data, 'offset', 'limit') // use page and count per page defined from the system
@@ -56,9 +57,9 @@ export function fetchProducts (
 
       // if not initial fetch, append the product
       if (initialFetch) {
-        dispatch(setProducts(category, response.products, response.total_cnt, favoriteProductIds, limitPerPage))
+        dispatch(setProducts(activeCategory, response.products, response.total_cnt, favoriteProductIds, limitPerPage))
       } else {
-        dispatch(appendProducts(category, response.products, favoriteProductIds, limitPerPage))
+        dispatch(appendProducts(activeCategory, response.products, favoriteProductIds, limitPerPage))
       }
 
       return response

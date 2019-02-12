@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Link } from 'react-router-dom'
+import isNil from 'lodash/isNil'
 import { BASE_IMG_PATH } from '@yesplz/core-web/config/constants'
 import { LikeButton } from '@yesplz/core-web/ui-kits/buttons'
 import './product-grid.css'
@@ -59,7 +60,7 @@ export default class ProductGrid extends PureComponent {
       id, name, brand, imgSrc, price, originalPrice, currency, className, category,
       favorite, showOriginalPrice, productBasePath, disableLike, style, extraInfo } = this.props
     // sale is available if original price is different with price
-    const isSale = originalPrice && originalPrice !== price
+    const isSale = !isNil(originalPrice) && originalPrice !== price
     const categoryClassName = category ? `is-${category}` : ''
 
     return (
