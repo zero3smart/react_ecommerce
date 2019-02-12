@@ -34,7 +34,7 @@ class Tops extends Component {
     if (!isProductsFetched) {
       // make sure the filter is synced with localStorage data
       syncFilter()
-      fetchProducts(true)
+      fetchProducts(undefined, undefined, true)
     }
   }
 
@@ -80,14 +80,17 @@ class Tops extends Component {
   }
 }
 
-const mapStateToProps = (state, props) => ({
-  filters: state.filters.data,
-  products: state.products.list,
-  totalCount: state.products.totalCount,
-  isProductsFetched: state.products.fetched,
-  nextOffset: state.products.nextOffset,
-  onboarding: state.filters.onboarding
-})
+const mapStateToProps = state => {
+  const activeCategory = state.products.activeCategory
+  return {
+    filters: state.filters.data,
+    products: state.products[activeCategory].data,
+    totalCount: state.products[activeCategory].totalCount,
+    isProductsFetched: state.products[activeCategory].fetched,
+    nextOffset: state.products[activeCategory].nextOffset,
+    onboarding: state.filters.onboarding
+  }
+}
 
 export default compose(
   connect(mapStateToProps, { fetchProducts, syncFilter }),

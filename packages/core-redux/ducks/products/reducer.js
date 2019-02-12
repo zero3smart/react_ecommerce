@@ -43,7 +43,8 @@ const defaultState = {
 
 // Reducer
 export default function reducer (state = defaultState, action = {}) {
-  const { type, payload } = action
+  const { type, payload = {} } = action
+  const category = payload.category || state.activeCategory
   switch (type) {
     case SET_PRODUCTS:
       let updatedState = {}
@@ -59,7 +60,7 @@ export default function reducer (state = defaultState, action = {}) {
         }
       } else {
         updatedState = {
-          [payload.category]: {
+          [category]: {
             data: list,
             willBeEmptyList: list.length === 0,
             fetched: true,
@@ -77,32 +78,39 @@ export default function reducer (state = defaultState, action = {}) {
       let newProductList = mapProductFavorites(payload.favoriteProductIds, payload.products)
       return {
         ...state,
-        [payload.category]: {
-          ...state[payload.category],
-          data: uniqBy([...state[payload.category].data, ...newProductList], 'product_id'),
-          nextOffset: state[payload.category].nextOffset + (payload.countPerPage || PRODUCT_COUNT_PER_PAGE)
+        [category]: {
+          ...state[category],
+          data: uniqBy([...state[category].data, ...newProductList], 'product_id'),
+          nextOffset: state[category].nextOffset + (payload.countPerPage || PRODUCT_COUNT_PER_PAGE)
         }
       }
     case LIKE_PRODUCT:
       return {
         ...state,
-        [payload.category]: {
-          ...state[payload.category],
-          data: updateProductFavorite(payload.productId, true, state[payload.category].data)
+        [category]: {
+          ...state[category],
+          data: updateProductFavorite(payload.productId, true, state[category].data)
         },
         recommendedList: updateProductFavorite(payload.productId, true, state.recommendedList)
       }
     case UNLIKE_PRODUCT:
       return {
         ...state,
-        [payload.category]: {
-          ...state[payload.category],
-          data: updateProductFavorite(payload.productId, false, state[payload.category].data)
+        [category]: {
+          ...state[category],
+          data: updateProductFavorite(payload.productId, false, state[category].data)
         },
         recommendedList: updateProductFavorite(payload.productId, false, state.recommendedList)
       }
     case ENABLE_INITIAL_FETCH:
-      return { ...state, fetched: false, nextOffset: 0 }
+      return {
+        ...state,
+        [category]: {
+          ...state[category],
+          fetched: false,
+          nextOffset: 0
+        }
+      }
     case SET_FAVORITE_PRODUCTS:
       return { ...state, favoriteList: payload.favoriteProducts }
     case SET_RECOMMENDED_PRODUCTS:

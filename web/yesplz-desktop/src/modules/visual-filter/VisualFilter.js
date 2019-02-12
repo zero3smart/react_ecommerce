@@ -38,7 +38,7 @@ class VisualFilter extends Component {
       // set filter to store
       setFilter(filters)
       // fetch products based selected filter
-      fetchProducts(true)
+      fetchProducts(undefined, undefined, true)
       // set wrapper scrolltop to 0
       const scrollWrapper = document.getElementById('MainScroll')
       if (scrollWrapper) {
