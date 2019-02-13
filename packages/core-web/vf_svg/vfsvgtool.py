@@ -112,7 +112,7 @@ class VfSvgGenerator:
     def generate(self, out_dir):
         self.out_dir = out_dir
         self.merge_svg()
-        self.check_sanity(self.core_n_tn_fn)
+        #self.check_sanity(self.core_n_tn_fn)
 
     def load_svg_fixed(self, fn, id_fixes=None, pos_fixes=None, str_sub_fixes=None):
         id_fixes = id_fixes or {}
@@ -170,13 +170,13 @@ class VfSvgGenerator:
             self.write_header(f)
             self.write_empty_group(f)
             f.write(self.load_core_svg(self.fv_svg))
-            f.write('</svg>')
+            #f.write('</svg>')
 
         print('Processing thumbnails', self.tn_fn)
         with open(self.tn_fn, 'w') as f:
             self.write_header(f)
             f.write(self.load_tn_svg(self.tn_svg))
-            f.write('</svg>')
+            #f.write('</svg>')
 
     def get_sanity_checker(self):
         sc = VfSanityChecker()
@@ -193,7 +193,7 @@ class VfSvgGenerator:
             f.write(f'<g id="{group_name}"></g>\n')
     def write_header(self, f):
         f.write('<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n')
-        f.write('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">\n')
+        #f.write('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">\n')
 
 
 class VfWpantsSvgGenerator(VfSvgGenerator):
