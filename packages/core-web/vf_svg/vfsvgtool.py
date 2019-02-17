@@ -164,7 +164,7 @@ class VfSvgGenerator:
             for svg in self.opt_svgs:
                 f.write(self.load_svg_fixed(svg))
             f.write('</g>')
-            f.write('</svg>')
+            #f.write('</svg>')
         print('Processing core', self.core_fn)
         with open(self.core_fn, 'w') as f:
             self.write_header(f)
