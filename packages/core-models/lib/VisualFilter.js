@@ -109,6 +109,7 @@ export default class VisualFilter {
       this.snapGroup.attr({ visibility: 'hidden' })
 
       this.showGroup(this.catdata.fullbodyGroupName())
+      this.showGroup('touch_points')
 
       for (let prop in this.catdata.currentPropState) {
         this.showGroup(this.catdata.getBodyPartGroupName(prop))
@@ -484,7 +485,7 @@ export default class VisualFilter {
       if (i < this.catdata.propCount(prop)) {
         const {x, y} = this.catdata.tnOffset(prop, i)
         const g = this.findGroupById(group)
-        g.transform(`t${x - 10},${y - 30}`) // not sure where this offset coming from.
+        g.transform(`t${x},${y}`) // not sure where this offset coming from.
         this.showGroup(group)
       } else {
         this.hideGroup(group)
@@ -514,50 +515,50 @@ export default class VisualFilter {
   }
 
   updateThumbnailSelectionBox (prop) {
-    const touchArea = this.findGroupById(this.catdata.thumbnailTouchGroupName())
-    const {x, y} = this.catdata.tnAreaOffset()
+    // const touchArea = this.findGroupById(this.catdata.thumbnailTouchGroupName())
+    // const {x, y} = this.catdata.tnAreaOffset()
     // Display current one
-    if (this.settings.useVerticalThumb) {
-      // get target thumbnail
-      const thumbnailGroup0 = this.findGroupById(this.catdata.thumbnailGroupName(prop, 0))
-      const thumbnailRect0 = thumbnailGroup0.node.getBoundingClientRect()
+    // if (this.settings.useVerticalThumb) {
+    //   // get target thumbnail
+    //   const thumbnailGroup0 = this.findGroupById(this.catdata.thumbnailGroupName(prop, 0))
+    //   const thumbnailRect0 = thumbnailGroup0.node.getBoundingClientRect()
 
-      // get scale value based on thumbnail size, add padding to get more volume.
-      const scale = (thumbnailRect0.height * 1.38) / this.catdata.thumbnailTouchSize.height
+    //   // get scale value based on thumbnail size, add padding to get more volume.
+    //   const scale = (thumbnailRect0.height * 1.38) / this.catdata.thumbnailTouchSize.height
 
-      const viewBoxHeight = this.viewBox[3]
-      const svgHeight = this.snap.node.getBoundingClientRect().height
+    //   const viewBoxHeight = this.viewBox[3]
+    //   const svgHeight = this.snap.node.getBoundingClientRect().height
 
-      let desc = `t${x},${y}s${scale},${thumbnailRect0.width},0`
+    //   let desc = `t${x},${y}s${scale},${thumbnailRect0.width},0`
 
-      touchArea.selectAll('g > rect').items.forEach((el, index) => {
-        if (index < this.catdata.propCount(prop)) {
-          let thumbnailGroup = this.findGroupById(this.catdata.thumbnailGroupName(prop, index))
-          // Adjust touch area to its position
-          // else hide the touch area
-          const thumbnailRect = thumbnailGroup.node.getBoundingClientRect()
-          // starting y should be set to thumbnails_0 top offset, since it will be the first item
-          const startTop = thumbnailRect0.top
-          // count y value of the thumbnail touch area to match the thumbnail y position
-          const y = (thumbnailRect.top - startTop) / scale * viewBoxHeight / svgHeight
+    //   touchArea.selectAll('g > rect').items.forEach((el, index) => {
+    //     if (index < this.catdata.propCount(prop)) {
+    //       let thumbnailGroup = this.findGroupById(this.catdata.thumbnailGroupName(prop, index))
+    //       // Adjust touch area to its position
+    //       // else hide the touch area
+    //       const thumbnailRect = thumbnailGroup.node.getBoundingClientRect()
+    //       // starting y should be set to thumbnails_0 top offset, since it will be the first item
+    //       const startTop = thumbnailRect0.top
+    //       // count y value of the thumbnail touch area to match the thumbnail y position
+    //       const y = (thumbnailRect.top - startTop) / scale * viewBoxHeight / svgHeight
 
-          let opacity = this.settings.debugTouchArea ? 0.5 : 0.0
-          el.attr({ visibility: 'visible', opacity: opacity, y })
-        } else {
-          el.attr({ visibility: 'hidden', opacity: 0 })
-        }
-      })
+    //       let opacity = this.settings.debugTouchArea ? 0.5 : 0.0
+    //       el.attr({ visibility: 'visible', opacity: opacity, y })
+    //     } else {
+    //       el.attr({ visibility: 'hidden', opacity: 0 })
+    //     }
+    //   })
 
-      touchArea.transform(desc)
+    //   touchArea.transform(desc)
 
-      this.showVerticalSelectionBox(prop, this.catdata.currentPropState[prop])
-    } else {
-      // Move thumbnail hit area
-      let desc = 't' + x + ',' + y
-      touchArea.transform(desc)
+    //   this.showVerticalSelectionBox(prop, this.catdata.currentPropState[prop])
+    // } else {
+    // Move thumbnail hit area
+    // let desc = 't' + x + ',' + y
+    // touchArea.transform(desc)
 
-      this.showHorizontalSelectionBox(prop, this.catdata.currentPropState[prop])
-    }
+    this.showHorizontalSelectionBox(prop, this.catdata.currentPropState[prop])
+    // }
 
     this.removeHighlight()
     this.highlightGroup(this.catdata.getBodyPartGroupName(prop))
@@ -677,18 +678,6 @@ export default class VisualFilter {
   }
 
   /**
-   * adjust container height based on thumbnails height
-   * @param {string} id
-   */
-  adjustHeight (id) {
-    const group = this.findGroupById(id)
-    const componentHeight = group.node.getBBox().height + 150
-    // set minimum height of 400
-    const viewBox = [0, 0, 490, componentHeight < 380 ? 380 : componentHeight]
-    this.snap.attr({ viewBox })
-  }
-
-  /**
    * Set svg group to visible
    * @param {string} id
    * @param {Object} extraProps
@@ -725,13 +714,12 @@ export default class VisualFilter {
     group.attr({
       visibility: 'visible',
       opacity: opacity,
-      transform: 'scale(1)',
       'transform-origin': '50% 50%'})
     if (fadeout) {
       group.animate({
         opacity: '.8'
         // transform: 'scale(1.01)' // Somehow scaling up animation looks shaky.
-      }, 300, null, () => { this.hideGroup(id) })
+      }, 500, null, () => { this.hideGroup(id) })
     }
     this.lastHighlightId = id
   }

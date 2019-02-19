@@ -2,25 +2,22 @@
 
 all: wpants wtop wshoes
 
-wtop:
+scour:
+	mkdir -p scoured
+	scour -i originals/Final_VF_Pants_2.0.svg -o scoured/core_wpants.svg --set-precision=3
+	scour -i originals/tn_wpants.svg -o scoured/tn_wpants.svg --set-precision=2
+	scour -i originals/Final_VF_Shoes_2.0.svg -o scoured/core_wshoes.svg --set-precision=3
+	scour -i originals/shoes_TN.svg -o scoured/tn_wshoes.svg --set-precision=2
+	scour -i originals/Final_VF_Tops_2.0_1.svg -o scoured/core_wtop.svg --set-precision=3
+	scour -i originals/tn_tops.svg -o scoured/tn_wtop.svg --set-precision=2
+    
+wtop: scour
 	python merge_svg_assets.py wtop
-	cp output/vf_wtop* ../assets/svg/
-	#scour -i output/vf_wtop.svg -o ../assets/svg/vf_wtop.svg --set-precision=3
-	#scour -i output/vf_wtop_core.svg -o ../assets/svg/vf_wtop_core.svg --set-precision=3
-	#scour -i output/vf_wtop_tn.svg -o ../assets/svg/vf_wtop_tn.svg --set-precision=3
 
-wpants:
+wpants: scour
 	python merge_svg_assets.py wpants
-	cp output/vf_wpants* ../assets/svg/
-	#scour -i output/vf_wpants.svg -o ../assets/svg/vf_wpants.svg --set-precision=3
-	#scour -i output/vf_wpants_core.svg -o ../assets/svg/vf_wpants_core.svg --set-precision=3
-	#scour -i output/vf_wpants_tn.svg -o ../assets/svg/vf_wpants_tn.svg --set-precision=3
 
-wshoes:
+wshoes: scour
 	python merge_svg_assets.py wshoes
-	cp output/vf_wshoes* ../assets/svg/
-	#scour -i output/vf_wshoes.svg -o ../assets/svg/vf_wshoes.svg --set-precision=3
-	#scour -i output/vf_wshoes_core.svg -o ../assets/svg/vf_wshoes_core.svg --set-precision=3
-	#scour -i output/vf_wshoes_tn.svg -o ../assets/svg/vf_wshoes_tn.svg --set-precision=3
 
-.PHONY: wpants wtop wshoes all
+.PHONY: scour wpants wtop wshoes all

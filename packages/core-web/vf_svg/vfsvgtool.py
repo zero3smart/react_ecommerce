@@ -51,7 +51,10 @@ class SvgModifier:
             print('Failed to find entry to transform', self.svg_fn)
 
     def str_sub(self, frm, to):
-        self.contents = self.contents.replace(frm, to)
+        if re.search(frm, self.contents):
+            self.contents = self.contents.replace(frm, to)
+            return True
+        return False
 
     def svg(self):
         return self.contents + '\n'
@@ -131,17 +134,15 @@ class VfSvgGenerator:
             else:
                 print(f'id {k} not found in {fn}')
         for k, v in str_sub_fixes.items():
-            if re.search(k, svg):
-                svg.str_sub(*v)
-            else:
+            if not svg.str_sub(k, v):
                 print(f'id {k} not found in {fn}')
         return svg.contents
 
     def load_preset_arrow(self):
         fn = 'common/preset_arrows.svg'
         pos_fixes = {
-            'preset_back': ['5 140', 1],
-            'preset_forward': ['330 140', 1],
+            'preset_back': ['5 80', 1],
+            'preset_forward': ['330 80', 1],
         }
         return self.load_svg_fixed(fn, pos_fixes=pos_fixes)
 
@@ -184,6 +185,7 @@ class VfSvgGenerator:
             sc.add_expected(g)
         return sc
     def check_sanity(self, fn):
+        print('Checking sanity on', fn)
         sc = self.get_sanity_checker()
         sc.check(fn)
 
@@ -201,8 +203,8 @@ class VfWpantsSvgGenerator(VfSvgGenerator):
 
     def __init__(self, category): # Not directly called by user
         super().__init__(category)
-        self.fv_svg = 'wpants/Final_VF_Pants_2.0.svg'
-        self.tn_svg = 'wpants/tn_tops.svg' # Temporary image until we get actual thumbnail image
+        self.fv_svg = 'scoured/core_wpants.svg'
+        self.tn_svg = 'scoured/tn_wpants.svg' # Temporary image until we get actual thumbnail image
 
         self.empty_group_ids += ['knee_0', 'ankle_0']
         # Disabled temporarily
@@ -233,7 +235,7 @@ class VfWpantsSvgGenerator(VfSvgGenerator):
             'ankle_TA':        'touch_ankle'
         }
         pos_fixes = {
-            'Final_VF_Pants_2.0': [f'80 50', .60]
+            'Final_VF_Pants_2.0': [f'80 0', .60]
         }
         return self.load_svg_fixed(svg_fn, id_fixups, pos_fixes)
 
@@ -278,8 +280,8 @@ class VfWtopSvgGenerator(VfSvgGenerator):
 
     def __init__(self, category): # Not directly called by user
         super().__init__(category)
-        self.fv_svg = 'wtop/Final_VF_Tops_2.0_1.svg'
-        self.tn_svg = 'wtop/tn_tops.svg'
+        self.fv_svg = 'scoured/core_wtop.svg'
+        self.tn_svg = 'scoured/tn_wtop.svg'
 
         self.empty_group_ids += ['top_length_0']
         # Temporary until HL resources are  added
@@ -322,7 +324,7 @@ class VfWtopSvgGenerator(VfSvgGenerator):
         }
         pos_fixes = {
             # 'touches_tops' : [f'-9 -18', None],
-            'Final_VF_Tops_2.0': [f'70 30', .8]
+            'Final_VF_Tops_2.0': [f'70 0', .8]
         }
         return self.load_svg_fixed(svg_fn, id_fixups, pos_fixes)
 
@@ -366,8 +368,8 @@ class VfWshoesSvgGenerator(VfSvgGenerator):
 
     def __init__(self, category): # Not directly called by user
         super().__init__(category)
-        self.fv_svg = 'wshoes/Final_VF_Shoes_2.0_1.svg'
-        self.tn_svg = 'wshoes/tn_shoes.svg'
+        self.fv_svg = 'scoured/core_wshoes.svg'
+        self.tn_svg = 'scoured/tn_wshoes.svg'
         self.empty_group_ids += ['shafts_0', 'counters_0', 'toes_0']
 
     def load_core_svg(self, svg_fn):
@@ -378,34 +380,84 @@ class VfWshoesSvgGenerator(VfSvgGenerator):
             'shaft_2': 'shafts_2',
             'shaft_3': 'shafts_3',
             'shaft_4': 'shafts_4',
+
+            'counter_0_HL': 'counters_0_HL',
+            'counter_1_HL': 'counters_1_HL',
+            'counter_2_HL': 'counters_2_HL',
+
+            'shaft_0_HL': 'shafts_0_HL',
+            'shaft_1_HL': 'shafts_1_HL',
+            'shaft_2_HL': 'shafts_2_HL',
+            'shaft_3_HL': 'shafts_3_HL',
+
+            'cover_0_HL': 'covers_0_HL',
+            'cover_1_HL': 'covers_1_HL',
+            'cover_2_HL': 'covers_2_HL',
+            
+            'shaft_0_HL': 'shafts_0_HL',
+            'shaft_1_HL': 'shafts_1_HL',
+            'shaft_2_HL': 'shafts_2_HL',
+            'shaft_3_HL': 'shafts_3_HL',
+            'shaft_4_HL': 'shafts_4_HL',
+            'shoes_points': 'touch_points'
         }
         pos_fixes = {
-            'Final_VF_Shoes_2.0': [f'100 40', 0.8]
+            'Final_VF_Shoes_2.0': [f'100 10', 1]
         }
         return self.load_svg_fixed(svg_fn, id_fixups, pos_fixes)
 
     def load_tn_svg(self, svg_fn):
         id_fixups = {
-            'tn_counter_2': 'tn_counters_2',
-            'tn_bottom': 'tn_bottoms',
-            'tn_bottom_0': 'tn_bottoms_0',
-            'tn_bottom_1': 'tn_bottoms_1',
-            'tn_bottom_2': 'tn_bottoms_2',
-            'tn_bottom_3': 'tn_bottoms_3',
-            'tn_bottom_4': 'tn_bottoms_4',
-            'tn_bottom_5': 'tn_bottoms_5',
-            'tn_bottom_6': 'tn_bottoms_6',
-            'tn_shaft' : 'tn_shafts',
-            'tn_shaft_0': 'tn_shafts_0',
-            'tn_shaft_1': 'tn_shafts_1',
-            'tn_shaft_2': 'tn_shafts_2',
-            'tn_shaft_3': 'tn_shafts_3',
-            'tn_shaft_4': 'tn_shafts_4',
-            'tn_covers_1': 'tn_covers_0',
-            'tn_covers_2': 'tn_covers_1',
-            'tn_covers_4': 'tn_covers_2',
+            'selected': 'tn_HL',
+            'counter_TN': 'tn_counters',
+            'counter_0_TN': 'tn_counters_0',
+            'counter_1_TN': 'tn_counters_1',
+            'counter_2_TN': 'tn_counters_2',
+
+            'bottoms_TN': 'tn_bottoms',
+            'bottoms_0_TN': 'tn_bottoms_0',
+            'bottoms_1_TN': 'tn_bottoms_1',
+            'bottoms_2_TN': 'tn_bottoms_2',
+            'bottoms_3_TN': 'tn_bottoms_3',
+            'bottoms_4_TN': 'tn_bottoms_4',
+            'bottoms_5_TN': 'tn_bottoms_5',
+            'bottoms_6_TN': 'tn_bottoms_6',
+
+            'shaft_TN' : 'tn_shafts',
+            'shaft_0_TN': 'tn_shafts_0',
+            'shaft_1_TN': 'tn_shafts_1',
+            'shaft_2_TN': 'tn_shafts_2',
+            'shaft_3_TN': 'tn_shafts_3',
+            'shaft_4_TN': 'tn_shafts_4',
+
+            'cover_TN': 'tn_covers',
+            'cover_0_TN': 'tn_covers_0',
+            'cover_1_TN': 'tn_covers_1',
+            'cover_2_TN': 'tn_covers_2',
+
+            'toes_TN': 'tn_toes',
+            'toes_0_TN': 'tn_toes_0',
+            'toes_1_TN': 'tn_toes_1',
+            'toes_2_TN': 'tn_toes_2',
+
+            'mask-2': 'tn_mask-2' # avoid conflict from core's mask
         }
-        return self.load_svg_fixed(svg_fn, id_fixups)
+        str_sub_fixes = {
+            'path-1"': 'tn_path-1"', # avoid conflict from core's mask
+            '#mask-2': '#tn_mask-2'      # avoid conflict from core's mask
+        }
+        contents = self.load_svg_fixed(svg_fn, id_fixes=id_fixups, str_sub_fixes=str_sub_fixes)
+        contents += '''<g id="tn_touches">
+                <rect id="tn_touch_7" x=".42" y=".42" width="65" height="65" rx="8" fill="#BD10E0" stroke="#D5D0D0"/>
+                <rect id="tn_touch_6" x=".42" y=".42" width="65" height="65" rx="8" fill="#BD10E0" stroke="#D5D0D0"/>
+                <rect id="tn_touch_5" x=".42" y=".42" width="65" height="65" rx="8" fill="#BD10E0" stroke="#D5D0D0"/>
+                <rect id="tn_touch_4" x=".42" y=".42" width="65" height="65" rx="8" fill="#BD10E0" stroke="#D5D0D0"/>
+                <rect id="tn_touch_3" x=".42" y=".42" width="65" height="65" rx="8" fill="#BD10E0" stroke="#D5D0D0"/>
+                <rect id="tn_touch_2" x=".42" y=".42" width="65" height="65" rx="8" fill="#BD10E0" stroke="#D5D0D0"/>
+                <rect id="tn_touch_1" x=".42" y=".42" width="65" height="65" rx="8" fill="#BD10E0" stroke="#D5D0D0"/>
+                <rect id="tn_touch_0" x=".42" y=".42" width="65" height="65" rx="8" fill="#BD10E0" stroke="#D5D0D0"/>
+            </g>'''
+        return contents
 
     def get_sanity_checker(self):
         sc = VfSanityChecker()

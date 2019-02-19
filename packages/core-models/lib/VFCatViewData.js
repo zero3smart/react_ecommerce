@@ -13,10 +13,11 @@ import { getCatCfg } from './VFCatCfg'
 class VfCatViewData {
   catcfg = null
   viewBoxWithVertThumbnail = [0, 0, 380, 310]
-  viewBoxWithHorizThumbnail = [0, 0, 400, 330]
+  viewBoxWithHorizThumbnail = [0, 0, 400, 400]
   viewBoxWithNoThumnbnail = [0, 0, 250, 250]
-  thumbnailWidth = 50
-  thumbnailHeight = 50
+  thumbnailWidth = 64
+  thumbnailHeight = 64
+  // useVerticalThumb is obsolete in v1.0. Remove it once mobile page is updated
   constructor (vfcatcfg, useVerticalThumb) {
     this.catcfg = vfcatcfg
     this.useVerticalThumb = useVerticalThumb
@@ -44,11 +45,7 @@ class VfCatViewData {
     return filterSettings
   }
   thumbTouchSize () {
-    if (this.useVerticalThumb) {
-      return { width: this.thumbnailWidth, height: this.thumbnailHeight }
-    } else {
-      return { width: this.thumbnailWidth, height: this.thumbnailHeight }
-    }
+    return { width: this.thumbnailWidth, height: this.thumbnailHeight }
   }
   setDefaultState (filters) {
     this.currentPropState = this.sanitizeFilters(filters)
@@ -83,30 +80,25 @@ class VfCatViewData {
     if (this.useVerticalThumb) {
       return {x: base.x, y: base.y + idx * this.thumbnailWidth}
     }
-    const THUMBNAIL_IMG_X_OFFSET = {
-      3: 120, // only in without ALL BTN
-      4: 90,
-      5: 68,
-      6: 40
+
+    let calcX = (idx) => {
+      return base.x + 70 + idx * this.thumbnailWidth
     }
-    let calcX = (btnCnt, idx) => {
-      return base.x + THUMBNAIL_IMG_X_OFFSET[btnCnt] + idx * this.thumbnailWidth
-    }
-    if (tnCnt === 7) { // Show in two rows
-      if (idx < 3) {
-        return {x: calcX(3, idx), y: base.y - this.thumbnailHeight / 2}
+    if (tnCnt > 4) { // Show in two rows
+      if (idx <= 3) {
+        return {x: calcX(idx), y: base.y - this.thumbnailHeight / 2}
       } else {
-        return {x: calcX(4, idx - 3), y: base.y + this.thumbnailHeight / 2}
+        return {x: calcX(idx - 4), y: base.y + this.thumbnailHeight / 2}
       }
     }
-    return {x: calcX(tnCnt, idx), y: base.y - this.thumbnailHeight / 2}
+    return {x: calcX(idx), y: base.y}
   }
 
   tnAreaOffset () {
     if (this.useVerticalThumb) {
       return {x: 400 - 6, y: 30}
     } else {
-      return {x: 10, y: 30}
+      return {x: 0, y: 280}
     }
   }
   arrowBackOffset () {
@@ -299,7 +291,7 @@ class VfCatWshoesViewData extends VfCatViewData {
     }
   }
   touchGroupName (prop) {
-    return 'touch_' + prop
+    return prop + '_touch'
   }
   fullbodyGroupName () {
     return 'mannequin'
