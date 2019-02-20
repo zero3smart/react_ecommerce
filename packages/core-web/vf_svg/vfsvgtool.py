@@ -440,11 +440,17 @@ class VfWshoesSvgGenerator(VfSvgGenerator):
             'toes_1_TN': 'tn_toes_1',
             'toes_2_TN': 'tn_toes_2',
 
-            'mask-2': 'tn_mask-2' # avoid conflict from core's mask
+            'mask-2': 'tn_mask-2', # avoid conflict from core's mask
+            'mask-4': 'tn_mask-4',
+            'mask-6': 'tn_mask-6',
         }
         str_sub_fixes = {
             'path-1"': 'tn_path-1"', # avoid conflict from core's mask
-            '#mask-2': '#tn_mask-2'      # avoid conflict from core's mask
+            'path-3': 'tn_path-3',
+            'path-5': 'tn_path-5',
+            '#mask-2': '#tn_mask-2',      # avoid conflict from core's mask
+            '#mask-4': '#tn_mask-4',      # avoid conflict from core's mask
+            '#mask-6': '#tn_mask-6',      # avoid conflict from core's mask
         }
         contents = self.load_svg_fixed(svg_fn, id_fixes=id_fixups, str_sub_fixes=str_sub_fixes)
         contents += '''<g id="tn_touches">

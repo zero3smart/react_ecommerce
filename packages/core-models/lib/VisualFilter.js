@@ -70,8 +70,7 @@ export default class VisualFilter {
       let hitArea = this.findGroupById(this.catdata.touchGroupName(prop))
       let vf = this
       hitArea.mouseover(function () {
-        // TODO: Clean up...
-        vf.highlightGroup(vf.catdata.getBodyPartGroupName(prop, vf.catdata.catcfg.propMaxVal), false, '.5')
+        vf.highlightGroup(vf.catdata.getHoverGroupName(prop), false, '.5')
       })
       hitArea.mouseout(function () {
         vf.removeHighlight()

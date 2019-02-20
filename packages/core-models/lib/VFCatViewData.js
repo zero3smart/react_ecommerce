@@ -155,8 +155,16 @@ class VfCatViewData {
     let state = propState || this.currentPropState
     return prop + '_' + state[prop]
   }
+
+  getHoverGroupName (prop) {
+    return this.getBodyPartGroupName(prop, this.catcfg.propMaxVal)
+  }
+
   thumbnailHLGroupName () {
     return 'tn_HL'
+  }
+  fullbodyGroupName () {
+    return 'mannequin'
   }
 }
 
@@ -215,9 +223,6 @@ class VfCatWtopViewData extends VfCatViewData {
 
   touchGroupName (prop) {
     return prop + '_touch'
-  }
-  fullbodyGroupName () {
-    return 'mannequin'
   }
   thumbnailTouchGroupName (i = null) {
     if (i === null) {
@@ -293,14 +298,22 @@ class VfCatWshoesViewData extends VfCatViewData {
   touchGroupName (prop) {
     return prop + '_touch'
   }
-  fullbodyGroupName () {
-    return 'mannequin'
-  }
   thumbnailTouchGroupName (i = null) {
     if (i === null) {
       return 'tn_touches'
     }
     return 'tn_touch_' + i
+  }
+
+  getHoverGroupName (prop) {
+    const hoverHlIdx = {
+      'shafts': 0,
+      'counters': 2,
+      'covers': 2,
+      'toes': 0,
+      'bottoms': 2
+    }
+    return this.getBodyPartGroupName(prop, hoverHlIdx)
   }
 }
 
@@ -342,9 +355,6 @@ class VfCatWpantsViewData extends VfCatViewData {
   }
   touchGroupName (prop) {
     return 'touch_' + prop
-  }
-  fullbodyGroupName () {
-    return 'mannequin'
   }
   thumbnailTouchGroupName (i = null) {
     if (i === null) {
