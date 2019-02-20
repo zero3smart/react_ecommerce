@@ -48,7 +48,7 @@ class ProductsPage extends Component {
     if (!isProductsFetched) {
       // make sure the filter is synced with localStorage data
       syncFilter()
-      fetchProducts(true)
+      fetchProducts(undefined, undefined, undefined, true)
     }
 
     // if enabled, visual filter will be expanded by default

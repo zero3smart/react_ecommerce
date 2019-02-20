@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import ArrowLine from '../../ui-kits/icons/ArrowLine'
+import { GroupTitle } from '../../ui-kits/misc'
 import SlideFetcher from '../../ui-kits/fetchers/SlideFetcher'
 import ProductGrid from './ProductGrid'
 import './ProductListHorizontal.scss'
@@ -22,7 +22,6 @@ class ProductListHorizontal extends PureComponent {
     products: [],
     maxCount: 100,
     limitPerPage: 10,
-    productBasePath: '/products',
     onInit: () => { console.debug('Unhandled `onInit` prop') },
     onFetchNext: () => { console.debug('Unhandled `onFetchNext` prop') },
     onToggleLike: () => { console.debug('Unhandled `onToggleLike` prop') }
@@ -44,11 +43,11 @@ class ProductListHorizontal extends PureComponent {
   }
 
   render () {
-    const { title, products, productBasePath, onToggleLike } = this.props
+    const { title, products, category, productBasePath, onToggleLike } = this.props
 
     return (
       <div className='ProductListHorizontal'>
-        <h4 className='ProductListHorizontal-title'>{title} <ArrowLine width='20px' height='20px' /></h4>
+        <GroupTitle>{title}</GroupTitle>
         <SlideFetcher onFetch={this.handleFetch}>
           {
             products.map(product => (
@@ -66,7 +65,7 @@ class ProductListHorizontal extends PureComponent {
                   imgSrc: product.front_img_sm,
                   rawData: product,
                   onToggleLike: onToggleLike,
-                  productBasePath: productBasePath,
+                  productBasePath: productBasePath || `/products/${product.category || category}`,
                   showOriginalPrice: true
                 }}
               />

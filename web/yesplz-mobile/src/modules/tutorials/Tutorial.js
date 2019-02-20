@@ -4,7 +4,7 @@ import { SliderDots } from '@yesplz/core-web/modules/sliders'
 import history from '@yesplz/core-web/config/history'
 import ArrowLine from '@yesplz/core-web/ui-kits/icons/ArrowLine'
 import noop from '@yesplz/core-web/utils/noop'
-import { Button } from 'ui-kits/buttons'
+import { Button } from '@yesplz/core-web/ui-kits/buttons'
 
 // slides
 import FirstSlide from './FirstSlide'

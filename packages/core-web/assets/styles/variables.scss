@@ -2,5 +2,11 @@
 $header-height: 124px;
 $content-height: calc(100% -  #{$header-height});
 
-// colors
-$type-primary: #1b1b1d;
+/*
+ * Colors
+ */
+$dark-grey: #1b1b1d;
+
+$type-primary: $dark-grey;
+
+$accent-primary: #8c3bff;

@@ -2,11 +2,17 @@ import axios from 'axios'
 import omit from 'lodash/omit'
 import { PRODUCT_COUNT_PER_PAGE } from '@yesplz/core-web/config/constants'
 import { Product, Preset, VisualFilter } from '@yesplz/core-models'
-import {
-  SET_PRODUCTS, APPEND_PRODUCTS, ENABLE_INITIAL_FETCH, SET_RECOMMENDED_PRODUCTS,
-  SET_ACTIVE_CATEGORY, SET_FAVORITE_PRODUCTS
-} from './reducer'
-import { getProducts, getRecommendedProducts } from './api'
+import { getProducts, getRecommendedProducts, getProductsPresets } from './api'
+
+// Actions Types
+export const SET_PRODUCTS = 'products/SET_PRODUCTS'
+export const APPEND_PRODUCTS = 'products/APPEND_PRODUCTS'
+export const ENABLE_INITIAL_FETCH = 'products/ENABLE_INITIAL_FETCH'
+export const SET_FAVORITE_PRODUCTS = 'products/SET_FAVORITE_PRODUCTS'
+export const SET_RECOMMENDED_PRODUCTS = 'products/SET_RECOMMENDED_PRODUCTS'
+export const APPEND_RECOMMENDED_PRODUCTS = 'products/APPEND_RECOMMENDED_PRODUCTS'
+export const SET_ACTIVE_CATEGORY = 'products/SET_ACTIVE_CATEGORY'
+export const SET_PRESETS = 'products/SET_PRESETS'
 
 // Actions creator
 export function setProducts (category, products = [], totalCount = 0, favoriteProductIds = [], countPerPage) {
@@ -17,12 +23,20 @@ export function appendProducts (category, products = [], favoriteProductIds = []
   return { type: APPEND_PRODUCTS, payload: { category, products, favoriteProductIds, countPerPage } }
 }
 
+export function setPresets (category, presets = []) {
+  return { type: SET_PRESETS, payload: { category, presets } }
+}
+
 export function enableInitialFetch () {
   return { type: ENABLE_INITIAL_FETCH }
 }
 
-export function setRecommendedProducts (products = [], favoriteProductIds = []) {
-  return { type: SET_RECOMMENDED_PRODUCTS, payload: { products, favoriteProductIds } }
+export function setRecommendedProducts (products = [], countPerPage, favoriteProductIds = []) {
+  return { type: SET_RECOMMENDED_PRODUCTS, payload: { products, countPerPage, favoriteProductIds } }
+}
+
+export function appendRecommendedProducts (products = [], countPerPage, favoriteProductIds = []) {
+  return { type: APPEND_RECOMMENDED_PRODUCTS, payload: { products, countPerPage, favoriteProductIds } }
 }
 
 export function setActiveCategory (activeCategory) {
@@ -34,23 +48,26 @@ export function setActiveCategory (activeCategory) {
 /**
  * fetch product list
  * @param {string} category
+ * @param {Object} customFilters
  * @param {string} limitPerPage
  * @param {boolean} initialFetch
  */
 export function fetchProducts (
-  category, limitPerPage = PRODUCT_COUNT_PER_PAGE, initialFetch = false
+  category, customFilters, limitPerPage = PRODUCT_COUNT_PER_PAGE, initialFetch = false
 ) {
   return async (dispatch, getState) => {
     try {
       const { products, filters } = getState()
       const activeCategory = category || products.activeCategory
+      const currentFilters = {...(customFilters || filters.data), ...filters.secondary}
+
       // on initial fetch, set page should always start from 0
       const nextOffset = initialFetch ? 0 : products[activeCategory].nextOffset
 
       const response = await getProducts(activeCategory, {
         offset: nextOffset,
         limit_per_pid: 1,
-        ...omit(filters.data, 'offset', 'limit') // use page and count per page defined from the system
+        ...omit(currentFilters, 'offset', 'limit') // use page and count per page defined from the system
       }, limitPerPage)
 
       const favoriteProductIds = Product.getFavoriteProductIds()
@@ -64,35 +81,63 @@ export function fetchProducts (
 
       return response
     } catch (e) {
-      console.log('Error!', e)
+      console.error('Error!', e)
     }
   }
 }
 
 /**
  * calculate and get recommended products based on current filter, favorite presets and favorite products
- * @param {number} limitPerPage number of products to be fetched
+ * @param {number} countPerPage number of products to be fetched
+ * @param {string} category
+ * @param {boolean} initialFetch
  */
-export function fetchRecommendedProducts (limitPerPage = 90, category) {
-  return async dispatch => {
+export function fetchRecommendedProducts (countPerPage, category, initialFetch = false) {
+  return async (dispatch, getState) => {
     try {
+      const { products } = getState()
+
       const currentFilter = VisualFilter.getFilters()
       const favoritePresets = Preset.getFavoritePresets().map(preset => omit(preset, ['name', 'favorite']))
       const favoriteProductIds = Product.getFavoriteProductIds()
+
+      const nextOffset = initialFetch ? 0 : products.recommended.nextOffset
       const data = {
-        wtop: {
-          current: currentFilter,
-          favorite_fits: favoritePresets,
-          favorite_products: favoriteProductIds // ids
+        offset: nextOffset,
+        limit: countPerPage,
+        [category]: {
+          favorites: favoriteProductIds,
+          visualfilters: [ currentFilter, ...favoritePresets ]
         }
       }
 
-      const response = await getRecommendedProducts(data, limitPerPage, category)
+      console.debug('initialFetch', initialFetch)
+      const response = await getRecommendedProducts(data, category)
 
-      dispatch(setRecommendedProducts(response.products, favoriteProductIds))
+      if (initialFetch) {
+        dispatch(setRecommendedProducts(response.products, countPerPage, favoriteProductIds))
+      } else {
+        dispatch(appendRecommendedProducts(response.products, countPerPage, favoriteProductIds))
+      }
+
       return response.data
     } catch (e) {
-      console.log('Error!', e)
+      console.error('Error!', e)
+    }
+  }
+}
+
+/**
+ * fetch presets by category
+ * @param {string} category
+ */
+export function fetchPresets (category) {
+  return async dispatch => {
+    try {
+      const data = await getProductsPresets(category)
+      dispatch(setPresets(category, data))
+    } catch (e) {
+      console.error('Error!', e)
     }
   }
 }

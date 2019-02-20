@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import classNames from 'classnames'
-import './button.css'
+import './Button.scss'
 
 export default class Button extends Component {
   isExternal (url) {
@@ -13,7 +13,7 @@ export default class Button extends Component {
     const { to, children, kind, className, ...otherProps } = this.props
 
     const buttonProps = {
-      className: classNames(`Button ${kind}`, { [className]: className })
+      className: classNames(`YesplzButton YesplzButton--${kind}`, { [className]: className })
     }
 
     // if `to` not is defined, then we will use button as the component
@@ -43,10 +43,10 @@ export default class Button extends Component {
 Button.propTypes = {
   to: PropTypes.string,
   children: PropTypes.any.isRequired,
-  kind: PropTypes.oneOf(['default', 'rounded']),
+  kind: PropTypes.oneOf(['primary', 'secondary']),
   className: PropTypes.string
 }
 
 Button.defaultProps = {
-  kind: 'default'
+  kind: 'primary'
 }

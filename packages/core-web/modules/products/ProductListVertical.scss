@@ -1,0 +1,17 @@
+.ProductListVertical {
+  &--twoColumns {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    > .ProductGrid {
+      max-width: calc(50% - 10px);
+      flex-basis: calc(50% - 10px);
+
+      .ProductGrid-thumbnail {
+        height: 216px;
+      }
+    }
+  }
+}

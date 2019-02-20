@@ -20,6 +20,10 @@
   animation-name: fadeInUp;
 }
 
+.fadeInUp-exiting {
+  animation-name: fadeOutDown;
+}
+
 /* fadeInDown */
 .fadeInDown-entering {
   opacity: 0;

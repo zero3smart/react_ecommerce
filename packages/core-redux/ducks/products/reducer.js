@@ -4,19 +4,16 @@ import {
   PRODUCT_COUNT_PER_PAGE, PRD_CATEGORY
 } from '@yesplz/core-web/config/constants'
 import { LIKE_PRODUCT, UNLIKE_PRODUCT } from '../product'
+import {
+  SET_PRODUCTS, APPEND_PRODUCTS, ENABLE_INITIAL_FETCH, SET_RECOMMENDED_PRODUCTS, APPEND_RECOMMENDED_PRODUCTS,
+  SET_ACTIVE_CATEGORY, SET_FAVORITE_PRODUCTS, SET_PRESETS
+} from './actions'
 import { mapProductFavorites, updateProductFavorite } from '../helpers'
-
-// Actions
-export const SET_PRODUCTS = 'products/SET_PRODUCTS'
-export const APPEND_PRODUCTS = 'products/APPEND_PRODUCTS'
-export const ENABLE_INITIAL_FETCH = 'products/ENABLE_INITIAL_FETCH'
-export const SET_FAVORITE_PRODUCTS = 'products/SET_FAVORITE_PRODUCTS'
-export const SET_RECOMMENDED_PRODUCTS = 'products/SET_RECOMMENDED_PRODUCTS'
-export const SET_ACTIVE_CATEGORY = 'products/SET_ACTIVE_CATEGORY'
 
 const defaultState = {
   [CATEGORY_TOPS]: {
     data: [],
+    presets: [],
     nextOffset: 0,
     totalCount: 0,
     fetched: false,
@@ -24,6 +21,7 @@ const defaultState = {
   },
   [CATEGORY_SHOES]: {
     data: [],
+    presets: [],
     nextOffset: 0,
     totalCount: 0,
     fetched: false,
@@ -31,13 +29,18 @@ const defaultState = {
   },
   [CATEGORY_PANTS]: {
     data: [],
+    presets: [],
     nextOffset: 0,
     totalCount: 0,
     fetched: false,
     willBeEmptyList: false
   },
   favoriteList: [],
-  recommendedList: [],
+  recommended: {
+    data: [],
+    nextOffset: 0,
+    totalCount: 0
+  },
   activeCategory: PRD_CATEGORY
 }
 
@@ -62,6 +65,7 @@ export default function reducer (state = defaultState, action = {}) {
         updatedState = {
           [category]: {
             data: list,
+            presets: state[category].presets,
             willBeEmptyList: list.length === 0,
             fetched: true,
             totalCount: payload.totalCount,
@@ -84,6 +88,16 @@ export default function reducer (state = defaultState, action = {}) {
           nextOffset: state[category].nextOffset + (payload.countPerPage || PRODUCT_COUNT_PER_PAGE)
         }
       }
+
+    case SET_PRESETS:
+      return {
+        ...state,
+        [category]: {
+          ...state[category],
+          presets: payload.presets
+        }
+      }
+
     case LIKE_PRODUCT:
       return {
         ...state,
@@ -91,8 +105,12 @@ export default function reducer (state = defaultState, action = {}) {
           ...state[category],
           data: updateProductFavorite(payload.productId, true, state[category].data)
         },
-        recommendedList: updateProductFavorite(payload.productId, true, state.recommendedList)
+        recommended: {
+          ...state.recommended,
+          data: updateProductFavorite(payload.productId, true, state.recommended.data)
+        }
       }
+
     case UNLIKE_PRODUCT:
       return {
         ...state,
@@ -100,8 +118,12 @@ export default function reducer (state = defaultState, action = {}) {
           ...state[category],
           data: updateProductFavorite(payload.productId, false, state[category].data)
         },
-        recommendedList: updateProductFavorite(payload.productId, false, state.recommendedList)
+        recommended: {
+          ...state.recommended,
+          data: updateProductFavorite(payload.productId, false, state.recommended.data)
+        }
       }
+
     case ENABLE_INITIAL_FETCH:
       return {
         ...state,
@@ -111,13 +133,33 @@ export default function reducer (state = defaultState, action = {}) {
           nextOffset: 0
         }
       }
+
     case SET_FAVORITE_PRODUCTS:
       return { ...state, favoriteList: payload.favoriteProducts }
+
     case SET_RECOMMENDED_PRODUCTS:
       return {
         ...state,
-        recommendedList: mapProductFavorites(payload.favoriteProductIds, payload.products)
+        recommended: {
+          ...state.recommended,
+          data: mapProductFavorites(payload.favoriteProductIds, payload.products),
+          nextOffset: (payload.countPerPage || PRODUCT_COUNT_PER_PAGE)
+        }
       }
+
+    case APPEND_RECOMMENDED_PRODUCTS:
+      return {
+        ...state,
+        recommended: {
+          ...state.recommended,
+          data: [
+            ...state.recommended.data,
+            ...mapProductFavorites(payload.favoriteProductIds, payload.products)
+          ],
+          nextOffset: state.recommended.nextOffset + (payload.countPerPage || PRODUCT_COUNT_PER_PAGE)
+        }
+      }
+
     case SET_ACTIVE_CATEGORY:
       return {
         ...state,

@@ -4,15 +4,18 @@ import ProductListVertical from '@yesplz/core-web/modules/products/ProductListVe
 import withProductLike from '@yesplz/core-web/hoc/withProductLike'
 import { fetchRecommendedProducts } from '@yesplz/core-redux/ducks/products'
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = state => {
   return {
-    products: state.products.recommendedList
+    products: state.products.recommended.data
   }
 }
 
 const mapDispatchToProps = (dispatch, props) => ({
   onInit (_, limitPerPage) {
-    dispatch(fetchRecommendedProducts(limitPerPage))
+    dispatch(fetchRecommendedProducts(limitPerPage, props.category, true))
+  },
+  onFetchNext (_, limitPerPage) {
+    return dispatch(fetchRecommendedProducts(limitPerPage, props.category))
   },
   onToggleLike (data, favorite) {
     props.toggleProductLike(data, favorite)

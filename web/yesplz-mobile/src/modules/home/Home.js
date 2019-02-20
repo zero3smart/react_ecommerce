@@ -3,7 +3,7 @@ import { AdvancedPresetList } from '@yesplz/core-web/modules/presets'
 import { withTrackingProvider } from '@yesplz/core-web/hoc'
 import { CATEGORY_TOPS, CATEGORY_SHOES, CATEGORY_PANTS } from '@yesplz/core-web/config/constants'
 import HomeSlider from './HomeSlider'
-import { CategorizedProducts, RecommendedProducts } from 'modules/products'
+import { NewProducts, RecommendedProducts } from 'modules/products'
 import './home.css'
 
 class Home extends Component {
@@ -13,17 +13,17 @@ class Home extends Component {
         <HomeSlider />
         <div style={{ overflowX: 'hidden' }}>
           <div className='container'>
-            <CategorizedProducts
+            <NewProducts
               title='New Tops'
               category={CATEGORY_TOPS}
               limitPerPage={10}
             />
-            <CategorizedProducts
+            <NewProducts
               title='New Jeans'
               category={CATEGORY_PANTS}
               limitPerPage={10}
             />
-            <CategorizedProducts
+            <NewProducts
               title='New Shoes'
               category={CATEGORY_SHOES}
               limitPerPage={10}
@@ -39,7 +39,11 @@ class Home extends Component {
 
         <div className='container'>
           <h2 className='SubHeader'>Explore</h2>
-          <RecommendedProducts limitPerPage={3} />
+          <RecommendedProducts
+            limitPerPage={3}
+            enableFetchNext
+            useScrollFetcher
+          />
         </div>
       </div>
     )

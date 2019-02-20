@@ -1,11 +1,10 @@
-import React from 'react'
-import { withState } from 'recompose'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import SidebarMenuItem from './SidebarMenuItem'
 
-const enhanceState = withState('activeKey', 'changeActiveKey', 'all')
+const TopsFilterMenu = ({ onFilterChange }) => {
+  const [ activeKey, changeActiveKey ] = useState('all')
 
-const TopsFilterMenu = ({ activeKey, changeActiveKey, onFilterChange }) => {
   const handleChange = category => {
     changeActiveKey(category)
     onFilterChange('tops', category)
@@ -56,8 +55,6 @@ const TopsFilterMenu = ({ activeKey, changeActiveKey, onFilterChange }) => {
 }
 
 TopsFilterMenu.propTypes = {
-  activeKey: PropTypes.string.isRequired,
-  changeActiveKey: PropTypes.func.isRequired,
   onFilterChange: PropTypes.func
 }
 
@@ -65,4 +62,4 @@ TopsFilterMenu.defaultProps = {
   onFilterChange: (category, filterKey) => {}
 }
 
-export default enhanceState(TopsFilterMenu)
+export default TopsFilterMenu
