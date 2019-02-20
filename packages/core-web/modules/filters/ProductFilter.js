@@ -59,12 +59,9 @@ export class ProductFilter extends Component {
       // set filter to store
       setFilter(filters)
       // fetch products based selected filter
-      fetchProducts(true)
+      fetchProducts(undefined, undefined, undefined, true)
       // set wrapper scrolltop to 0
-      const scrollWrapper = document.getElementById('MainScroll')
-      if (scrollWrapper) {
-        scrollWrapper.scrollTop = 0
-      }
+      document.documentElement.scrollTop = 0
       // if it's not in Tops page, redirect to Tops page
       // if (this.props.router.location.pathname !== '/products') {
       //   history.push('/products')
@@ -74,7 +71,7 @@ export class ProductFilter extends Component {
 
   get isProductDetailPage () {
     const { router } = this.props
-    return /^\/products\//.test(router.location.pathname)
+    return /^\/products\/([a-z])+\/.+/.test(router.location.pathname)
   }
 
   get handleFilterLike () {

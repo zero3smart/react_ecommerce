@@ -1,6 +1,6 @@
 import React from 'react'
-import { renderBreadcrumbs, renderTopsInfoBanner } from 'config/routesHelpers'
-import { ProductsPage, ProductPage } from '@yesplz/core-web/modules/products'
+import { renderBreadcrumbs } from 'config/routesHelpers'
+import { ProductPage } from '@yesplz/core-web/modules/products'
 import './product-routes.scss'
 
 export const renderSingleProductPage = router => (
@@ -11,15 +11,5 @@ export const renderSingleProductPage = router => (
       { name: 'Product Detail' }
     ])}
     className='ProductPage-mobile'
-  />
-)
-
-export const renderProductsListPage = router => (
-  <ProductsPage
-    key='products-page'
-    match={router.match}
-    initialExpandVisualFilter
-    renderExtraItem={renderTopsInfoBanner}
-    className='ProductListPage-mobile'
   />
 )

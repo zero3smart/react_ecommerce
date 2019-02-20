@@ -7,7 +7,8 @@ import { Tutorial } from 'modules/tutorials'
 import { Base, NotFound } from 'modules/base'
 import { Home } from 'modules/home'
 import { Favorites } from 'modules/favorites'
-import { renderSingleProductPage, renderProductsListPage } from 'modules/products/productRoutes'
+import { ProductsLandingPage, ProductsPage } from 'modules/products'
+import { renderSingleProductPage } from 'modules/products/productRoutes'
 import { renderPresetProductsPage, renderSinglePresetProductPage } from 'modules/presets/presetRoutes'
 
 const createRoutes = () => (
@@ -22,8 +23,9 @@ const BasePlatform = (props) => (
     <Switch>
       <Route exact path='/' component={Home} />
       <Route exact path='/tutorial' component={Tutorial} />
-      <Route exact path='/products' render={renderProductsListPage} />
-      <Route exact path='/products/:productId' render={renderSingleProductPage} />
+      <Route exact path='/products/:category?' component={ProductsLandingPage} />
+      <Route exact path='/products/:category/list' component={ProductsPage} />
+      <Route exact path='/products/:category/:productId' render={renderSingleProductPage} />
       <Route exact path='/preset-products/:presetName' render={renderPresetProductsPage} />
       <Route exact path='/preset-products/:presetName/:productId' render={renderSinglePresetProductPage} />
       <Route exact path='/favorites/:favoriteType' component={Favorites} />

@@ -34,7 +34,7 @@ class Tops extends Component {
     if (!isProductsFetched) {
       // make sure the filter is synced with localStorage data
       syncFilter()
-      fetchProducts(undefined, undefined, true)
+      fetchProducts(undefined, undefined, undefined, true)
     }
   }
 

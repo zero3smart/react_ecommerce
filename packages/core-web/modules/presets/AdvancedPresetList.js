@@ -16,7 +16,7 @@ export class AdvancedPresetList extends Component {
     presets: PropTypes.array,
     isPresetsFetched: PropTypes.bool,
     presetMatchesCount: PropTypes.number,
-    activeCategory: PropTypes.string.isRequired,
+    activeCategory: PropTypes.string,
     fetchPresets: PropTypes.func.isRequired,
     setFilter: PropTypes.func.isRequired,
     likePreset: PropTypes.func.isRequired,
@@ -34,10 +34,10 @@ export class AdvancedPresetList extends Component {
   }
 
   componentDidMount () {
-    const { fetchPresets, isPresetsFetched } = this.props
+    const { activeCategory, fetchPresets, isPresetsFetched } = this.props
     // don't need to do initial fetch if presets is fetched already
     if (!isPresetsFetched) {
-      fetchPresets()
+      fetchPresets(activeCategory)
     }
   }
 
@@ -82,7 +82,7 @@ export class AdvancedPresetList extends Component {
                 onToggleLike={this.togglePresetLike}
                 presetMatchesCount={presetMatchesCount}
                 useMinimalPreset={useMinimalPreset}
-                activeCategory={activeCategory}
+                activeCategory={preset.category || activeCategory}
               />
             ))
           }
@@ -94,8 +94,7 @@ export class AdvancedPresetList extends Component {
 
 const mapStateToProps = (state, props) => ({
   presets: props.presets || state.filters.presets,
-  isPresetsFetched: props.show || state.filters.presetsFetched,
-  activeCategory: state.products.activeCategory
+  isPresetsFetched: props.show || state.filters.presetsFetched
 })
 
 export default compose(

@@ -40,3 +40,76 @@ export const FABRIC_COLORS = {
 export const CATEGORY_TOPS = 'wtop'
 export const CATEGORY_SHOES = 'wshoes'
 export const CATEGORY_PANTS = 'wpants'
+
+// product list filters
+export const FILTER_OCASIONS = [
+  {
+    name: 'work',
+    label: 'Work'
+  },
+  {
+    name: 'casual',
+    label: 'Casual'
+  },
+  {
+    name: 'workout',
+    label: 'Workout'
+  }
+]
+export const FILTER_TYPES = [
+  {
+    name: 'wtop',
+    label: 'Top'
+  },
+  {
+    name: 'wpants',
+    label: 'Jeans'
+  },
+  {
+    name: 'wshoes',
+    label: 'Shoes'
+  }
+]
+export const FILTER_SALES = [
+  {
+    name: '30%',
+    label: '30%'
+  },
+  {
+    name: '50%',
+    label: '50%'
+  },
+  {
+    name: '70%',
+    label: '70%'
+  }
+]
+export const FILTER_PRICES = [
+  {
+    name: '-50',
+    label: 'UNDER $50'
+  },
+  {
+    name: '50-100',
+    label: '$50 - $100'
+  },
+  {
+    name: '100-150',
+    label: '$100 - $150'
+  },
+  {
+    name: '150-300',
+    label: '$150 - $300'
+  },
+  {
+    name: '300-',
+    label: '$300+'
+  }
+]
+
+// end of product list filters
+export const CATEGORIES_LABELS = {
+  wtop: 'Tops',
+  wpants: 'Jeans',
+  wshoes: 'Shoes'
+}

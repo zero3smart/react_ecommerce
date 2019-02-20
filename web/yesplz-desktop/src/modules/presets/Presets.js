@@ -67,7 +67,7 @@ export class Presets extends Component {
 
     // if active preset name exist, fetch product with new data
     if (!isNil(activePresetName)) {
-      fetchProducts(undefined, undefined, true)
+      fetchProducts(undefined, undefined, undefined, true)
     }
   }
 
@@ -111,7 +111,7 @@ export class Presets extends Component {
       setFilter(filters)
       // fetch products from the beginning after filter applied
       enableInitialFetch()
-      fetchProducts(undefined, undefined, true)
+      fetchProducts(undefined, undefined, undefined, true)
 
       // if user click on active preset, close the split view
       if (activePresetName === filterName) {

@@ -88,6 +88,17 @@
   }
 }
 
+@keyframes fadeOutDown {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+}
+
 /* bouncing entrance */
 @keyframes bounceInUp {
   from,

@@ -10,10 +10,10 @@ import { getProducts } from '@yesplz/core-redux/ducks/products'
 import { mapProductFavorites } from '@yesplz/core-redux/ducks/helpers'
 import ProductGrid from '@yesplz/core-web/modules/products/ProductGrid'
 import { Product } from '@yesplz/core-models'
-import ArrowLine from '@yesplz/core-web/ui-kits/icons/ArrowLine'
 import Preset from './Preset'
 import MinimalPreset from './MinimalPreset'
 import { withProductLike } from '../../hoc'
+import { GroupTitle } from '../../ui-kits/misc'
 import './AdvancedPreset.scss'
 
 class AdvancedPreset extends Component {
@@ -79,7 +79,7 @@ class AdvancedPreset extends Component {
 
     return (
       <div className='AdvancedPreset'>
-        <h4 className='AdvancedPreset-title'>{preset.name} <ArrowLine width='20px' height='20px' /></h4>
+        <GroupTitle>{preset.name}</GroupTitle>
         <Slider {...this.sliderSettings}>
           {
             useMinimalPreset ? (

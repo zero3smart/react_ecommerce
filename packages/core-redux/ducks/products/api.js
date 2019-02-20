@@ -19,15 +19,16 @@ export async function getProducts (category = PRD_CATEGORY, filters = {}, limit 
     return response.data
   } catch (e) {
     console.log('Error!', e)
+    throw e
   }
 }
 
 /**
  * get recommended products
- * @param {number} limitPerPage
+ * @param {Object} params
  * @param {string} category
  */
-export async function getRecommendedProducts (data = [], limitPerPage, category) {
+export async function getRecommendedProducts (data = [], category) {
   let url = '/allcategories/recommends'
 
   if (category) {
@@ -35,15 +36,26 @@ export async function getRecommendedProducts (data = [], limitPerPage, category)
   }
 
   try {
-    const response = await axios.post(url, data, {
-      params: {
-        offset: 0,
-        limit: limitPerPage
-      }
-    })
+    const response = await axios.post(url, data)
 
     return response.data
   } catch (e) {
     console.error('Error!', e)
+    throw e
+  }
+}
+
+/**
+ * get products presets
+ * @param {string} category
+ */
+export async function getProductsPresets (category) {
+  try {
+    const response = await axios.get(`/categories/${category}/presets`)
+
+    return response.data
+  } catch (e) {
+    console.error('Error!', e)
+    throw e
   }
 }

@@ -7,6 +7,7 @@ const isDev = process.env.NODE_ENV === 'development'
 
 // Actions
 const SET_FILTER = 'filters/SET_FILTER'
+const SET_SECONDARY_FILTER = 'filters/SET_SECONDARY_FILTER'
 const SET_PRESETS = 'filters/SET_PRESETS'
 const SET_FAVORITE_PRESETS = 'filters/SET_FAVORITE_PRESETS'
 export const LIKE_PRESET = 'filters/LIKE_PRESET'
@@ -16,6 +17,7 @@ const TOOGLE_VISUAL_FILTER = 'filters/TOOGLE_VISUAL_FILTER'
 const SET_ONBOARDING = 'filters/SET_ONBOARDING'
 
 const defaultState = {
+  // visual filter
   data: {
     coretype: 2,
     top_length: 1,
@@ -28,6 +30,8 @@ const defaultState = {
     color: null,
     sale: 0
   },
+  // secondary filters such as ocasions, prices, sales, etc
+  secondary: {},
   lastBodyPart: VisualFilter.getLastBodyPart(),
   presets: [],
   favoritePresets: [],
@@ -45,6 +49,8 @@ export default function reducer (state = defaultState, action = {}) {
         return state
       }
       return { ...state, data: payload.filters }
+    case SET_SECONDARY_FILTER:
+      return { ...state, secondary: payload.filters }
     case SET_PRESETS:
       return {
         ...state,
@@ -92,6 +98,10 @@ export function setFilter (filters) {
   return { type: SET_FILTER, payload: { filters } }
 }
 
+export function setSecondaryFilter (filters) {
+  return { type: SET_SECONDARY_FILTER, payload: { filters } }
+}
+
 export function setPresets (presets, favoritePresetNames) {
   return { type: SET_PRESETS, payload: { presets, favoritePresetNames } }
 }
@@ -129,11 +139,16 @@ export function setOnboarding (onboarding = true) {
 /**
  * get list of presets available
  */
-export function fetchPresets () {
-  return async (dispatch, getState) => {
-    const { products } = getState()
+export function fetchPresets (category) {
+  return async dispatch => {
     try {
-      const response = await axios.get(`/categories/${products.activeCategory}/presets`)
+      let url = '/allcategories/editorspicks'
+
+      if (category) {
+        url = `/categories/${category}/editorspicks`
+      }
+
+      const response = await axios.get(url)
 
       const favoritePresetNames = Preset.getFavoritePresetNames()
       dispatch(setPresets(response.data, favoritePresetNames))
