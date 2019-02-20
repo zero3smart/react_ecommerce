@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import queryString from 'query-string'
 import includes from 'lodash/includes'
 import findKey from 'lodash/findKey'
 
@@ -16,7 +17,8 @@ import './ProductsPage.scss'
 
 class ProductsPage extends PureComponent {
   static propTypes = {
-    match: PropTypes.object
+    match: PropTypes.object,
+    location: PropTypes.object
   }
 
   constructor (props) {
@@ -51,6 +53,19 @@ class ProductsPage extends PureComponent {
         'Shoes'
       ]
     }
+  }
+
+  get listingView () {
+    const { location } = this.props
+    const qsValues = queryString.parse(location.search)
+
+    return qsValues.listingView
+  }
+
+  componentDidMount () {
+    this.setState({
+      useTwoColumnsView: this.listingView === 'double'
+    })
   }
 
   // Update the value in response to user picking event
@@ -136,6 +151,7 @@ class ProductsPage extends PureComponent {
           onClose={this.handleClosePicker}
         />
         <ProductsFilter
+          defaultColType={this.listingView}
           activeCategory={this.currentCategory}
           isVisible={isFilterVisible}
           onSubmit={this.handleSubmitFilter}

@@ -61,6 +61,7 @@
   },
   "dependencies": {
     "nuka-carousel": "^4.4.7",
+    "query-string": "^6.2.0",
     "react-addons-css-transition-group": "^15.6.2",
     "react-perfect-scrollbar": "^1.4.4",
     "react-slick": "^0.23.2"

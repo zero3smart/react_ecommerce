@@ -12,8 +12,8 @@ import ListView from './ListView'
 import FilterGroup from './FilterGroup'
 import './ProductsFilter.scss'
 
-const ProductsFilter = ({ isVisible, secondaryFilters, activeCategory, onSubmit, onClose }) => {
-  const [colType, changeColType] = useState('single')
+const ProductsFilter = ({ isVisible, defaultColType, secondaryFilters, activeCategory, onSubmit, onClose }) => {
+  const [colType, changeColType] = useState(defaultColType)
   const [filters, changeFilters] = useState({})
 
   useEffect(() => {
@@ -109,6 +109,7 @@ ProductsFilter.propTypes = {
 }
 
 ProductsFilter.defaultProps = {
+  defaultColType: 'single',
   isVisible: false,
   secondaryFilters: {},
   onSubmit: (productListConfig) => { console.debug('Unhandled `onSubmit` prop in `ProductsFilter`', productListConfig) },
@@ -125,9 +126,11 @@ const mapDispatchToProps = (dispatch, props) => ({
     dispatch(setSecondaryFilter(productListConfig.filters))
 
     // redirect to chosen category
-    history.push(`/products/${productListConfig.filters.types[0]}/list`)
+    history.push(`/products/${productListConfig.filters.types[0]}/list?listingView=${productListConfig.colType}`)
 
-    props.onSubmit(productListConfig)
+    if (props.onSubmit) {
+      props.onSubmit(productListConfig)
+    }
   }
 })
 
