@@ -39,7 +39,7 @@ class VfCatWshoesCfg extends VfCatCfg {
     'toes': 2,
     'covers': 2,
     'counters': 2,
-    'bottoms': 6,
+    'bottoms': 5,
     'shafts': 4,
     'solid': 1,
     'pattern': 1,

@@ -34,25 +34,25 @@
       <polygon id="Path" points="5.95 22.2 0.408 20.3 6.71 14.6" fill="#6D6E71"/>
       <path id="Path" d="m21.5 0.261s0.0511 8.37 0 10.6c0 0-1.79 2.4-6.38 5.94-4.47 3.45-9.14 5.43-9.14 5.43v-7.99l15.5-14z" fill="#808285"/>
      </g>
-     <g id="bottoms_1" transform="translate(1.26 .511)" fill="#808285">
+     <g id="bottoms_x" transform="translate(1.26 .511)" fill="#808285">
       <path id="Path" d="m34.2 0.261s-0.972 12.1-1.02 14.4c0 0-0.774 1.82-3.25 4.46-2.49 2.66-8.98 7.68-12.1 11.8-4.98 6.43-7.26 15.3-9.01 17.5-3.56 4.39-8.63 8.12-8.63 8.12l4.09-30.5 30-25.7z"/>
      </g>
-     <g id="bottoms_2" transform="translate(.241 .511)" fill="#808285">
+     <g id="bottoms_1" transform="translate(.241 .511)" fill="#808285">
       <path id="Path" d="m35.3 0.261s-2.3 27.4-2.35 29.7c0 0-0.639 2.86-3.93 5.12-3.6 2.03-8.51 2.46-11.8 6.43-3.17 3.83-3.4 5.96-6.97 9.07-3.44 3.28-10.1 6.75-10.1 6.75l5.15-31.3 30-25.7z"/>
      </g>
-     <g id="bottoms_3" transform="translate(11.5 1.51)">
+     <g id="bottoms_2" transform="translate(11.5 1.51)">
       <polygon id="Path" points="24 0.458 23.5 23.5 14.9 30 14.9 10.5" fill="#808285"/>
       <path id="Path" d="m14.9 30s-8.7-2.89-14.8-4v-9.54l14.8-5.88v19.4z" fill="#6D6E71"/>
      </g>
-     <g id="bottoms_4" transform="translate(13 2.51)">
+     <g id="bottoms_3" transform="translate(13 2.51)">
       <polygon id="Path" points="22.5 0.458 21.4 32.2 13.4 38.3 13.4 10.5" fill="#808285"/>
       <path id="Path" d="m13.4 38.2c-8.88-2.95-6.92-2.94-11.3-4l-2.05-17.8 13.3-5.88v27.6z" fill="#6D6E71"/>
      </g>
-     <g id="bottoms_5" transform="translate(25.8 2)">
+     <g id="bottoms_4" transform="translate(25.8 2)">
       <path id="Path" d="m9.7 0.33s-1.58 11.2-1.9 15.7c-0.383 5.37-0.915 12.9-0.915 12.9l-2.92 0.799-2.09-21 7.83-8.37z" fill="#808285"/>
       <path id="Path" d="m2.71 10.8s1.12 3.02 1.36 7.01c0.248 4 0 11.9 0 11.9l-1.61-1.37s-0.277-6.95-0.587-9.51c-0.31-2.56-1.67-6.01-1.67-6.01l2.52-1.76" fill="#6D6E71"/>
      </g>
-     <g id="bottoms_6" transform="translate(25.3 2)">
+     <g id="bottoms_5" transform="translate(25.3 2)">
       <path id="Path" d="m10.2 0.33s-1.58 11.2-1.9 15.7c-0.383 5.37-2.01 26.5-2.01 26.5l-2.16 0.0746-1.76-33.9 7.83-8.37z" fill="#808285"/>
       <path id="Path" d="m3.22 10.8s1.36 2.54 1.36 7.24c0 4-0.442 24.6-0.442 24.6l-1.05-1s-0.441-17.8-0.703-20.3c-0.469-4.6-2.2-8.52-2.2-8.52l3.04-1.67" fill="#6D6E71"/>
      </g>
@@ -121,26 +121,26 @@
    </g>
    <g id="shoes_HL" transform="translate(1 3)">
     <g id="bottoms_HL" transform="translate(76 114)">
-     <g id="bottoms_6_HL" transform="translate(26 4)">
+     <g id="bottoms_5_HL" transform="translate(26 4)">
       <path id="Path" d="m10.4 0.69s-1.58 11.2-1.9 15.7c-0.383 5.37-2.01 26.5-2.01 26.5l-2.16 0.0746-1.76-33.9 7.83-8.37z" fill="#582ADF"/>
       <path id="Path" d="m3.43 11.2s1.36 2.54 1.36 7.24c0 4-0.442 24.6-0.442 24.6l-1.05-1s-0.441-17.8-0.703-20.3c-0.469-4.6-2.2-8.52-2.2-8.52l3.04-1.67" fill="#4E2EAD"/>
      </g>
-     <g id="bottoms_5_HL" transform="translate(26 4)">
+     <g id="bottoms_4_HL" transform="translate(26 4)">
       <path id="Path" d="m10.4 0.69s-1.58 11.2-1.9 15.7c-0.383 5.37-0.915 12.9-0.915 12.9l-2.92 0.799-2.09-21 7.83-8.37z" fill="#582ADF"/>
       <path id="Path" d="m3.43 11.2s1.12 3.02 1.36 7.01c0.248 4 0 11.9 0 11.9l-1.61-1.37s-0.277-6.95-0.587-9.51c-0.31-2.56-1.67-6.01-1.67-6.01l2.52-1.76" fill="#4E2EAD"/>
      </g>
-     <g id="bottoms_4_HL" transform="translate(14 2)">
+     <g id="bottoms_3_HL" transform="translate(14 2)">
       <polygon id="Path" points="22.4 0.75 21.3 34.8 13 41.4 13 11.6" fill="#582ADF"/>
       <path id="Path" d="m13 41.4c-8.34-3-6.51-2.99-10.6-4.07l-1.92-18.1 12.5-5.98v28.1z" fill="#4E2EAD"/>
      </g>
-     <g id="bottoms_3_HL" transform="translate(11 3)">
+     <g id="bottoms_2_HL" transform="translate(11 3)">
       <polygon id="Path" points="25.2 0.877 24.6 24.7 15.8 31.4 15.8 11.3" fill="#582ADF"/>
       <path id="Path" d="m15.8 31.4s-8.98-2.99-15.3-4.14v-9.87l15.3-6.08v20.1z" fill="#4E2EAD"/>
      </g>
-     <g id="bottoms_2_HL" transform="translate(0 2)" fill="#582ADF">
+     <g id="bottoms_1_HL" transform="translate(0 2)" fill="#582ADF">
       <path id="Path" d="m36.7 0.362s-2.37 28.3-2.43 30.7c0 0-0.66 2.96-4.05 5.29-3.71 2.09-8.78 2.54-12.2 6.65-3.27 3.96-3.51 6.17-7.2 9.38-3.55 3.39-10.4 6.97-10.4 6.97l5.31-32.4 30.9-26.6z"/>
      </g>
-     <g id="bottoms_1_HL" fill="#582ADF">
+     <g id="bottoms_x_HL" fill="#582ADF">
       <path id="Path" d="m36.7 2.36s-2.37 28.3-2.43 30.7c0 0-0.66 2.96-4.05 5.29-3.71 2.09-8.78 2.54-12.2 6.65-3.27 3.96-3.51 6.17-7.2 9.38-3.55 3.39-10.4 6.97-10.4 6.97l5.31-32.4 30.9-26.6z" opacity=".3"/>
       <path id="Path" d="m36.4 0.75s-0.982 12.8-1.03 15.2c0 0-0.781 1.92-3.28 4.72-2.51 2.81-9.07 8.12-12.3 12.4-5.03 6.8-7.33 16.2-9.1 18.5-3.59 4.64-8.71 8.58-8.71 8.58l4.13-32.2 30.2-27.2z"/>
      </g>

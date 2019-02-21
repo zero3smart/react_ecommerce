@@ -37,7 +37,7 @@ class SvgModifier:
             print(f'Invalid # of groups in {self.svg_fn} : found {cnt} of {frm}')
         assert(cnt == 1)
         self.contents = self.contents.replace(g_frm, g_to)
-
+        
     def translate(self, id, trans, scale=None):
         if re.search(f'<[^>]*id="{id}"[^>]*transform[^>]*>', self.contents):
             if scale: dst = f'id="{id}" transform="translate({trans}) scale({scale})"'
@@ -380,6 +380,12 @@ class VfWshoesSvgGenerator(VfSvgGenerator):
             'shaft_2': 'shafts_2',
             'shaft_3': 'shafts_3',
             'shaft_4': 'shafts_4',
+            'bottoms_1': 'bottoms_x',
+            'bottoms_2': 'bottoms_1',
+            'bottoms_3': 'bottoms_2',
+            'bottoms_4': 'bottoms_3',
+            'bottoms_5': 'bottoms_4',
+            'bottoms_6': 'bottoms_5',
 
             'counter_0_HL': 'counters_0_HL',
             'counter_1_HL': 'counters_1_HL',
@@ -399,6 +405,14 @@ class VfWshoesSvgGenerator(VfSvgGenerator):
             'shaft_2_HL': 'shafts_2_HL',
             'shaft_3_HL': 'shafts_3_HL',
             'shaft_4_HL': 'shafts_4_HL',
+
+            'bottoms_1_HL': 'bottoms_x_HL',
+            'bottoms_2_HL': 'bottoms_1_HL',
+            'bottoms_3_HL': 'bottoms_2_HL',
+            'bottoms_4_HL': 'bottoms_3_HL',
+            'bottoms_5_HL': 'bottoms_4_HL',
+            'bottoms_6_HL': 'bottoms_5_HL',
+
             'shoes_points': 'touch_points'
         }
         pos_fixes = {
@@ -416,12 +430,12 @@ class VfWshoesSvgGenerator(VfSvgGenerator):
 
             'bottoms_TN': 'tn_bottoms',
             'bottoms_0_TN': 'tn_bottoms_0',
-            'bottoms_1_TN': 'tn_bottoms_1',
-            'bottoms_2_TN': 'tn_bottoms_2',
-            'bottoms_3_TN': 'tn_bottoms_3',
-            'bottoms_4_TN': 'tn_bottoms_4',
-            'bottoms_5_TN': 'tn_bottoms_5',
-            'bottoms_6_TN': 'tn_bottoms_6',
+            'bottoms_1_TN': 'tn_bottoms_x',
+            'bottoms_2_TN': 'tn_bottoms_1',
+            'bottoms_3_TN': 'tn_bottoms_2',
+            'bottoms_4_TN': 'tn_bottoms_3',
+            'bottoms_5_TN': 'tn_bottoms_4',
+            'bottoms_6_TN': 'tn_bottoms_5',
 
             'shaft_TN' : 'tn_shafts',
             'shaft_0_TN': 'tn_shafts_0',
@@ -470,6 +484,6 @@ class VfWshoesSvgGenerator(VfSvgGenerator):
         sc.add_expected('toes_', range(3))
         sc.add_expected('covers_', range(3))
         sc.add_expected('counters_', range(3))
-        sc.add_expected('bottoms_', range(6))
+        sc.add_expected('bottoms_', range(5))
         sc.add_expected('shafts_', range(4))
         return sc

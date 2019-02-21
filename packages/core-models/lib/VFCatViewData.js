@@ -264,12 +264,12 @@ class VfCatWshoesViewData extends VfCatViewData {
     shafts: 0
   }
   presetList = [
-    {'toes': 1, 'covers': 0, 'shafts': 0, 'counters': 2, 'bottoms': 6},
-    {'toes': 0, 'covers': 0, 'shafts': 1, 'counters': 1, 'bottoms': 6},
+    {'toes': 1, 'covers': 0, 'shafts': 0, 'counters': 2, 'bottoms': 5},
+    {'toes': 0, 'covers': 0, 'shafts': 1, 'counters': 1, 'bottoms': 5},
     {'toes': 2, 'covers': 1, 'shafts': 0, 'counters': 2, 'bottoms': 1},
-    {'toes': 1, 'covers': 2, 'shafts': 2, 'counters': 2, 'bottoms': 5},
-    {'toes': 1, 'covers': 2, 'shafts': 4, 'counters': 2, 'bottoms': 3},
-    {'toes': 0, 'covers': 2, 'shafts': 2, 'counters': 0, 'bottoms': 3},
+    {'toes': 1, 'covers': 2, 'shafts': 2, 'counters': 2, 'bottoms': 4},
+    {'toes': 1, 'covers': 2, 'shafts': 4, 'counters': 2, 'bottoms': 2},
+    {'toes': 0, 'covers': 2, 'shafts': 2, 'counters': 0, 'bottoms': 2},
     {'toes': 0, 'covers': 0, 'shafts': 0, 'counters': 0, 'bottoms': 0},
     {'toes': 1, 'covers': 2, 'shafts': 1, 'counters': 3, 'bottoms': 0}
   ]
@@ -311,7 +311,7 @@ class VfCatWshoesViewData extends VfCatViewData {
       'counters': 2,
       'covers': 2,
       'toes': 0,
-      'bottoms': 2
+      'bottoms': 1
     }
     return this.getBodyPartGroupName(prop, hoverHlIdx)
   }
