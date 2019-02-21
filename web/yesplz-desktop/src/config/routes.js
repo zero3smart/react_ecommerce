@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router'
 // pages
-import { Base, NotFound } from 'modules/base'
+import { Base, BaseDemo, NotFound } from 'modules/base'
 import { Home } from 'modules/home'
 import { Favorites } from 'modules/favorites'
 import { Faq } from 'modules/faq'
@@ -12,7 +12,11 @@ import { SingleProductRoute, SinglePresetProductRoute } from 'modules/products/s
 
 const createRoutes = () => (
   <Switch>
-    <Route path='/' component={BasePlatform} />
+    <Route
+      path='/'
+      component={
+        JSON.parse(process.env.REACT_APP_RETAILER_DEMO) ? DemoPlatform : BasePlatform
+      } />
   </Switch>
 )
 
@@ -30,6 +34,17 @@ const BasePlatform = (props) => (
       <Route component={NotFound} />
     </Switch>
   </Base>
+)
+
+// nested routes components
+const DemoPlatform = (props) => (
+  <BaseDemo {...props}>
+    <Switch>
+      <Route exact path='/' component={Tops} />
+      <Route exact path='/products/:productId' component={SingleProductRoute} />
+      <Route component={NotFound} />
+    </Switch>
+  </BaseDemo>
 )
 
 export default createRoutes()

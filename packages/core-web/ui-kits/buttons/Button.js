@@ -43,7 +43,7 @@ export default class Button extends Component {
 Button.propTypes = {
   to: PropTypes.string,
   children: PropTypes.any.isRequired,
-  kind: PropTypes.oneOf(['primary', 'secondary']),
+  kind: PropTypes.oneOf(['primary', 'secondary', 'rounded']),
   className: PropTypes.string
 }
 

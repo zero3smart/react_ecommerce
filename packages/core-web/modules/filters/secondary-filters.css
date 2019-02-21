@@ -8,23 +8,24 @@
   bottom: 15px;
 }
 
-.SecondaryFilters > .Button {
+.SecondaryFilters > .YesplzButton {
   font-size: 10px;
   color: #000000;
   background: transparent;
-  max-width: 70px;
+  width: 99px;
+  height: 34px;
   padding: 7px 5px;
   border: 1px solid #9B9B9B;
   outline: none;
   margin: 0 5px;
 }
 
-.SecondaryFilters > .Button:hover,
-.SecondaryFilters > .Button.focus {
+.SecondaryFilters > .YesplzButton:hover,
+.SecondaryFilters > .YesplzButton.focus {
   background: rgba(99, 0, 238, 0.4);
 }
 
-.SecondaryFilters > .Button.active {
+.SecondaryFilters > .YesplzButton.active {
   background: #6200EE;
   color: white;
   border-color: transparent;
