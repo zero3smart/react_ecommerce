@@ -61,6 +61,7 @@ export default class ProductGrid extends PureComponent {
       favorite, showOriginalPrice, productBasePath, disableLike, style, extraInfo } = this.props
     // sale is available if original price is different with price
     const isSale = !isNil(originalPrice) && originalPrice !== price
+    const isOutOfStock = +price === 0
     const categoryClassName = category ? `is-${category}` : ''
 
     return (
@@ -77,7 +78,9 @@ export default class ProductGrid extends PureComponent {
           <h5 dangerouslySetInnerHTML={{ __html: brand }} />
           {isSale && showOriginalPrice && <div className='ProductGrid-originalPrice'>{currency}{originalPrice}</div>}
           <div className={classNames('ProductGrid-price', { sale: isSale })}>
-            {currency}{price}
+            {
+              !isOutOfStock ? `${currency}${price}` : 'Out of stock'
+            }
           </div>
         </div>
       </Link>
