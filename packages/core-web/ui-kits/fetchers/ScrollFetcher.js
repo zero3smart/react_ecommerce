@@ -109,7 +109,7 @@ class ScrollFetcher extends Component {
     return (
       <div id={id} ref={this.loadRef} className={className} onScroll={this.handleScrollFrame} onTouchMove={this.handleTouchMove} style={{ ...styles.wrapper, ...style }}>
         {this.props.children}
-        {useButton && !isFetchingData && <ButtonSeparator label='More' onClick={this.handleFetch} style={styles.moreButton} />}
+        {useButton && !isFetchingData && <ButtonSeparator label='Show More' onClick={this.handleFetch} style={styles.moreButton} />}
         <DotLoader visible={isFetchingData} style={{ ...styles.loader, ...(useButton ? styles.loaderSpace : {}) }} />
       </div>
     )
@@ -156,7 +156,7 @@ const styles = {
     marginBottom: 100
   },
   moreButton: {
-    marginBottom: 100
+    // marginBottom: 100
   }
 }
 

@@ -67,8 +67,34 @@ class Product extends PureComponent {
     }
   }
 
+  // eslint-disable-next-line camelcase
+  renderSizes = (all_sizes, sizes) => (
+    <ul className='Product-sizes'>
+      {all_sizes.map(size => (
+        <li key={size} className={classNames({
+          'size-available': sizes.indexOf(size) > -1
+        })}>{size}</li>
+      ))}
+    </ul>
+  )
+
   render () {
-    const { id, name, brand, imgSrc, extraImgs, price, originalPrice, currency, favorite, link, retailer, sizes } = this.props
+    const {
+      id,
+      name,
+      description,
+      brand,
+      imgSrc,
+      extraImgs,
+      price,
+      originalPrice,
+      currency,
+      favorite,
+      link,
+      sizes,
+      // eslint-disable-next-line react/prop-types
+      all_sizes: allSizes
+    } = this.props
 
     // sale is available if original price is different with price
     const isSale = originalPrice && originalPrice !== price
@@ -103,7 +129,6 @@ class Product extends PureComponent {
           </div>
           <div className='Product-detail'>
             <h3 dangerouslySetInnerHTML={{ __html: brand }} />
-            <h4 dangerouslySetInnerHTML={{ __html: name }} />
             {
               !isOutOfStock && (
                 <div className='Product-pricing'>
@@ -112,13 +137,21 @@ class Product extends PureComponent {
                 </div>
               )
             }
-            {retailer && <p className='Product-retailer'>from {retailer}</p>}
-            {!isOutOfStock && <p>Available Sizes:</p>}
-            <ul className='Product-sizes'>
-              {sizes.map(size => (
-                <li key={size}>{size}</li>
-              ))}
-            </ul>
+
+            <h4 dangerouslySetInnerHTML={{ __html: name }} />
+
+            {/* {retailer && <p className='Product-retailer'>from {retailer}</p>} */}
+
+            <p dangerouslySetInnerHTML={{ __html: description }} className='Product-description' />
+
+            {/* {!isOutOfStock && <p>Available Sizes:</p>} */}
+
+            {
+              this.renderSizes(allSizes, sizes)
+            }
+
+            <h4 className={'Sizes-message'}>YOU WILL SEE IF YOUR SIZE IS AVAILABLE WHEN <a href=''>SIGN IN</a></h4>
+
           </div>
           <div className='Product-footer'>
             {isOutOfStock ? <p className='Product-out-of-stock'>Out of Stock</p> : <Button id='BuyNow' to={link}>Buy Now</Button>}
@@ -131,7 +164,7 @@ class Product extends PureComponent {
 
 export default withProductLike()(Product)
 
-const renderExtraImages = (imgs = [], name = '') => (
+const renderExtraImages = (imgs = []) => (
   imgs.map(imgSrc => (
     <div className='Product-imageWrapper'>
       <div key={imgSrc} style={{ backgroundImage: `url(${BASE_IMG_PATH}/${imgSrc})` }} className='Product-image' />

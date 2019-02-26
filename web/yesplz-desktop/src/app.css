@@ -56,7 +56,7 @@ button, a {
 }
 
 .container-wide {
-  width: calc(100% - 30px);
+  width: calc(100% - 60px);
   max-width: 1440px;
   margin: auto;
 }
