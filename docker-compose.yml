@@ -8,11 +8,16 @@ services:
       context: .
       dockerfile: ./docker/Dockerfile
     ports:
-      - '80:80'
+      - '443:443'
+
     network_mode: "host"
     volumes:
        - type: bind
          source: /home/sjcho/yesplz/media
          target: /srv/www/imgs
+         readonly: true
+       - type: bind
+         source: /home/sjcho/certs
+         target: /etc/nginx/certs
          readonly: true
 
