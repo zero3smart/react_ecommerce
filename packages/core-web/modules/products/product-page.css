@@ -11,14 +11,16 @@
 
 .ProductPage-products .Product {
   order: 0;
-  width: calc(100% + 10px);
-  margin: -8px -5px 10px;
+  width: calc(100%);
+  /* margin: -8px -5px 10px; */
+
 }
 
 .ProductPage-products .ProductGrid {
-  width: calc(33.33333% - 10px);
-  margin-left: 5px;
-  margin-right: 5px;
+  /* width: calc(33.33333% - 10px); */
+  width: calc(100% - 0px);
+  /* margin-left: 5px; */
+  /* margin-right: 5px; */
   margin-bottom: 10px;
   order: 1;
 }
@@ -28,4 +30,15 @@
   width: 100%;
   flex-basis: 100%;
   order: 2;
+}
+
+
+.ProductPage .BackToLabel {
+  height: 80px;
+  text-align: center;
+  /* padding: 30px; */
+}
+
+.ProductPage .BackToLabel a {
+  color: black;
 }

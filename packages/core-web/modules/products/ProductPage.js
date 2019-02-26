@@ -1,13 +1,22 @@
 import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Product, ProductPlaceholder, ProductList } from '@yesplz/core-web/modules/products'
 import { fetchProduct, fetchRelatedProducts, resetProduct, setScrollBellowTheFold } from '@yesplz/core-redux/ducks/product'
 import history from '@yesplz/core-web/config/history'
 import { SectionTitle } from '../../ui-kits/misc'
 import { withTrackingProvider } from '../../hoc'
+import { CATEGORIES_LABELS } from '../../config/constants'
 import './product-page.css'
+
+// eslint-disable-next-line react/prop-types
+const BackToLabel = ({ label, to }) => (
+  <div className='BackToLabel' >
+    <Link to={to || '#'}>{label}</Link>
+  </div>
+)
 
 class ProductPage extends Component {
   static propTypes = {
@@ -117,18 +126,21 @@ class ProductPage extends Component {
             link={product.src_url}
             retailer={product.retailer}
             sizes={product.sizes}
+            all_sizes={product.all_sizes}
             extraInfo={product.extra_info}
             rawData={product}
             showArrows={showArrows}
             showDots
           />
           <SectionTitle
-            title='You May Also Like This'
-            style={{ marginTop: 100, marginBottom: 50 }}
+            title='You May Also Like'
+            style={{ marginTop: 15, marginBottom: 15 }}
           />
         </div>
       )
     }
+
+    const productName = CATEGORIES_LABELS[product.category]
 
     return (
       <div className={`ProductPage ${className}`}>
@@ -143,6 +155,7 @@ class ProductPage extends Component {
           useButton
           className='ProductPage-products'
         />
+        <BackToLabel to={`/products/${product.category}`} label={`Back to ${productName ? productName.toUpperCase() : '...'}`} />
       </div>
     )
   }

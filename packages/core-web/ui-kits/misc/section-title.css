@@ -1,6 +1,6 @@
 .SectionTitle {
-  margin: 30px auto;
-  text-align: center;
+  margin: 0px auto;
+  text-align: left;
 }
 
 .SectionTitle .container-wide {
@@ -9,23 +9,24 @@
 }
 
 .SectionTitle h3 {
-  font-size: 28px;
+  font-size: 15px;
   font-weight: 300;
   display: inline-block;
   margin: 0 auto 15px;
   position: relative;
+  text-transform: uppercase;
 }
 
 .SectionTitle h3::before,
 .SectionTitle h3::after {
-  content: '';
+  /* content: '';
   width: 1000px;
   height: 1px;
   background: #C1C8C8;
   position: absolute;
   top: 0;
   bottom: 0;
-  margin: auto;
+  margin: auto; */
 }
 
 .SectionTitle h3::before {

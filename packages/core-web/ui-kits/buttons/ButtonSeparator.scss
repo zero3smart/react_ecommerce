@@ -37,4 +37,11 @@
       left: calc(100% + 25px);
     }
   }
+  
+  .YesplzButton.ButtonBordered {
+    width: 100%;
+    background: transparent;
+    color: black;
+    border-color: black;
+  }
 }
