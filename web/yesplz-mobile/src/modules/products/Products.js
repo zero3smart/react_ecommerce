@@ -4,6 +4,8 @@ import isEqual from 'lodash/isEqual'
 import ProductListVertical from '@yesplz/core-web/modules/products/ProductListVertical'
 import withProductsFetcher from './withProductsFetcher'
 
+import './Product.scss'
+
 class Products extends PureComponent {
   static propTypes = {
     category: PropTypes.string.isRequired,
