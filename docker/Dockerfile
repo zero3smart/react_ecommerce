@@ -52,5 +52,6 @@ COPY --from=builder /srv/src/web/yesplz-mobile/build /srv/www/mobile
 COPY --from=builder /srv/src/web/yesplz-desktop/build /srv/www/desktop
 
 EXPOSE 80
+EXPOSE 443
 
 CMD ["nginx", "-g", "daemon off;"]
