@@ -1,0 +1,10 @@
+.TitleHeader {
+  border-bottom: 2px solid black;
+  padding: 15px 0px;
+  margin-bottom: 20px;
+}
+
+.TitleHeader .title {
+  font-size: 35px;
+  font-weight: 900;
+}

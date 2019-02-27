@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import includes from 'lodash/includes'
 import without from 'lodash/without'
 import { withTrackingProvider } from '../../hoc'
-import { InfoBanner } from '@yesplz/core-web/ui-kits/banners'
+import { TitleHeader } from '@yesplz/core-web/ui-kits/title-headers'
 import { withStyles } from '@material-ui/core/styles'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
@@ -47,27 +47,30 @@ class Faq extends Component {
 
     return (
       <div id='MainScroll' className='Faq'>
-        <InfoBanner style={styles.infoBanner} className='animated fadeInDown'>
+        {/* <InfoBanner style={styles.infoBanner} className='animated fadeInDown'>
           <h3>FAQ</h3>
           <p>All about YesPlz</p>
-        </InfoBanner>
+        </InfoBanner> */}
         <div className={classes.root}>
+          <TitleHeader title='FAQ'>
+            <span className='title'>FAQ</span>
+          </TitleHeader>
           {
             questions.map((faq, index) => (
               <ExpansionPanel
                 key={index}
-                className={classes.panel}
+                className={`Faq-section ${classes.panel}`}
                 onChange={this.makeAccordionChangeHandler(index)}
                 classes={{ expanded: 'expanded' }}>
                 <ExpansionPanelSummary
                   expandIcon={<img src={includes(activePanels, index) ? IconOpenSrc : IconClosedSrc} alt='icon' />}
-                  className={classes.headingWrapper}
+                  className={`HeadingWrapper ${classes.headingWrapper}`}
                   classes={{ expanded: 'expanded', expandIcon: 'expandIcon' }}>
                   <Typography className={classes.heading}>
                     <span>{index + 1}.</span>  {faq.title}
                   </Typography>
                 </ExpansionPanelSummary>
-                <ExpansionPanelDetails className={classes.detail}>
+                <ExpansionPanelDetails className={`ExpansionPanelDetails ${classes.detail}`}>
                   <Typography className={classes.body}>
                     <span dangerouslySetInnerHTML={{ __html: faq.content }} />
                   </Typography>
