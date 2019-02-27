@@ -121,7 +121,7 @@ class Base extends Component {
     const { menuOpened, hideMenuButton, stickyHeader } = this.state
 
     return (
-      <div className='Base' key={activeCategory}>
+      <div id='Base-mobile' className='Base' key={activeCategory}>
         <div className={classNames('Base-header', { 'is-sticky': stickyHeader })}>
           <div className='container-wide Base-header-container'>
             <div style={styles.buttonMenuWrapper}>

@@ -126,7 +126,7 @@ export class Presets extends Component {
   scrollWrapperTo (scrollTop) {
     if (this.presetList) {
       this.scrollTopTimeout = setTimeout(() => {
-        this.presetList.scrollTop = scrollTop
+        // this.presetList.scrollTop = scrollTop
       }, 300)
     }
   }
