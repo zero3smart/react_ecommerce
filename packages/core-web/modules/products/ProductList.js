@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+// import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import isEqual from 'lodash/isEqual'
 import ProductGrid from './ProductGrid'
@@ -11,9 +12,19 @@ import { withProductLike } from '../../hoc'
 import { matchingProductsSelector, closeMatchingProductsSelector } from './selectors'
 import './product-list.css'
 
-const childRenderer = (props) => (
-  <ProductGrid {...props} />
-)
+const childRenderer = (props) => {
+  return (
+    <ProductGrid
+      {...props}
+      productBasePath={props.productBasePath ? props.productBasePath : `/products/${props.category}`}
+    />
+  )
+}
+
+childRenderer.propTypes = {
+  productBasePath: PropTypes.any,
+  category: PropTypes.any
+}
 
 class ProductList extends Component {
   static propTypes = {
@@ -74,6 +85,7 @@ class ProductList extends Component {
         useMinimumAnimation: true
       })
     }
+    // ReactDOM.findDOMNode(this).scrollIntoView()
   }
 
   static getDerivedStateFromProps (nextProps, prevState) {
