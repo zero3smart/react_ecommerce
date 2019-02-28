@@ -65,8 +65,19 @@ class VfSanityChecker:
     def add_expected(self, _id, suffixes=None):
         suffixes = suffixes or ['']
         self.expected_ids.extend([_id + str(s) for s in suffixes])
-    def extract_ids(self, fn):
-        root = xml.etree.ElementTree.parse(fn).getroot()
+    def extract_ids(self, fn): # Use re
+        doc = open(fn, 'r').read()
+        m = re.findall('id=\"[^\"]*\"', doc)
+        return m
+
+    def extract_ids_by_xml(self, fn):
+        print('Extracting id from', fn)
+        doc = open(fn, 'r').read()
+        doc = doc.replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?>', '<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg>')
+        doc = doc.replace('xlink:', '') # xml parser doesn't like this
+        doc += '</svg>' # Wrap with tag to make it valid xml
+        root = xml.etree.ElementTree.fromstring(doc) #.getroot()
+        print(root.findall("."))
         ids = []
         selectors = [
             './/{http://www.w3.org/2000/svg}' + attr for attr in ['g', 'path', 'rect']
@@ -181,7 +192,7 @@ class VfSvgGenerator:
 
     def get_sanity_checker(self):
         sc = VfSanityChecker()
-        for g in ['mannequin', 'missing_group']:
+        for g in [self.category + '_mannequin', 'missing_group']:
             sc.add_expected(g)
         return sc
     def check_sanity(self, fn):
@@ -228,7 +239,7 @@ class VfWpantsSvgGenerator(VfSvgGenerator):
 
     def load_core_svg(self, svg_fn):
         id_fixups = {
-            'mannequin_pants': 'mannequin',
+            'mannequin_pants': 'wpants_mannequin',
             'rise_TA': 'touch_rise',
             'thigh_TA':        'touch_thigh',
             'knees_TA':        'touch_knee',
@@ -293,6 +304,7 @@ class VfWtopSvgGenerator(VfSvgGenerator):
 
     def load_core_svg(self, svg_fn):
         id_fixups = {
+            'mannequin': 'wtop_mannequin',
             # 'top_core_0_HL': 'coretype_0_HL',
             # 'top_core_1_HL': 'coretype_1_HL',
             # 'top_core_2_HL': 'coretype_2_HL',
@@ -374,6 +386,7 @@ class VfWshoesSvgGenerator(VfSvgGenerator):
 
     def load_core_svg(self, svg_fn):
         id_fixups = {
+            'mannequin': 'wshoes_mannequin',
             'counter_1': 'counters_1',
             'counter_2': 'counters_2',
             'shaft_1': 'shafts_1',
@@ -430,7 +443,7 @@ class VfWshoesSvgGenerator(VfSvgGenerator):
 
             'bottoms_TN': 'tn_bottoms',
             'bottoms_0_TN': 'tn_bottoms_0',
-            'bottoms_1_TN': 'tn_bottoms_x',
+            #'bottoms_1_TN': 'tn_bottoms_x',
             'bottoms_2_TN': 'tn_bottoms_1',
             'bottoms_3_TN': 'tn_bottoms_2',
             'bottoms_4_TN': 'tn_bottoms_3',

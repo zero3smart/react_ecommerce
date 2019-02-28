@@ -164,7 +164,7 @@ class VfCatViewData {
     return 'tn_HL'
   }
   fullbodyGroupName () {
-    return 'mannequin'
+    return this.catcfg.category + '_mannequin'
   }
 }
 
