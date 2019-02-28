@@ -336,7 +336,7 @@ class VfWtopSvgGenerator(VfSvgGenerator):
         }
         pos_fixes = {
             # 'touches_tops' : [f'-9 -18', None],
-            'Final_VF_Tops_2.0': [f'70 0', .8]
+            'Final_VF_Tops_2.0': [f'70 0', 1]
         }
         return self.load_svg_fixed(svg_fn, id_fixups, pos_fixes)
 
