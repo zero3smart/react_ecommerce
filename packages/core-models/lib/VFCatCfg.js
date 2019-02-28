@@ -9,6 +9,7 @@ class VfCatCfg {
 }
 
 class VfCatWtopCfg extends VfCatCfg {
+  category = 'wtop'
   partList = ['shoulder', 'neckline', 'sleeve_length', 'coretype', 'top_length']
   propMaxVal = {
     'coretype': 3,
@@ -34,6 +35,7 @@ class VfCatWtopCfg extends VfCatCfg {
 }
 
 class VfCatWshoesCfg extends VfCatCfg {
+  category = 'wshoes'
   partList = ['toes', 'covers', 'counters', 'bottoms', 'shafts']
   propMaxVal = {
     'toes': 2,
@@ -59,6 +61,7 @@ class VfCatWshoesCfg extends VfCatCfg {
 }
 
 class VfCatWpantsCfg extends VfCatCfg {
+  category = 'wpants'
   partList = ['rise', 'thigh', 'knee', 'ankle']
   propMaxVal = {
     rise: 2,

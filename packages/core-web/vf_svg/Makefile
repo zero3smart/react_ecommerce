@@ -8,7 +8,7 @@ scour:
 	scour -i originals/tn_wpants.svg -o scoured/tn_wpants.svg --set-precision=2
 	scour -i originals/Final_VF_Shoes_2.0.svg -o scoured/core_wshoes.svg --set-precision=3
 	scour -i originals/shoes_TN.svg -o scoured/tn_wshoes.svg --set-precision=2
-	scour -i originals/Final_VF_Tops_2.0_1.svg -o scoured/core_wtop.svg --set-precision=3
+	scour -i originals/Final_VF_Tops_2.0.svg -o scoured/core_wtop.svg --set-precision=3
 	scour -i originals/tn_tops.svg -o scoured/tn_wtop.svg --set-precision=2
     
 wtop: scour
