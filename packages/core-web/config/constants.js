@@ -87,23 +87,28 @@ export const FILTER_SALES = [
 export const FILTER_PRICES = [
   {
     name: '-50',
-    label: 'UNDER $50'
+    label: 'UNDER $50',
+    range: [0, 50]
   },
   {
     name: '50-100',
-    label: '$50 - $100'
+    label: '$50 - $100',
+    range: [50, 100]
   },
   {
     name: '100-150',
-    label: '$100 - $150'
+    label: '$100 - $150',
+    range: [100, 150]
   },
   {
     name: '150-300',
-    label: '$150 - $300'
+    label: '$150 - $300',
+    range: [150, 300]
   },
   {
     name: '300-',
-    label: '$300+'
+    label: '$300+',
+    range: [300]
   }
 ]
 

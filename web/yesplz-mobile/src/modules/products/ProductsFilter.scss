@@ -26,5 +26,15 @@
     text-decoration: underline;
     padding: 0;
     margin: 22px 0;
+    background-color: transparent;
+    border: none;
+  }
+
+  &-submitButton {
+    background-color: white;
+    position: fixed;
+    left: 30px;
+    bottom: 0;
+    width: calc(100% - 60px);
   }
 }

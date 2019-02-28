@@ -23,11 +23,29 @@
 }
 
 .Favorites-products .ProductGrid {
-  width: calc(50% - 10px);
+  width: calc(100% - 10px);
   margin-left: 5px;
   margin-right: 5px;
   margin-bottom: 10px;
   order: 1;
+}
+
+.Favorites-products.twoColumns {
+  .ProductList-wrapper {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .ProductGrid {
+    width: calc(50% - 10px);
+    flex-basis: calc(50% - 10px);
+
+    .ProductGrid-thumbnail {
+      height: 216px;
+    }
+  }
 }
 
 .Favorites-products .ProductGrid .ProductGrid-thumbnail {

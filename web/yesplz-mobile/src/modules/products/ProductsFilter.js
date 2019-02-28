@@ -12,7 +12,7 @@ import ListView from './ListView'
 import FilterGroup from './FilterGroup'
 import './ProductsFilter.scss'
 
-const ProductsFilter = ({ isVisible, defaultColType, secondaryFilters, activeCategory, onSubmit, onClose }) => {
+const ProductsFilter = ({ isVisible, defaultColType, redirectPreset, secondaryFilters, activeCategory, onSubmit, onClose }) => {
   const [colType, changeColType] = useState(defaultColType)
   const [filters, changeFilters] = useState({})
 
@@ -95,7 +95,7 @@ const ProductsFilter = ({ isVisible, defaultColType, secondaryFilters, activeCat
 
       <button className='ProductsFilter-clearButton' onClick={clearFilter}>Clear all</button>
 
-      <Button kind='secondary' style={{ width: '100%', marginTop: 40 }} onClick={handleSubmit}>Done</Button>
+      <Button className='ProductsFilter-submitButton' kind='secondary' style={{ marginTop: 40 }} onClick={handleSubmit}>Done</Button>
     </Overlay>
   )
 }
@@ -105,13 +105,16 @@ ProductsFilter.propTypes = {
   secondaryFilters: PropTypes.shape({}),
   activeCategory: PropTypes.string,
   onSubmit: PropTypes.func,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  defaultColType: PropTypes.string,
+  redirectPreset: PropTypes.string
 }
 
 ProductsFilter.defaultProps = {
   defaultColType: 'single',
   isVisible: false,
   secondaryFilters: {},
+  redirectPreset: null,
   onSubmit: (productListConfig) => { console.debug('Unhandled `onSubmit` prop in `ProductsFilter`', productListConfig) },
   onClose: () => { console.debug('Unhandled `onClose` prop in `ProductsFilter`') }
 }
@@ -122,11 +125,16 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch, props) => ({
   onSubmit (productListConfig) {
+    const { redirectPreset } = props
     // set secondary filters
     dispatch(setSecondaryFilter(productListConfig.filters))
 
     // redirect to chosen category
-    history.push(`/products/${productListConfig.filters.types[0]}/list?listingView=${productListConfig.colType}`)
+    if (redirectPreset) {
+      history.push(`${redirectPreset}?listingView=${productListConfig.colType}`)
+    } else {
+      history.push(`/products/${productListConfig.filters.types[0]}/list?listingView=${productListConfig.colType}`)
+    }
 
     if (props.onSubmit) {
       props.onSubmit(productListConfig)
