@@ -95,7 +95,7 @@ class SidebarMenu extends PureComponent {
           </SidebarMenuItem>
           {/* end of category menu */}
           <div className='SidebarMenu-separator' style={{ marginTop: 44 }} />
-          <NavLink to='/favorites' onClick={this.handleLinkClick}>
+          <NavLink to='/favorites/items' onClick={this.handleLinkClick}>
             Favorites
           </NavLink>
           <div className='SidebarMenu-separator' style={{ marginBottom: 44 }} />

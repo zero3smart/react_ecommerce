@@ -136,7 +136,7 @@ class Base extends Component {
               YESPLZ
             </NavLink>
             <NavLink
-              to={this.isFavoritesPage ? '#' : '/favorites/clothing'}
+              to={this.isFavoritesPage ? '#' : '/favorites/items'}
               onClick={this.handleLinkClick}
               isActive={this.handleFavoritesLinkActive}
               className='menu-icon'>
