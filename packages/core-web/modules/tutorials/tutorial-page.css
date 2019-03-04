@@ -27,13 +27,6 @@
   top: auto!important;
 }
 
-.TutorialPage .zoomFilter > .ProductFilter .FilterPanel {
-  animation-duration: 1s;
-  animation-fill-mode: both;
-  animation-name: tutorialFilterPanelZoom;
-  opacity: 1;
-}
-
 /* filter keyframes */
 @keyframes tutorialFilterPanelZoom {
   0% {

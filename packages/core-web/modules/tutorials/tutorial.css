@@ -8,17 +8,6 @@
   z-index: 999;
 }
 
-.Tutorial .ProductFilter {
-  position: fixed;
-  bottom: 90px;
-  left: 0;
-  right: 0;
-}
-
-.Tutorial .ProductFilter .FilterPanel {
-  pointer-events: none;
-}
-
 .Tutorial .Button:hover {
   background: rgba(255, 255, 255, 0.7)!important;
 }

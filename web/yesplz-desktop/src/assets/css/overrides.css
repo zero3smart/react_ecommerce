@@ -36,31 +36,6 @@
   font-weight: 200;
 }
 
-.ProductFilterWrapper {
-  position: absolute!important;
-}
-
-/* filter keyframes */
-
-.ProductFilter .FloatButton.unstyled-exiting > svg {
-  animation-name: floatExit;
-}
-
-.ProductFilter .FloatButton.unstyled-exited {
-  opacity: 0;
-}
-
-/* filter keyframes */
-@keyframes floatExit {
-  0% {
-    transform: scale(1) translate(0,0);
-  }
-
-  100% {
-    transform: scale(2.35) translate(-37%, -48.2%);
-  }
-}
-
 /* Breadcrumbs */
 
 .BreadCrumbs > .container {

@@ -2,17 +2,18 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import FilterPanel from './FilterPanel'
-import FloatButton from './FloatButton'
+import CloseSvg from '@yesplz/core-web/assets/svg/close-black.svg'
+import { FloatButton } from '@yesplz/core-web/modules/filters'
+import { isFilterSavedSelector } from '@yesplz/core-web/modules/filters/selectors'
 import history from '@yesplz/core-web/config/history'
 import Transition from '@yesplz/core-web/ui-kits/transitions/Transition'
 import { fetchProducts } from '@yesplz/core-redux/ducks/products'
 import { setFilter, syncFilter, syncFavoritePresets, saveFilterAsPreset, deleteFilterFromPreset, setLastBodyPart, toggleVisualFilter, setOnboarding } from '@yesplz/core-redux/ducks/filters'
-import { isFilterSavedSelector } from './selectors'
 import { CUSTOM_PRESET_NAME } from '@yesplz/core-web/config/constants'
-import './product-filter.css'
+import VisualFilterPanel from 'modules/filters/VisualFilterPanel'
+import './ProductsVisualFilter.scss'
 
-export class ProductFilter extends Component {
+export class ProductsVisualFilter extends Component {
   static propTypes = {
     filters: PropTypes.object,
     isFilterSaved: PropTypes.bool,
@@ -75,12 +76,17 @@ export class ProductFilter extends Component {
   }
 
   get handleFilterLike () {
-    const { saveFilterAsPreset, deleteFilterFromPreset } = this.props
+    const { activeCategory, saveFilterAsPreset, deleteFilterFromPreset } = this.props
     return (filters, favorite) => {
+      const filtersWithCategory = {
+        ...filters,
+        category: activeCategory
+      }
+
       if (favorite) {
-        saveFilterAsPreset(filters, CUSTOM_PRESET_NAME)
+        saveFilterAsPreset(filtersWithCategory, CUSTOM_PRESET_NAME)
       } else {
-        deleteFilterFromPreset(filters, CUSTOM_PRESET_NAME)
+        deleteFilterFromPreset(filtersWithCategory, CUSTOM_PRESET_NAME)
       }
     }
   }
@@ -107,29 +113,41 @@ export class ProductFilter extends Component {
 
     return (
       <div
-        className={classNames('ProductFilter', {
+        className={classNames('ProductsVisualFilter', {
           allowHide: this.isProductDetailPage,
           pullDown: !scrollBellowTheFold,
           onboarding,
           expanded,
           animated: !onboarding })}
       >
-        <Transition timeout={{ enter: 100, exit: 300 }} show={expanded}>
-          <FilterPanel
-            category={activeCategory}
-            favorite={isFilterSaved}
-            filters={filters}
-            lastBodyPart={lastBodyPart}
-            hideMiniOnboarding={hideMiniOnboarding}
-            useVerticalThumb={useVerticalThumb}
-            onFilterChange={this.handleFilterChange}
-            onClose={this.handleFilterToggle}
-            onFilterLike={this.handleFilterLike}
-            onBodyPartChange={this.handleBodyPartChange}
-            onFinishedOnboarding={this.handleFinishOnboarding} />
+        <div className='ProductsVisualFilter-backdrop' onClick={this.handleFilterToggle} />
+        <Transition
+          timeout={{ enter: 100, exit: 300 }}
+          transition='fadeInUp'
+          show={expanded}
+          disableUnmount // we need this, so it won't repeat svgs build. Increase framerate when opening VF.
+        >
+          <div className='ProductsVisualFilter-panelWrapper'>
+            <div className='ProductsVisualFilter-header'>
+              <div className='ProductsVisualFilter-close' onClick={this.handleFilterToggle}>
+                <img src={CloseSvg} />
+              </div>
+            </div>
+            <VisualFilterPanel
+              category={activeCategory}
+              favorite={isFilterSaved}
+              filters={filters}
+              lastBodyPart={lastBodyPart}
+              hideMiniOnboarding={hideMiniOnboarding}
+              useVerticalThumb={useVerticalThumb}
+              onFilterChange={this.handleFilterChange}
+              onFilterLike={this.handleFilterLike}
+              onBodyPartChange={this.handleBodyPartChange}
+              onFinishedOnboarding={this.handleFinishOnboarding} />
+          </div>
         </Transition>
-        <Transition timeout={{ enter: 100, exit: 1500 }} show={!expanded} transition='unstyled'>
-          <FloatButton filters={filters} category={activeCategory} onClick={this.handleFilterToggle} />
+        <Transition timeout={{ enter: 100, exit: 100 }} show={!expanded} transition='fadeInUp'>
+          <FloatButton category={activeCategory} onClick={this.handleFilterToggle} />
         </Transition>
       </div>
     )
@@ -143,8 +161,7 @@ const mapStateToProps = state => ({
   scrollBellowTheFold: state.product.scrollBellowTheFold,
   router: state.router,
   expanded: state.filters.expanded,
-  onboarding: state.filters.onboarding,
-  activeCategory: state.products.activeCategory
+  onboarding: state.filters.onboarding
 })
 
 export default connect(
@@ -160,4 +177,4 @@ export default connect(
     toggleVisualFilter,
     setOnboarding
   }
-)(ProductFilter)
+)(ProductsVisualFilter)

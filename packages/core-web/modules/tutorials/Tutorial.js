@@ -2,13 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-// import classNames from 'classnames'
 import TutorialPage from './TutorialPage'
 import { FloatButton, TutorialBodypartFilter } from '@yesplz/core-web/modules/filters'
-// import { ProductFilter } from '@yesplz/core-web/modules/filters/ProductFilter'
 import { Button } from '@yesplz/core-web/ui-kits/buttons'
-// import BackArrowSvg from '@yesplz/core-web/assets/svg/back-arrow.svg'
-// import BackArrowWhiteSvg from '@yesplz/core-web/assets/svg/back-arrow-white.svg'
 import ReplayArrowSvg from '@yesplz/core-web/assets/svg/replay-arrow.svg'
 import ReplayArrowWhiteSvg from '@yesplz/core-web/assets/svg/replay-arrow-white.svg'
 
@@ -139,14 +135,6 @@ class Tutorial extends Component {
             <Button onClick={this.startTutorial} className='ButtonPrimary'>Yes</Button>
           </div>
         </TutorialPage>
-        {/* <TutorialPage pageKey={1} activeKey={currentPage} duration={3000} onFinish={this.moveToNextPage}>
-          <h1 className='animated fadeInDown'>&nbsp;</h1>
-          <h2 className='animated fadeInDown' style={{ marginTop: 25, height: 65 }}>Meet our new smart visual filter</h2>
-          <div className={classNames('ProductFilterWrapper', { zoomFilter: zoomFilter })} style={styles.filterPanelMask}>
-            <ProductFilter {...fakeProductFilterProps} expanded={filterExpanded} hideMiniOnboarding useVerticalThumb={useVerticalThumb} />
-          </div>
-          {tutorialNavigation}
-        </TutorialPage> */}
         <TutorialPage pageKey={1} activeKey={currentPage} duration={3500} onFinish={this.moveToNextPage}>
           <h1>&nbsp;</h1>
           <h2>All body parts are selectable</h2>
@@ -188,29 +176,6 @@ const defaultFilters = {
   top_length: 2,
   favorite: false
 }
-
-// const fakeProductFilterProps = {
-//   filters: defaultFilters,
-//   isFilterSaved: false,
-//   lastBodyPart: null,
-//   router: {
-//     location: {
-//       pathname: '/products'
-//     }
-//   },
-//   expanded: false,
-//   scrollBellowTheFold: true,
-//   onboarding: false,
-//   setFilter: () => {},
-//   fetchProducts: () => {},
-//   syncFilter: () => {},
-//   syncFavoritePresets: () => {},
-//   saveFilterAsPreset: () => {},
-//   deleteFilterFromPreset: () => {},
-//   setLastBodyPart: () => {},
-//   toggleVisualFilter: () => {},
-//   setOnboarding: () => {}
-// }
 
 const styles = {
   filterButton: {

@@ -24,6 +24,10 @@
   animation-name: fadeOutDown;
 }
 
+.fadeInUp-exited {
+  transform: translate3d(0, 100%, 0);
+}
+
 /* fadeInDown */
 .fadeInDown-entering {
   opacity: 0;

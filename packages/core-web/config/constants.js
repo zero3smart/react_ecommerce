@@ -112,6 +112,65 @@ export const FILTER_PRICES = [
   }
 ]
 
+export const FILTER_STYLES = [
+  {
+    name: 'long',
+    label: 'Long',
+    coretype: 0,
+    neckline: 0,
+    shoulder: 3,
+    sleeve_length: 4,
+    top_length: 0,
+    toes: 1,
+    covers: 2,
+    counters: 2,
+    bottoms: 2,
+    shafts: 4
+  },
+  {
+    name: 'short',
+    label: 'Short',
+    coretype: 0,
+    neckline: 0,
+    shoulder: 3,
+    sleeve_length: 1,
+    top_length: 0,
+    toes: 1,
+    covers: 2,
+    counters: 2,
+    bottoms: 2,
+    shafts: 4
+  },
+  {
+    name: 'middle',
+    label: 'Middle',
+    coretype: 0,
+    neckline: 0,
+    shoulder: 3,
+    sleeve_length: 2,
+    top_length: 0,
+    toes: 1,
+    covers: 2,
+    counters: 2,
+    bottoms: 2,
+    shafts: 4
+  },
+  {
+    name: 'short-2',
+    label: 'Short',
+    coretype: 0,
+    neckline: 0,
+    shoulder: 0,
+    sleeve_length: 1,
+    top_length: 0,
+    toes: 1,
+    covers: 2,
+    counters: 2,
+    bottoms: 2,
+    shafts: 4
+  }
+]
+
 // end of product list filters
 export const CATEGORIES_LABELS = {
   wtop: 'Tops',
