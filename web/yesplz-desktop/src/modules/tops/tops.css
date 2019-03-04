@@ -21,10 +21,6 @@
   margin-bottom: 0px;
 }
 
-.Tops .ProductFilter {
-  grid-area: visualFilter;
-}
-
 .Tops .VisualFilter {
   margin-top: 0px;
   display: flex;

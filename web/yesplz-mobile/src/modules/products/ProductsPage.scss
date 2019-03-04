@@ -1,6 +1,8 @@
 @import 'assets/styles/variables.scss';
 
 .ProductsPage {
+  height: auto;
+
   &-title {
     h2 {
       display: flex;

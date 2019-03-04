@@ -12,6 +12,7 @@ import MobilePicker from '@yesplz/core-web/ui-kits/selects/MobilePicker'
 import { PageTitle } from '@yesplz/core-web/ui-kits/misc'
 
 import { Products, ProductsFilter } from 'modules/products'
+import ProductsVisualFilter from 'modules/filters/ProductsVisualFilter'
 import { NotFound } from 'modules/base'
 import './ProductsPage.scss'
 
@@ -157,6 +158,7 @@ class ProductsPage extends PureComponent {
           onSubmit={this.handleSubmitFilter}
           onClose={this.handleCloseFilter}
         />
+        <ProductsVisualFilter activeCategory={this.currentCategory} />
       </div>
     )
   }

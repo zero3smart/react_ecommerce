@@ -177,12 +177,18 @@ export default class VisualFilter {
         group.click(() => { this.handleBodyPartClick(prop) })
       }
     }
-    if (!this.settings.hideThumbnail) {
+
+    if (this.settings.hideThumbnail) {
+      group = this.findGroupById(this.catdata.thumbnailTouchGroupName())
+      group.attr({ opacity: 0 })
+      const thumbnailGroup = this.findGroupById('tn_tops')
+      thumbnailGroup.attr({ opacity: 0 })
+    } else {
       for (let i = 0; i < 7; i++) {
         group = this.findGroupById(this.catdata.thumbnailTouchGroupName(i))
         group.attr(thumbTouchSize)
-        group.attr({ visibility: 'visible' })
         group.attr({ opacity: this.settings.debugTouchArea ? 0.2 : 0.0 })
+        group.attr({ visibility: 'visible' })
         group.click(() => { this.handleThumbnailClick(i) })
       }
     }

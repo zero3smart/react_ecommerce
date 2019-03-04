@@ -66,7 +66,7 @@ export default class MinimalPreset extends Component {
       badgeMode: true,
       hideThumbnail: true,
       hideMiniOnboarding: true,
-      customViewBox: [195, 20, 350, 300],
+      customViewBox: [75, 50, 250, 200],
       category
     })
   }

@@ -22,7 +22,7 @@ const defaultState = {
   relatedProductsFetched: false,
   nextOffset: 0,
   totalCount: 0,
-  scrollBellowTheFold: false // whether products page scroll position is bellow the fold
+  scrollBellowTheFold: true // whether products page scroll position is bellow the fold
 }
 
 // Reducer

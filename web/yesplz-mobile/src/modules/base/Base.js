@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import classNames from 'classnames'
 import FavoritesSvg from '@yesplz/core-web/assets/svg/favorites.svg'
-import { ProductFilter } from '@yesplz/core-web/modules/filters'
 import { VisualFilter } from '@yesplz/core-models'
-import { setActiveCategory } from '@yesplz/core-redux/ducks/products'
 import history from '@yesplz/core-web/config/history'
 import MenuButton from 'modules/menus/MenuButton'
 import SidebarMenu from 'modules/menus/SidebarMenu'
@@ -15,9 +12,7 @@ import './base.css'
 class Base extends Component {
   static propTypes = {
     children: PropTypes.element,
-    location: PropTypes.object,
-    activeCategory: PropTypes.string.isRequired,
-    setActiveCategory: PropTypes.func.isRequired
+    location: PropTypes.object
   }
 
   constructor (props) {
@@ -30,6 +25,7 @@ class Base extends Component {
     this.toggleSidebarMenu = this.toggleSidebarMenu.bind(this)
     this.handleSidebarMenuClose = this.handleSidebarMenuClose.bind(this)
     this.handleMenuGroupChange = this.handleMenuGroupChange.bind(this)
+    this.handleCategoryChange = this.handleCategoryChange.bind(this)
   }
 
   componentDidMount () {
@@ -72,11 +68,6 @@ class Base extends Component {
     return /^\/favorites\//.test(location.pathname)
   }
 
-  get showVisualFilter () {
-    const { location } = this.props
-    return !(/^\/tutorial/.test(location.pathname))
-  }
-
   get handleHomeLinkActive () {
     return match => match // || this.isProductDetailPage
   }
@@ -116,12 +107,16 @@ class Base extends Component {
     })
   }
 
+  handleCategoryChange (category) {
+    console.debug('category changed', category)
+  }
+
   render () {
-    const { children, activeCategory, setActiveCategory } = this.props
+    const { children } = this.props
     const { menuOpened, hideMenuButton, stickyHeader } = this.state
 
     return (
-      <div id='Base-mobile' className='Base' key={activeCategory}>
+      <div id='Base-mobile' className='Base'>
         <div className={classNames('Base-header', { 'is-sticky': stickyHeader })}>
           <div className='container-wide Base-header-container'>
             <div style={styles.buttonMenuWrapper}>
@@ -144,14 +139,13 @@ class Base extends Component {
             </NavLink>
             <SidebarMenu
               opened={menuOpened}
-              onCategoryChange={setActiveCategory}
+              onCategoryChange={this.handleCategoryChange}
               onClose={this.handleSidebarMenuClose}
               onMenuGroupChange={this.handleMenuGroupChange}
             />
           </div>
         </div>
         {children}
-        {this.showVisualFilter ? <ProductFilter key={activeCategory} /> : null}
       </div>
     )
   }
@@ -165,8 +159,4 @@ const styles = {
   }
 }
 
-const mapStateToProps = state => ({
-  activeCategory: state.products.activeCategory
-})
-
-export default connect(mapStateToProps, { setActiveCategory })(Base)
+export default Base

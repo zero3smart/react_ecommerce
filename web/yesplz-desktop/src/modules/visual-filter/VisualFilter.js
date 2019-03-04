@@ -53,12 +53,17 @@ class VisualFilter extends Component {
   }
 
   get handleFilterLike () {
-    const { saveFilterAsPreset, deleteFilterFromPreset } = this.props
+    const { activeCategory, saveFilterAsPreset, deleteFilterFromPreset } = this.props
     return (filters, favorite) => {
+      const filtersWithCategory = {
+        ...filters,
+        category: activeCategory
+      }
+
       if (favorite) {
-        saveFilterAsPreset(filters, CUSTOM_PRESET_NAME)
+        saveFilterAsPreset(filtersWithCategory, CUSTOM_PRESET_NAME)
       } else {
-        deleteFilterFromPreset(filters, CUSTOM_PRESET_NAME)
+        deleteFilterFromPreset(filtersWithCategory, CUSTOM_PRESET_NAME)
       }
     }
   }

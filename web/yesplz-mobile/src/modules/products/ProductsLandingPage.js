@@ -6,6 +6,7 @@ import findKey from 'lodash/findKey'
 
 import history from '@yesplz/core-web/config/history'
 import { AdvancedPresetList } from '@yesplz/core-web/modules/presets'
+import ProductsVisualFilter from 'modules/filters/ProductsVisualFilter'
 import { CATEGORY_TOPS, CATEGORY_SHOES, CATEGORY_PANTS, CATEGORIES_LABELS } from '@yesplz/core-web/config/constants'
 import { withTrackingProvider } from '@yesplz/core-web/hoc'
 import MobilePicker from '@yesplz/core-web/ui-kits/selects/MobilePicker'
@@ -150,6 +151,7 @@ class ProductsLandingPage extends PureComponent {
           onClose={this.handleClosePicker}
         />
         <ProductsFilter activeCategory={this.currentCategory} isVisible={isFilterVisible} onSubmit={this.handleCloseFilter} onClose={this.handleCloseFilter} />
+        <ProductsVisualFilter activeCategory={this.currentCategory} />
       </div>
     )
   }

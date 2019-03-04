@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import './color-button.css'
+import CheckSvg from '../../assets/svg/check.svg'
+import './ColorButton.scss'
 
 export default class ColorButton extends Component {
   get handleClick () {
@@ -17,8 +18,16 @@ export default class ColorButton extends Component {
       <button
         onClick={this.handleClick}
         className={classNames('ColorButton', { [name]: name, active })}
-        style={{ backgroundColor: color, backgroundImage: color }}
-      />
+      >
+        <div className='ColorButton-color' style={{ backgroundColor: color, backgroundImage: color }} />
+        {
+          active && (
+            <div className='ColorButton-mask' style={{ backgroundColor: color, backgroundImage: color }}>
+              <img src={CheckSvg} />
+            </div>
+          )
+        }
+      </button>
     )
   }
 }

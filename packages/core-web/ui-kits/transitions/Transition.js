@@ -5,13 +5,13 @@ import './transition.css'
 
 class Transition extends Component {
   render () {
-    const { transition, timeout, children, show, className, onEntered } = this.props
+    const { transition, timeout, children, show, className, disableUnmount, onEntered } = this.props
 
     return (
       <RTransition timeout={timeout} in={show} className={className} onEntered={onEntered}>
         {
           state => {
-            if (state === 'exited') {
+            if (state === 'exited' && !disableUnmount) {
               return null
             }
             return (
@@ -33,6 +33,7 @@ Transition.propTypes = {
   children: PropTypes.any.isRequired,
   transition: PropTypes.oneOf(['fadeIn', 'fadeInUp', 'fadeInDown', 'unstyled']),
   timeout: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+  disableUnmount: PropTypes.bool, // whether to unmount element on when invisible
   className: PropTypes.string,
   onEntered: PropTypes.func
 }
@@ -41,7 +42,8 @@ Transition.defaultProps = {
   show: false,
   transition: 'fadeIn',
   timeout: 100,
-  in: false
+  in: false,
+  disableUnmount: false
 }
 
 export default Transition

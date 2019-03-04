@@ -5,10 +5,11 @@ import without from 'lodash/without'
 import includes from 'lodash/includes'
 import classNames from 'classnames'
 import { FABRIC_COLORS } from '@yesplz/core-web/config/constants'
-import { ColorButton, Button } from '@yesplz/core-web/ui-kits/buttons'
+import { ColorButton } from '@yesplz/core-web/ui-kits/buttons'
+import ClearSvg from '../../assets/svg/clear.svg'
 import { withFocus } from '../../hoc'
 import { Tracker } from '@yesplz/core-models'
-import './color-pallete.css'
+import './ColorPallete.scss'
 
 export class ColorPallete extends Component {
   static propTypes = {
@@ -78,13 +79,9 @@ export class ColorPallete extends Component {
             <ColorButton active={includes(values, name)} key={name} name={name} color={color} onClick={this.handleClick} />
           ))
         }
-        <Button
-          kind='rounded'
-          className='transparent small'
-          onClick={this.clearSelection}
-          style={{ width: 47, padding: 7, margin: '0px 0px 28px' }}>
-          Clear
-        </Button>
+        <button className='ColorPallete-clear' onClick={this.clearSelection}>
+          <img src={ClearSvg} />
+        </button>
       </div>
     )
   }
