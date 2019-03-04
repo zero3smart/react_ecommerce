@@ -51,7 +51,7 @@ class Base extends Component {
     const { activeCategory, children } = this.props
 
     return (
-      <div className='Base' key={activeCategory}>
+      <div id='Base-desktop' className='Base' key={activeCategory}>
         <div className='Base-header'>
           <div className='container Base-headerContainer'>
             <NavLink

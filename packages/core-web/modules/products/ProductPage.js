@@ -49,30 +49,28 @@ class ProductPage extends Component {
     this.productRequest = fetchProduct(productId)
     this.relatedsRequest = fetchRelatedProducts(productId)
     setTimeout(() => {
-      ReactDOM.findDOMNode(document.getElementById('Base-mobile')).scrollIntoView()
+      let idElement = process.env.REACT_APP_IS_MOBILE === 'true' ? 'Base-mobile' : 'Base-desktop'
+      ReactDOM.findDOMNode(document.getElementById(idElement)).scrollIntoView()
     }, 200)
   }
 
   componentDidUpdate (prevProps) {
     const { productId, fetchProduct, fetchRelatedProducts, resetProduct } = this.props
-
-    console.log('did update', prevProps.productId, this.props.productId)
-
     // if productId changed, fetch new product and related product data
     if (prevProps.productId !== this.props.productId) {
       resetProduct()
       this.productRequest = fetchProduct(productId)
       this.relatedsRequest = fetchRelatedProducts(productId)
-
       // set main scroll top to 0
       // const scrollWrapper = document.getElementById('MainScroll')
       // if (scrollWrapper) {
       //   scrollWrapper.scrollTop = 0
       // }
       setTimeout(() => {
-        console.log('top')
-        ReactDOM.findDOMNode(document.getElementById('Base-mobile')).scrollIntoView()
-      }, 0)
+        let idElement = process.env.REACT_APP_IS_MOBILE === 'true' ? 'Base-mobile' : 'MainScroll'
+        console.log(document.getElementById(idElement))
+        ReactDOM.findDOMNode(document.getElementById(idElement)).scrollTo(0, 0)
+      }, 200)
     }
   }
 
