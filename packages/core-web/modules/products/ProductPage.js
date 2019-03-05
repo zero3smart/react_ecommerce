@@ -31,6 +31,7 @@ class ProductPage extends Component {
     scrollBellowTheFold: PropTypes.bool,
     showArrows: PropTypes.bool,
     className: PropTypes.string,
+    id: PropTypes.string,
     renderExtraItem: PropTypes.func,
     fetchProduct: PropTypes.func.isRequired,
     fetchRelatedProducts: PropTypes.func.isRequired,
@@ -48,10 +49,7 @@ class ProductPage extends Component {
     // fetch product and related product data
     this.productRequest = fetchProduct(productId)
     this.relatedsRequest = fetchRelatedProducts(productId)
-    setTimeout(() => {
-      let idElement = process.env.REACT_APP_IS_MOBILE === 'true' ? 'Base-mobile' : 'Base-desktop'
-      ReactDOM.findDOMNode(document.getElementById(idElement)).scrollIntoView()
-    }, 200)
+    this.scrollInToView()
   }
 
   componentDidUpdate (prevProps) {
@@ -66,11 +64,7 @@ class ProductPage extends Component {
       // if (scrollWrapper) {
       //   scrollWrapper.scrollTop = 0
       // }
-      setTimeout(() => {
-        let idElement = process.env.REACT_APP_IS_MOBILE === 'true' ? 'Base-mobile' : 'MainScroll'
-        console.log(document.getElementById(idElement))
-        ReactDOM.findDOMNode(document.getElementById(idElement)).scrollTo(0, 0)
-      }, 200)
+      this.scrollInToView()
     }
   }
 
@@ -113,6 +107,15 @@ class ProductPage extends Component {
     }
   }
 
+  scrollInToView = () => {
+    if (process.env.REACT_APP_IS_MOBILE === 'true') {
+      setTimeout(() => {
+        let idElement = process.env.REACT_APP_IS_MOBILE === 'true' ? 'Base-mobile' : 'ProductPage-desktop'
+        ReactDOM.findDOMNode(document.getElementById(idElement)).scrollIntoView(0, 0)
+      }, 200)
+    }
+  }
+
   render () {
     const { product, relatedProducts, isProductFetched, isRelatedProductsFetched, nextOffset, renderExtraItem, showArrows, className } = this.props
     let productBox = <ProductPlaceholder />
@@ -140,10 +143,13 @@ class ProductPage extends Component {
             showArrows={showArrows}
             showDots
           />
-          <SectionTitle
-            title='You May Also Like'
-            style={{ marginTop: 15, marginBottom: 15 }}
-          />
+          {
+            process.env.REACT_APP_IS_MOBILE === 'true'
+              ? <SectionTitle
+                title='You May Also Like'
+                style={{ marginTop: 15, marginBottom: 15 }}
+              /> : <div className='SectionTitle container'><div className='title'>You May Also Like</div></div>
+          }
         </div>
       )
     }
@@ -151,7 +157,7 @@ class ProductPage extends Component {
     const productName = CATEGORIES_LABELS[product.category]
 
     return (
-      <div className={`ProductPage ${className}`}>
+      <div id={this.props.id} className={`ProductPage ${className}`}>
         <ProductList
           id='MainScroll'
           show={isRelatedProductsFetched}
