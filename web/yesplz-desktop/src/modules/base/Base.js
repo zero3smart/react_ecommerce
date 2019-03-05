@@ -53,12 +53,13 @@ class Base extends Component {
     return (
       <div id='Base-desktop' className='Base' key={activeCategory}>
         <div className='Base-header'>
-          <div className='container Base-headerContainer'>
+          <div className='Base-headerContainer'>
             <NavLink
               to='/faq'
               onClick={this.handleLinkClick}
-              className='menu-icon'>
-              <img src={BurgerSvg} alt='FAQ Page' />
+              className='menu-icon menu-icon-sidebar'>
+              <div>=</div>
+              {/* <img src={BurgerSvg} alt='FAQ Page' /> */}
             </NavLink>
             <NavLink
               exact
@@ -66,7 +67,8 @@ class Base extends Component {
               onClick={this.handleLinkClick}
               isActive={this.handleHomeLinkActive}
               className='logo'>
-              <img src={YesplzLogoSvg} alt='YesPlz' />
+              YESPLZ
+              {/* <img src={YesplzLogoSvg} alt='YesPlz' /> */}
             </NavLink>
             <div className='Base-rightNav'>
               <NavLink
@@ -82,7 +84,7 @@ class Base extends Component {
             </div>
           </div>
         </div>
-        <CategoryMenu />
+        {/* <CategoryMenu /> */}
         {children}
         <FilterToggle />
       </div>
