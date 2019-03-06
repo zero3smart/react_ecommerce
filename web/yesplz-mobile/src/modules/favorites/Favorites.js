@@ -139,11 +139,11 @@ class Favorites extends Component {
     const showFits = favoriteType === 'styles'
     return (
       <div className='Favorites'>
-        <div className='container'>
-          <TitleHeader title='Favorites'>
-            <span className='title'>Favorites</span>
-          </TitleHeader>
-        </div>
+        {/* <div className='container'> */}
+        <TitleHeader title='Favorites'>
+          <span className='title'>Favorites</span>
+        </TitleHeader>
+        {/* </div> */}
         <div className='container'>
           <MenuNavigation
             menu={this.menuNavigationOptions}

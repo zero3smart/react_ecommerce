@@ -79,7 +79,7 @@ export default class ProductGrid extends PureComponent {
           {isSale && showOriginalPrice && <div className='ProductGrid-originalPrice'>{currency}{originalPrice}</div>}
           <div className={classNames('ProductGrid-price', { sale: isSale })}>
             {
-              !isOutOfStock ? `${currency}${price}` : 'Out of stock'
+              !isOutOfStock ? `${currency}${price}` : 'Out of Stock'
             }
           </div>
         </div>

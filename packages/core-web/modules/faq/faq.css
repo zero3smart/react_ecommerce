@@ -48,3 +48,6 @@
 .Faq .ExpansionPanelDetails p{
   padding: 10px 0 0 0;
 }
+.Faq .TitleHeader {
+  margin-left: 0;
+}
