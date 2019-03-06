@@ -10,6 +10,7 @@ import { Favorites } from 'modules/favorites'
 import { ProductsLandingPage, ProductsPage } from 'modules/products'
 import { renderSingleProductPage } from 'modules/products/productRoutes'
 import { renderPresetProductsPage, renderSinglePresetProductPage } from 'modules/presets/presetRoutes'
+import { Sizes } from 'modules/sizes'
 
 const createRoutes = () => (
   <Switch>
@@ -29,6 +30,8 @@ const BasePlatform = (props) => (
       <Route exact path='/preset-products/:presetName' render={renderPresetProductsPage} />
       <Route exact path='/preset-products/:presetName/:productId' render={renderSinglePresetProductPage} />
       <Route exact path='/favorites/:favoriteType' component={Favorites} />
+      <Route exact path='/profile/sizes/:category/:sizeKey' component={Sizes} />
+
       <Route exact path='/faq' component={Faq} />
       <Route component={NotFound} />
     </Switch>
