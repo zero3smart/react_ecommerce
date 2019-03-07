@@ -1,6 +1,7 @@
 @import 'assets/styles/variables.scss';
 
 .ProductsFilter {
+  padding-bottom: 50px;
   .Overlay-scroll {
     padding-top: 50px;
     padding-bottom: 50px;
@@ -30,11 +31,21 @@
     border: none;
   }
 
-  &-submitButton {
+  &-submitButtonWrapper {
     background-color: white;
+    padding: 20px 30px;
     position: fixed;
-    left: 30px;
+    left: 0;
+    right: 0;
     bottom: 0;
-    width: calc(100% - 60px);
+    box-shadow: $shadow-primary;
+
+    .is-reachedEnd & {
+      box-shadow: none;
+    }
+  }
+
+  &-submitButton {
+    width: 100%;
   }
 }

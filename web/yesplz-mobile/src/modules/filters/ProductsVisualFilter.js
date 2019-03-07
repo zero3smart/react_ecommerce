@@ -5,7 +5,6 @@ import classNames from 'classnames'
 import CloseSvg from '@yesplz/core-web/assets/svg/close-black.svg'
 import { FloatButton } from '@yesplz/core-web/modules/filters'
 import { isFilterSavedSelector } from '@yesplz/core-web/modules/filters/selectors'
-import history from '@yesplz/core-web/config/history'
 import Transition from '@yesplz/core-web/ui-kits/transitions/Transition'
 import { fetchProducts } from '@yesplz/core-redux/ducks/products'
 import { setFilter, syncFilter, syncFavoritePresets, saveFilterAsPreset, deleteFilterFromPreset, setLastBodyPart, toggleVisualFilter, setOnboarding } from '@yesplz/core-redux/ducks/filters'
@@ -21,6 +20,7 @@ export class ProductsVisualFilter extends Component {
     activeCategory: PropTypes.string,
     router: PropTypes.object,
     expanded: PropTypes.bool,
+    hidden: PropTypes.bool,
     scrollBellowTheFold: PropTypes.bool,
     onboarding: PropTypes.bool,
     hideMiniOnboarding: PropTypes.bool,
@@ -36,6 +36,12 @@ export class ProductsVisualFilter extends Component {
     setOnboarding: PropTypes.func.isRequired
   }
 
+  static defaultProps = {
+    expanded: false,
+    hidden: false,
+    onboarding: false
+  }
+
   componentDidMount () {
     const { syncFilter, syncFavoritePresets } = this.props
     syncFilter()
@@ -43,14 +49,9 @@ export class ProductsVisualFilter extends Component {
   }
 
   get handleFilterToggle () {
-    const { expanded, router, toggleVisualFilter } = this.props
+    const { expanded, toggleVisualFilter } = this.props
     return () => {
-      // will move to products page when clicking on the visual filter button
-      if (router.location.pathname !== '/products') {
-        history.push('/products')
-      } else {
-        toggleVisualFilter(!expanded)
-      }
+      toggleVisualFilter(!expanded)
     }
   }
 
@@ -63,10 +64,6 @@ export class ProductsVisualFilter extends Component {
       fetchProducts(undefined, undefined, undefined, true)
       // set wrapper scrolltop to 0
       document.documentElement.scrollTop = 0
-      // if it's not in Tops page, redirect to Tops page
-      // if (this.props.router.location.pathname !== '/products') {
-      //   history.push('/products')
-      // }
     }
   }
 
@@ -108,7 +105,7 @@ export class ProductsVisualFilter extends Component {
   render () {
     const {
       activeCategory, filters, scrollBellowTheFold, isFilterSaved, lastBodyPart,
-      expanded, onboarding, hideMiniOnboarding, useVerticalThumb
+      expanded, hidden, onboarding, hideMiniOnboarding, useVerticalThumb
     } = this.props
 
     return (
@@ -118,6 +115,7 @@ export class ProductsVisualFilter extends Component {
           pullDown: !scrollBellowTheFold,
           onboarding,
           expanded,
+          'is-hidden': hidden,
           animated: !onboarding })}
       >
         <div className='ProductsVisualFilter-backdrop' onClick={this.handleFilterToggle} />

@@ -158,7 +158,7 @@ class ProductsPage extends PureComponent {
           onSubmit={this.handleSubmitFilter}
           onClose={this.handleCloseFilter}
         />
-        <ProductsVisualFilter activeCategory={this.currentCategory} />
+        <ProductsVisualFilter hidden={isFilterVisible} activeCategory={this.currentCategory} />
       </div>
     )
   }
