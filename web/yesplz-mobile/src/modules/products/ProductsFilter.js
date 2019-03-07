@@ -95,7 +95,14 @@ const ProductsFilter = ({ isVisible, defaultColType, redirectPreset, secondaryFi
 
       <button className='ProductsFilter-clearButton' onClick={clearFilter}>Clear all</button>
 
-      <Button className='ProductsFilter-submitButton' kind='secondary' style={{ marginTop: 40 }} onClick={handleSubmit}>Done</Button>
+      <div className='ProductsFilter-submitButtonWrapper'>
+        <Button
+          className='ProductsFilter-submitButton'
+          kind='secondary'
+          onClick={handleSubmit}>
+          Done
+        </Button>
+      </div>
     </Overlay>
   )
 }

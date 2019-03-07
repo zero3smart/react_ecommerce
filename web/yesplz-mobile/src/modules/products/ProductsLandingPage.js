@@ -151,7 +151,7 @@ class ProductsLandingPage extends PureComponent {
           onClose={this.handleClosePicker}
         />
         <ProductsFilter activeCategory={this.currentCategory} isVisible={isFilterVisible} onSubmit={this.handleCloseFilter} onClose={this.handleCloseFilter} />
-        <ProductsVisualFilter activeCategory={this.currentCategory} />
+        <ProductsVisualFilter hidden={isFilterVisible} activeCategory={this.currentCategory} />
       </div>
     )
   }
