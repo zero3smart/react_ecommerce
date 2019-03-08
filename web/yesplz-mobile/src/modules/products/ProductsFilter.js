@@ -104,7 +104,18 @@ const ProductsFilter = ({ isVisible, defaultColType, secondaryFilters, activeCat
 }
 
 const getFilterSizes = memoize((category) => (
-  SIZES[category].ids.map(id => ({ name: id, label: id }))
+  [
+    ...SIZES[category].ids.map(id => ({ name: id, label: id })),
+    /**
+     * @todo: let's keep "My Sizes" disabled for now until api finished
+     */
+    {
+      name: 'mysizes',
+      label: 'My Sizes',
+      disabled: true,
+      fallbackURL: `/profile/sizes/${category}/regular`
+    }
+  ]
 ))
 
 ProductsFilter.propTypes = {
