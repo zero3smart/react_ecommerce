@@ -17,7 +17,7 @@ const defaultState = {
       plus: {
         normal: null
       },
-      petitie: {
+      petite: {
         normal: null
       }
     },
@@ -29,7 +29,7 @@ const defaultState = {
       plus: {
         normal: null
       },
-      petitie: {
+      petite: {
         normal: null,
         waist: null
       }

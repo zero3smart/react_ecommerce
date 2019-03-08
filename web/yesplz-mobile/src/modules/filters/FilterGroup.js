@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import map from 'lodash/map'
 import without from 'lodash/without'
@@ -46,9 +47,10 @@ const FilterGroup = ({ name, values, options, type, onChange }) => {
       {
         options.map(option => {
           const indeterminate = option.name === 'all' && pureValues.length > 0 && pureValues.length < pureOptionsNames.length
+          let fieldComponent = null
 
           if (type === 'radio') {
-            return (
+            fieldComponent = (
               <Radio
                 key={option.name}
                 label={option.label}
@@ -56,12 +58,13 @@ const FilterGroup = ({ name, values, options, type, onChange }) => {
                 value={values[0] === option.name}
                 htmlFor={`${name}-${option.name}`}
                 indeterminate={indeterminate}
+                disabled={option.disabled}
                 onChange={handleRadioChange}
               />
             )
           }
 
-          return (
+          fieldComponent = (
             <Checkbox
               key={option.name}
               label={option.label}
@@ -69,8 +72,21 @@ const FilterGroup = ({ name, values, options, type, onChange }) => {
               value={includes(values, option.name)}
               htmlFor={`${name}-${option.name}`}
               indeterminate={indeterminate}
-              onChange={handleCheckboxChange} />
+              disabled={option.disabled}
+              onChange={handleCheckboxChange}
+            />
           )
+
+          // when option is disabled but has fallbackURL, wrap field with a link
+          if (option.disabled && option.fallbackURL) {
+            return (
+              <Link key={option.name} to={option.fallbackURL} className='FilterGroup-fieldLinkWrap'>
+                {fieldComponent}
+              </Link>
+            )
+          }
+
+          return fieldComponent
         })
       }
     </div>

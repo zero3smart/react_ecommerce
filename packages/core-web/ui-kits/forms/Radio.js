@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import './Radio.scss'
 
-const Radio = ({ label, name, value, htmlFor, onChange }) => (
-  <label htmlFor={htmlFor} className='YesplzRadio'>
+const Radio = ({ label, name, value, htmlFor, disabled, onChange }) => (
+  <label htmlFor={htmlFor} className={classNames('YesplzRadio', { 'is-disabled': disabled })}>
     <input
       id={htmlFor}
       type='radio'
@@ -13,6 +13,7 @@ const Radio = ({ label, name, value, htmlFor, onChange }) => (
         onChange(name, event.target.checked)
       }}
       checked={value}
+      disabled={disabled}
     />
     <div
       className={
@@ -29,6 +30,7 @@ Radio.propTypes = {
   name: PropTypes.string,
   value: PropTypes.bool,
   htmlFor: PropTypes.string,
+  disabled: PropTypes.bool,
   onChange: PropTypes.func.isRequired
 }
 

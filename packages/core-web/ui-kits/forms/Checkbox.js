@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import './Checkbox.scss'
 
-const Checkbox = ({ label, name, value, htmlFor, indeterminate, onChange }) => (
-  <label htmlFor={htmlFor} className='YesplzCheckbox'>
+const Checkbox = ({ label, name, value, htmlFor, indeterminate, disabled, onChange }) => (
+  <label htmlFor={htmlFor} className={classNames('YesplzCheckbox', { 'is-disabled': disabled })}>
     <input
       id={htmlFor}
       type='checkbox'
@@ -12,6 +12,7 @@ const Checkbox = ({ label, name, value, htmlFor, indeterminate, onChange }) => (
         onChange(name, indeterminate ? false : event.target.checked)
       }}
       checked={value}
+      disabled={disabled}
     />
     <div
       className={
@@ -30,6 +31,7 @@ Checkbox.propTypes = {
   value: PropTypes.bool,
   indeterminate: PropTypes.bool,
   htmlFor: PropTypes.string,
+  disabled: PropTypes.bool,
   onChange: PropTypes.func.isRequired
 }
 
