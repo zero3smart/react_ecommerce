@@ -32,6 +32,9 @@ const defaultState = {
   },
   // secondary filters such as ocasions, prices, sales, etc
   secondary: {},
+  // stuff filters such as ...
+  stuff: {
+  },
   lastBodyPart: VisualFilter.getLastBodyPart(),
   presets: [],
   favoritePresets: [],

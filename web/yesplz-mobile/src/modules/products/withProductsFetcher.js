@@ -10,21 +10,22 @@ const mapStateToProps = (state, props) => {
     products: currentCategory.data,
     filters: {
       ...state.filters.data,
-      ...state.filters.secondary
+      ...state.filters.secondary,
+      ...state.filters.stuff
     },
     maxCount: currentCategory.limitPerPage
   }
 }
 
 const mapDispatchToProps = (dispatch, props) => ({
-  onInit (category, limitPerPage) {
-    dispatch(fetchProducts(category, props.filters, limitPerPage, true))
+  onInit (category, limitPerPage, customFilters) {
+    dispatch(fetchProducts(category, { ...props.filters, ...customFilters }, limitPerPage, true))
   },
   onFilter (category, filters, limitPerPage) {
     dispatch(fetchProducts(category, filters, limitPerPage, true))
   },
-  onFetchNext (category, limitPerPage) {
-    return dispatch(fetchProducts(category, props.filters, limitPerPage))
+  onFetchNext (category, limitPerPage, customFilters) {
+    return dispatch(fetchProducts(category, { ...props.filters, ...customFilters }, limitPerPage))
   },
   onToggleLike (data, favorite) {
     props.toggleProductLike(data, favorite)

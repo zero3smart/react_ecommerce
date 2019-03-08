@@ -1,5 +1,11 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+
+// Redux
+import { fetchPresets } from '@yesplz/core-redux/ducks/products'
+
 import classNames from 'classnames'
 import queryString from 'query-string'
 import includes from 'lodash/includes'
@@ -14,12 +20,29 @@ import { PageTitle } from '@yesplz/core-web/ui-kits/misc'
 import { Products, ProductsFilter } from 'modules/products'
 import ProductsVisualFilter from 'modules/filters/ProductsVisualFilter'
 import { NotFound } from 'modules/base'
+import { formatPresetName, parsePresetName } from '@yesplz/core-web/utils/index'
+
 import './ProductsPage.scss'
+
+const ProductsTitle = ({ title }) => (
+  <div className='ProductsTitle'>
+    <h3>{title}</h3>
+  </div>
+)
+ProductsTitle.propTypes = {
+  title: PropTypes.string.isRequired
+}
 
 class ProductsPage extends PureComponent {
   static propTypes = {
     match: PropTypes.object,
-    location: PropTypes.object
+    location: PropTypes.object,
+    presets: PropTypes.array,
+    fetchPresets: PropTypes.func.isRequired
+  }
+
+  static defaultProps = {
+    presets: []
   }
 
   constructor (props) {
@@ -41,12 +64,23 @@ class ProductsPage extends PureComponent {
     this.handleCloseFilter = this.handleCloseFilter.bind(this)
   }
 
+  get qsValues () {
+    const { location } = this.props
+    const qsValues = queryString.parse(location.search)
+    return qsValues
+  }
+
   get currentCategory () {
     const { match } = this.props
     return match.params.category || CATEGORY_TOPS
   }
 
   get optionGroups () {
+    if (this.qsValues.preset) {
+      return {
+        preset: this.props.presets.map(preset => preset.name)
+      }
+    }
     return {
       category: [
         'Tops',
@@ -63,15 +97,51 @@ class ProductsPage extends PureComponent {
     return qsValues.listingView
   }
 
+  get productTitle () {
+    const { location } = this.props
+    const qsValues = queryString.parse(location.search)
+    if (!qsValues.page) return null
+    switch (qsValues.page) {
+      case 'new': {
+        return 'ALL NEW ARRIVALS'
+      }
+
+      case 'editorspick': {
+        return 'ALL TUNIC WITH DETAILS'
+      }
+
+      default: return null
+    }
+  }
+
+  get customFilters () {
+    const { location } = this.props
+    const qsValues = queryString.parse(location.search)
+    return {
+      new: qsValues.page === 'new' ? 1 : 0,
+      preset: qsValues.preset ? qsValues.preset : null
+    }
+  }
+
   componentDidMount () {
     this.setState({
       useTwoColumnsView: this.listingView === 'double'
     })
+    if (this.qsValues.preset) {
+      this.props.fetchPresets(this.currentCategory)
+    }
+    console.log('asdf')
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    if (prevProps.location !== this.props.location) {
+      console.log('update')
+    }
   }
 
   // Update the value in response to user picking event
   handleCategoryChange (name, value) {
-    this.setState(({valueGroups}) => ({
+    this.setState(({ valueGroups }) => ({
       valueGroups: {
         ...valueGroups,
         [name]: value
@@ -87,9 +157,16 @@ class ProductsPage extends PureComponent {
   }
 
   handleCategoryPick () {
+    const { search } = this.props.location
     const { valueGroups } = this.state
     const categoryKey = findKey(CATEGORIES_LABELS, label => label === valueGroups.category)
-    history.push(`/products/${categoryKey}/list`)
+    if (this.qsValues.preset) {
+      const qsValues = { ...this.qsValues }
+      qsValues.preset = formatPresetName(valueGroups.preset)
+      history.push(`/products/${categoryKey}/list?${queryString.stringify(qsValues)}`)
+    } else {
+      history.push(`/products/${categoryKey}/list${search || ''}`)
+    }
     this.handleClosePicker()
   }
 
@@ -137,10 +214,19 @@ class ProductsPage extends PureComponent {
             onFilterClick={this.handleFilterButtonClick}
             onTitleClick={this.handleTitleClick}
           >
-            {CATEGORIES_LABELS[this.currentCategory]}
+            {this.qsValues.preset ? parsePresetName(this.qsValues.preset) : CATEGORIES_LABELS[this.currentCategory]}
           </PageTitle>
 
-          <Products category={this.currentCategory} limitPerPage={20} useTwoColumnsView={useTwoColumnsView} />
+          {
+            this.productTitle &&
+            <ProductsTitle title={this.productTitle.toUpperCase()} />
+          }
+          <Products
+            customFilters={this.customFilters}
+            category={this.currentCategory}
+            limitPerPage={20}
+            useTwoColumnsView={useTwoColumnsView}
+          />
         </div>
         <MobilePicker
           isVisible={categorySwitchOpened}
@@ -163,4 +249,11 @@ class ProductsPage extends PureComponent {
   }
 }
 
-export default withTrackingProvider()(ProductsPage)
+const mapStateToProps = (state, props) => ({
+  presets: state.products[props.match.params.category].presets
+})
+
+export default compose(
+  connect(mapStateToProps, { fetchPresets }),
+  withTrackingProvider()
+)(ProductsPage)

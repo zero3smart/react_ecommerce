@@ -67,9 +67,6 @@ class ProductsLandingPage extends PureComponent {
   get currentPreset () {
     const { match } = this.props
     return match.params.presetName || ''
-
-    // const preset = presets.find(preset => formatPresetName(preset.name) === match.params.presetName)
-    // return preset ? preset.name : ''
   }
 
   get optionGroups () {
@@ -122,6 +119,12 @@ class ProductsLandingPage extends PureComponent {
     })
   }
 
+  handleClickNewArrivals = () => {
+    history.push(
+      `/products/${this.currentCategory}/list?listingView=single&page=new&preset=${this.currentPreset}`
+    )
+  }
+
   render () {
     const { valueGroups, categorySwitchOpened, isFilterVisible } = this.state
 
@@ -144,7 +147,7 @@ class ProductsLandingPage extends PureComponent {
             {parsePresetName(this.currentPreset)}
           </PageTitle>
 
-          <GroupTitle>New Arrivals</GroupTitle>
+          <GroupTitle onClickTitle={this.handleClickNewArrivals}>New Arrivals</GroupTitle>
           <NewProducts
             category={this.currentCategory}
             limitPerPage={3}
@@ -182,13 +185,6 @@ class ProductsLandingPage extends PureComponent {
   }
 }
 
-const styles = {
-  button: {
-    width: '100%',
-    textTransform: 'uppercase'
-  }
-}
-
 const mapStateToProps = (state, props) => ({
   presets: state.products[props.match.params.category].presets
 })
@@ -197,4 +193,3 @@ export default compose(
   connect(mapStateToProps, { fetchPresets }),
   withTrackingProvider()
 )(ProductsLandingPage)
-// export default withTrackingProvider()(ProductsLandingPage)
