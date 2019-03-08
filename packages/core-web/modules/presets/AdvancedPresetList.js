@@ -11,6 +11,9 @@ import { DotLoader } from '@yesplz/core-web/ui-kits/loaders'
 import AdvancedPreset from './AdvancedPreset'
 import { withTrackingConsumer } from '../../hoc'
 
+// utils
+import { formatPresetName } from '@yesplz/core-web/utils/index'
+
 export class AdvancedPresetList extends Component {
   static propTypes = {
     presets: PropTypes.array,
@@ -42,13 +45,13 @@ export class AdvancedPresetList extends Component {
   }
 
   get handlePresetClick () {
-    const { setFilter, enableInitialFetch, tracker } = this.props
+    const { activeCategory, setFilter, enableInitialFetch, tracker } = this.props
     return (filters, presetName) => {
       setFilter(filters)
       // make products fetched from beginning
       enableInitialFetch()
       // redirect to preset's products page
-      history.push(`/preset-products/${presetName}`)
+      history.push(`/preset-products/${activeCategory}/${formatPresetName(presetName)}`)
       // track preset click
       tracker.track('Preset Choose', { name: presetName })
     }

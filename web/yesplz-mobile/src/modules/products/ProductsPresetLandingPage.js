@@ -1,8 +1,14 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+
 import classNames from 'classnames'
 import includes from 'lodash/includes'
 import findKey from 'lodash/findKey'
+
+// Redux
+import { fetchPresets } from '@yesplz/core-redux/ducks/products'
 
 import history from '@yesplz/core-web/config/history'
 import { AdvancedPresetList } from '@yesplz/core-web/modules/presets'
@@ -15,11 +21,21 @@ import { Button } from '@yesplz/core-web/ui-kits/buttons'
 
 import { NewProducts, ProductPresets, ProductsFilter, RecommendedProducts } from 'modules/products'
 import { NotFound } from 'modules/base'
+
+// utls
+import { formatPresetName, parsePresetName } from '@yesplz/core-web/utils/index'
+
 import './ProductsLandingPage.scss'
 
 class ProductsLandingPage extends PureComponent {
   static propTypes = {
-    match: PropTypes.object
+    match: PropTypes.object,
+    presets: PropTypes.array,
+    fetchPresets: PropTypes.func.isRequired
+  }
+
+  static defaultProps = {
+    presets: []
   }
 
   constructor (props) {
@@ -39,18 +55,26 @@ class ProductsLandingPage extends PureComponent {
     this.handleCloseFilter = this.handleCloseFilter.bind(this)
   }
 
+  componentDidMount () {
+    this.props.fetchPresets(this.currentCategory)
+  }
+
   get currentCategory () {
     const { match } = this.props
     return match.params.category || CATEGORY_TOPS
   }
 
+  get currentPreset () {
+    const { match } = this.props
+    return match.params.presetName || ''
+
+    // const preset = presets.find(preset => formatPresetName(preset.name) === match.params.presetName)
+    // return preset ? preset.name : ''
+  }
+
   get optionGroups () {
     return {
-      category: [
-        'Tops',
-        'Jeans',
-        'Shoes'
-      ]
+      preset: this.props.presets.map(preset => preset.name)
     }
   }
 
@@ -73,9 +97,10 @@ class ProductsLandingPage extends PureComponent {
 
   handleCategoryPick () {
     const { valueGroups } = this.state
-    const categoryKey = findKey(CATEGORIES_LABELS, label => label === valueGroups.category)
+    const { presets } = this.props
+    const presetName = presets.find(preset => preset.name === valueGroups.preset).name
 
-    history.push(`/products/${categoryKey}`)
+    history.push(`/preset-products/${this.currentCategory}/${formatPresetName(presetName)}`)
     this.handleClosePicker()
   }
 
@@ -116,26 +141,29 @@ class ProductsLandingPage extends PureComponent {
             onFilterClick={this.handleFilterButtonClick}
             onTitleClick={this.handleTitleClick}
           >
-            {CATEGORIES_LABELS[this.currentCategory]}
+            {parsePresetName(this.currentPreset)}
+            {/* {CATEGORIES_LABELS[this.currentCategory]} */}
           </PageTitle>
 
-          <GroupTitle>New Arrivals</GroupTitle>
-          <NewProducts
+          {/* <GroupTitle>New Arrivals</GroupTitle> */}
+          {/* <NewProducts
             category={this.currentCategory}
             limitPerPage={3}
             isVertical
           />
-          <Button kind='secondary' to={`/products/${this.currentCategory}/list`} style={styles.button}>See all new {CATEGORIES_LABELS[this.currentCategory]}</Button>
+          <Button kind='secondary' to={`/products/${this.currentCategory}/list`} style={styles.button}>See all new {CATEGORIES_LABELS[this.currentCategory]}</Button> */}
 
           <ProductPresets
             category={this.currentCategory}
+            presetName={this.currentPreset}
           />
 
           <h2 className='SubHeader'>Editors Picks</h2>
           <AdvancedPresetList
             presetMatchesCount={3}
             activeCategory={this.currentCategory}
-            useMinimalPreset />
+            useMinimalPreset
+          />
 
           <h2 className='SubHeader'>Explore</h2>
           <RecommendedProducts
@@ -167,4 +195,12 @@ const styles = {
   }
 }
 
-export default withTrackingProvider()(ProductsLandingPage)
+const mapStateToProps = (state, props) => ({
+  presets: state.products[props.match.params.category].presets
+})
+
+export default compose(
+  connect(mapStateToProps, { fetchPresets }),
+  withTrackingProvider()
+)(ProductsLandingPage)
+// export default withTrackingProvider()(ProductsLandingPage)

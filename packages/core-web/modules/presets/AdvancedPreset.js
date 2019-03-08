@@ -135,7 +135,7 @@ class AdvancedPreset extends Component {
                 favorite={product.favorite}
                 imgSrc={product.front_img_sm}
                 category={product.category}
-                productBasePath={`/preset-products/${preset.name}`}
+                productBasePath={`/products/${activeCategory}`}
                 rawData={product}
                 onToggleLike={this.handleToggleLike}
                 className='PresetMatches-productGrid'
