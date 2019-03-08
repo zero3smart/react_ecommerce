@@ -72,13 +72,13 @@ export default class MinimalPreset extends Component {
   }
 
   get handleClick () {
-    const { name, onClick } = this.props
+    const { name, onClick, category } = this.props
     return () => {
       const filters = {
         ...this.bodyPartFilters,
         ...this.fabricFilters
       }
-      onClick(filters, name)
+      onClick(filters, name, category)
     }
   }
 

@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 
 import classNames from 'classnames'
 import includes from 'lodash/includes'
-import findKey from 'lodash/findKey'
+// import findKey from 'lodash/findKey'
 
 // Redux
 import { fetchPresets } from '@yesplz/core-redux/ducks/products'
@@ -17,9 +17,9 @@ import { CATEGORY_TOPS, CATEGORY_SHOES, CATEGORY_PANTS, CATEGORIES_LABELS } from
 import { withTrackingProvider } from '@yesplz/core-web/hoc'
 import MobilePicker from '@yesplz/core-web/ui-kits/selects/MobilePicker'
 import { PageTitle, GroupTitle } from '@yesplz/core-web/ui-kits/misc'
-import { Button } from '@yesplz/core-web/ui-kits/buttons'
+// import { Button } from '@yesplz/core-web/ui-kits/buttons'
 
-import { NewProducts, ProductPresets, ProductsFilter, RecommendedProducts } from 'modules/products'
+import { NewProducts, ProductsFilter, RecommendedProducts } from 'modules/products'
 import { NotFound } from 'modules/base'
 
 // utls
@@ -142,19 +142,12 @@ class ProductsLandingPage extends PureComponent {
             onTitleClick={this.handleTitleClick}
           >
             {parsePresetName(this.currentPreset)}
-            {/* {CATEGORIES_LABELS[this.currentCategory]} */}
           </PageTitle>
 
-          {/* <GroupTitle>New Arrivals</GroupTitle> */}
-          {/* <NewProducts
+          <GroupTitle>New Arrivals</GroupTitle>
+          <NewProducts
             category={this.currentCategory}
             limitPerPage={3}
-            isVertical
-          />
-          <Button kind='secondary' to={`/products/${this.currentCategory}/list`} style={styles.button}>See all new {CATEGORIES_LABELS[this.currentCategory]}</Button> */}
-
-          <ProductPresets
-            category={this.currentCategory}
             presetName={this.currentPreset}
           />
 
@@ -162,6 +155,7 @@ class ProductsLandingPage extends PureComponent {
           <AdvancedPresetList
             presetMatchesCount={3}
             activeCategory={this.currentCategory}
+            activePresetName={this.currentPreset}
             useMinimalPreset
           />
 

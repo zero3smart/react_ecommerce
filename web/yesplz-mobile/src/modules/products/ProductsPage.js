@@ -89,8 +89,7 @@ class ProductsPage extends PureComponent {
   handleCategoryPick () {
     const { valueGroups } = this.state
     const categoryKey = findKey(CATEGORIES_LABELS, label => label === valueGroups.category)
-
-    history.push(`/products/${categoryKey}`)
+    history.push(`/products/${categoryKey}/list`)
     this.handleClosePicker()
   }
 
