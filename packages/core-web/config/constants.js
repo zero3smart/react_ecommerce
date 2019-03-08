@@ -42,7 +42,7 @@ export const CATEGORY_SHOES = 'wshoes'
 export const CATEGORY_PANTS = 'wpants'
 
 // product list filters
-export const FILTER_OCASIONS = [
+export const FILTER_OCCASIONS = [
   {
     name: 'work',
     label: 'Work'

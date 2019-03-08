@@ -15,7 +15,7 @@ import { TitleHeader } from '@yesplz/core-web/ui-kits/title-headers'
 import { FilterIcon } from '@yesplz/core-web/ui-kits/icons'
 
 import MenuNavigation from 'modules/menus/MenuNavigation'
-import { ProductsFilter } from 'modules/products'
+import FavoriteProductsFilter from 'modules/favorites/FavoriteProductsFilter'
 import EmptyContent from 'ui-kits/empties'
 
 // utils
@@ -186,13 +186,12 @@ class Favorites extends Component {
             <EmptyContent page='favorite-styles' />
           </div>
         }
-        <ProductsFilter
+        <FavoriteProductsFilter
           defaultColType={this.listingView}
           activeCategory={this.currentCategory}
           isVisible={isFilterVisible}
           onSubmit={this.handleSubmitFilter}
           onClose={this.handleCloseFilter}
-          redirectPreset={`/favorites/items`}
         />
       </div>
     )

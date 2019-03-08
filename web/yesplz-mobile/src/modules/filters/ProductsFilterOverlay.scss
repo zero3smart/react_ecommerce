@@ -1,13 +1,14 @@
 @import 'assets/styles/variables.scss';
 
-.ProductsFilter {
+.ProductsFilterOverlay {
   padding-bottom: 50px;
+
   .Overlay-scroll {
     padding-top: 50px;
     padding-bottom: 50px;
   }
 
-  &-subtitle {
+  &-sectionTitle {
     font-size: 13px;
     font-weight: 300;
     letter-spacing: 3px;
@@ -25,10 +26,12 @@
     line-height: normal;
     letter-spacing: 1px;
     text-decoration: underline;
+
+    background-color: transparent;
     padding: 0;
     margin: 22px 0;
-    background-color: transparent;
     border: none;
+    outline: none;
   }
 
   &-submitButtonWrapper {
