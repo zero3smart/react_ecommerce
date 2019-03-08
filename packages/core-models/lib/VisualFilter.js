@@ -801,7 +801,7 @@ const defaultOptions = {
   swipeable: false, // only supported for mobile
   defaultState: {},
   hideThumbnail: false,
-  hideMiniOnboarding: false,
+  hideMiniOnboarding: true,
   useVerticalThumb: false,
   debugTouchArea: false,
   customViewBox: null,
