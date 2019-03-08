@@ -95,7 +95,17 @@ class VfSanityChecker:
 
 class VfSvgGenerator:
     category = None
-    
+    tn_touch =  '''<g id="tn_touches">
+                <rect id="tn_touch_7" x=".42" y=".42" width="65" height="65" rx="8" fill="#BD10E0" stroke="#D5D0D0"/>
+                <rect id="tn_touch_6" x=".42" y=".42" width="65" height="65" rx="8" fill="#BD10E0" stroke="#D5D0D0"/>
+                <rect id="tn_touch_5" x=".42" y=".42" width="65" height="65" rx="8" fill="#BD10E0" stroke="#D5D0D0"/>
+                <rect id="tn_touch_4" x=".42" y=".42" width="65" height="65" rx="8" fill="#BD10E0" stroke="#D5D0D0"/>
+                <rect id="tn_touch_3" x=".42" y=".42" width="65" height="65" rx="8" fill="#BD10E0" stroke="#D5D0D0"/>
+                <rect id="tn_touch_2" x=".42" y=".42" width="65" height="65" rx="8" fill="#BD10E0" stroke="#D5D0D0"/>
+                <rect id="tn_touch_1" x=".42" y=".42" width="65" height="65" rx="8" fill="#BD10E0" stroke="#D5D0D0"/>
+                <rect id="tn_touch_0" x=".42" y=".42" width="65" height="65" rx="8" fill="#BD10E0" stroke="#D5D0D0"/>
+            </g>'''
+
     def __new__(cls, category):
         for c in VfSvgGenerator.__subclasses__():
             if c.category == category:
@@ -143,19 +153,35 @@ class VfSvgGenerator:
                 xy, scale = v[0], v[1]
                 svg.translate(k, xy, scale)
             else:
-                print(f'id {k} not found in {fn}')
+                print(f'id {k} not found in {fn}. No position change.')
         for k, v in str_sub_fixes.items():
             if not svg.str_sub(k, v):
-                print(f'id {k} not found in {fn}')
+                print(f'pattern {k} not found in {fn}')
         return svg.contents
 
     def load_preset_arrow(self):
         fn = 'common/preset_arrows.svg'
+        id_fixes = {
+            'left-arrow-button': 'preset_back',
+            'right-arrow-button': 'preset_forward',
+            'path-1' : 'preset-arrow-path-1',
+            'path-3' : 'preset-arrow-path-3',
+            'filter-2' : 'preset-arrow-filter-2',
+            'filter-4' : 'preset-arrow-filter-4',
+        }
         pos_fixes = {
             'preset_back': ['5 80', 1],
-            'preset_forward': ['330 80', 1],
+            'preset_forward': ['300 80', 1],
         }
-        return self.load_svg_fixed(fn, pos_fixes=pos_fixes)
+        str_subs = {
+            'id="left-touch"' : 'id="left-touch" opacity="0"',
+            'id="right-touch"' : 'id="right-touch" opacity="0"',
+            '"#path-1"' : '"#preset-arrow-path-1"',
+            '"#path-3"' : '"#preset-arrow-path-3"',
+            '#filter-2': '#preset-arrow-filter-2',
+            '#filter-4': '#preset-arrow-filter-4',
+        }
+        return self.load_svg_fixed(fn, id_fixes=id_fixes, pos_fixes=pos_fixes, str_sub_fixes=str_subs)
 
     def load_tn_arrow(self):
         fn = 'common/arrows.svg'
@@ -253,27 +279,30 @@ class VfWpantsSvgGenerator(VfSvgGenerator):
     def load_tn_svg(self, svg_fn):
         # For now, use wtop thumbnail image as wpants thumbnail image
         id_fixups = {
-            'tn_sleeves' : 'tn_ankle',
-            'tn_sleeves_0' : 'tn_ankle_0',
-            'tn_sleeves_1' : 'tn_ankle_1',
-            'tn_sleeves_2' : 'tn_ankle_2',
-            'tn_sleeves_3' : 'tn_ankle_3',
-            'tn_sleeves_4' : 'tn_ankle_4',
-            'tn_topcore': 'tn_knee',
-            'tn_topcore_0': 'tn_knee_0',
-            'tn_topcore_1': 'tn_knee_1',
-            'tn_topcore_2': 'tn_knee_2',
-            'tn_neckline': 'tn_thigh',
-            'tn_neckline_0': 'tn_thigh_0',
-            'tn_neckline_1': 'tn_thigh_1',
-            'tn_neckline_2': 'tn_thigh_2',
-            'tn_neckline_3': 'tn_thigh_3',
-            'tn_shoulder': 'tn_rise',
-            'tn_shoulder_0': 'tn_rise_0',
-            'tn_shoulder_1': 'tn_rise_1',
-            'tn_shoulder_2': 'tn_rise_2',
+            'selected': 'tn_HL',
+            'ankle_TN' : 'tn_ankle',
+            'ankle_0_TN' : 'tn_ankle_0',
+            'ankle_1_TN' : 'tn_ankle_1',
+            'ankle_2_TN' : 'tn_ankle_2',
+            'ankle_3_TN' : 'tn_ankle_4',
+            'ankle_4_TN' : 'tn_ankle_3',
+            'knee_TN': 'tn_knee',
+            'knee_0_TN': 'tn_knee_0',
+            'knee_1_TN': 'tn_knee_1',
+            'knee_2_TN': 'tn_knee_2',
+            'thigh_TN': 'tn_thigh',
+            'thigh_0_TN': 'tn_thigh_0',
+            'thigh_1_TN': 'tn_thigh_1',
+            'thigh_2_TN': 'tn_thigh_2',
+            'thigh_3_TN': 'tn_thigh_3',
+            'rise_TN': 'tn_rise',
+            'rise_0_TN': 'tn_rise_0',
+            'rise_1_TN': 'tn_rise_1',
+            'rise_2_TN': 'tn_rise_2',
         }
-        return self.load_svg_fixed(svg_fn, id_fixups)
+        contents = self.load_svg_fixed(svg_fn, id_fixups)
+        contents += self.tn_touch
+        return contents
 
     def get_sanity_checker(self):
         sc = super().get_sanity_checker()
@@ -296,30 +325,30 @@ class VfWtopSvgGenerator(VfSvgGenerator):
 
         self.empty_group_ids += ['top_length_0']
         # Temporary until HL resources are  added
-        self.empty_group_ids += [f'coretype_{i}_HL' for i in range(4)]
-        self.empty_group_ids += [f'neckline_{i}_HL' for i in range(5)]
-        self.empty_group_ids += [f'shoulder_{i}_HL' for i in range(4)]
-        self.empty_group_ids += [f'sleeve_length_{i}_HL' for i in range(6)]
-        self.empty_group_ids += [f'top_length_{i}_HL' for i in range(3)]
+        #self.empty_group_ids += [f'coretype_{i}_HL' for i in range(4)]
+        #self.empty_group_ids += [f'neckline_{i}_HL' for i in range(5)]
+        #self.empty_group_ids += [f'shoulder_{i}_HL' for i in range(4)]
+        #self.empty_group_ids += [f'sleeve_length_{i}_HL' for i in range(6)]
+        #self.empty_group_ids += [f'top_length_{i}_HL' for i in range(3)]
 
     def load_core_svg(self, svg_fn):
         id_fixups = {
             'mannequin': 'wtop_mannequin',
-            # 'top_core_0_HL': 'coretype_0_HL',
-            # 'top_core_1_HL': 'coretype_1_HL',
-            # 'top_core_2_HL': 'coretype_2_HL',
-            # 'top_core_3_HL': 'coretype_3_HL',
+            'top_core_0_HL': 'coretype_0_HL',
+            'top_core_1_HL': 'coretype_1_HL',
+            'top_core_2_HL': 'coretype_2_HL',
+            'top_core_3_HL': 'coretype_3_HL',
             'top_core_0': 'coretype_0',
             'top_core_1': 'coretype_1',
             'top_core_2': 'coretype_2',
             'top_core_3': 'coretype_3',
             'top_core_touch': 'coretype_touch',
-            # 'sleeves_0_HL': 'sleeve_length_0_HL',
-            # 'sleeves_1_HL': 'sleeve_length_1_HL',
-            # 'sleeves_2_HL': 'sleeve_length_2_HL',
-            # 'sleeves_3_HL': 'sleeve_length_3_HL',
-            # 'sleeves_4_HL': 'sleeve_length_4_HL',
-            # 'sleeves_5_HL': 'sleeve_length_5_HL',
+            'sleeves_0_HL': 'sleeve_length_0_HL',
+            'sleeves_1_HL': 'sleeve_length_1_HL',
+            'sleeves_2_HL': 'sleeve_length_2_HL',
+            'sleeves_3_HL': 'sleeve_length_3_HL',
+            'sleeves_4_HL': 'sleeve_length_4_HL',
+            'sleeves_5_HL': 'sleeve_length_5_HL',
             'sleeves_0': 'sleeve_length_0',
             'sleeves_1': 'sleeve_length_1',
             'sleeves_2': 'sleeve_length_2',
@@ -327,40 +356,54 @@ class VfWtopSvgGenerator(VfSvgGenerator):
             'sleeves_4': 'sleeve_length_4',
             'sleeves_5': 'sleeve_length_5',
             'sleeves_touch' : 'sleeve_length_touch',
-            # 'length_0_HL': 'top_length_0_HL',
-            # 'length_1_HL': 'top_length_1_HL',
-            # 'length_2_HL': 'top_length_2_HL',
+            'length_0_HL': 'top_length_0_HL',
+            'length_1_HL': 'top_length_1_HL',
+            'length_2_HL': 'top_length_2_HL',
             'length_1': 'top_length_1',
             'length_2': 'top_length_2',
             'length_touch': 'top_length_touch',
+            'Points': 'touch_points'
         }
         pos_fixes = {
             # 'touches_tops' : [f'-9 -18', None],
-            'Final_VF_Tops_2.0': [f'70 0', 1]
+            'Final_VF_Tops_2.0': [f'100 30', 1.2]
         }
         return self.load_svg_fixed(svg_fn, id_fixups, pos_fixes)
 
     def load_tn_svg(self, svg_fn):
         id_fixups = {
-            'tn_topcore' : 'tn_coretype',
-            'tn_topcore_1' : 'tn_coretype_0',
-            'tn_topcore_2' : 'tn_coretype_1',
-            'tn_topcore_3' : 'tn_coretype_2',
-            'tn_topcore_4' : 'tn_coretype_3',
-            'tn_sleeves' : 'tn_sleeve_length',
-            'tn_sleeves_0' : 'tn_sleeve_length_0',
-            'tn_sleeves_1' : 'tn_sleeve_length_1',
-            'tn_sleeves_2' : 'tn_sleeve_length_2',
-            'tn_sleeves_3' : 'tn_sleeve_length_3',
-            'tn_sleeves_4' : 'tn_sleeve_length_4',
-            'tn_sleeves_5' : 'tn_sleeve_length_5',
-            'shoutn_shoulder_2': 'tn_shoulder_2',
-            'tn_toplength' : 'tn_top_length',
-            'tn_toplength_0' : 'tn_top_length_0',
-            'tn_toplength_1' : 'tn_top_length_1',
-            'tn_toplength_2' : 'tn_top_length_2',
+            'selected': 'tn_HL',
+            'top_core_TN' : 'tn_coretype',
+            'top_core_0_TN' : 'tn_coretype_0',
+            'top_core_1_TN' : 'tn_coretype_1',
+            'top_core_2_TN' : 'tn_coretype_2',
+            'top_core_3_TN' : 'tn_coretype_3',
+            'sleeves_TN' : 'tn_sleeve_length',
+            'sleeves_0_TN' : 'tn_sleeve_length_0',
+            'sleeves_1_TN' : 'tn_sleeve_length_1',
+            'sleeves_2_TN' : 'tn_sleeve_length_2',
+            'sleeves_3_TN' : 'tn_sleeve_length_3',
+            'sleeves_4_TN' : 'tn_sleeve_length_4',
+            'sleeves_5_TN' : 'tn_sleeve_length_5',
+            'shoulder_TN': 'tn_shoulder',
+            'shoulder_0_TN': 'tn_shoulder_0',
+            'shoulder_1_TN': 'tn_shoulder_1',
+            'shoulder_2_TN': 'tn_shoulder_2',
+            'shoulder_3_TN': 'tn_shoulder_3',
+            'length_TN' : 'tn_top_length',
+            'length_0_TN' : 'tn_top_length_0',
+            'length_1_TN' : 'tn_top_length_1',
+            'length_2_TN' : 'tn_top_length_2',
+            'neckline_TN' : 'tn_neckline',
+            'neckline_0_TN' : 'tn_neckline_0',
+            'neckline_1_TN' : 'tn_neckline_1',
+            'neckline_2_TN' : 'tn_neckline_2',
+            'neckline_3_TN' : 'tn_neckline_3',
+            'neckline_4_TN' : 'tn_neckline_4',
         }
-        return self.load_svg_fixed(svg_fn, id_fixups)
+        contents = self.load_svg_fixed(svg_fn, id_fixups)
+        contents += self.tn_touch
+        return contents
 
     def get_sanity_checker(self):
         sc = super().get_sanity_checker()
@@ -429,7 +472,7 @@ class VfWshoesSvgGenerator(VfSvgGenerator):
             'shoes_points': 'touch_points'
         }
         pos_fixes = {
-            'Final_VF_Shoes_2.0': [f'100 10', 1]
+            'Final_VF_Shoes_2.0': [f'55 20', 1]
         }
         return self.load_svg_fixed(svg_fn, id_fixups, pos_fixes)
 
@@ -480,16 +523,7 @@ class VfWshoesSvgGenerator(VfSvgGenerator):
             '#mask-6': '#tn_mask-6',      # avoid conflict from core's mask
         }
         contents = self.load_svg_fixed(svg_fn, id_fixes=id_fixups, str_sub_fixes=str_sub_fixes)
-        contents += '''<g id="tn_touches">
-                <rect id="tn_touch_7" x=".42" y=".42" width="65" height="65" rx="8" fill="#BD10E0" stroke="#D5D0D0"/>
-                <rect id="tn_touch_6" x=".42" y=".42" width="65" height="65" rx="8" fill="#BD10E0" stroke="#D5D0D0"/>
-                <rect id="tn_touch_5" x=".42" y=".42" width="65" height="65" rx="8" fill="#BD10E0" stroke="#D5D0D0"/>
-                <rect id="tn_touch_4" x=".42" y=".42" width="65" height="65" rx="8" fill="#BD10E0" stroke="#D5D0D0"/>
-                <rect id="tn_touch_3" x=".42" y=".42" width="65" height="65" rx="8" fill="#BD10E0" stroke="#D5D0D0"/>
-                <rect id="tn_touch_2" x=".42" y=".42" width="65" height="65" rx="8" fill="#BD10E0" stroke="#D5D0D0"/>
-                <rect id="tn_touch_1" x=".42" y=".42" width="65" height="65" rx="8" fill="#BD10E0" stroke="#D5D0D0"/>
-                <rect id="tn_touch_0" x=".42" y=".42" width="65" height="65" rx="8" fill="#BD10E0" stroke="#D5D0D0"/>
-            </g>'''
+        contents += self.tn_touch
         return contents
 
     def get_sanity_checker(self):

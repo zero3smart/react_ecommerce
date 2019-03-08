@@ -43,6 +43,7 @@ const DemoPlatform = (props) => (
     <Switch>
       <Route exact path='/' component={Tops} />
       <Route exact path='/products/:productId' component={SingleProductRoute} />
+      <Route exact path='/products/:presetName/:productId' render={SinglePresetProductRoute} />
       <Route component={NotFound} />
     </Switch>
   </BaseDemo>

@@ -1,12 +1,9 @@
 import vfWtopSvg from '@yesplz/core-web/assets/svg/vf_wtop.svg'
-// import vfWtopVertSvg from '@yesplz/core-web/assets/svg/vf_wtop_vert.svg'
 import vfWshoesSvg from '@yesplz/core-web/assets/svg/vf_wshoes.svg'
-// import vfWshoesVertSvg from '@yesplz/core-web/assets/svg/vf_wshoes_vert.svg'
 import vfWpantsSvg from '@yesplz/core-web/assets/svg/vf_wpants.svg'
-// import vfWpantsVertSvg from '@yesplz/core-web/assets/svg/vf_wpants_vert.svg'
 
-import miniOnboardingSvg from '@yesplz/core-web/assets/svg/mini_onboarding.svg'
-import miniOnboardingVertSvg from '@yesplz/core-web/assets/svg/mini_onboarding_thumb_vertical.svg'
+// import miniOnboardingSvg from '@yesplz/core-web/assets/svg/mini_onboarding.svg'
+// import miniOnboardingVertSvg from '@yesplz/core-web/assets/svg/mini_onboarding_thumb_vertical.svg'
 import pick from 'lodash/pick'
 import { getCatCfg } from './VFCatCfg'
 
@@ -82,7 +79,7 @@ class VfCatViewData {
     }
 
     let calcX = (idx) => {
-      return base.x + 70 + idx * this.thumbnailWidth
+      return base.x + 60 + idx * (this.thumbnailWidth + 5)
     }
     if (tnCnt > 4) { // Show in two rows
       if (idx <= 3) {
@@ -200,7 +197,7 @@ class VfCatWtopViewData extends VfCatViewData {
     // return useVerticalThumb ? vfWtopVertSvg : vfWtopSvg
   }
   miniOnboardingSvg (useVerticalThumb) {
-    return useVerticalThumb ? miniOnboardingVertSvg : miniOnboardingSvg
+    return null // useVerticalThumb ? miniOnboardingVertSvg : miniOnboardingSvg
   }
   thumbnailGroupName (prop, idx = null) {
     if (idx === null) {
@@ -210,15 +207,25 @@ class VfCatWtopViewData extends VfCatViewData {
     }
   }
 
+  // presetList = [
+  //   {coretype: 0, neckline: 0, shoulder: 0, sleeve_length: 0, top_length: 0},
+  //   {coretype: 0, neckline: 1, shoulder: 2, sleeve_length: 3, top_length: 0},
+  //   {coretype: 1, neckline: 3, shoulder: 2, sleeve_length: 1, top_length: 0},
+  //   {coretype: 1, neckline: 0, shoulder: 1, sleeve_length: 0, top_length: 1},
+  //   {coretype: 2, neckline: 0, shoulder: 2, sleeve_length: 4, top_length: 2},
+  //   {coretype: 2, neckline: 2, shoulder: 0, sleeve_length: 5, top_length: 1},
+  //   {coretype: 3, neckline: 0, shoulder: 3, sleeve_length: 0, top_length: 1},
+  //   {coretype: 3, neckline: 4, shoulder: 3, sleeve_length: 5, top_length: 2}
+  // ]
+
+  // For Kolon demo
   presetList = [
-    {coretype: 0, neckline: 0, shoulder: 0, sleeve_length: 0, top_length: 0},
-    {coretype: 0, neckline: 1, shoulder: 2, sleeve_length: 3, top_length: 0},
-    {coretype: 1, neckline: 3, shoulder: 2, sleeve_length: 1, top_length: 0},
-    {coretype: 1, neckline: 0, shoulder: 1, sleeve_length: 0, top_length: 1},
-    {coretype: 2, neckline: 0, shoulder: 2, sleeve_length: 4, top_length: 2},
-    {coretype: 2, neckline: 2, shoulder: 0, sleeve_length: 5, top_length: 1},
-    {coretype: 3, neckline: 0, shoulder: 3, sleeve_length: 0, top_length: 1},
-    {coretype: 3, neckline: 4, shoulder: 3, sleeve_length: 5, top_length: 2}
+    {coretype: 2, neckline: 2, shoulder: 3, sleeve_length: 1, top_length: 1}, // tight short sleeves
+    {coretype: 3, neckline: 2, shoulder: 3, sleeve_length: 2, top_length: 2}, // loose short sleeves
+    {coretype: 2, neckline: 1, shoulder: 2, sleeve_length: 0, top_length: 1}, // sleeveles shirt low neck
+    {coretype: 2, neckline: 2, shoulder: 2, sleeve_length: 0, top_length: 1}, // sleeveles shirt closed neck
+    {coretype: 2, neckline: 3, shoulder: 3, sleeve_length: 4, top_length: 2, solid: true}, // blouses
+    {coretype: 3, neckline: 2, shoulder: 3, sleeve_length: 4, top_length: 1} // long sleeves shirt
   ]
 
   touchGroupName (prop) {
@@ -263,15 +270,28 @@ class VfCatWshoesViewData extends VfCatViewData {
     bottoms: 0,
     shafts: 0
   }
+  // presetList = [
+  //   {'toes': 1, 'covers': 0, 'shafts': 0, 'counters': 2, 'bottoms': 5},
+  //   {'toes': 0, 'covers': 0, 'shafts': 1, 'counters': 1, 'bottoms': 5},
+  //   {'toes': 2, 'covers': 1, 'shafts': 0, 'counters': 2, 'bottoms': 1},
+  //   {'toes': 1, 'covers': 2, 'shafts': 2, 'counters': 2, 'bottoms': 4},
+  //   {'toes': 1, 'covers': 2, 'shafts': 4, 'counters': 2, 'bottoms': 2},
+  //   {'toes': 0, 'covers': 2, 'shafts': 2, 'counters': 0, 'bottoms': 2},
+  //   {'toes': 0, 'covers': 0, 'shafts': 0, 'counters': 0, 'bottoms': 0}
+  //   // {'toes': 1, 'covers': 2, 'shafts': 1, 'counters': 3, 'bottoms': 0}
+  // ]
+
+  // Kolon Preset
   presetList = [
-    {'toes': 1, 'covers': 0, 'shafts': 0, 'counters': 2, 'bottoms': 5},
-    {'toes': 0, 'covers': 0, 'shafts': 1, 'counters': 1, 'bottoms': 5},
+    {'toes': 1, 'covers': 0, 'shafts': 0, 'counters': 2, 'bottoms': 6},
+    {'toes': 1, 'covers': 1, 'shafts': 0, 'counters': 0, 'bottoms': 0},
+    {'toes': 2, 'covers': 1, 'shafts': 0, 'counters': 2, 'bottoms': 0},
     {'toes': 2, 'covers': 1, 'shafts': 0, 'counters': 2, 'bottoms': 1},
-    {'toes': 1, 'covers': 2, 'shafts': 2, 'counters': 2, 'bottoms': 4},
-    {'toes': 1, 'covers': 2, 'shafts': 4, 'counters': 2, 'bottoms': 2},
-    {'toes': 0, 'covers': 2, 'shafts': 2, 'counters': 0, 'bottoms': 2},
-    {'toes': 0, 'covers': 0, 'shafts': 0, 'counters': 0, 'bottoms': 0}
-    // {'toes': 1, 'covers': 2, 'shafts': 1, 'counters': 3, 'bottoms': 0}
+    {'toes': 0, 'covers': 0, 'shafts': 0, 'counters': 0, 'bottoms': 0},
+    {'toes': 1, 'covers': 2, 'shafts': 2, 'counters': 3, 'bottoms': 4},
+    {'toes': 1, 'covers': 2, 'shafts': 4, 'counters': 3, 'bottoms': 2},
+    {'toes': 0, 'covers': 0, 'shafts': 1, 'counters': 1, 'bottoms': 6},
+    {'toes': 1, 'covers': 2, 'shafts': 1, 'counters': 3, 'bottoms': 0}
   ]
 
   constructor (vfcatcfg, useVerticalThumb) {
