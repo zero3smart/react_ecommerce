@@ -20,6 +20,7 @@ export class AdvancedPresetList extends Component {
     isPresetsFetched: PropTypes.bool,
     presetMatchesCount: PropTypes.number,
     activeCategory: PropTypes.string,
+    activePresetName: PropTypes.string,
     fetchPresets: PropTypes.func.isRequired,
     setFilter: PropTypes.func.isRequired,
     likePreset: PropTypes.func.isRequired,
@@ -37,21 +38,33 @@ export class AdvancedPresetList extends Component {
   }
 
   componentDidMount () {
-    const { activeCategory, fetchPresets, isPresetsFetched } = this.props
+    const { activeCategory, activePresetName, fetchPresets } = this.props
     // don't need to do initial fetch if presets is fetched already
-    if (!isPresetsFetched) {
+    // I dont think so. When user change product preset, we need fetch editor-picks again
+    // if (!this.props.isPresetsFetched) {
+    if (activePresetName) {
+      fetchPresets(activeCategory, { subcat: activePresetName })
+    } else {
       fetchPresets(activeCategory)
+    }
+    // }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const { activeCategory, activePresetName, fetchPresets } = nextProps
+    if (activePresetName !== this.props.activePresetName) {
+      fetchPresets(activeCategory, { subcat: activePresetName })
     }
   }
 
   get handlePresetClick () {
-    const { activeCategory, setFilter, enableInitialFetch, tracker } = this.props
-    return (filters, presetName) => {
+    const { setFilter, enableInitialFetch, tracker } = this.props
+    return (filters, presetName, category) => {
       setFilter(filters)
       // make products fetched from beginning
       enableInitialFetch()
       // redirect to preset's products page
-      history.push(`/preset-products/${activeCategory}/${formatPresetName(presetName)}`)
+      history.push(`/preset-products/${category}/${formatPresetName(presetName)}`)
       // track preset click
       tracker.track('Preset Choose', { name: presetName })
     }
@@ -68,6 +81,8 @@ export class AdvancedPresetList extends Component {
     }
   }
 
+  filterPresetWithCategory = preset => preset.category === this.props.activeCategory
+
   render () {
     const { isPresetsFetched, presets, presetMatchesCount, useMinimalPreset, activeCategory, style } = this.props
 
@@ -76,7 +91,7 @@ export class AdvancedPresetList extends Component {
         {!isPresetsFetched && <DotLoader visible style={styles.loader} />}
         <Transition show={isPresetsFetched} transition='fadeInUp'>
           {
-            presets.map((preset, index) => (
+            presets.filter(this.filterPresetWithCategory).map((preset, index) => (
               <AdvancedPreset
                 key={preset.name}
                 id={`${camelCase(preset.name)}${index}`}

@@ -139,7 +139,7 @@ export function setOnboarding (onboarding = true) {
 /**
  * get list of presets available
  */
-export function fetchPresets (category) {
+export function fetchPresets (category, filters) {
   return async dispatch => {
     try {
       let url = '/allcategories/editorspicks'
@@ -148,7 +148,11 @@ export function fetchPresets (category) {
         url = `/categories/${category}/editorspicks`
       }
 
-      const response = await axios.get(url)
+      const response = await axios.get(url, {
+        params: {
+          ...filters || {}
+        }
+      })
 
       const favoritePresetNames = Preset.getFavoritePresetNames()
       dispatch(setPresets(response.data, favoritePresetNames))

@@ -5,6 +5,7 @@ import map from 'lodash/map'
 import ProductListHorizontal from '@yesplz/core-web/modules/products/ProductListHorizontal'
 import { getProducts } from '@yesplz/core-redux/ducks/products'
 import { mapProductFavorites, updateProductFavorite } from '@yesplz/core-redux/ducks/helpers'
+import { GroupTitle } from '@yesplz/core-web/ui-kits/misc'
 
 class StatefulCategorizedProducts extends PureComponent {
   static propTypes = {
@@ -20,7 +21,7 @@ class StatefulCategorizedProducts extends PureComponent {
     filters: {},
     limitPerPage: 10,
     favoriteProducts: [],
-    onProductPresetClick () {}
+    onProductPresetClick () { }
   }
 
   constructor (props) {
@@ -93,16 +94,18 @@ class StatefulCategorizedProducts extends PureComponent {
     const { products } = this.state
 
     return (
-      <ProductListHorizontal
-        title={title}
-        category={category}
-        limitPerPage={10}
-        products={products}
-        onInit={this.fetchProducts}
-        onFetchNext={this.fetchProducts}
-        onToggleLike={this.toggleLike}
-        onProductPresetClick={onProductPresetClick}
-      />
+      <React.Fragment>
+        <GroupTitle onClickTitle={onProductPresetClick}>{title}</GroupTitle>
+        <ProductListHorizontal
+          title={title}
+          category={category}
+          limitPerPage={10}
+          products={products}
+          onInit={this.fetchProducts}
+          onFetchNext={this.fetchProducts}
+          onToggleLike={this.toggleLike}
+        />
+      </React.Fragment>
     )
   }
 }

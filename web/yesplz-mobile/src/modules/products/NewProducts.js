@@ -25,6 +25,10 @@ const NewProducts = ({ isVertical, ...otherProps }) => {
     ...categoryFilters[otherProps.category]
   }
 
+  if (otherProps.presetName) {
+    newProductsFilters.preset = otherProps.presetName
+  }
+
   if (isVertical) {
     return <EnhancedProductListVertical {...otherProps} filters={newProductsFilters} />
   }

@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { GroupTitle } from '../../ui-kits/misc'
 import SlideFetcher from '../../ui-kits/fetchers/SlideFetcher'
 import ProductGrid from './ProductGrid'
 import './ProductListHorizontal.scss'
@@ -45,11 +44,10 @@ class ProductListHorizontal extends PureComponent {
   }
 
   render () {
-    const { title, products, category, productBasePath, onToggleLike, onProductPresetClick } = this.props
+    const { products, category, productBasePath, onToggleLike } = this.props
 
     return (
       <div className='ProductListHorizontal'>
-        <GroupTitle onClickTitle={onProductPresetClick}>{title}</GroupTitle>
         <SlideFetcher onFetch={this.handleFetch}>
           {
             products.map(product => (
