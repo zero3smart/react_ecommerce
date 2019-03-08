@@ -180,7 +180,7 @@ export const CATEGORIES_LABELS = {
 
 export const SIZES = {
   [CATEGORY_TOPS]: {
-    ids: ['regular', 'plus', 'petitie'],
+    ids: ['regular', 'plus', 'petite'],
     regular: {
       ids: ['normal'],
       normal: [
@@ -213,7 +213,7 @@ export const SIZES = {
         ['28W', '4X']
       ]
     },
-    petitie: {
+    petite: {
       ids: ['normal'],
       normal: [
         ['00', 'XXS'],
@@ -232,7 +232,7 @@ export const SIZES = {
     }
   },
   [CATEGORY_PANTS]: {
-    ids: ['regular', 'plus', 'petitie'],
+    ids: ['regular', 'plus', 'petite'],
     regular: {
       ids: ['normal', 'waist'],
       normal: [
@@ -280,7 +280,7 @@ export const SIZES = {
         ['28W', '4X']
       ]
     },
-    petitie: {
+    petite: {
       ids: ['normal', 'waist'],
       normal: [
         ['00', 'XXS'],
