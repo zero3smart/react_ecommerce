@@ -9,16 +9,21 @@ import './Product.scss'
 class Products extends PureComponent {
   static propTypes = {
     category: PropTypes.string.isRequired,
+    customFilters: PropTypes.object,
     limitPerPage: PropTypes.number.isRequired,
     filters: PropTypes.shape({}).isRequired,
     onFilter: PropTypes.func.isRequired
   }
 
+  static defaultProps = {
+    customFilters: {}
+  }
+
   componentDidUpdate (prevProps) {
-    const { category, limitPerPage, filters, onFilter } = this.props
+    const { category, limitPerPage, filters, onFilter, customFilters } = this.props
     // check for filter change
-    if (!isEqual(prevProps.filters, filters)) {
-      onFilter(category, filters, limitPerPage)
+    if (!isEqual(prevProps.filters, filters) || !isEqual(prevProps.customFilters, customFilters)) {
+      onFilter(category, { ...filters, ...customFilters }, limitPerPage)
     }
   }
 
@@ -27,7 +32,7 @@ class Products extends PureComponent {
       <ProductListVertical
         {...this.props}
         enableFetchNext
-        useScrollFetcher
+        useScrollFetcher={!!this.props.customFilters.page}
       />
     )
   }

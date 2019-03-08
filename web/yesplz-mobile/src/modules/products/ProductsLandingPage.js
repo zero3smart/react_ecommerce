@@ -97,6 +97,12 @@ class ProductsLandingPage extends PureComponent {
     })
   }
 
+  handleClickNewArrivals = () => {
+    history.push(
+      `/products/${this.currentCategory}/list?listingView=single&page=new`
+    )
+  }
+
   render () {
     const { valueGroups, categorySwitchOpened, isFilterVisible } = this.state
 
@@ -119,7 +125,7 @@ class ProductsLandingPage extends PureComponent {
             {CATEGORIES_LABELS[this.currentCategory]}
           </PageTitle>
 
-          <GroupTitle>New Arrivals</GroupTitle>
+          <GroupTitle onClickTitle={this.handleClickNewArrivals}>New Arrivals</GroupTitle>
           <NewProducts
             category={this.currentCategory}
             limitPerPage={3}
