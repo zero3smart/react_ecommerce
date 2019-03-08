@@ -4,6 +4,8 @@ import { ConnectedRouter } from 'connected-react-router'
 import history from '@yesplz/core-web/config/history'
 import store from './config/store'
 import routes from './config/routes'
+import ScrollToTop from './ScrollToTop'
+
 // import global styles
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
@@ -15,8 +17,8 @@ import 'App.scss'
 
 const App = () => (
   <Provider store={store}>
-    <ConnectedRouter history={history}>
-      {routes}
+    <ConnectedRouter updateLocation={() => { console.log('update location') }} history={history}>
+      <ScrollToTop>{routes}</ScrollToTop>
     </ConnectedRouter>
   </Provider>
 )

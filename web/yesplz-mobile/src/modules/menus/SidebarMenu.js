@@ -6,6 +6,14 @@ import ArrowLine from '@yesplz/core-web/ui-kits/icons/ArrowLine'
 import SidebarMenuGroup from './SidebarMenuGroup'
 import SidebarMenuItem from './SidebarMenuItem'
 import TopsFilterMenu from './TopsFilterMenu'
+
+// constants
+import {
+  CATEGORY_PANTS,
+  CATEGORY_SHOES,
+  CATEGORY_TOPS
+} from '@yesplz/core-web/config/constants'
+
 import './SidebarMenu.scss'
 
 class SidebarMenu extends PureComponent {
@@ -84,13 +92,13 @@ class SidebarMenu extends PureComponent {
             Home
           </SidebarMenuItem>
           {/* category menu */}
-          <SidebarMenuItem eventKey='tops' activeKey={activeMainMenuKey} onClick={this.changeMenuGroup}>
+          <SidebarMenuItem eventKey='tops' activeKey={activeMainMenuKey} to={`/products/${CATEGORY_TOPS}`} onClick={this.handleLinkClick}>
             Tops
           </SidebarMenuItem>
-          <SidebarMenuItem eventKey='pants' activeKey={activeMainMenuKey} onClick={this.changeMenuGroup}>
+          <SidebarMenuItem eventKey='pants' activeKey={activeMainMenuKey} to={`/products/${CATEGORY_PANTS}`} onClick={this.handleLinkClick}>
             Jeans
           </SidebarMenuItem>
-          <SidebarMenuItem eventKey='shoes' activeKey={activeMainMenuKey} onClick={this.changeMenuGroup}>
+          <SidebarMenuItem eventKey='shoes' activeKey={activeMainMenuKey} to={`/products/${CATEGORY_SHOES}`} onClick={this.handleLinkClick}>
             Shoes
           </SidebarMenuItem>
           {/* end of category menu */}

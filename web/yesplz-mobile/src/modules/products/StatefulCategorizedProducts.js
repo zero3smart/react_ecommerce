@@ -12,13 +12,15 @@ class StatefulCategorizedProducts extends PureComponent {
     category: PropTypes.string.isRequired,
     filters: PropTypes.object,
     favoriteProducts: PropTypes.array,
-    onProductLike: PropTypes.func
+    onProductLike: PropTypes.func,
+    onProductPresetClick: PropTypes.func
   }
 
   static defaultProps = {
     filters: {},
     limitPerPage: 10,
-    favoriteProducts: []
+    favoriteProducts: [],
+    onProductPresetClick () {}
   }
 
   constructor (props) {
@@ -87,7 +89,7 @@ class StatefulCategorizedProducts extends PureComponent {
   }
 
   render () {
-    const { title, category } = this.props
+    const { title, category, onProductPresetClick } = this.props
     const { products } = this.state
 
     return (
@@ -99,6 +101,7 @@ class StatefulCategorizedProducts extends PureComponent {
         onInit={this.fetchProducts}
         onFetchNext={this.fetchProducts}
         onToggleLike={this.toggleLike}
+        onProductPresetClick={onProductPresetClick}
       />
     )
   }

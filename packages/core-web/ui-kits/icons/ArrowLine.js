@@ -1,14 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const ArrowLine = ({ direction, color, width, height }) => {
+const ArrowLine = ({ direction, color, width, height, onClick }) => {
   const svgProps = {
     width,
     height,
     viewBox: '0 0 40 40',
     version: '1.1',
     xmlns: 'http://www.w3.org/2000/svg',
-    xmlnsXlink: 'http://www.w3.org/1999/xlink'
+    xmlnsXlink: 'http://www.w3.org/1999/xlink',
+    onClick: onClick
   }
 
   if (direction === 'left') {
@@ -40,14 +41,16 @@ ArrowLine.propTypes = {
   direction: PropTypes.oneOf(['left', 'right']),
   color: PropTypes.string,
   width: PropTypes.string,
-  height: PropTypes.string
+  height: PropTypes.string,
+  onClick: PropTypes.func
 }
 
 ArrowLine.defaultProps = {
   direction: 'right',
   color: '#000',
   width: '40px',
-  height: '40px'
+  height: '40px',
+  onClick () {}
 }
 
 export default ArrowLine

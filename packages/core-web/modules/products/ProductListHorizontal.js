@@ -15,7 +15,8 @@ class ProductListHorizontal extends PureComponent {
     productBasePath: PropTypes.string,
     onInit: PropTypes.func.isRequired,
     onFetchNext: PropTypes.func.isRequired,
-    onToggleLike: PropTypes.func.isRequired
+    onToggleLike: PropTypes.func.isRequired,
+    onProductPresetClick: PropTypes.func
   }
 
   static defaultProps = {
@@ -24,7 +25,8 @@ class ProductListHorizontal extends PureComponent {
     limitPerPage: 10,
     onInit: () => { console.debug('Unhandled `onInit` prop') },
     onFetchNext: () => { console.debug('Unhandled `onFetchNext` prop') },
-    onToggleLike: () => { console.debug('Unhandled `onToggleLike` prop') }
+    onToggleLike: () => { console.debug('Unhandled `onToggleLike` prop') },
+    onProductPresetClick () {}
   }
 
   constructor (props) {
@@ -43,11 +45,11 @@ class ProductListHorizontal extends PureComponent {
   }
 
   render () {
-    const { title, products, category, productBasePath, onToggleLike } = this.props
+    const { title, products, category, productBasePath, onToggleLike, onProductPresetClick } = this.props
 
     return (
       <div className='ProductListHorizontal'>
-        <GroupTitle>{title}</GroupTitle>
+        <GroupTitle onClickTitle={onProductPresetClick}>{title}</GroupTitle>
         <SlideFetcher onFetch={this.handleFetch}>
           {
             products.map(product => (
