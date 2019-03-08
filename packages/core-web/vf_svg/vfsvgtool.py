@@ -170,8 +170,8 @@ class VfSvgGenerator:
             'filter-4' : 'preset-arrow-filter-4',
         }
         pos_fixes = {
-            'preset_back': ['5 80', 1],
-            'preset_forward': ['300 80', 1],
+            'preset_back': ['5 50', 1],
+            'preset_forward': ['210 50', 1],
         }
         str_subs = {
             'id="left-touch"' : 'id="left-touch" opacity="0"',
@@ -272,7 +272,7 @@ class VfWpantsSvgGenerator(VfSvgGenerator):
             'ankle_TA':        'touch_ankle'
         }
         pos_fixes = {
-            'Final_VF_Pants_2.0': [f'80 0', .60]
+            'Final_VF_Pants_2.0': [f'80 0', .45]
         }
         return self.load_svg_fixed(svg_fn, id_fixups, pos_fixes)
 
@@ -366,7 +366,7 @@ class VfWtopSvgGenerator(VfSvgGenerator):
         }
         pos_fixes = {
             # 'touches_tops' : [f'-9 -18', None],
-            'Final_VF_Tops_2.0': [f'100 30', 1.2]
+            'Final_VF_Tops_2.0': [f'70 0', 1]
         }
         return self.load_svg_fixed(svg_fn, id_fixups, pos_fixes)
 
@@ -472,7 +472,7 @@ class VfWshoesSvgGenerator(VfSvgGenerator):
             'shoes_points': 'touch_points'
         }
         pos_fixes = {
-            'Final_VF_Shoes_2.0': [f'55 20', 1]
+            'Final_VF_Shoes_2.0': [f'45 10', .7]
         }
         return self.load_svg_fixed(svg_fn, id_fixups, pos_fixes)
 

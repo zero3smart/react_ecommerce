@@ -37,7 +37,7 @@
  <!-- Generator: Sketch 53 (72520) - https://sketchapp.com -->
  
  
- <g id="Final_VF_Pants_2.0" transform="translate(80 0) scale(0.6)" fill="none" fill-rule="evenodd">
+ <g id="Final_VF_Pants_2.0" transform="translate(80 0) scale(0.45)" fill="none" fill-rule="evenodd">
   <g transform="translate(71 12)">
    <g id="wpants_mannequin" transform="translate(16 12)" fill-rule="nonzero">
     <path id="single-line" d="m48.7 0.432s0.42 12.6-2.12 20.2c-1.87 5.54-3.78 11.7-7.71 23.5-4.35 13.1-8.66 35.7-8.66 67 0 27.6 3.83 46.8 3.83 63.3 0 1.66-1.48 20.7-1.69 22.2-1.12 8.06-4.98 43.9-8.38 73.8-2.1 18.6-4.72 45-4.83 45.9-0.396 3.4-0.938 8.7-4.6 19.6-3.67 10.9-4.74 23.6-5.56 24.9 0 0-2.3 3.03-4.28 4.53-2.19 1.66-6.35 7.63 2.68 5.68 6.58-1.42 10.5-1.52 14.6-4.08 4.17-2.56 5.19-14.1 7.86-20.4 2.67-6.25 12.7-6.49 14.9-14.3 2.22-7.76-7.86-13.1-7.84-18.9 0.012-2.9 21.9-79.1 23.7-92.7 1.72-13.6-2.05-24.1 2.02-36.2 4.08-12.1 16.7-76.1 15.6-91.2l5.55 1.08s0.342 28.7 3.82 40.7c3.48 12 10.2 51.9 8.06 68.9-2.15 17 1.69 42 2.22 59.5 0.02 0.604 0.045 1.2 0.067 1.8 0.679 17.6 3.4 32.8 1.17 47.6-0.024 0.166-0.043 0.332-0.067 0.498 0 0-4.15 26.6-4.67 33.7-0.316 4.39-0.988 9.2-0.988 10.5 0 1.27-0.549 8.19 0.729 10 1.27 1.82 2.8 2.2 3.59 2.3 3.65 0.465 10.5-2.22 13.5-6.41 1.17-1.9 1.86-6.54 1.55-9.71-0.319-3.23-1.29-16.9-1.29-20.6 0-3.72 0.948-3.72 1.44-6.14 0.483-2.42-0.388-7.04-0.226-8.33 0.063-0.528 1.27-4.59 2.67-16.3 1.01-5.44 2.21-12.5 3.11-19.6 1.89-15 5.34-30.2 5.78-49.9 0.441-19.7-5.56-29-1.77-50.9 3.78-21.9 12.5-96.4 10.8-118-2.49-32.4-22.5-46.4-17.2-62 4e-3 5e-3 -31 10.7-67.5-1.33z" fill="#fff"/>
@@ -532,7 +532,7 @@
     </defs>
     <g id="VF-Final" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="arrow-buttons" transform="translate(4.000000, 4.000000)">
-            <g id="preset_back" transform="translate(5 80) scale(1)">
+            <g id="preset_back" transform="translate(5 50) scale(1)">
                 <g id="left-arrow" transform="translate(17.000000, 15.000000)">
                     <g id="Oval" fill-rule="nonzero">
                         <use fill="black" fill-opacity="1" filter="url(#preset-arrow-filter-2)" xlink:href="#preset-arrow-path-1"></use>
@@ -542,7 +542,7 @@
                 </g>
                 <ellipse id="left-touch" opacity="0" stroke="#4A4A4A" fill="#D8D8D8" cx="40" cy="39.5" rx="40" ry="39.5"></ellipse>
             </g>
-            <g id="preset_forward" transform="translate(300 80) scale(1)">
+            <g id="preset_forward" transform="translate(210 50) scale(1)">
                 <g id="right-arrow" transform="translate(19.000000, 13.000000)">
                     <g id="Oval" fill-rule="nonzero">
                         <use fill="black" fill-opacity="1" filter="url(#preset-arrow-filter-4)" xlink:href="#preset-arrow-path-3"></use>

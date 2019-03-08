@@ -229,7 +229,7 @@ export default class VisualFilter {
     this.showGroup('tn_arrow_back')
     this.showGroup('tn_arrow_forward')
     const backOffset = this.catdata.arrowBackOffset()
-    const forwardOffset = this.catdata.arrowFowardOffset()
+    const forwardOffset = this.catdata.arrowForwardOffset()
     let rotate = useVerticalThumb ? 90 : 0
     arrowBack.attr(this.transformAttr(backOffset.x, backOffset.y, rotate))
     arrowForward.attr(this.transformAttr(forwardOffset.x, forwardOffset.y, rotate))
