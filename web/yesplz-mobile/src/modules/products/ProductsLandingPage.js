@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import includes from 'lodash/includes'
 import findKey from 'lodash/findKey'
 
+import { formatPresetName } from '@yesplz/core-web/utils'
 import history from '@yesplz/core-web/config/history'
 import { AdvancedPresetList } from '@yesplz/core-web/modules/presets'
 import ProductsVisualFilter from 'modules/filters/ProductsVisualFilter'
@@ -15,6 +16,7 @@ import { Button } from '@yesplz/core-web/ui-kits/buttons'
 
 import { NewProducts, ProductPresets, ProductsFilter, RecommendedProducts } from 'modules/products'
 import { NotFound } from 'modules/base'
+
 import './ProductsLandingPage.scss'
 
 class ProductsLandingPage extends PureComponent {
@@ -102,6 +104,11 @@ class ProductsLandingPage extends PureComponent {
       `/products/${this.currentCategory}/list?listingView=single&page=new`
     )
   }
+  handleClickEditorPick = (preset) => () => {
+    history.push(
+      `/products/${this.currentCategory}/list?listingView=single&page=editorspick&preset=${formatPresetName(preset.name)}`
+    )
+  }
 
   render () {
     const { valueGroups, categorySwitchOpened, isFilterVisible } = this.state
@@ -141,7 +148,9 @@ class ProductsLandingPage extends PureComponent {
           <AdvancedPresetList
             presetMatchesCount={3}
             activeCategory={this.currentCategory}
-            useMinimalPreset />
+            useMinimalPreset
+            onClickGroupTitle={this.handleClickEditorPick}
+          />
 
           <h2 className='SubHeader'>Explore</h2>
           <RecommendedProducts
