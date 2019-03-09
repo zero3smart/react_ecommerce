@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
+import omit from 'lodash/omit'
 
 // Redux
 import { fetchPresets } from '@yesplz/core-redux/ducks/products'
@@ -107,7 +108,7 @@ class ProductsPage extends PureComponent {
       }
 
       case 'editorspick': {
-        return 'ALL TUNIC WITH DETAILS'
+        return `ALL ${parsePresetName(qsValues.preset)}`
       }
 
       default: return null
@@ -115,12 +116,21 @@ class ProductsPage extends PureComponent {
   }
 
   get customFilters () {
-    const { location } = this.props
+    const { location, presets } = this.props
     const qsValues = queryString.parse(location.search)
-    return {
+    let options = {
       new: qsValues.page === 'new' ? 1 : 0,
       preset: qsValues.preset ? qsValues.preset : null
+
     }
+    if (qsValues.preset) {
+      let presetExtra = presets.find(preset => formatPresetName(preset.name) === qsValues.preset)
+      options = {
+        ...options,
+        ...(presetExtra ? omit(presetExtra, ['name', 'category']) : {})
+      }
+    }
+    return options
   }
 
   componentDidMount () {
@@ -130,7 +140,6 @@ class ProductsPage extends PureComponent {
     if (this.qsValues.preset) {
       this.props.fetchPresets(this.currentCategory)
     }
-    console.log('asdf')
   }
 
   componentDidUpdate (prevProps, prevState) {

@@ -125,6 +125,12 @@ class ProductsLandingPage extends PureComponent {
     )
   }
 
+  handleClickEditorPick = (preset) => () => {
+    history.push(
+      `/products/${this.currentCategory}/list?listingView=single&page=editorspick&preset=${formatPresetName(preset.name)}`
+    )
+  }
+
   render () {
     const { valueGroups, categorySwitchOpened, isFilterVisible } = this.state
 
@@ -160,6 +166,7 @@ class ProductsLandingPage extends PureComponent {
             activeCategory={this.currentCategory}
             activePresetName={this.currentPreset}
             useMinimalPreset
+            onClickGroupTitle={this.handleClickEditorPick}
           />
 
           <h2 className='SubHeader'>Explore</h2>

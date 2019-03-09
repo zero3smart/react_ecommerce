@@ -25,12 +25,14 @@ class AdvancedPreset extends Component {
     useMinimalPreset: PropTypes.bool,
     onClick: PropTypes.func,
     onToggleLike: PropTypes.func,
-    toggleProductLike: PropTypes.func
+    toggleProductLike: PropTypes.func,
+    onClickGroupTitle: PropTypes.func
   }
 
   static defaultProps = {
     presetMatchesCount: 4,
-    useMinimalPreset: false
+    useMinimalPreset: false,
+    onClickGroupTitle () {}
   }
 
   constructor (props) {
@@ -74,12 +76,12 @@ class AdvancedPreset extends Component {
   }
 
   render () {
-    const { id, preset, useMinimalPreset, activeCategory, onClick, onToggleLike } = this.props
+    const { id, preset, useMinimalPreset, activeCategory, onClick, onClickGroupTitle, onToggleLike } = this.props
     const { products } = this.state
 
     return (
       <div className='AdvancedPreset'>
-        <GroupTitle>{preset.name}</GroupTitle>
+        <GroupTitle onClickTitle={onClickGroupTitle}>{preset.name}</GroupTitle>
         <Slider {...this.sliderSettings}>
           {
             useMinimalPreset ? (

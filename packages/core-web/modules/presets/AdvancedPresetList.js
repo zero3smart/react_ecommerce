@@ -28,13 +28,15 @@ export class AdvancedPresetList extends Component {
     enableInitialFetch: PropTypes.func.isRequired,
     tracker: PropTypes.object,
     useMinimalPreset: PropTypes.bool,
-    style: PropTypes.object
+    style: PropTypes.object,
+    onClickGroupTitle: PropTypes.func
   }
 
   static defaultProps = {
     presets: [],
     useMinimalPreset: false,
-    isPresetsFetched: false
+    isPresetsFetched: false,
+    onClickGroupTitle () {}
   }
 
   componentDidMount () {
@@ -84,7 +86,15 @@ export class AdvancedPresetList extends Component {
   filterPresetWithCategory = preset => preset.category === this.props.activeCategory
 
   render () {
-    const { isPresetsFetched, presets, presetMatchesCount, useMinimalPreset, activeCategory, style } = this.props
+    const {
+      isPresetsFetched,
+      presets,
+      presetMatchesCount,
+      useMinimalPreset,
+      activeCategory,
+      style,
+      onClickGroupTitle
+    } = this.props
 
     return (
       <div className='AdvancedPresetList' style={style}>
@@ -97,6 +107,7 @@ export class AdvancedPresetList extends Component {
                 id={`${camelCase(preset.name)}${index}`}
                 preset={preset}
                 onClick={this.handlePresetClick}
+                onClickGroupTitle={onClickGroupTitle(preset)}
                 onToggleLike={this.togglePresetLike}
                 presetMatchesCount={presetMatchesCount}
                 useMinimalPreset={useMinimalPreset}
