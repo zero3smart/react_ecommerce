@@ -23,8 +23,6 @@ export class ProductsVisualFilter extends Component {
     hidden: PropTypes.bool,
     scrollBellowTheFold: PropTypes.bool,
     onboarding: PropTypes.bool,
-    hideMiniOnboarding: PropTypes.bool,
-    useVerticalThumb: PropTypes.bool,
     setFilter: PropTypes.func.isRequired,
     fetchProducts: PropTypes.func.isRequired,
     syncFilter: PropTypes.func.isRequired,
@@ -105,7 +103,7 @@ export class ProductsVisualFilter extends Component {
   render () {
     const {
       activeCategory, filters, scrollBellowTheFold, isFilterSaved, lastBodyPart,
-      expanded, hidden, onboarding, hideMiniOnboarding, useVerticalThumb
+      expanded, hidden, onboarding
     } = this.props
 
     return (
@@ -136,8 +134,6 @@ export class ProductsVisualFilter extends Component {
               favorite={isFilterSaved}
               filters={filters}
               lastBodyPart={lastBodyPart}
-              hideMiniOnboarding={hideMiniOnboarding}
-              useVerticalThumb={useVerticalThumb}
               onFilterChange={this.handleFilterChange}
               onFilterLike={this.handleFilterLike}
               onBodyPartChange={this.handleBodyPartChange}

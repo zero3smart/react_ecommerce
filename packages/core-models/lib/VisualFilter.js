@@ -7,7 +7,6 @@ import isNil from 'lodash/isNil'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import throttle from 'lodash/throttle'
-import Hammer from 'hammerjs'
 import {
   LAST_BODY_PART,
   FILTERS,
@@ -21,7 +20,6 @@ const { Snap, localStorage } = window
 
 export default class VisualFilter {
   selectedBodyPart = null
-  onboardingStage = 0
   colorPalletteOpened = 0
   svgLoaded = false
   lastHighlightId = null
@@ -34,7 +32,7 @@ export default class VisualFilter {
       ...defaultOptions,
       ...options
     }
-    this.catdata = getCatData(this.settings.category, this.settings.useVerticalThumb)
+    this.catdata = getCatData(this.settings.category)
 
     if (!Snap) { // Skip init to avoid error on test env.
       return false
@@ -90,14 +88,11 @@ export default class VisualFilter {
   }
 
   initialize () {
-    const { hideMiniOnboarding, onSVGLoaded, hideThumbnail, useVerticalThumb,
-      swipeable, badgeMode, customViewBox } = this.settings
+    const { onSVGLoaded, hideThumbnail, badgeMode, customViewBox } = this.settings
 
-    this.viewBox = customViewBox || this.catdata.viewBox(hideThumbnail, useVerticalThumb)
+    this.viewBox = customViewBox || this.catdata.viewBox(hideThumbnail)
     this.catdata.setViewBox(this.viewBox)
-    let svgSource = this.catdata.svgCoreAndTn(useVerticalThumb)
-
-    let svgOnboardingSource = this.catdata.miniOnboardingSvg(useVerticalThumb)
+    let svgSource = this.catdata.svgCoreAndTn()
 
     this.snap.attr({ viewBox: this.viewBox })
 
@@ -115,41 +110,25 @@ export default class VisualFilter {
         this.showGroup(this.catdata.getBodyPartGroupName(prop))
       }
 
-      // onboarding
-      if (!hideMiniOnboarding && VisualFilter.shouldShowOnboarding()) {
-        if (svgOnboardingSource) {
-          this.track('MiniOnboarding Start')
+      this.handleOnboardingFinished()
+      this.initializeClickHitMap()
 
-          Snap.load(svgOnboardingSource, (frag) => {
-            this.showOnboarding(frag)
-          })
-        } else { // No mini onboarding resources yet. Skip it
-          this.handleOnboardingFinished()
-          this.initializeClickHitMap()
-        }
-      } else {
-        this.initializeClickHitMap()
-      }
-
-      // on vertical thumb and event is enabled, show arrow and enable swipe if activated
       if (!badgeMode) {
         this.track('VF Opened')
 
         this.initializeArrowNavigation()
-        if (swipeable) {
-          this.initializeSwipableThumbnail()
-        }
+
         if (this.catdata.propList().indexOf(this.lastBodyPart) < 0) {
           console.log('Unrecognized last bodypart', this.lastBodyPart, 'switching to default')
           this.lastBodyPart = this.catdata.propList()[0]
         }
         if (!this.settings.hideThumbnail) {
-          this.arrangeThumbnails(useVerticalThumb)
+          this.arrangeThumbnails()
           this.switchBodypartThumbnail(this.lastBodyPart)
         }
       }
 
-      if (!useVerticalThumb && !badgeMode) {
+      if (!badgeMode) {
         this.setPointerHovering()
       }
 
@@ -217,7 +196,7 @@ export default class VisualFilter {
   }
 
   initializeArrowNavigation () {
-    const { useVerticalThumb, hideThumbnail } = this.settings
+    const { hideThumbnail } = this.settings
 
     // Initialize preset arrow
     const presetBack = this.findGroupById('preset_back')
@@ -240,9 +219,8 @@ export default class VisualFilter {
       this.showGroup('tn_arrow_forward')
       const backOffset = this.catdata.arrowBackOffset()
       const forwardOffset = this.catdata.arrowForwardOffset()
-      let rotate = useVerticalThumb ? 90 : 0
-      arrowBack.attr(this.transformAttr(backOffset.x, backOffset.y, rotate))
-      arrowForward.attr(this.transformAttr(forwardOffset.x, forwardOffset.y, rotate))
+      arrowBack.attr(this.transformAttr(backOffset.x, backOffset.y))
+      arrowForward.attr(this.transformAttr(forwardOffset.x, forwardOffset.y))
 
       // initialize navigation tap events
       arrowBack.click(() => {
@@ -254,59 +232,19 @@ export default class VisualFilter {
     }
   }
 
-  initializeSwipableThumbnail () {
-    const { useVerticalThumb } = this.settings
-    // initialize hammerjs manager
-    const hmThumb = new Hammer.Manager(this.snap.node, {
-      recognizers: [
-        [Hammer.Swipe, { direction: Hammer.DIRECTION_VERTICAL }]
-      ],
-      inputClass: Hammer.TouchMouseInput
-    })
-
-    if (useVerticalThumb) {
-      // on swipeup, move to next thumbnail
-      hmThumb.on('swipeup', () => {
-        this.track('VF Thumbnail SwipeUp')
-        this.moveToNextThumbnails()
-      })
-
-      // on swipedown, move to prev thumbnail
-      hmThumb.on('swipedown', () => {
-        this.track('VF Thumbnail SwipeDown')
-        this.moveToNextThumbnails(true)
-      })
-    }
-  }
-
   moveToNextThumbnails (backward = false) {
-    const { useVerticalThumb } = this.settings
     const nextProp = backward ? this.catdata.prevProp(this.selectedBodyPart)
       : this.catdata.nextProp(this.selectedBodyPart)
     const nextThumb = this.catdata.currentPropState[nextProp]
 
-    if (useVerticalThumb) {
-      // this.animateVerticalThumbnail(this.selectedBodyPart, nextProp, true, () => {
-      this.handleAfterSwipeThumbnail(nextProp, nextThumb)
-      // })
-    } else {
-      // this.animateHorizontalThumbnail(this.selectedBodyPart, nextProp, true, () => {
-      this.handleAfterSwipeThumbnail(nextProp, nextThumb)
-      // })
-    }
+    this.handleAfterSwipeThumbnail(nextProp, nextThumb)
   }
 
   handleAfterSwipeThumbnail (prop, sel) {
-    const { useVerticalThumb } = this.settings
     // change visual filter after animation finished
     this.switchBodypartThumbnail(prop)
 
-    if (useVerticalThumb) {
-      this.showVerticalSelectionBox(prop, sel)
-    } else {
-      this.showHorizontalSelectionBox(prop, sel)
-    }
-
+    this.showHorizontalSelectionBox(prop, sel)
     this.changePropSelection(prop, sel)
 
     // show / hide highlight
@@ -359,47 +297,6 @@ export default class VisualFilter {
     }
   }
 
-  /**
-   * animate thumbnail up / down
-   * @param {string} prop
-   * @param {string} nextProp
-   * @param {boolean} movingUp // moving down = false
-   * @param {function} onAnimationFinish callback
-   * @param {number} animationDuration
-   */
-  animateVerticalThumbnail (prop, nextProp, movingUp = true, onAnimationFinish = () => {}, animationDuration = 300) {
-    const currentThumb = this.findGroupById(this.catdata.thumbnailGroupName(prop))
-    const nextThumbs = this.findGroupById(this.catdata.thumbnailGroupName(nextProp))
-    const currentThumbBBox = currentThumb.getBBox()
-    const nextThumbBBox = nextThumbs.getBBox()
-    const currentThumbInitialY = currentThumbBBox.y
-    const nextThumbInitialY = nextThumbBBox.y
-
-    if (movingUp) {
-      // move current thumbs from thumbnails position to top
-      currentThumb.animate({ transform: `translate(400,${currentThumbBBox.y - currentThumbBBox.height}) scale(1.4)` }, animationDuration, () => {
-        currentThumb.attr({ visibility: 'hidden', transform: `translate(400,${currentThumbInitialY}) scale(1.4)` })
-      })
-
-      // move next thumbs from bottom to thumbnails position
-      nextThumbs.attr({ visibility: 'visible', transform: `translate(400,${nextThumbBBox.y + currentThumbBBox.height}) scale(1.4)` })
-      nextThumbs.animate({ transform: `translate(400,${nextThumbInitialY}) scale(1.4)` }, animationDuration, () => {
-        onAnimationFinish()
-      })
-    } else {
-      // move current thumbs from thumbnails position to bottom
-      currentThumb.animate({ transform: `translate(400,${currentThumbBBox.y + nextThumbBBox.height}) scale(1.4)` }, animationDuration, () => {
-        currentThumb.attr({ visibility: 'hidden', transform: `translate(400,${currentThumbInitialY}) scale(1.4)` })
-      })
-
-      // move next thumbs from top to thumbnails position and fadeIn
-      nextThumbs.attr({ visibility: 'visible', transform: `translate(400,${nextThumbInitialY - nextThumbBBox.height}) scale(1.4)` })
-      nextThumbs.animate({ transform: `translate(400,${nextThumbInitialY}) scale(1.4)` }, animationDuration, () => {
-        onAnimationFinish()
-      })
-    }
-  }
-
   updateState (filters) {
     if (!this.svgLoaded) {
       return
@@ -426,57 +323,6 @@ export default class VisualFilter {
         this.updateThumbnailSelectionBox(this.lastBodyPart)
       }
     }
-  }
-
-  showOnboarding (frag) {
-    this.snapGroup = this.snap.group()
-    this.snapGroup.append(frag)
-    this.snapGroup.attr({ visibility: 'hidden' })
-    if (this.settings.useVerticalThumb) {
-      this.snapGroup.select('svg').attr({ viewBox: [-10, 0, 439, 393] })
-    }
-
-    const group = this.findGroupById('mini_onboarding_touch')
-    group.click(() => {
-      this.handleOnBoardingClick()
-    }, this.snap)
-    this.handleOnBoardingClick()
-  }
-
-  handleOnBoardingClick () {
-    switch (this.onboardingStage) {
-      case 0:
-        this.showGroup('mini_onboarding_touch')
-        this.showGroup('mini_onboarding_1')
-        this.changePropSelection('shoulder', 3)
-        this.updateThumbnailSelectionBox('shoulder')
-        break
-      case 1:
-        this.hideGroup('mini_onboarding_1')
-        this.showGroup('mini_onboarding_2')
-        this.handleBodyPartClick('shoulder')
-        break
-      case 2:
-        this.hideGroup('mini_onboarding_2')
-        this.showGroup('mini_onboarding_3')
-        this.handleBodyPartClick('shoulder')
-
-        var vf = this
-        setTimeout(function () { // Close message after 2 seconds
-          if (vf.onboardingStage === 3) {
-            vf.handleOnBoardingClick()
-          }
-        }, 2000)
-        break
-      case 3:
-      default:
-        this.hideGroup('mini_onboarding_touch')
-        this.hideGroup('mini_onboarding_3')
-        this.handleOnboardingFinished()
-        this.initializeClickHitMap() // Delay late to avoid Conflict with onboarding hitmap
-        break
-    }
-    this.onboardingStage += 1
   }
 
   handleOnboardingFinished () {
@@ -510,12 +356,7 @@ export default class VisualFilter {
   }
 
   handleBodyPartClick (prop) {
-    if (this.settings.useVerticalThumb) {
-      if (this.selectedBodyPart.valueOf() === prop.valueOf()) {
-        // In mobile, cycle settings when same item is touched again.
-        this.cyclePropSelection(prop)
-      }
-    } else { // desktop. We have hovering hint, so just change to next selection on first click
+    if (this.selectedBodyPart.valueOf() === prop.valueOf()) {
       this.cyclePropSelection(prop)
     }
 
@@ -531,50 +372,7 @@ export default class VisualFilter {
   }
 
   updateThumbnailSelectionBox (prop) {
-    // const touchArea = this.findGroupById(this.catdata.thumbnailTouchGroupName())
-    // const {x, y} = this.catdata.tnAreaOffset()
-    // Display current one
-    // if (this.settings.useVerticalThumb) {
-    //   // get target thumbnail
-    //   const thumbnailGroup0 = this.findGroupById(this.catdata.thumbnailGroupName(prop, 0))
-    //   const thumbnailRect0 = thumbnailGroup0.node.getBoundingClientRect()
-
-    //   // get scale value based on thumbnail size, add padding to get more volume.
-    //   const scale = (thumbnailRect0.height * 1.38) / this.catdata.thumbnailTouchSize.height
-
-    //   const viewBoxHeight = this.viewBox[3]
-    //   const svgHeight = this.snap.node.getBoundingClientRect().height
-
-    //   let desc = `t${x},${y}s${scale},${thumbnailRect0.width},0`
-
-    //   touchArea.selectAll('g > rect').items.forEach((el, index) => {
-    //     if (index < this.catdata.propCount(prop)) {
-    //       let thumbnailGroup = this.findGroupById(this.catdata.thumbnailGroupName(prop, index))
-    //       // Adjust touch area to its position
-    //       // else hide the touch area
-    //       const thumbnailRect = thumbnailGroup.node.getBoundingClientRect()
-    //       // starting y should be set to thumbnails_0 top offset, since it will be the first item
-    //       const startTop = thumbnailRect0.top
-    //       // count y value of the thumbnail touch area to match the thumbnail y position
-    //       const y = (thumbnailRect.top - startTop) / scale * viewBoxHeight / svgHeight
-
-    //       let opacity = this.settings.debugTouchArea ? 0.5 : 0.0
-    //       el.attr({ visibility: 'visible', opacity: opacity, y })
-    //     } else {
-    //       el.attr({ visibility: 'hidden', opacity: 0 })
-    //     }
-    //   })
-
-    //   touchArea.transform(desc)
-
-    //   this.showVerticalSelectionBox(prop, this.catdata.currentPropState[prop])
-    // } else {
-    // Move thumbnail hit area
-    // let desc = 't' + x + ',' + y
-    // touchArea.transform(desc)
-
     this.showHorizontalSelectionBox(prop, this.catdata.currentPropState[prop])
-    // }
 
     this.removeHighlight()
     this.highlightGroup(this.catdata.getBodyPartGroupName(prop))
@@ -629,40 +427,8 @@ export default class VisualFilter {
     this.showGroup(this.catdata.thumbnailHLGroupName())
   }
 
-  showVerticalSelectionBox (prop, sel, animationDuration = null) {
-    const thumbnailHighlighterGroup = this.findGroupById('tn_HL')
-    let desc = ''
-
-    // for non "ALL" thumbnail, highliter size and position should be adjusted based on thumbnail
-    let thumbnailGroup = this.findGroupById(this.catdata.thumbnailGroupName(prop, sel))
-    const thumbnail0Rect = this.findGroupById(this.catdata.thumbnailGroupName(prop, 0)).node.getBoundingClientRect()
-    const thumbnailRect = thumbnailGroup.node.getBoundingClientRect()
-    const viewBoxHeight = this.viewBox[3]
-    const svgHeight = this.snap.node.getBoundingClientRect().height
-
-    // Scale highlighter box depending on thumbnail size
-    const scale = (thumbnailRect.height * 1.4) / this.catdata.thumbnailHighlightSize.height
-
-    // get y value based on thumbnail position.
-    // the y value should be compared between the original svg size (viewbox) and current svg size (after resize).
-    const y = this.catdata.tnAreaOffset().y + (thumbnailRect.top - thumbnail0Rect.top) * viewBoxHeight / svgHeight
-    const x = this.catdata.tnAreaOffset().x - 3
-    desc = `t${x},${y}s${scale},${thumbnailRect.width},0`
-
-    if (!isNil(animationDuration)) {
-      thumbnailHighlighterGroup.stop().animate({ transform: desc }, animationDuration)
-    } else {
-      thumbnailHighlighterGroup.transform(desc)
-    }
-    this.showGroup('tn_HL')
-  }
-
   showSelectionBox (prop, tnIdx) {
-    if (this.settings.useVerticalThumb) {
-      this.showVerticalSelectionBox(this.selectedBodyPart, tnIdx)
-    } else {
-      this.showHorizontalSelectionBox(this.selectedBodyPart, parseInt(tnIdx, 10))
-    }
+    this.showHorizontalSelectionBox(this.selectedBodyPart, parseInt(tnIdx, 10))
   }
   /**
    * save last body part to localStorage
@@ -808,11 +574,8 @@ export default class VisualFilter {
 const defaultOptions = {
   category: PRD_CATEGORY, // Should be changeable runtime
   badgeMode: false, // Disable interaction and do not show thumbnails/bottom menus
-  swipeable: false, // only supported for mobile
   defaultState: {},
   hideThumbnail: false,
-  hideMiniOnboarding: true,
-  useVerticalThumb: false,
   debugTouchArea: false,
   customViewBox: null,
   onFilterChange: (filters) => { console.debug('filter change', filters) },

@@ -2,23 +2,18 @@ import vfWtopSvg from '@yesplz/core-web/assets/svg/vf_wtop.svg'
 import vfWshoesSvg from '@yesplz/core-web/assets/svg/vf_wshoes.svg'
 import vfWpantsSvg from '@yesplz/core-web/assets/svg/vf_wpants.svg'
 
-// import miniOnboardingSvg from '@yesplz/core-web/assets/svg/mini_onboarding.svg'
-// import miniOnboardingVertSvg from '@yesplz/core-web/assets/svg/mini_onboarding_thumb_vertical.svg'
 import pick from 'lodash/pick'
 import { getCatCfg } from './VFCatCfg'
 
 class VfCatViewData {
   catcfg = null
-  viewBoxWithVertThumbnail = [0, 0, 380, 310] // TODO: Remove
   viewBoxWithHorizThumbnail = [15, -5, 280, 280]
   viewBoxWithNoThumnbnail = [0, 0, 250, 250]
   thumbnailWidth = 45
   thumbnailHeight = 45
   tnScale = 0.70
-  // useVerticalThumb is obsolete in v1.0. Remove it once mobile page is updated
-  constructor (vfcatcfg, useVerticalThumb) {
+  constructor (vfcatcfg) {
     this.catcfg = vfcatcfg
-    this.useVerticalThumb = useVerticalThumb
     this.curViewBox = null
   }
   currentPreset = null
@@ -50,15 +45,11 @@ class VfCatViewData {
     this.currentPropState = this.sanitizeFilters(filters)
   }
 
-  viewBox (hideThumbnail, vertThumbnails) {
+  viewBox (hideThumbnail) {
     if (hideThumbnail) {
       return this.viewBoxWithNoThumnbnail
     }
-    if (vertThumbnails) {
-      return this.viewBoxWithVertThumbnail
-    } else {
-      return this.viewBoxWithHorizThumbnail
-    }
+    return this.viewBoxWithHorizThumbnail
   }
 
   setViewBox (viewBox) {
@@ -80,9 +71,6 @@ class VfCatViewData {
   tnOffset (prop, idx) {
     const tnCnt = this.propCount(prop)
     const base = this.tnAreaOffset()
-    if (this.useVerticalThumb) {
-      return {x: base.x, y: base.y + idx * this.thumbnailWidth}
-    }
 
     let calcX = (idx) => {
       return base.x + this.curViewBox[2] * 0.22 + idx * (this.thumbnailWidth + 3)
@@ -98,27 +86,15 @@ class VfCatViewData {
   }
 
   tnAreaOffset () {
-    if (this.useVerticalThumb) {
-      return {x: 400 - 6, y: 30}
-    } else {
-      return {x: 0, y: this.curViewBox[3] * 0.65}
-    }
+    return {x: 0, y: this.curViewBox[3] * 0.65}
   }
   arrowBackOffset () {
     let {x, y} = this.tnAreaOffset()
-    if (this.useVerticalThumb) {
-      return {x: x, y: y - 30}
-    } else {
-      return {x: x, y: y}
-    }
+    return {x: x, y: y}
   }
   arrowForwardOffset () {
     let {x, y} = this.tnAreaOffset()
-    if (this.useVerticalThumb) {
-      return {x: x, y: y + 30}
-    } else {
-      return {x: x + this.curViewBox[2] * 0.85, y: y}
-    }
+    return {x: x + this.curViewBox[2] * 0.85, y: y}
   }
 
   propList () {
@@ -141,14 +117,6 @@ class VfCatViewData {
     this.currentPreset += backward ? -1 : 1
     this.currentPreset = (this.currentPreset + this.presetList.length) % this.presetList.length
     return this.presetList[this.currentPreset]
-  }
-
-  thumbnailTouchSize () {
-    return {width: this.thumbnailWidth, height: this.thumbnailWidth}
-  }
-
-  thumbnailHighlightSize () {
-    return {width: this.thumbnailWidth, height: this.thumbnailWidth}
   }
 
   changePropSelection (prop, sel) {
@@ -193,19 +161,16 @@ class VfCatWtopViewData extends VfCatViewData {
     {coretype: 2, neckline: 1, shoulder: 3, sleeve_length: 0, top_length: 1}
   ]
 
-  constructor (vfcatcfg, useVerticalThumb) {
-    super(vfcatcfg, useVerticalThumb)
+  constructor (vfcatcfg) {
+    super(vfcatcfg)
     console.log('Creating VfCatWtopViewData')
     this.settings = {
     }
   }
-  svgCoreAndTn (useVerticalThumb) {
+  svgCoreAndTn () {
     return vfWtopSvg
-    // return useVerticalThumb ? vfWtopVertSvg : vfWtopSvg
   }
-  miniOnboardingSvg (useVerticalThumb) {
-    return null // useVerticalThumb ? miniOnboardingVertSvg : miniOnboardingSvg
-  }
+
   thumbnailGroupName (prop, idx = null) {
     if (idx === null) {
       return 'tn_' + prop
@@ -301,20 +266,15 @@ class VfCatWshoesViewData extends VfCatViewData {
   //   {'toes': 1, 'covers': 2, 'shafts': 1, 'counters': 3, 'bottoms': 0}
   // ]
 
-  constructor (vfcatcfg, useVerticalThumb) {
-    super(vfcatcfg, useVerticalThumb)
+  constructor (vfcatcfg) {
+    super(vfcatcfg)
     console.log('Creating VfCatWshoesViewData')
     this.settings = {
     }
   }
-  svgCoreAndTn (useVerticalThumb) {
+  svgCoreAndTn () {
     return vfWshoesSvg
-    // return useVerticalThumb ? vfWshoesVertSvg : vfWshoesSvg
   }
-  miniOnboardingSvg (useVerticalThumb) {
-    return null
-  }
-
   thumbnailGroupName (prop, idx = null) {
     if (idx === null) {
       return 'tn_' + prop
@@ -359,20 +319,15 @@ class VfCatWpantsViewData extends VfCatViewData {
     {rise: 2, thigh: 2, knee: 2, ankle: 3}
   ]
 
-  constructor (vfcatcfg, useVerticalThumb) {
-    super(vfcatcfg, useVerticalThumb)
+  constructor (vfcatcfg) {
+    super(vfcatcfg)
     console.log('Creating VfCatWpantsViewData')
     this.settings = {
     }
   }
-  svgCoreAndTn (useVerticalThumb) {
+  svgCoreAndTn () {
     return vfWpantsSvg
-    // return useVerticalThumb ? vfWpantsVertSvg : vfWpantsSvg
   }
-  miniOnboardingSvg (useVerticalThumb) {
-    return null
-  }
-
   thumbnailGroupName (prop, idx = null) {
     if (idx === null) {
       return 'tn_' + prop
@@ -446,14 +401,14 @@ class VfCatWpantsViewData extends VfCatViewData {
   }
 }
 
-export function getCatData (category, useVerticalThumb) {
+export function getCatData (category) {
   let cfg = getCatCfg(category)
   if (category === 'wtop') {
-    return new VfCatWtopViewData(cfg, useVerticalThumb)
+    return new VfCatWtopViewData(cfg)
   } else if (category === 'wshoes') {
-    return new VfCatWshoesViewData(cfg, useVerticalThumb)
+    return new VfCatWshoesViewData(cfg)
   } else if (category === 'wpants') {
-    return new VfCatWpantsViewData(cfg, useVerticalThumb)
+    return new VfCatWpantsViewData(cfg)
   } else {
     console.assert(false, 'Unknown category ' + category)
     return null

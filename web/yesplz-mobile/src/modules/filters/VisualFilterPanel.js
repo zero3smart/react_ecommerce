@@ -14,12 +14,10 @@ export default class VisualFilterPanel extends Component {
     favorite: PropTypes.bool,
     lastBodyPart: PropTypes.string,
     className: PropTypes.string,
-    hideMiniOnboarding: PropTypes.bool,
     onFilterChange: PropTypes.func,
     onFilterLike: PropTypes.func,
     onBodyPartChange: PropTypes.func,
     onFinishedOnboarding: PropTypes.func,
-    useVerticalThumb: PropTypes.bool,
     debugTouchArea: PropTypes.bool
   }
 
@@ -27,7 +25,6 @@ export default class VisualFilterPanel extends Component {
     filters: {},
     favorite: false,
     className: '',
-    useVerticalThumb: false,
     onFilterChange: (filters) => { console.debug('FilterPanel - filter changed', filters) },
     onFilterLike: (filters, favorite) => { console.debug('FilterPanel - filter like changed', filters, favorite) }
   }
@@ -41,20 +38,17 @@ export default class VisualFilterPanel extends Component {
   }
 
   componentDidMount () {
-    const { category, filters, useVerticalThumb, debugTouchArea, lastBodyPart, hideMiniOnboarding, onBodyPartChange, onFinishedOnboarding } = this.props
+    const { category, filters, debugTouchArea, lastBodyPart, onBodyPartChange, onFinishedOnboarding } = this.props
 
     // initialize visual filter
     this.visualFilter = new VisualFilter('#VisualFilter', {
       category: category,
       defaultState: filters,
-      swipeable: true,
       hideThumbnail: true,
       customViewBox: [15, -5, 280, 250],
       onFilterChange: this.handleBodyPartFilter,
       onPropChange: onBodyPartChange,
       onSVGLoaded: this.handleSVGLoaded,
-      hideMiniOnboarding: hideMiniOnboarding,
-      useVerticalThumb: useVerticalThumb,
       onFinishedOnboarding: onFinishedOnboarding,
       debugTouchArea: debugTouchArea
     })

@@ -23,8 +23,7 @@ class Tutorial extends Component {
   }
 
   static defaultProps = {
-    reverseIcon: false,
-    useVerticalThumb: true
+    reverseIcon: false
   }
 
   constructor (props) {

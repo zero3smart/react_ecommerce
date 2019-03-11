@@ -67,7 +67,7 @@ storiesOf('filters/FilterPanel', module)
   .add(
     'desktop wtop default',
     withInfo(`
-      mobile visual filter panel
+      desktop visual filter panel
     `)(() => (
       <FilterPanel
         category='wtop'
@@ -77,13 +77,12 @@ storiesOf('filters/FilterPanel', module)
         onClose={action('close visual filter')}
         onFilterLike={action('favorite filter')}
         onBodyPartChange={action('body part changed')}
-        useVerticalThumb={false}
       />))
   )
   .add(
     'desktop wtop touch',
     withInfo(`
-      mobile visual filter panel
+      desktop visual filter panel
     `)(() => (
       <FilterPanel
         category='wtop'
@@ -93,7 +92,6 @@ storiesOf('filters/FilterPanel', module)
         onClose={action('close visual filter')}
         onFilterLike={action('favorite filter')}
         onBodyPartChange={action('body part changed')}
-        useVerticalThumb={false}
         debugTouchArea
       />))
   )
@@ -110,7 +108,6 @@ storiesOf('filters/FilterPanel', module)
         onClose={action('close visual filter')}
         onFilterLike={action('favorite filter')}
         onBodyPartChange={action('body part changed')}
-        useVerticalThumb={false}
       />))
   )
   .add(
@@ -126,7 +123,6 @@ storiesOf('filters/FilterPanel', module)
         onClose={action('close visual filter')}
         onFilterLike={action('favorite filter')}
         onBodyPartChange={action('body part changed')}
-        useVerticalThumb={false}
         debugTouchArea
       />))
   )
@@ -143,7 +139,6 @@ storiesOf('filters/FilterPanel', module)
         onClose={action('close visual filter')}
         onFilterLike={action('favorite filter')}
         onBodyPartChange={action('body part changed')}
-        useVerticalThumb={false}
       />))
   )
   .add(
@@ -159,7 +154,6 @@ storiesOf('filters/FilterPanel', module)
         onClose={action('close visual filter')}
         onFilterLike={action('favorite filter')}
         onBodyPartChange={action('body part changed')}
-        useVerticalThumb={false}
         debugTouchArea
       />))
   )

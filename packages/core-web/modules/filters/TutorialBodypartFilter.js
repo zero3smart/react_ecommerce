@@ -33,7 +33,6 @@ export default class TutorialBodypartFilter extends PureComponent {
       defaultState: filters,
       badgeMode: true,
       hideThumbnail: true,
-      hideMiniOnboarding: true,
       onSVGLoaded: this.handleSVGLoaded,
       onFilterChange: () => {}
     })

@@ -62,8 +62,7 @@ export default class SimplePreset extends PureComponent {
     this.bodyPart = new VisualFilter(`#${id}`, {
       defaultState: this.bodyPartFilters,
       badgeMode: true,
-      hideThumbnail: true,
-      hideMiniOnboarding: true
+      hideThumbnail: true
     })
   }
 

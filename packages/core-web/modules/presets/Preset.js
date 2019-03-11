@@ -65,7 +65,6 @@ export default class Preset extends Component {
       defaultState: this.bodyPartFilters,
       badgeMode: true,
       hideThumbnail: true,
-      hideMiniOnboarding: true,
       category
     })
   }

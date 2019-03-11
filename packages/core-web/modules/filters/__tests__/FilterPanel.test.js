@@ -21,7 +21,6 @@ describe('<FilterPanel />', () => {
     },
     favorite: false,
     className: '',
-    useVerticalThumb: true,
     closable: true,
     onFilterChange: sinon.spy(),
     onFilterLike: sinon.spy(),

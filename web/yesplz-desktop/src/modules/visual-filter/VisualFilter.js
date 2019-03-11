@@ -96,7 +96,6 @@ class VisualFilter extends Component {
           onFilterChange={this.handleFilterChange}
           onFilterLike={this.handleFilterLike}
           closable={Boolean(false)}
-          useVerticalThumb={Boolean(false)}
           onBodyPartChange={this.handleBodyPartChange}
           onFinishedOnboarding={this.handleFinishOnboarding}
         />

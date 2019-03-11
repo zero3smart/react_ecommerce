@@ -65,7 +65,6 @@ export default class MinimalPreset extends Component {
       defaultState: this.bodyPartFilters,
       badgeMode: true,
       hideThumbnail: true,
-      hideMiniOnboarding: true,
       customViewBox: [75, 50, 250, 200],
       category
     })
