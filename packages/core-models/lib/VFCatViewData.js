@@ -346,10 +346,10 @@ class VfCatWpantsViewData extends VfCatViewData {
   }
   presetList = [
     {rise: 0, thigh: 0, knee: 0, ankle: 0},
-    {rise: 2, thigh: 1, knee: 0, ankle: 0},
-    {rise: 1, thigh: 2, knee: 1, ankle: 2},
-    {rise: 0, thigh: 2, knee: 2, ankle: 3},
-    {rise: 2, thigh: 3, knee: 2, ankle: 5}
+    {rise: 2, thigh: 0, knee: 0, ankle: 0},
+    {rise: 1, thigh: 1, knee: 1, ankle: 1},
+    {rise: 0, thigh: 1, knee: 2, ankle: 2},
+    {rise: 2, thigh: 2, knee: 2, ankle: 3}
   ]
 
   constructor (vfcatcfg, useVerticalThumb) {
@@ -387,14 +387,14 @@ class VfCatWpantsViewData extends VfCatViewData {
     let thigh = this.currentPropState['thigh']
 
     if (prop === 'thigh') {
-      if (sel === 0 || sel === 1) { // Short pants. No knee, ankle
+      if (sel === 0) { // Short pants. No knee, ankle
         this.currentPropState['knee'] = 0
         this.currentPropState['ankle'] = 0
-      } else if (sel === 2) {
+      } else if (sel === 1) {
         this.currentPropState['knee'] = this.clipPropStateRange(knee, 0, 2)
       } else {
         if (knee !== 0) {
-          this.currentPropState['knee'] = this.clipPropStateRange(knee, 3, 3)
+          this.currentPropState['knee'] = this.clipPropStateRange(knee, 2, 2)
         }
       }
     }
@@ -402,7 +402,7 @@ class VfCatWpantsViewData extends VfCatViewData {
       if (sel === 0) { // No knee means no ankle also
         this.currentPropState['ankle'] = 0
       } else if (sel === 1 || sel === 2) {
-        this.currentPropState['thigh'] = this.clipPropStateRange(thigh, 2, 3)
+        this.currentPropState['thigh'] = this.clipPropStateRange(thigh, 1, 2)
       }
     }
 
@@ -411,17 +411,17 @@ class VfCatWpantsViewData extends VfCatViewData {
       let thigh = this.currentPropState['thigh']
       if (sel === 1) {
         this.currentPropState['knee'] = 1
-        this.currentPropState['thigh'] = 2
+        this.currentPropState['thigh'] = 1
       } else if (sel === 2) {
         this.currentPropState['knee'] = this.clipPropStateRange(knee, 1, 2)
-        this.currentPropState['thigh'] = this.clipPropStateRange(thigh, 2, 3)
-      } else if (sel === 3 || sel === 4) {
-        this.currentPropState['knee'] = this.clipPropStateRange(knee, 1, 2)
         if (this.currentPropState['knee'] === 2) {
-          this.currentPropState['thigh'] = 2
+          this.currentPropState['thigh'] = 1
         } else {
-          this.currentPropState['thigh'] = 3
+          this.currentPropState['thigh'] = this.clipPropStateRange(thigh, 1, 2)
         }
+      } else if (sel === 3) {
+        this.currentPropState['knee'] = this.clipPropStateRange(knee, 1, 2)
+        this.currentPropState['thigh'] = 2
       }
     }
     this.currentPropState[prop] = sel
@@ -433,7 +433,7 @@ class VfCatWpantsViewData extends VfCatViewData {
       return 'knees_' + val + '_thigh_' + state['thigh']
     }
     if (prop === 'ankle' && val !== '0') {
-      return 'ankle_' + val + '_knees_' + state['knee'] + '_' + state['thigh']
+      return 'ankle_' + val + '_knees_' + state['knee'] + '_thigh_' + state['thigh']
     }
     return prop + '_' + state[prop]
   }

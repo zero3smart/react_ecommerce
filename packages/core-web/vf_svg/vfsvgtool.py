@@ -246,21 +246,19 @@ class VfWpantsSvgGenerator(VfSvgGenerator):
         self.empty_group_ids += ['knee_0', 'ankle_0']
         # Disabled temporarily
         self.empty_group_ids += [f'rise_{i}_HL' for i in range(3)]
-        self.empty_group_ids += [f'thigh_{i}_HL' for i in range(4)]
+        self.empty_group_ids += [f'thigh_{i}_HL' for i in range(3)]
         self.empty_group_ids += [f'knee_{i}_HL' for i in range(3)]
-        self.empty_group_ids += [f'ankle_{i}_HL' for i in range(7)]
+        self.empty_group_ids += [f'ankle_{i}_HL' for i in range(4)]
         self.empty_group_ids += [
-            'knees_1_thigh_2_HL', 'knees_1_thigh_3_HL', 
+            'knees_1_thigh_1_HL', 'knees_1_thigh_2_HL', 
+            'knees_2_thigh_1_HL', 
             'knees_2_thigh_2_HL', 
-            'knees_2_thigh_3_HL', 
-            'ankle_1_knees_1_2_HL', 
-            'ankle_2_knees_1_2_HL', 
-            'ankle_2_knees_2_2_HL', 
-            'ankle_2_knees_1_3_HL', 
-            'ankle_3_knees_2_2_HL', 
-            'ankle_3_knees_1_3_HL', 
-            'ankle_4_knees_2_2_HL', 
-            'ankle_4_knees_1_3_HL',
+            'ankle_1_knees_1_thigh_1_HL', 
+            'ankle_2_knees_1_thigh_1_HL', 
+            'ankle_2_knees_2_thigh_1_HL', 
+            'ankle_2_knees_1_thigh_2_HL', 
+            'ankle_3_knees_2_thigh_1_HL', 
+            'ankle_3_knees_1_thigh_2_HL', 
         ] 
 
     def load_core_svg(self, svg_fn):
@@ -269,7 +267,7 @@ class VfWpantsSvgGenerator(VfSvgGenerator):
             'rise_TA': 'touch_rise',
             'thigh_TA':        'touch_thigh',
             'knees_TA':        'touch_knee',
-            'ankle_TA':        'touch_ankle'
+            'ankle_TA':        'touch_ankle',
         }
         pos_fixes = {
             'Final_VF_Pants_2.0': [f'80 0', .45]
@@ -284,8 +282,7 @@ class VfWpantsSvgGenerator(VfSvgGenerator):
             'ankle_0_TN' : 'tn_ankle_0',
             'ankle_1_TN' : 'tn_ankle_1',
             'ankle_2_TN' : 'tn_ankle_2',
-            'ankle_3_TN' : 'tn_ankle_4',
-            'ankle_4_TN' : 'tn_ankle_3',
+            'ankle_3_TN' : 'tn_ankle_3',
             'knee_TN': 'tn_knee',
             'knee_0_TN': 'tn_knee_0',
             'knee_1_TN': 'tn_knee_1',
@@ -294,7 +291,6 @@ class VfWpantsSvgGenerator(VfSvgGenerator):
             'thigh_0_TN': 'tn_thigh_0',
             'thigh_1_TN': 'tn_thigh_1',
             'thigh_2_TN': 'tn_thigh_2',
-            'thigh_3_TN': 'tn_thigh_3',
             'rise_TN': 'tn_rise',
             'rise_0_TN': 'tn_rise_0',
             'rise_1_TN': 'tn_rise_1',
