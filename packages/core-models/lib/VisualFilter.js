@@ -84,7 +84,7 @@ export default class VisualFilter {
       for (var j = 0; j < this.catdata.propCount(prop); j++) {
         const tn = this.findGroupById(this.catdata.thumbnailGroupName(prop, j))
         const offsets = this.catdata.tnOffset(prop, j)
-        tn.attr(this.transformAttr(offsets.x, offsets.y))
+        tn.attr(this.transformAttr(offsets.x, offsets.y, null, this.catdata.tnScale))
       }
     }
   }
@@ -94,6 +94,7 @@ export default class VisualFilter {
       swipeable, badgeMode, customViewBox } = this.settings
 
     this.viewBox = customViewBox || this.catdata.viewBox(hideThumbnail, useVerticalThumb)
+    this.catdata.setViewBox(this.viewBox)
     let svgSource = this.catdata.svgCoreAndTn(useVerticalThumb)
 
     let svgOnboardingSource = this.catdata.miniOnboardingSvg(useVerticalThumb)
@@ -138,13 +139,14 @@ export default class VisualFilter {
         if (swipeable) {
           this.initializeSwipableThumbnail()
         }
-        this.arrangeThumbnails(useVerticalThumb)
-
         if (this.catdata.propList().indexOf(this.lastBodyPart) < 0) {
           console.log('Unrecognized last bodypart', this.lastBodyPart, 'switching to default')
           this.lastBodyPart = this.catdata.propList()[0]
         }
-        this.switchBodypartThumbnail(this.lastBodyPart)
+        if (!this.settings.hideThumbnail) {
+          this.arrangeThumbnails(useVerticalThumb)
+          this.switchBodypartThumbnail(this.lastBodyPart)
+        }
       }
 
       if (!useVerticalThumb && !badgeMode) {
@@ -181,8 +183,12 @@ export default class VisualFilter {
     if (this.settings.hideThumbnail) {
       group = this.findGroupById(this.catdata.thumbnailTouchGroupName())
       group.attr({ opacity: 0 })
-      const thumbnailGroup = this.findGroupById('tn_tops')
-      thumbnailGroup.attr({ opacity: 0 })
+      for (var i in this.catdata.propList()) {
+        const prop = this.catdata.propList()[i]
+        group = this.findGroupById(this.catdata.thumbnailGroupName(prop))
+        group.attr({ opacity: 0 })
+      }
+      this.hideGroup(this.catdata.thumbnailHLGroupName())
     } else {
       for (let i = 0; i < 7; i++) {
         group = this.findGroupById(this.catdata.thumbnailTouchGroupName(i))
@@ -194,10 +200,13 @@ export default class VisualFilter {
     }
   }
 
-  transformAttr (x, y, rotate) {
+  transformAttr (x, y, rotate, scale = null) {
     let t = `translate(${x},${y})`
     if (rotate) {
       t += ` rotate(${rotate})`
+    }
+    if (scale) {
+      t += ` scale(${scale})`
     }
     return { transform: t }
   }
@@ -208,7 +217,7 @@ export default class VisualFilter {
   }
 
   initializeArrowNavigation () {
-    const { useVerticalThumb } = this.settings
+    const { useVerticalThumb, hideThumbnail } = this.settings
 
     // Initialize preset arrow
     const presetBack = this.findGroupById('preset_back')
@@ -222,25 +231,27 @@ export default class VisualFilter {
       this.moveToNextPreset()
     })
 
-    // set arrow navigation visibility and position
-    const arrowBack = this.findGroupById('tn_arrow_back')
-    const arrowForward = this.findGroupById('tn_arrow_forward')
+    if (!hideThumbnail) {
+      // set arrow navigation visibility and position
+      const arrowBack = this.findGroupById('tn_arrow_back')
+      const arrowForward = this.findGroupById('tn_arrow_forward')
 
-    this.showGroup('tn_arrow_back')
-    this.showGroup('tn_arrow_forward')
-    const backOffset = this.catdata.arrowBackOffset()
-    const forwardOffset = this.catdata.arrowForwardOffset()
-    let rotate = useVerticalThumb ? 90 : 0
-    arrowBack.attr(this.transformAttr(backOffset.x, backOffset.y, rotate))
-    arrowForward.attr(this.transformAttr(forwardOffset.x, forwardOffset.y, rotate))
+      this.showGroup('tn_arrow_back')
+      this.showGroup('tn_arrow_forward')
+      const backOffset = this.catdata.arrowBackOffset()
+      const forwardOffset = this.catdata.arrowForwardOffset()
+      let rotate = useVerticalThumb ? 90 : 0
+      arrowBack.attr(this.transformAttr(backOffset.x, backOffset.y, rotate))
+      arrowForward.attr(this.transformAttr(forwardOffset.x, forwardOffset.y, rotate))
 
-    // initialize navigation tap events
-    arrowBack.click(() => {
-      this.moveToNextThumbnails(true)
-    })
-    arrowForward.click(() => {
-      this.moveToNextThumbnails()
-    })
+      // initialize navigation tap events
+      arrowBack.click(() => {
+        this.moveToNextThumbnails(true)
+      })
+      arrowForward.click(() => {
+        this.moveToNextThumbnails()
+      })
+    }
   }
 
   initializeSwipableThumbnail () {
@@ -614,8 +625,7 @@ export default class VisualFilter {
   showHorizontalSelectionBox (prop, sel) {
     const group = this.findGroupById(this.catdata.thumbnailHLGroupName())
     const {x, y} = this.catdata.tnOffset(prop, sel)
-    const desc = 't' + x + ',' + y
-    group.transform(desc)
+    group.attr(this.transformAttr(x, y, null, this.catdata.tnScale))
     this.showGroup(this.catdata.thumbnailHLGroupName())
   }
 

@@ -270,7 +270,7 @@ class VfWpantsSvgGenerator(VfSvgGenerator):
             'ankle_TA':        'touch_ankle',
         }
         pos_fixes = {
-            'Final_VF_Pants_2.0': [f'80 0', .45]
+            'Final_VF_Pants_2.0': [f'120 0', .40]
         }
         return self.load_svg_fixed(svg_fn, id_fixups, pos_fixes)
 

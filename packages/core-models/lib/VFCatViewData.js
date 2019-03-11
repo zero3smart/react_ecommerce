@@ -9,15 +9,17 @@ import { getCatCfg } from './VFCatCfg'
 
 class VfCatViewData {
   catcfg = null
-  viewBoxWithVertThumbnail = [0, 0, 380, 310]
-  viewBoxWithHorizThumbnail = [0, 0, 400, 400]
+  viewBoxWithVertThumbnail = [0, 0, 380, 310] // TODO: Remove
+  viewBoxWithHorizThumbnail = [15, -5, 280, 280]
   viewBoxWithNoThumnbnail = [0, 0, 250, 250]
-  thumbnailWidth = 64
-  thumbnailHeight = 64
+  thumbnailWidth = 45
+  thumbnailHeight = 45
+  tnScale = 0.70
   // useVerticalThumb is obsolete in v1.0. Remove it once mobile page is updated
   constructor (vfcatcfg, useVerticalThumb) {
     this.catcfg = vfcatcfg
     this.useVerticalThumb = useVerticalThumb
+    this.curViewBox = null
   }
   currentPreset = null
 
@@ -59,6 +61,10 @@ class VfCatViewData {
     }
   }
 
+  setViewBox (viewBox) {
+    this.curViewBox = viewBox
+  }
+
   propCount (prop) {
     return this.catcfg.maxVal(prop) + 1
   }
@@ -79,7 +85,7 @@ class VfCatViewData {
     }
 
     let calcX = (idx) => {
-      return base.x + 60 + idx * (this.thumbnailWidth + 5)
+      return base.x + this.curViewBox[2] * 0.22 + idx * (this.thumbnailWidth + 3)
     }
     if (tnCnt > 4) { // Show in two rows
       if (idx <= 3) {
@@ -95,7 +101,7 @@ class VfCatViewData {
     if (this.useVerticalThumb) {
       return {x: 400 - 6, y: 30}
     } else {
-      return {x: 0, y: 280}
+      return {x: 0, y: this.curViewBox[3] * 0.65}
     }
   }
   arrowBackOffset () {
@@ -111,7 +117,7 @@ class VfCatViewData {
     if (this.useVerticalThumb) {
       return {x: x, y: y + 30}
     } else {
-      return {x: x + 230, y: y}
+      return {x: x + this.curViewBox[2] * 0.85, y: y}
     }
   }
 
@@ -138,10 +144,11 @@ class VfCatViewData {
   }
 
   thumbnailTouchSize () {
-    return {width: 62, height: 62}
+    return {width: this.thumbnailWidth, height: this.thumbnailWidth}
   }
+
   thumbnailHighlightSize () {
-    return {width: 62, height: 61}
+    return {width: this.thumbnailWidth, height: this.thumbnailWidth}
   }
 
   changePropSelection (prop, sel) {
@@ -420,8 +427,8 @@ class VfCatWpantsViewData extends VfCatViewData {
           this.currentPropState['thigh'] = this.clipPropStateRange(thigh, 1, 2)
         }
       } else if (sel === 3) {
-        this.currentPropState['knee'] = this.clipPropStateRange(knee, 1, 2)
-        this.currentPropState['thigh'] = 2
+        this.currentPropState['knee'] = 2
+        this.currentPropState['thigh'] = this.clipPropStateRange(thigh, 1, 2)
       }
     }
     this.currentPropState[prop] = sel
