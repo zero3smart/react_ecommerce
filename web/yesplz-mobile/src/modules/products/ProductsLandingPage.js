@@ -58,7 +58,7 @@ class ProductsLandingPage extends PureComponent {
 
   // Update the value in response to user picking event
   handleCategoryChange (name, value) {
-    this.setState(({valueGroups}) => ({
+    this.setState(({ valueGroups }) => ({
       valueGroups: {
         ...valueGroups,
         [name]: value
@@ -119,9 +119,11 @@ class ProductsLandingPage extends PureComponent {
 
     return (
       <div
+        id='MainScroll'
         key={this.currentCategory}
         className='ProductsLandingPage'
-        style={{ overflow: 'hidden' }}>
+        style={{ overflow: 'hidden' }}
+      >
         <div className='container'>
           <PageTitle
             className={classNames('ProductsLandingPage-title', { 'is-opened': categorySwitchOpened })}

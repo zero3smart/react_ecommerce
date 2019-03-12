@@ -6,7 +6,7 @@ import {
 import { LIKE_PRODUCT, UNLIKE_PRODUCT } from '../product'
 import {
   SET_PRODUCTS, APPEND_PRODUCTS, ENABLE_INITIAL_FETCH, SET_RECOMMENDED_PRODUCTS, APPEND_RECOMMENDED_PRODUCTS,
-  SET_ACTIVE_CATEGORY, SET_FAVORITE_PRODUCTS, SET_PRESETS
+  SET_ACTIVE_CATEGORY, SET_FAVORITE_PRODUCTS, SET_PRESETS, SET_PRESETS_ALL_CATEGORIES
 } from './actions'
 import { mapProductFavorites, updateProductFavorite } from '../helpers'
 
@@ -34,6 +34,11 @@ const defaultState = {
     totalCount: 0,
     fetched: false,
     willBeEmptyList: false
+  },
+  presetsCategory: {
+    [CATEGORY_TOPS]: [],
+    [CATEGORY_SHOES]: [],
+    [CATEGORY_PANTS]: []
   },
   favoriteList: [],
   recommended: {
@@ -95,6 +100,15 @@ export default function reducer (state = defaultState, action = {}) {
         [category]: {
           ...state[category],
           presets: payload.presets
+        }
+      }
+
+    case SET_PRESETS_ALL_CATEGORIES:
+      return {
+        ...state,
+        presetsCategory: {
+          ...state.presetsCategory,
+          ...payload
         }
       }
 

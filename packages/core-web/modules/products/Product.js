@@ -95,9 +95,9 @@ class Product extends PureComponent {
   }
 
   // eslint-disable-next-line camelcase
-  renderSizes = (all_sizes, sizes) => (
+  renderSizes = (allSizes, sizes) => (
     <ul className='Product-sizes'>
-      {all_sizes.map(size => (
+      {allSizes && allSizes.map(size => (
         <li key={size} className={classNames({
           'size-available': sizes.indexOf(size) > -1
         })}>{size}</li>
@@ -143,7 +143,7 @@ class Product extends PureComponent {
     const isOutOfStock = price === 0
     const sliderChildren = [
       imgSrc && (
-        <div className='Product-imageWrapper'>
+        <div key={imgSrc} className='Product-imageWrapper'>
           <div key='primary-slide' style={{ backgroundImage: `url(${BASE_IMG_PATH}/${imgSrc})` }} className='Product-image' />
         </div>
       ),
@@ -292,8 +292,8 @@ class Product extends PureComponent {
 export default withProductLike()(Product)
 
 const renderExtraImages = (imgs = []) => (
-  imgs.map(imgSrc => (
-    <div className='Product-imageWrapper'>
+  imgs.map((imgSrc, index) => (
+    <div key={index} className='Product-imageWrapper'>
       <div key={imgSrc} style={{ backgroundImage: `url(${BASE_IMG_PATH}/${imgSrc})` }} className='Product-image' />
     </div>
   ))

@@ -40,10 +40,10 @@ class Base extends Component {
    * sticky header
    */
   initializeHeaderScroll () {
-    window.addEventListener('scroll', (el) => {
+    document.addEventListener('touchmove', (el) => {
       const { stickyHeader } = this.state
-
-      const scrollTop = el.target.documentElement.scrollTop
+      // const scrollTop = el.target.documentElement.scrollTop
+      const scrollTop = window.pageYOffset
       if (!stickyHeader && scrollTop > 40) {
         this.setState({
           stickyHeader: true
@@ -95,9 +95,13 @@ class Base extends Component {
     })
   }
 
-  handleSidebarMenuClose () {
+  handleSidebarMenuClose (done = () => { }) {
     this.setState({
       menuOpened: false
+    }, () => {
+      setTimeout(() => {
+        done(true)
+      }, 300) // callback when sidebar has closed
     })
   }
 

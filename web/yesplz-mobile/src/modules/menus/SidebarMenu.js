@@ -1,18 +1,26 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import classNames from 'classnames'
 import ArrowLine from '@yesplz/core-web/ui-kits/icons/ArrowLine'
 import SidebarMenuGroup from './SidebarMenuGroup'
 import SidebarMenuItem from './SidebarMenuItem'
-import TopsFilterMenu from './TopsFilterMenu'
+import history from '@yesplz/core-web/config/history'
+// import TopsFilterMenu from './TopsFilterMenu'
+import CategoryMenu from './CategoryMenu'
+
+// actions
+import { fetchAllPresets } from '@yesplz/core-redux/ducks/products/actions'
 
 // constants
 import {
-  CATEGORY_PANTS,
-  CATEGORY_SHOES,
-  CATEGORY_TOPS
+  // CATEGORY_PANTS,
+  // CATEGORY_SHOES,
+  // CATEGORY_TOPS
+  CATEGORIES_LABELS
 } from '@yesplz/core-web/config/constants'
+import { formatPresetName } from '@yesplz/core-web/utils/index'
 
 import './SidebarMenu.scss'
 
@@ -20,13 +28,16 @@ class SidebarMenu extends PureComponent {
   static propTypes = {
     opened: PropTypes.bool,
     onClose: PropTypes.func,
+    presetsCategory: PropTypes.object,
+    dispatch: PropTypes.func.isRequired,
     onCategoryChange: PropTypes.func.isRequired,
     onMenuGroupChange: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     opened: false,
-    onClose: () => {}
+    presetsCategory: {},
+    onClose: () => { }
   }
 
   constructor (props) {
@@ -42,6 +53,10 @@ class SidebarMenu extends PureComponent {
     this.changeMenuGroup = this.changeMenuGroup.bind(this)
     this.resetMenuGroup = this.resetMenuGroup.bind(this)
     this.handleFilterChange = this.handleFilterChange.bind(this)
+  }
+
+  componentDidMount () {
+    this.props.dispatch(fetchAllPresets())
   }
 
   handleLinkClick () {
@@ -72,14 +87,22 @@ class SidebarMenu extends PureComponent {
     onMenuGroupChange('main')
   }
 
-  handleFilterChange (category) {
-    this.setState({
-      activeMainMenuKey: category
+  handleFilterChange (category, presetName) {
+    // this.setState({
+    //   activeMainMenuKey: 'main'
+    // })
+    this.resetMenuGroup()
+    this.props.onClose(() => {
+      if (presetName === 'all') {
+        history.push(`/products/${category}`)
+      } else {
+        history.push(`/preset-products/${category}/${formatPresetName(presetName)}`)
+      }
     })
   }
 
   render () {
-    const { opened } = this.props
+    const { opened, presetsCategory } = this.props
     const { activeGroupKey, activeMainMenuKey } = this.state
 
     return (
@@ -92,15 +115,22 @@ class SidebarMenu extends PureComponent {
             Home
           </SidebarMenuItem>
           {/* category menu */}
-          <SidebarMenuItem eventKey='tops' activeKey={activeMainMenuKey} to={`/products/${CATEGORY_TOPS}`} onClick={this.handleLinkClick}>
+          {
+            Object.entries(presetsCategory).map(([category, presets], index) => (
+              <SidebarMenuItem key={index} eventKey={category} activeKey={activeMainMenuKey} onClick={this.changeMenuGroup}>
+                {CATEGORIES_LABELS[category]}
+              </SidebarMenuItem>
+            ))
+          }
+          {/* <SidebarMenuItem eventKey='tops' activeKey={activeMainMenuKey} onClick={this.changeMenuGroup}>
             Tops
           </SidebarMenuItem>
-          <SidebarMenuItem eventKey='pants' activeKey={activeMainMenuKey} to={`/products/${CATEGORY_PANTS}`} onClick={this.handleLinkClick}>
+          <SidebarMenuItem eventKey='pants' activeKey={activeMainMenuKey} onClick={this.changeMenuGroup}>
             Jeans
           </SidebarMenuItem>
-          <SidebarMenuItem eventKey='shoes' activeKey={activeMainMenuKey} to={`/products/${CATEGORY_SHOES}`} onClick={this.handleLinkClick}>
+          <SidebarMenuItem eventKey='shoes' activeKey={activeMainMenuKey} onClick={this.changeMenuGroup}>
             Shoes
-          </SidebarMenuItem>
+          </SidebarMenuItem> */}
           {/* end of category menu */}
           <div className='SidebarMenu-separator' style={{ marginTop: 44 }} />
           <NavLink to='/favorites/items' onClick={this.handleLinkClick}>
@@ -114,18 +144,32 @@ class SidebarMenu extends PureComponent {
             FAQ
           </NavLink>
         </SidebarMenuGroup>
-        {/* tops menu */}
-        <SidebarMenuGroup eventKey='tops' activeKey={activeGroupKey}>
+        {
+          Object.entries(presetsCategory).map(([category, presets]) => (
+            <SidebarMenuGroup key={category} eventKey={category} activeKey={activeGroupKey}>
+              {
+                presets.length ? (
+                  <CategoryMenu
+                    presets={presets}
+                    onFilterChange={this.handleFilterChange}
+                  />
+                ) : (
+                  <p style={styles.menuNA}>Not Available</p>
+                )
+              }
+
+            </SidebarMenuGroup>
+          ))
+        }
+        {/* <SidebarMenuGroup eventKey='tops' activeKey={activeGroupKey}>
           <TopsFilterMenu onFilterChange={this.handleFilterChange} />
         </SidebarMenuGroup>
-        {/* pants menu */}
         <SidebarMenuGroup eventKey='pants' activeKey={activeGroupKey}>
           <p style={styles.menuNA}>Not Available</p>
         </SidebarMenuGroup>
-        {/* shoes menu */}
         <SidebarMenuGroup eventKey='shoes' activeKey={activeGroupKey}>
           <p style={styles.menuNA}>Not Available</p>
-        </SidebarMenuGroup>
+        </SidebarMenuGroup> */}
       </div>
     )
   }
@@ -145,4 +189,10 @@ const styles = {
   }
 }
 
-export default SidebarMenu
+const mapStateToProps = state => {
+  return {
+    presetsCategory: state.products.presetsCategory
+  }
+}
+
+export default connect(mapStateToProps)(SidebarMenu)

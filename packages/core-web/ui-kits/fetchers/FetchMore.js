@@ -40,7 +40,12 @@ export default class FetchMore extends React.PureComponent {
   }
 
   componentDidMount () {
-    document.addEventListener('scroll', this.trackScrolling)
+    if (process.env.REACT_APP_IS_MOBILE !== 'true') {
+      document.addEventListener('scroll', this.trackScrolling)
+    } else {
+      const wrappedElement = document.getElementById('Base-mobile')
+      wrappedElement.addEventListener('touchmove', this.trackScrolling)
+    }
   }
 
   componentWillUnmount () {
@@ -50,7 +55,6 @@ export default class FetchMore extends React.PureComponent {
   trackScrolling = async () => {
     const { id, onFetch } = this.props
     const wrappedElement = document.getElementById(id)
-
     if (wrappedElement == null) {
       return
     }

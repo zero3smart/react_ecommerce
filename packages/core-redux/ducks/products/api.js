@@ -51,7 +51,12 @@ export async function getRecommendedProducts (data = [], category) {
  */
 export async function getProductsPresets (category) {
   try {
-    const response = await axios.get(`/categories/${category}/presets`)
+    let url = '/allcategories/presets'
+    if (category) {
+      url = `/categories/${category}/presets`
+    }
+
+    const response = await axios.get(url)
 
     return response.data
   } catch (e) {

@@ -30,7 +30,7 @@ SidebarMenuItem.propTypes = {
   eventKey: PropTypes.string.isRequired,
   activeKey: PropTypes.string,
   isActive: PropTypes.bool,
-  children: PropTypes.string.isRequired,
+  children: PropTypes.any,
   to: PropTypes.string,
   className: PropTypes.string,
   onClick: PropTypes.func

@@ -2,8 +2,15 @@
   display: block;
   margin: auto;
   max-width: 414px;
-  background: #FFFFFF;
+  background: rgb(255, 255, 255);
   position: relative;
+}
+
+.Base-fixed-height {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .Base-header {
