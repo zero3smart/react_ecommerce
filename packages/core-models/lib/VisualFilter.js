@@ -140,8 +140,9 @@ export default class VisualFilter {
   initializeClickHitMap () {
     let group = null
     let thumbTouchSize = this.catdata.thumbTouchSize()
+    var i
     // This will be touch hit-area
-    for (var i in this.catdata.propList()) {
+    for (i in this.catdata.propList()) {
       const prop = this.catdata.propList()[i]
       group = this.findGroupById(this.catdata.touchGroupName(prop))
 
@@ -162,7 +163,7 @@ export default class VisualFilter {
     if (this.settings.hideThumbnail) {
       group = this.findGroupById(this.catdata.thumbnailTouchGroupName())
       group.attr({ opacity: 0 })
-      for (var i in this.catdata.propList()) {
+      for (i in this.catdata.propList()) {
         const prop = this.catdata.propList()[i]
         group = this.findGroupById(this.catdata.thumbnailGroupName(prop))
         group.attr({ opacity: 0 })

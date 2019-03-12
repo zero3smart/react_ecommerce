@@ -373,7 +373,7 @@ class VfCatWpantsViewData extends VfCatViewData {
       let thigh = this.currentPropState['thigh']
       if (sel === 1) {
         this.currentPropState['knee'] = 1
-        this.currentPropState['thigh'] = 1
+        this.currentPropState['thigh'] = this.clipPropStateRange(thigh, 1, 2)
       } else if (sel === 2) {
         this.currentPropState['knee'] = this.clipPropStateRange(knee, 1, 2)
         if (this.currentPropState['knee'] === 2) {
