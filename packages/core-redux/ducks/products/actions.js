@@ -13,6 +13,19 @@ export const SET_RECOMMENDED_PRODUCTS = 'products/SET_RECOMMENDED_PRODUCTS'
 export const APPEND_RECOMMENDED_PRODUCTS = 'products/APPEND_RECOMMENDED_PRODUCTS'
 export const SET_ACTIVE_CATEGORY = 'products/SET_ACTIVE_CATEGORY'
 export const SET_PRESETS = 'products/SET_PRESETS'
+export const SET_PRESETS_ALL_CATEGORIES = 'products/SET_PRESETS_ALL_CATEGORIES'
+
+const formatPresetsCategoriesData = presets => {
+  return presets.reduce((acc, cur) => ({
+    ...acc,
+    [cur.category]: [
+      ...(acc[cur.category] ? acc[cur.category] : []),
+      {
+        ...cur
+      }
+    ]
+  }), {})
+}
 
 // Actions creator
 export function setProducts (category, products = [], totalCount = 0, favoriteProductIds = [], countPerPage) {
@@ -25,6 +38,10 @@ export function appendProducts (category, products = [], favoriteProductIds = []
 
 export function setPresets (category, presets = []) {
   return { type: SET_PRESETS, payload: { category, presets } }
+}
+
+export function setPresetsAllCategories (presets) {
+  return { type: SET_PRESETS_ALL_CATEGORIES, payload: presets }
 }
 
 export function enableInitialFetch () {
@@ -59,7 +76,7 @@ export function fetchProducts (
     try {
       const { products, filters } = getState()
       const activeCategory = category || products.activeCategory
-      const currentFilters = {...(customFilters || filters.data), ...filters.secondary}
+      const currentFilters = { ...(customFilters || filters.data), ...filters.secondary }
 
       // on initial fetch, set page should always start from 0
       const nextOffset = initialFetch ? 0 : products[activeCategory].nextOffset
@@ -107,7 +124,7 @@ export function fetchRecommendedProducts (countPerPage, category, initialFetch =
         limit: countPerPage,
         [category]: {
           favorites: favoriteProductIds,
-          visualfilters: [ currentFilter, ...favoritePresets ]
+          visualfilters: [currentFilter, ...favoritePresets]
         }
       }
 
@@ -136,6 +153,19 @@ export function fetchPresets (category) {
     try {
       const data = await getProductsPresets(category)
       dispatch(setPresets(category, data))
+    } catch (e) {
+      console.error('Error!', e)
+    }
+  }
+}
+
+export function fetchAllPresets () {
+  return async dispatch => {
+    try {
+      const data = await getProductsPresets()
+      dispatch(setPresetsAllCategories(
+        formatPresetsCategoriesData(data)
+      ))
     } catch (e) {
       console.error('Error!', e)
     }

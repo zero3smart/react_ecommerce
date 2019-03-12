@@ -47,7 +47,12 @@ export class AdvancedPresetList extends Component {
     if (activePresetName) {
       fetchPresets(activeCategory, { subcat: activePresetName })
     } else {
-      fetchPresets(activeCategory)
+      if (activeCategory) {
+        fetchPresets(activeCategory)
+      } else {
+        // we will fetch all categories editor picks\
+        fetchPresets()
+      }
     }
     // }
   }
@@ -101,9 +106,9 @@ export class AdvancedPresetList extends Component {
         {!isPresetsFetched && <DotLoader visible style={styles.loader} />}
         <Transition show={isPresetsFetched} transition='fadeInUp'>
           {
-            presets.filter(this.filterPresetWithCategory).map((preset, index) => (
+            presets.map((preset, index) => (
               <AdvancedPreset
-                key={preset.name}
+                key={index}
                 id={`${camelCase(preset.name)}${index}`}
                 preset={preset}
                 onClick={this.handlePresetClick}
@@ -112,6 +117,7 @@ export class AdvancedPresetList extends Component {
                 presetMatchesCount={presetMatchesCount}
                 useMinimalPreset={useMinimalPreset}
                 activeCategory={preset.category || activeCategory}
+                hidePreset
               />
             ))
           }

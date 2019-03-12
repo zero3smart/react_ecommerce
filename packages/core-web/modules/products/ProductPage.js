@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -10,6 +9,10 @@ import history from '@yesplz/core-web/config/history'
 import { SectionTitle } from '../../ui-kits/misc'
 import { withTrackingProvider } from '../../hoc'
 import { CATEGORIES_LABELS } from '../../config/constants'
+
+// Redux
+import { fetchPresets } from '@yesplz/core-redux/ducks/products'
+
 import './product-page.css'
 
 // eslint-disable-next-line react/prop-types
@@ -50,6 +53,7 @@ class ProductPage extends Component {
     this.productRequest = fetchProduct(productId)
     this.relatedsRequest = fetchRelatedProducts(productId)
     this.scrollInToView()
+    // this.props.fetchPresets(this.currentCategory)
   }
 
   componentDidUpdate (prevProps) {
@@ -109,10 +113,10 @@ class ProductPage extends Component {
 
   scrollInToView = () => {
     if (process.env.REACT_APP_IS_MOBILE === 'true') {
-      setTimeout(() => {
-        let idElement = process.env.REACT_APP_IS_MOBILE === 'true' ? 'Base-mobile' : 'ProductPage-desktop'
-        ReactDOM.findDOMNode(document.getElementById(idElement)).scrollIntoView(0, 0)
-      }, 200)
+      // setTimeout(() => {
+      //   let idElement = process.env.REACT_APP_IS_MOBILE === 'true' ? 'Base-mobile' : 'ProductPage-desktop'
+      //   ReactDOM.findDOMNode(document.getElementById(idElement)).scrollIntoView(0, 0)
+      // }, 200)
     }
   }
 
@@ -146,9 +150,9 @@ class ProductPage extends Component {
           {
             process.env.REACT_APP_IS_MOBILE === 'true'
               ? <SectionTitle
-                title='You May Also Like'
+                title='You Might Also Like'
                 style={{ marginTop: 15, marginBottom: 15 }}
-              /> : <div className='SectionTitle container'><div className='title'>You May Also Like</div></div>
+              /> : <div className='SectionTitle container'><div className='title'>You Might Also Like</div></div>
           }
         </div>
       )
@@ -176,6 +180,7 @@ class ProductPage extends Component {
 }
 
 const mapStateToProps = (state, props) => ({
+  presets: state.products[props.match.params.category].presets,
   product: state.product.data,
   productId: props.match.params.productId,
   isProductFetched: state.product.fetched,
@@ -198,7 +203,8 @@ export default compose(
       fetchProduct,
       fetchRelatedProducts,
       resetProduct,
-      setScrollBellowTheFold
+      setScrollBellowTheFold,
+      fetchPresets
     }
   ),
   withTrackingProvider('Product Detail', mapPropsToTrackingProps)

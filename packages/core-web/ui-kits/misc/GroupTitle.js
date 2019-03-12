@@ -4,7 +4,7 @@ import ArrowLine from '../icons/ArrowLine'
 import './GroupTitle.scss'
 
 const GroupTitle = ({ children, onClickTitle }) => (
-  <h4 className='GroupTitle'>{children} <ArrowLine onClick={onClickTitle} width='20px' height='20px' /></h4>
+  <h4 onClick={onClickTitle} className='GroupTitle'>{children} <ArrowLine width='20px' height='20px' /></h4>
 )
 
 GroupTitle.propTypes = {

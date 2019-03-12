@@ -23,6 +23,7 @@ class AdvancedPreset extends Component {
     activeCategory: PropTypes.string.isRequired,
     presetMatchesCount: PropTypes.number,
     useMinimalPreset: PropTypes.bool,
+    hidePreset: PropTypes.bool,
     onClick: PropTypes.func,
     onToggleLike: PropTypes.func,
     toggleProductLike: PropTypes.func,
@@ -32,7 +33,8 @@ class AdvancedPreset extends Component {
   static defaultProps = {
     presetMatchesCount: 4,
     useMinimalPreset: false,
-    onClickGroupTitle () {}
+    hidePreset: false,
+    onClickGroupTitle () { }
   }
 
   constructor (props) {
@@ -76,53 +78,53 @@ class AdvancedPreset extends Component {
   }
 
   render () {
-    const { id, preset, useMinimalPreset, activeCategory, onClick, onClickGroupTitle, onToggleLike } = this.props
+    const { id, preset, useMinimalPreset, hidePreset, activeCategory, onClick, onClickGroupTitle, onToggleLike } = this.props
     const { products } = this.state
-
     return (
       <div className='AdvancedPreset'>
         <GroupTitle onClickTitle={onClickGroupTitle}>{preset.name}</GroupTitle>
         <Slider {...this.sliderSettings}>
           {
-            useMinimalPreset ? (
-              <MinimalPreset
-                key={preset.name}
-                id={id}
-                name={preset.name}
-                coretype={preset.coretype}
-                neckline={preset.neckline}
-                shoulder={preset.shoulder}
-                sleeveLength={preset.sleeve_length}
-                topLength={preset.top_length}
-                pattern={preset.pattern}
-                solid={preset.solid}
-                details={preset.details}
-                color={preset.color}
-                favorite={preset.favorite}
-                category={activeCategory}
-                onClick={onClick}
-                onToggleLike={onToggleLike}
-              />
-            ) : (
-              <Preset
-                key={preset.name}
-                id={id}
-                name={preset.name}
-                coretype={preset.coretype}
-                neckline={preset.neckline}
-                shoulder={preset.shoulder}
-                sleeveLength={preset.sleeve_length}
-                topLength={preset.top_length}
-                pattern={preset.pattern}
-                solid={preset.solid}
-                details={preset.details}
-                color={preset.color}
-                favorite={preset.favorite}
-                category={activeCategory}
-                onClick={onClick}
-                onToggleLike={onToggleLike}
-              />
-            )
+            !hidePreset
+              ? (useMinimalPreset ? (
+                <MinimalPreset
+                  key={preset.name}
+                  id={id}
+                  name={preset.name}
+                  coretype={preset.coretype}
+                  neckline={preset.neckline}
+                  shoulder={preset.shoulder}
+                  sleeveLength={preset.sleeve_length}
+                  topLength={preset.top_length}
+                  pattern={preset.pattern}
+                  solid={preset.solid}
+                  details={preset.details}
+                  color={preset.color}
+                  favorite={preset.favorite}
+                  category={activeCategory}
+                  onClick={onClick}
+                  onToggleLike={onToggleLike}
+                />
+              ) : (
+                <Preset
+                  key={preset.name}
+                  id={id}
+                  name={preset.name}
+                  coretype={preset.coretype}
+                  neckline={preset.neckline}
+                  shoulder={preset.shoulder}
+                  sleeveLength={preset.sleeve_length}
+                  topLength={preset.top_length}
+                  pattern={preset.pattern}
+                  solid={preset.solid}
+                  details={preset.details}
+                  color={preset.color}
+                  favorite={preset.favorite}
+                  category={activeCategory}
+                  onClick={onClick}
+                  onToggleLike={onToggleLike}
+                />
+              )) : null
           }
           {
             products.map((product) => (

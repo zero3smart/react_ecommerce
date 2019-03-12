@@ -11,6 +11,7 @@ class ScrollToTop extends React.Component {
   componentDidUpdate (prevProps) {
     if (this.props.location !== prevProps.location) {
       setTimeout(() => {
+        // const warrapedElement = document.getElementById('MainScroll') ? document.getElementById('MainScroll') : document.getElementById('Base-mobile')
         window.scrollTo(0, 0)
       }, 200)
     }

@@ -115,6 +115,23 @@ class ProductsPage extends PureComponent {
     }
   }
 
+  get lastTitle () {
+    const { location } = this.props
+    const qsValues = queryString.parse(location.search)
+    if (!qsValues.page) return null
+    switch (qsValues.page) {
+      case 'new': {
+        return 'NEW ARRIVALS'
+      }
+
+      case 'editorspick': {
+        return `${parsePresetName(qsValues.preset)}`
+      }
+
+      default: return null
+    }
+  }
+
   get customFilters () {
     const { location, presets } = this.props
     const qsValues = queryString.parse(location.search)
@@ -213,23 +230,38 @@ class ProductsPage extends PureComponent {
 
     return (
       <div
+        id='MainScroll'
         key={this.currentCategory}
         className='ProductsPage'
-        style={{ overflow: 'hidden' }}>
+        // style={{ overflow: 'hidden' }}
+      >
         <div className='container'>
-          <PageTitle
-            className={classNames('ProductsPage-title', { 'is-opened': categorySwitchOpened })}
-            showSwitch
-            onFilterClick={this.handleFilterButtonClick}
-            onTitleClick={this.handleTitleClick}
-          >
-            {this.qsValues.preset ? parsePresetName(this.qsValues.preset) : CATEGORIES_LABELS[this.currentCategory]}
-          </PageTitle>
-
           {
+            !this.lastTitle ? (
+              <PageTitle
+                className={classNames('ProductsPage-title', { 'is-opened': categorySwitchOpened })}
+                showSwitch
+                onFilterClick={this.handleFilterButtonClick}
+                onTitleClick={this.handleTitleClick}
+              >
+                {this.qsValues.preset ? parsePresetName(this.qsValues.preset) : CATEGORIES_LABELS[this.currentCategory]}
+              </PageTitle>
+            ) : (
+              <PageTitle
+                className={classNames('ProductsPage-title', { 'is-opened': categorySwitchOpened })}
+                showSwitch
+                onFilterClick={this.handleFilterButtonClick}
+                isLastTitle={this.lastTitle !== null}
+              >
+                {this.lastTitle}
+              </PageTitle>
+            )
+          }
+
+          {/* {
             this.productTitle &&
             <ProductsTitle title={this.productTitle.toUpperCase()} />
-          }
+          } */}
           <Products
             customFilters={this.customFilters}
             category={this.currentCategory}

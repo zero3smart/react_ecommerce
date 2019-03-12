@@ -51,10 +51,10 @@ class Faq extends Component {
           <h3>FAQ</h3>
           <p>All about YesPlz</p>
         </InfoBanner> */}
+        <TitleHeader title='FAQ'>
+          <span className='title'>FAQ</span>
+        </TitleHeader>
         <div className={classes.root}>
-          <TitleHeader title='FAQ'>
-            <span className='title'>FAQ</span>
-          </TitleHeader>
           {
             questions.map((faq, index) => (
               <ExpansionPanel

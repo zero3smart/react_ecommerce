@@ -19,6 +19,20 @@
     text-transform: uppercase;
     color: $type-primary;
     margin-bottom: 0;
+    display: inline-block !important;
+
+    &::after {
+      vertical-align: middle !important;
+    }
+  }
+
+  &--last-title {
+    h2 {
+      font-weight: 600;
+      &::after {
+        display: none !important;
+      }
+    }
   }
 
   &:after {

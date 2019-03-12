@@ -13,6 +13,14 @@ const MobilePicker = ({
   onPick,
   onClose
 }) => {
+  const warrapedElement = document.getElementById('Base-mobile')
+  if (isVisible && warrapedElement) {
+    warrapedElement.classList.add('Base-fixed-height')
+  } else if (!isVisible && warrapedElement) {
+    warrapedElement.classList.remove('Base-fixed-height')
+  } else {
+  }
+
   useEffect(() => {
     if (isVisible) {
       window.ontouchmove = preventDefault
@@ -32,7 +40,7 @@ const MobilePicker = ({
             return null
           }
           return (
-            <div className={`MobilePicker ${state}`}>
+            <div id='MobilePicker' className={`MobilePicker ${state}`}>
               <div className='MobilePicker-backDrop' onClick={onClose} />
               <div className='MobilePicker-content'>
                 <div className='MobilePicker-contentHeader'>

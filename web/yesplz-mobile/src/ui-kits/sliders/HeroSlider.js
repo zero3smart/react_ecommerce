@@ -25,7 +25,7 @@ class HeroSlider extends PureComponent {
       speed: 500,
       slidesToShow: 1,
       slidesToScroll: 1,
-      nextArrow: <NextArrow />,
+      // nextArrow: <NextArrow onClick={() => { console.log('click') }} />,
       leftArrow: <Noop />
     }
   }

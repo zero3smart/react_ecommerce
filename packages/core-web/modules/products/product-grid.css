@@ -6,7 +6,8 @@
 }
 
 .ProductGrid-thumbnail {
-  background-size: cover;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
   background-position: 50% 50%;
   width: 100%;
   height: 468px;

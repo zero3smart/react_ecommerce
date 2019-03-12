@@ -3,6 +3,19 @@
   -webkit-overflow-scrolling: touch;
 }
 
+.HeroSlider-item {
+  position: relative;
+}
+
+.HeroSlider-button {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background-color: white;
+  border: 0.5px solid rgb(238, 238, 238);
+  outline: none;
+}
+
 .Recommended-products .ProductGrid {
   width: calc(50% - 10px);
   margin-left: 5px;

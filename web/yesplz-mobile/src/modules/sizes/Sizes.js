@@ -131,6 +131,10 @@ class Sizes extends React.Component {
     }
   }
 
+  get nullValue () {
+    return this.state.isEdit ? 'None' : 'click EDIT to choose your size'
+  }
+
   handleClickMenuNavigation = (item) => {
     const { key } = item
     this.props.history.push(`/profile/sizes/${key}/regular`)
@@ -205,7 +209,7 @@ class Sizes extends React.Component {
             this.sizesOptions.ids.map(key => {
               return <SingleSelect
                 title={SIZE_OPTIONS_TITLE[key][isEdit ? 0 : 1]}
-                value={sizes[this.category][this.sizeKey][key] || 'null'}
+                value={sizes[this.category][this.sizeKey][key] || this.nullValue}
                 YPonClick={this.onSelectClick(key)}
                 isView={!isEdit}
               />
