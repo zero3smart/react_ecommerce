@@ -76,6 +76,7 @@ export class Presets extends Component {
                 <Preset
                   key={preset.key || `${preset.name} ${index}`}
                   id={`${camelCase(preset.name)}${index}`}
+                  category={preset.category}
                   presetKey={preset.key}
                   name={preset.name}
                   coretype={preset.coretype}

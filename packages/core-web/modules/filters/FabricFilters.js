@@ -10,7 +10,7 @@ import ColorPallete from './ColorPallete'
 import detailSVGSrc from '@yesplz/core-web/assets/svg/detail.svg'
 import patternSVGSrc from '@yesplz/core-web/assets/svg/pattern.svg'
 import colorSVGSrc from '@yesplz/core-web/assets/svg/color.svg'
-import angleSVGSrc from '@yesplz/core-web/assets/svg/angle.svg'
+// import angleSVGSrc from '@yesplz/core-web/assets/svg/angle.svg'
 
 import './fabric-filters.css'
 
@@ -97,9 +97,9 @@ export default class FabricFilters extends PureComponent {
     const isSingleColor = colorValues.length === 1
 
     // define text
-    let filterButtonChild = isSingleColor ? color : 'Colors'
+    // let filterButtonChild = isSingleColor ? color : 'Colors'
     if (!badgeMode) {
-      filterButtonChild = <img src={angleSVGSrc} alt='color-picker' className='arrow' />
+      // filterButtonChild = <img src={angleSVGSrc} alt='color-picker' className='arrow' />
     }
 
     // color button style
@@ -116,7 +116,7 @@ export default class FabricFilters extends PureComponent {
           onClick={this.handleClick}
           active={this.isActive(solid)}
           iconStyle={styles.solidIcon}>
-          Solid
+          {/* Solid */}
         </FilterButton>
         <FilterButton
           name='details'
@@ -124,7 +124,7 @@ export default class FabricFilters extends PureComponent {
           onClick={this.handleClick}
           active={this.isActive(details)}
           iconSrc={detailSVGSrc}>
-          Details
+          {/* Details */}
         </FilterButton>
         <FilterButton
           name='pattern'
@@ -132,7 +132,7 @@ export default class FabricFilters extends PureComponent {
           onClick={this.handleClick}
           active={this.isActive(pattern)}
           iconSrc={patternSVGSrc}>
-          Patterns
+          {/* Patterns */}
         </FilterButton>
         <FilterButton
           name='color'
@@ -146,7 +146,7 @@ export default class FabricFilters extends PureComponent {
           }}
           active
           className={classNames('ColorPicker', { open: collorPalleteVisible })}>
-          {filterButtonChild}
+          {/* {filterButtonChild} */}
         </FilterButton>
         <Transition timeout={{ enter: 100, exit: 200 }} show={collorPalleteVisible}>
           <ColorPallete values={colorValues} onColorClick={this.handleColorClick} />

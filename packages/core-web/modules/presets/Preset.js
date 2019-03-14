@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import { FabricFilters } from '@yesplz/core-web/modules/filters'
 import { VisualFilter } from '@yesplz/core-models'
 import { LikeButton } from '@yesplz/core-web/ui-kits/buttons'
-import './preset.css'
+import './preset.scss'
 
 const filterProps = PropTypes.oneOfType([
   PropTypes.number, PropTypes.string
@@ -102,12 +102,12 @@ export default class Preset extends Component {
 
     return (
       <div id={id} onClick={this.handleClick} className={classNames('Preset', { [className]: className })} style={style}>
-        <h2>{name}</h2>
         <div className='Preset-svg'>
           <LikeButton active={favorite} onClick={this.toggleLike} />
           <svg id={`${id}-svg`} />
         </div>
         <div className='Preset-filter'>
+          <div className='Preset-name'>{name}</div>
           <FabricFilters {...this.fabricFilters} badgeMode />
         </div>
       </div>
