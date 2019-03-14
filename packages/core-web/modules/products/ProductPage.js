@@ -11,7 +11,7 @@ import { withTrackingProvider } from '../../hoc'
 import { CATEGORIES_LABELS } from '../../config/constants'
 
 // Redux
-import { fetchPresets } from '@yesplz/core-redux/ducks/products'
+import { fetchPresets, setActiveCategory } from '@yesplz/core-redux/ducks/products'
 
 import './product-page.css'
 
@@ -24,6 +24,7 @@ const BackToLabel = ({ label, to }) => (
 
 class ProductPage extends Component {
   static propTypes = {
+    match: PropTypes.object.isRequired,
     isProductFetched: PropTypes.bool,
     isRelatedProductsFetched: PropTypes.bool,
     productId: PropTypes.string.isRequired,
@@ -39,7 +40,8 @@ class ProductPage extends Component {
     fetchProduct: PropTypes.func.isRequired,
     fetchRelatedProducts: PropTypes.func.isRequired,
     resetProduct: PropTypes.func.isRequired,
-    setScrollBellowTheFold: PropTypes.func.isRequired
+    setScrollBellowTheFold: PropTypes.func.isRequired,
+    setActiveCategory: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -47,8 +49,10 @@ class ProductPage extends Component {
   }
 
   componentDidMount () {
-    const { productId, fetchProduct, fetchRelatedProducts } = this.props
+    console.log(this.props)
+    const { productId, setActiveCategory, fetchProduct, fetchRelatedProducts } = this.props
 
+    setActiveCategory(this.activeCategory)
     // fetch product and related product data
     this.productRequest = fetchProduct(productId)
     this.relatedsRequest = fetchRelatedProducts(productId)
@@ -80,6 +84,10 @@ class ProductPage extends Component {
 
     // reset store data
     resetProduct()
+  }
+
+  get activeCategory () {
+    return this.props.match.params.category
   }
 
   /**
@@ -204,7 +212,8 @@ export default compose(
       fetchRelatedProducts,
       resetProduct,
       setScrollBellowTheFold,
-      fetchPresets
+      fetchPresets,
+      setActiveCategory
     }
   ),
   withTrackingProvider('Product Detail', mapPropsToTrackingProps)
