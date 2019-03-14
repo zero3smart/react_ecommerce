@@ -15,6 +15,7 @@
   margin: 0 auto 15px;
   position: relative;
   text-transform: uppercase;
+  cursor: pointer;
 }
 
 .SectionTitle h3::before,

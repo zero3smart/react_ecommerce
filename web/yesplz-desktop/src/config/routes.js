@@ -29,7 +29,7 @@ const BasePlatform = (props) => (
       <Route exact path='/products/:productId' component={SingleProductRoute} />
       <Route exact path='/preset-products/:presetName' render={PresetProductsRoute} />
       <Route exact path='/preset-products/:presetName/:productId' render={SinglePresetProductRoute} />
-      <Route exact path='/products/:presetName/:productId' render={SinglePresetProductRoute} />
+      <Route exact path='/products/:category/:productId' render={SinglePresetProductRoute} />
       <Route exact path='/favorites/:favoriteType' component={Favorites} />
       <Route exact path='/faq' component={Faq} />
       <Route component={NotFound} />

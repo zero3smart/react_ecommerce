@@ -28,6 +28,9 @@ export class AdvancedPresetList extends Component {
     enableInitialFetch: PropTypes.func.isRequired,
     tracker: PropTypes.object,
     useMinimalPreset: PropTypes.bool,
+    hidePreset: PropTypes.bool,
+    titleBellowPreset: PropTypes.bool,
+    defaultViewBoxSvg: PropTypes.array,
     style: PropTypes.object,
     onClickGroupTitle: PropTypes.func
   }
@@ -36,6 +39,8 @@ export class AdvancedPresetList extends Component {
     presets: [],
     useMinimalPreset: false,
     isPresetsFetched: false,
+    titleBellowPreset: false,
+    hidePreset: false,
     onClickGroupTitle () {}
   }
 
@@ -98,7 +103,10 @@ export class AdvancedPresetList extends Component {
       useMinimalPreset,
       activeCategory,
       style,
-      onClickGroupTitle
+      onClickGroupTitle,
+      hidePreset,
+      titleBellowPreset,
+      defaultViewBoxSvg
     } = this.props
 
     return (
@@ -117,7 +125,9 @@ export class AdvancedPresetList extends Component {
                 presetMatchesCount={presetMatchesCount}
                 useMinimalPreset={useMinimalPreset}
                 activeCategory={preset.category || activeCategory}
-                hidePreset
+                hidePreset={hidePreset}
+                titleBellowPreset={titleBellowPreset}
+                defaultViewBoxSvg={defaultViewBoxSvg}
               />
             ))
           }

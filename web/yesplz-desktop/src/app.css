@@ -80,3 +80,16 @@ button, a {
 .animated.infinite {
   animation-iteration-count: infinite;
 }
+
+a {
+  text-decoration: underline;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+
+a:active {
+  color: #8c3bff !important;
+}

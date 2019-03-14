@@ -24,6 +24,8 @@ class AdvancedPreset extends Component {
     presetMatchesCount: PropTypes.number,
     useMinimalPreset: PropTypes.bool,
     hidePreset: PropTypes.bool,
+    titleBellowPreset: PropTypes.bool,
+    defaultViewBoxSvg: PropTypes.arry,
     onClick: PropTypes.func,
     onToggleLike: PropTypes.func,
     toggleProductLike: PropTypes.func,
@@ -34,6 +36,7 @@ class AdvancedPreset extends Component {
     presetMatchesCount: 4,
     useMinimalPreset: false,
     hidePreset: false,
+    titleBellowPreset: false,
     onClickGroupTitle () { }
   }
 
@@ -78,33 +81,49 @@ class AdvancedPreset extends Component {
   }
 
   render () {
-    const { id, preset, useMinimalPreset, hidePreset, activeCategory, onClick, onClickGroupTitle, onToggleLike } = this.props
+    const {
+      id,
+      preset,
+      useMinimalPreset,
+      hidePreset,
+      titleBellowPreset,
+      activeCategory,
+      onClick,
+      onClickGroupTitle,
+      onToggleLike,
+      defaultViewBoxSvg
+    } = this.props
     const { products } = this.state
     return (
       <div className='AdvancedPreset'>
-        <GroupTitle onClickTitle={onClickGroupTitle}>{preset.name}</GroupTitle>
+        {!titleBellowPreset && <GroupTitle onClickTitle={onClickGroupTitle}>{preset.name}</GroupTitle>}
         <Slider {...this.sliderSettings}>
           {
             !hidePreset
               ? (useMinimalPreset ? (
-                <MinimalPreset
-                  key={preset.name}
-                  id={id}
-                  name={preset.name}
-                  coretype={preset.coretype}
-                  neckline={preset.neckline}
-                  shoulder={preset.shoulder}
-                  sleeveLength={preset.sleeve_length}
-                  topLength={preset.top_length}
-                  pattern={preset.pattern}
-                  solid={preset.solid}
-                  details={preset.details}
-                  color={preset.color}
-                  favorite={preset.favorite}
-                  category={activeCategory}
-                  onClick={onClick}
-                  onToggleLike={onToggleLike}
-                />
+                <React.Fragment>
+                  <MinimalPreset
+                    key={preset.name}
+                    id={id}
+                    name={preset.name}
+                    coretype={preset.coretype}
+                    neckline={preset.neckline}
+                    shoulder={preset.shoulder}
+                    sleeveLength={preset.sleeve_length}
+                    topLength={preset.top_length}
+                    pattern={preset.pattern}
+                    solid={preset.solid}
+                    details={preset.details}
+                    color={preset.color}
+                    favorite={preset.favorite}
+                    category={activeCategory}
+                    onClick={onClick}
+                    onToggleLike={onToggleLike}
+                    defaultViewBoxSvg={defaultViewBoxSvg}
+                  />
+                  {titleBellowPreset && <GroupTitle onClickTitle={onClickGroupTitle}>{preset.name}</GroupTitle>}
+                </React.Fragment>
+
               ) : (
                 <Preset
                   key={preset.name}
