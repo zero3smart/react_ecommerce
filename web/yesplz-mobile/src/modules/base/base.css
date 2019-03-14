@@ -4,6 +4,7 @@
   max-width: 414px;
   background: rgb(255, 255, 255);
   position: relative;
+  overflow-x: hidden;
 }
 
 .Base-fixed-height {

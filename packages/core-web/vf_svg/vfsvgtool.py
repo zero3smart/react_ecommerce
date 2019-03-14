@@ -272,7 +272,10 @@ class VfWpantsSvgGenerator(VfSvgGenerator):
         pos_fixes = {
             'Final_VF_Pants_2.0': [f'120 0', .40]
         }
-        return self.load_svg_fixed(svg_fn, id_fixups, pos_fixes)
+        str_subs = {
+            'g id="Final_VF_Pants_2.0"': 'g class="VF-Core-Pants" id="Final_VF_Pants_2.0"'
+        }
+        return self.load_svg_fixed(svg_fn, id_fixups, pos_fixes, str_subs)
 
     def load_tn_svg(self, svg_fn):
         # For now, use wtop thumbnail image as wpants thumbnail image
@@ -364,7 +367,11 @@ class VfWtopSvgGenerator(VfSvgGenerator):
             # 'touches_tops' : [f'-9 -18', None],
             'Final_VF_Tops_2.0': [f'70 0', 1]
         }
-        return self.load_svg_fixed(svg_fn, id_fixups, pos_fixes)
+
+        str_subs = {
+            'g id="Final_VF_Tops_2.0"': 'g class="VF-Core-Tops" id="Final_VF_Tops_2.0"'
+        }
+        return self.load_svg_fixed(svg_fn, id_fixups, pos_fixes, str_subs)
 
     def load_tn_svg(self, svg_fn):
         id_fixups = {
@@ -470,7 +477,11 @@ class VfWshoesSvgGenerator(VfSvgGenerator):
         pos_fixes = {
             'Final_VF_Shoes_2.0': [f'45 10', .7]
         }
-        return self.load_svg_fixed(svg_fn, id_fixups, pos_fixes)
+        str_subs = {
+            'g id="Final_VF_Shoes_2.0"': 'g class="VF-Core-Shoes" id="Final_VF_Shoes_2.0"'
+        }
+ 
+        return self.load_svg_fixed(svg_fn, id_fixups, pos_fixes, str_subs)
 
     def load_tn_svg(self, svg_fn):
         id_fixups = {
