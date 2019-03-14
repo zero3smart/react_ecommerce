@@ -16,8 +16,8 @@
   &-vfWrapper {
     position: relative;
     max-width: 414px;
-    max-height: 325px;
-    padding: 45px 0px 20px;
+    max-height: 266px;
+    padding: 0px 0px 20px;
     margin: auto;
     overflow: hidden;
 
@@ -28,10 +28,9 @@
       background: #F4F4F4;
       border-radius: 100%;
       position: absolute;
-      top: 0;
+      top: 15px;
       left: 0;
       right: 0;
-      bottom: 0;
       margin: auto;
       z-index: 0;
     }

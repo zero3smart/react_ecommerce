@@ -9,7 +9,7 @@ const ThumbnailPickerOption = ({ value, label, children, style, isActive, onClic
     <div className='ThumbnailPickerOption-thumbnail'>
       <div className='ThumbnailPickerOption-imageWrapper'>
         {children}
-        {isActive && <img src={CheckSvg} alt='Picker Selected' className='ThumbnailPickerOption-thumbnailSelectedIcon' />}  
+        {isActive && <img src={CheckSvg} alt='Picker Selected' className='ThumbnailPickerOption-thumbnailSelectedIcon' />}
       </div>
     </div>
     <h5>{label}</h5>
@@ -17,11 +17,17 @@ const ThumbnailPickerOption = ({ value, label, children, style, isActive, onClic
 )
 
 ThumbnailPickerOption.propTypes = {
-  value: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   label: PropTypes.string.isRequired,
   children: PropTypes.any.isRequired,
   style: PropTypes.object,
   isActive: PropTypes.bool,
+  /**
+   * selectThenRemove
+   * value of other option (siblings) that will be removed after selecting this option
+   * only works for multiple values
+   */
+  selectThenRemove: PropTypes.string,
   onClick: PropTypes.func
 }
 

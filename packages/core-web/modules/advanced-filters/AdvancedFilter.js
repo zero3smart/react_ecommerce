@@ -12,7 +12,7 @@ import FavoritesSelect from './FavoritesSelect'
 const designFilterKeys = ['solid', 'pattern', 'details']
 const nonVisualFilterKeys = [...designFilterKeys, 'color', 'material']
 
-const AdvancedFilter = ({ category, filters, onChange }) => {
+const AdvancedFilter = ({ category, lastBodyPart, config, filters, style, onChange }) => {
   // split filters based on its type
   const styleFilter = omit(filters, nonVisualFilterKeys)
   const designFilter = pick(filters, designFilterKeys)
@@ -52,9 +52,9 @@ const AdvancedFilter = ({ category, filters, onChange }) => {
   }
 
   return (
-    <AdvancedFilterTabs tabs={tabs}>
+    <AdvancedFilterTabs tabs={tabs} style={style}>
       <TabItem tabKey='styles'>
-        <StylesSelect name='style' value={styleFilter} category={category} onChange={handleFilterChange} />
+        <StylesSelect name='style' value={styleFilter} category={category} lastBodyPart={lastBodyPart} config={config} onChange={handleFilterChange} />
       </TabItem>
 
       <TabItem tabKey='design'>
@@ -86,11 +86,15 @@ const tabs = [
 
 AdvancedFilter.propTypes = {
   category: PropTypes.string.isRequired,
+  lastBodyPart: PropTypes.string.isRequired,
+  config: PropTypes.object.isRequired,
   filters: PropTypes.object,
+  style: PropTypes.object,
   onChange: PropTypes.func
 }
 
 AdvancedFilter.defaultProps = {
+  config: {},
   filters: {},
   onChange: (filters) => {}
 }

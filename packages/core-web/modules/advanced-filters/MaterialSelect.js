@@ -6,7 +6,7 @@ import MaterialSilkPng from '../../assets/images/material-silk.png'
 import MaterialWrinkleFreePng from '../../assets/images/material-wrinkle-free.png'
 
 const MaterialSelect = ({ name, value, onChange }) => (
-  <ThumbnailPicker name={name} value={value} onChange={onChange} selectedStyle='half'>
+  <ThumbnailPicker name={name} value={value} onChange={onChange} selectedStyle='half' canUnselect>
     <ThumbnailPickerOption label='Material Cotton' value='cotton'>
       <img src={MaterialCottonPng} alt='Material Cotton' />
     </ThumbnailPickerOption>

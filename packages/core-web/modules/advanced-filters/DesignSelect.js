@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import reduce from 'lodash/reduce'
-import findKey from 'lodash/findKey'
 import { ThumbnailPicker, ThumbnailPickerOption } from '../../ui-kits/selects'
 import SolidSvg from '../../assets/svg/design-solid.svg'
 import DetailSvg from '../../assets/svg/design-detail.svg'
@@ -13,25 +12,36 @@ import PatternSvg from '../../assets/svg/design-pattern.svg'
  * (see default props)
  */
 const DesignSelect = ({ name, value, onChange }) => {
-  // `valueKey` will be `solid`, `pattern` or `details`
-  const valueKey = findKey(value, itemValue => itemValue === 1)
+  // `valueKeys` will be array of `solid`, `pattern` or `details`
+  const valueKeys = reduce(value, (acc, itemValue, itemKey) => {
+    if (itemValue === 0) {
+      return acc
+    }
+    return [...acc, itemKey]
+  }, [])
 
-  const handleChange = (_, selectedItemValue) => {
+  const handleChange = (_, updatedValueKeys) => {
     // return object exactly like the prop `value` pattern
-    const updatedValue = reduce(value, (filters, _, itemKey) => ({
-      ...filters,
-      [itemKey]: itemKey === selectedItemValue ? 1 : 0
-    }), {})
-
-    onChange(name, updatedValue)
+    onChange(name, {
+      // reset all value to 0
+      ...reduce(value, (acc, _, key) => ({
+        ...acc,
+        [key]: 0
+      }), {}),
+      // set active value
+      ...updatedValueKeys.reduce((acc, key) => ({
+        ...acc,
+        [key]: 1
+      }), {})
+    })
   }
 
   return (
-    <ThumbnailPicker name={name} value={valueKey} onChange={handleChange} selectedStyle='half'>
-      <ThumbnailPickerOption label='Solid' value='solid'>
+    <ThumbnailPicker name={name} values={valueKeys} onChange={handleChange} selectedStyle='half'>
+      <ThumbnailPickerOption label='Solid' value='solid' selectThenRemove='pattern'>
         <img src={SolidSvg} alt='Solid' />
       </ThumbnailPickerOption>
-      <ThumbnailPickerOption label='Pattern' value='pattern'>
+      <ThumbnailPickerOption label='Pattern' value='pattern' selectThenRemove='solid'>
         <img src={PatternSvg} alt='Pattern' />
       </ThumbnailPickerOption>
       <ThumbnailPickerOption label='Detail' value='details'>

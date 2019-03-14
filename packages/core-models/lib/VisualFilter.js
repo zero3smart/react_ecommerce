@@ -88,8 +88,9 @@ export default class VisualFilter {
   }
 
   initialize () {
-    const { onSVGLoaded, hideThumbnail, badgeMode, customViewBox } = this.settings
+    const { onSVGLoaded, hideThumbnail, defaultBodyPart, badgeMode, showHighlightOnBuild, customViewBox } = this.settings
 
+    this.lastBodyPart = defaultBodyPart
     this.viewBox = customViewBox || this.catdata.viewBox(hideThumbnail)
     this.catdata.setViewBox(this.viewBox)
     let svgSource = this.catdata.svgCoreAndTn()
@@ -104,7 +105,6 @@ export default class VisualFilter {
       this.snapGroup.attr({ visibility: 'hidden' })
 
       this.showGroup(this.catdata.fullbodyGroupName())
-      this.showGroup('touch_points')
 
       for (let prop in this.catdata.currentPropState) {
         this.showGroup(this.catdata.getBodyPartGroupName(prop))
@@ -118,6 +118,9 @@ export default class VisualFilter {
 
         this.initializeArrowNavigation()
 
+        this.showGroup('touch_points')
+        this.setPointerHovering()
+
         if (this.catdata.propList().indexOf(this.lastBodyPart) < 0) {
           console.log('Unrecognized last bodypart', this.lastBodyPart, 'switching to default')
           this.lastBodyPart = this.catdata.propList()[0]
@@ -128,8 +131,8 @@ export default class VisualFilter {
         }
       }
 
-      if (!badgeMode) {
-        this.setPointerHovering()
+      if (showHighlightOnBuild) {
+        this.highlightGroup(this.catdata.getHoverGroupName(this.lastBodyPart), false, '.5')
       }
 
       // callback
@@ -357,7 +360,7 @@ export default class VisualFilter {
   }
 
   handleBodyPartClick (prop) {
-    if (this.selectedBodyPart.valueOf() === prop.valueOf()) {
+    if (!this.selectedBodyPart || this.selectedBodyPart.valueOf() === prop.valueOf()) {
       this.cyclePropSelection(prop)
     }
 
@@ -579,6 +582,7 @@ const defaultOptions = {
   hideThumbnail: false,
   debugTouchArea: false,
   customViewBox: null,
+  defaultBodyPart: 'shoulder',
   onFilterChange: (filters) => { console.debug('filter change', filters) },
   onPropChange: (prop) => { console.debug('prop change', prop) },
   onSVGLoaded: () => {},
