@@ -27,6 +27,7 @@ export default class MinimalPreset extends Component {
     topLength: filterProps,
     className: filterProps,
     favorite: PropTypes.bool,
+    defaultViewBoxSvg: PropTypes.array,
     style: PropTypes.object,
     onClick: PropTypes.func.isRequired,
     onToggleLike: PropTypes.func.isRequired
@@ -59,13 +60,13 @@ export default class MinimalPreset extends Component {
   }
 
   componentDidMount () {
-    const { id, category } = this.props
+    const { id, category, defaultViewBoxSvg } = this.props
     // initialize body part
     this.bodyPart = new VisualFilter(`#${id}-svg`, {
       defaultState: this.bodyPartFilters,
       badgeMode: true,
       hideThumbnail: true,
-      customViewBox: [75, 50, 250, 200],
+      customViewBox: defaultViewBoxSvg || [75, 50, 250, 200],
       category
     })
   }
@@ -107,7 +108,7 @@ export default class MinimalPreset extends Component {
           <LikeButton active={favorite} onClick={this.toggleLike} />
           <svg id={`${id}-svg`} />
         </div>
-        <h3>{name}</h3>
+        <h3 className='MinimalPreset-title'>{name}</h3>
       </div>
     )
   }
