@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import isEqual from 'lodash/isEqual'
+import get from 'lodash/get'
 import { VisualFilter } from '@yesplz/core-models'
 import { LikeButton } from '@yesplz/core-web/ui-kits/buttons'
 import AdvancedFilter from '@yesplz/core-web/modules/advanced-filters/AdvancedFilter'
@@ -115,7 +116,7 @@ export default class VisualFilterPanel extends Component {
   }
 
   render () {
-    const { filters, favorite, category, className } = this.props
+    const { filters, favorite, category, lastBodyPart, className } = this.props
     const { advancedFilterVisible } = this.state
 
     return (
@@ -126,7 +127,7 @@ export default class VisualFilterPanel extends Component {
         </div>
         {
           !advancedFilterVisible && (
-            <button className='AdvancedFilterToggle' onClick={this.toggleAdvancedFilter}>
+            <button className='AdvancedFilterToggle' onClick={this.toggleAdvancedFilter} style={{ marginTop: -16, position: 'relative', zIndex: 2 }}>
               Advanced filter
               <img src={AngleDownSvg} alt='Angle Down' />
             </button>
@@ -134,7 +135,14 @@ export default class VisualFilterPanel extends Component {
         }
         {
           advancedFilterVisible && (
-            <AdvancedFilter category={category} filters={filters} onChange={this.handleAdvancedFilter} />
+            <AdvancedFilter
+              category={category}
+              filters={filters}
+              lastBodyPart={lastBodyPart}
+              config={get(this.visualFilter, 'catdata.catcfg')}
+              onChange={this.handleAdvancedFilter}
+              style={{ marginTop: -36, position: 'relative', zIndex: 2 }}
+            />
           )
         }
       </div>

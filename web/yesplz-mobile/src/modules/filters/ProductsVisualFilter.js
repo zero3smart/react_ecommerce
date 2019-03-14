@@ -8,8 +8,9 @@ import { isFilterSavedSelector } from '@yesplz/core-web/modules/filters/selector
 import Transition from '@yesplz/core-web/ui-kits/transitions/Transition'
 import { fetchProducts } from '@yesplz/core-redux/ducks/products'
 import { setFilter, syncFilter, syncFavoritePresets, saveFilterAsPreset, deleteFilterFromPreset, setLastBodyPart, toggleVisualFilter, setOnboarding } from '@yesplz/core-redux/ducks/filters'
-import { CUSTOM_PRESET_NAME } from '@yesplz/core-web/config/constants'
+import { CUSTOM_PRESET_NAME, CATEGORIES_LABELS } from '@yesplz/core-web/config/constants'
 import VisualFilterPanel from 'modules/filters/VisualFilterPanel'
+import CategoryPicker from 'ui-kits/navigations/CategoryPicker'
 import './ProductsVisualFilter.scss'
 
 export class ProductsVisualFilter extends Component {
@@ -38,6 +39,15 @@ export class ProductsVisualFilter extends Component {
     expanded: false,
     hidden: false,
     onboarding: false
+  }
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      isCategoryPickerVisible: false
+    }
+    this.openCategoryPicker = this.openCategoryPicker.bind(this)
+    this.closeCategoryPicker = this.closeCategoryPicker.bind(this)
   }
 
   componentDidMount () {
@@ -100,11 +110,24 @@ export class ProductsVisualFilter extends Component {
     }
   }
 
+  openCategoryPicker () {
+    this.setState({
+      isCategoryPickerVisible: true
+    })
+  }
+
+  closeCategoryPicker () {
+    this.setState({
+      isCategoryPickerVisible: false
+    })
+  }
+
   render () {
     const {
       activeCategory, filters, scrollBellowTheFold, isFilterSaved, lastBodyPart,
       expanded, hidden, onboarding
     } = this.props
+    const { isCategoryPickerVisible } = this.state
 
     return (
       <div
@@ -121,10 +144,15 @@ export class ProductsVisualFilter extends Component {
           timeout={{ enter: 100, exit: 300 }}
           transition='fadeInUp'
           show={expanded}
-          disableUnmount // we need this, so it won't repeat svgs build. Increase framerate when opening VF.
         >
           <div className='ProductsVisualFilter-panelWrapper'>
             <div className='ProductsVisualFilter-header'>
+              <span style={{ width: 40 }} />
+              <div
+                onClick={this.openCategoryPicker}
+                className={classNames('ProductsVisualFilter-categoryToggle', { 'is-active': isCategoryPickerVisible })}>
+                {CATEGORIES_LABELS[activeCategory]}
+              </div>
               <div className='ProductsVisualFilter-close' onClick={this.handleFilterToggle}>
                 <img src={CloseSvg} />
               </div>
@@ -143,6 +171,12 @@ export class ProductsVisualFilter extends Component {
         <Transition timeout={{ enter: 100, exit: 100 }} show={!expanded} transition='fadeInUp'>
           <FloatButton category={activeCategory} onClick={this.handleFilterToggle} />
         </Transition>
+        <CategoryPicker
+          isVisible={isCategoryPickerVisible}
+          category={activeCategory}
+          onClose={this.closeCategoryPicker}
+          hideBackdrop
+        />
       </div>
     )
   }

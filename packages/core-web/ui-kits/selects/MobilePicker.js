@@ -7,6 +7,7 @@ import './MobilePicker.scss'
 
 const MobilePicker = ({
   isVisible,
+  hideBackdrop,
   optionGroups,
   valueGroups,
   onChange,
@@ -41,7 +42,7 @@ const MobilePicker = ({
           }
           return (
             <div id='MobilePicker' className={`MobilePicker ${state}`}>
-              <div className='MobilePicker-backDrop' onClick={onClose} />
+              {!hideBackdrop && <div className='MobilePicker-backDrop' onClick={onClose} />}
               <div className='MobilePicker-content'>
                 <div className='MobilePicker-contentHeader'>
                   <button className='MobilePicker-button' onClick={onPick}>Done</button>
@@ -62,11 +63,17 @@ const MobilePicker = ({
 
 MobilePicker.propTypes = {
   isVisible: PropTypes.bool,
+  hideBackdrop: PropTypes.bool,
   optionGroups: PropTypes.object,
   valueGroups: PropTypes.object,
   onChange: PropTypes.func,
   onPick: PropTypes.func,
   onClose: PropTypes.func
+}
+
+MobilePicker.defaultProps = {
+  isVisible: false,
+  hideBackdrop: false
 }
 
 export default MobilePicker

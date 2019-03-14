@@ -4,13 +4,13 @@ import classNames from 'classnames'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import './AdvancedFilterTabs.scss'
 
-const AdvancedFilterTabs = ({ tabs, children }) => {
+const AdvancedFilterTabs = ({ tabs, children, style }) => {
   const [ activeTab, setActiveTab ] = useState(tabs[0].key)
 
   const activeChild = React.Children.toArray(children).find(child => child.props.tabKey === activeTab)
 
   return (
-    <div className='AdvancedFilterTabs'>
+    <div className='AdvancedFilterTabs' style={style}>
       <PerfectScrollbar option={{ handlers: scrollbarHandlers }}>
         <ul className='AdvancedFilterTabs-header'>
           {
@@ -39,7 +39,8 @@ const AdvancedFilterTabs = ({ tabs, children }) => {
 
 AdvancedFilterTabs.propTypes = {
   tabs: PropTypes.array,
-  children: PropTypes.any
+  children: PropTypes.any,
+  style: PropTypes.object
 }
 
 AdvancedFilterTabs.defaultProps = {

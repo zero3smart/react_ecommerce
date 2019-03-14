@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import includes from 'lodash/includes'
-import findKey from 'lodash/findKey'
 
 import { formatPresetName } from '@yesplz/core-web/utils'
 import history from '@yesplz/core-web/config/history'
@@ -10,12 +9,12 @@ import { AdvancedPresetList } from '@yesplz/core-web/modules/presets'
 import ProductsVisualFilter from 'modules/filters/ProductsVisualFilter'
 import { CATEGORY_TOPS, CATEGORY_SHOES, CATEGORY_PANTS, CATEGORIES_LABELS } from '@yesplz/core-web/config/constants'
 import { withTrackingProvider } from '@yesplz/core-web/hoc'
-import MobilePicker from '@yesplz/core-web/ui-kits/selects/MobilePicker'
 import { PageTitle, GroupTitle } from '@yesplz/core-web/ui-kits/misc'
 import { Button } from '@yesplz/core-web/ui-kits/buttons'
 
 import { NewProducts, ProductPresets, ProductsFilter, RecommendedProducts } from 'modules/products'
 import { NotFound } from 'modules/base'
+import CategoryPicker from 'ui-kits/navigations/CategoryPicker'
 
 import './ProductsLandingPage.scss'
 
@@ -27,15 +26,10 @@ class ProductsLandingPage extends PureComponent {
   constructor (props) {
     super(props)
     this.state = {
-      categorySwitchOpened: false,
-      valueGroups: {
-        category: CATEGORIES_LABELS[props.match.params.category || CATEGORY_TOPS]
-      },
+      isCategoryPickerVisible: false,
       isFilterVisible: false
     }
     this.handleTitleClick = this.handleTitleClick.bind(this)
-    this.handleCategoryChange = this.handleCategoryChange.bind(this)
-    this.handleCategoryPick = this.handleCategoryPick.bind(this)
     this.handleClosePicker = this.handleClosePicker.bind(this)
     this.handleFilterButtonClick = this.handleFilterButtonClick.bind(this)
     this.handleCloseFilter = this.handleCloseFilter.bind(this)
@@ -46,44 +40,16 @@ class ProductsLandingPage extends PureComponent {
     return match.params.category || CATEGORY_TOPS
   }
 
-  get optionGroups () {
-    return {
-      category: [
-        'Tops',
-        'Jeans',
-        'Shoes'
-      ]
-    }
-  }
-
-  // Update the value in response to user picking event
-  handleCategoryChange (name, value) {
-    this.setState(({ valueGroups }) => ({
-      valueGroups: {
-        ...valueGroups,
-        [name]: value
-      }
-    }))
-  }
-
   handleTitleClick () {
-    const { categorySwitchOpened } = this.state
+    const { isCategoryPickerVisible } = this.state
     this.setState({
-      categorySwitchOpened: !categorySwitchOpened
+      isCategoryPickerVisible: !isCategoryPickerVisible
     })
-  }
-
-  handleCategoryPick () {
-    const { valueGroups } = this.state
-    const categoryKey = findKey(CATEGORIES_LABELS, label => label === valueGroups.category)
-
-    history.push(`/products/${categoryKey}`)
-    this.handleClosePicker()
   }
 
   handleClosePicker () {
     this.setState({
-      categorySwitchOpened: false
+      isCategoryPickerVisible: false
     })
   }
 
@@ -111,7 +77,8 @@ class ProductsLandingPage extends PureComponent {
   }
 
   render () {
-    const { valueGroups, categorySwitchOpened, isFilterVisible } = this.state
+    const { match } = this.props
+    const { isCategoryPickerVisible, isFilterVisible } = this.state
 
     if (!includes([CATEGORY_TOPS, CATEGORY_SHOES, CATEGORY_PANTS], this.currentCategory)) {
       return <NotFound />
@@ -126,7 +93,7 @@ class ProductsLandingPage extends PureComponent {
       >
         <div className='container'>
           <PageTitle
-            className={classNames('ProductsLandingPage-title', { 'is-opened': categorySwitchOpened })}
+            className={classNames('ProductsLandingPage-title', { 'is-opened': isCategoryPickerVisible })}
             showSwitch
             onFilterClick={this.handleFilterButtonClick}
             onTitleClick={this.handleTitleClick}
@@ -162,12 +129,9 @@ class ProductsLandingPage extends PureComponent {
             useScrollFetcher
           />
         </div>
-        <MobilePicker
-          isVisible={categorySwitchOpened}
-          optionGroups={this.optionGroups}
-          valueGroups={valueGroups}
-          onChange={this.handleCategoryChange}
-          onPick={this.handleCategoryPick}
+        <CategoryPicker
+          isVisible={isCategoryPickerVisible}
+          category={match.params.category || CATEGORY_TOPS}
           onClose={this.handleClosePicker}
         />
         <ProductsFilter activeCategory={this.currentCategory} isVisible={isFilterVisible} onSubmit={this.handleCloseFilter} onClose={this.handleCloseFilter} />

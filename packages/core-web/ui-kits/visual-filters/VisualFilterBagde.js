@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { VisualFilter } from '@yesplz/core-models'
 import './VisualFilterBagde.scss'
 
-const VisualFilterBagde = ({ id, category, filter, viewBox, style }) => {
+const VisualFilterBagde = ({ id, category, filter, defaultBodyPart, viewBox, style }) => {
   useEffect(() => {
     // initialize visual filter
     (() => (
@@ -12,7 +12,9 @@ const VisualFilterBagde = ({ id, category, filter, viewBox, style }) => {
         defaultState: filter,
         customViewBox: viewBox,
         badgeMode: true,
-        hideThumbnail: true
+        hideThumbnail: true,
+        showHighlightOnBuild: true,
+        defaultBodyPart
       })
     ))()
   }, [id])
@@ -27,6 +29,7 @@ const VisualFilterBagde = ({ id, category, filter, viewBox, style }) => {
 VisualFilterBagde.propTypes = {
   id: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
+  defaultBodyPart: PropTypes.string,
   filter: PropTypes.object,
   viewBox: PropTypes.array,
   style: PropTypes.object
@@ -35,19 +38,15 @@ VisualFilterBagde.propTypes = {
 VisualFilterBagde.defaultProps = {
   filter: {
     coretype: 0,
-    neckline: 1,
-    shoulder: 1,
+    neckline: 0,
+    shoulder: 0,
     sleeve_length: 0,
     top_length: 0,
-    details: 0,
-    pattern: 0,
-    solid: 1,
-    color: null,
-    toes: 1,
-    covers: 2,
-    counters: 2,
-    bottoms: 2,
-    shafts: 4
+    toes: 0,
+    covers: 0,
+    counters: 0,
+    bottoms: 0,
+    shafts: 0
   },
   viewBox: [90, 10, 130, 130]
 }

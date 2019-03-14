@@ -15,7 +15,7 @@ import { formatPresetName } from '@yesplz/core-web/utils/index'
 
 class ProductPresets extends PureComponent {
   static propTypes = {
-    history: PropTypes.func,
+    history: PropTypes.object,
     category: PropTypes.string,
     presetName: PropTypes.string,
     presets: PropTypes.array,
