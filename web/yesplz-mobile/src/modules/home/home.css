@@ -10,10 +10,12 @@
 .HeroSlider-button {
   position: absolute;
   right: 0;
-  bottom: 0;
+  bottom: -1px;
   background-color: white;
-  border: 0.5px solid rgb(238, 238, 238);
+  border: none;
   outline: none;
+  width: 72px;
+  height: 72px;
 }
 
 .Recommended-products .ProductGrid {

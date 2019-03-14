@@ -7,6 +7,10 @@ import { GroupTitle } from '@yesplz/core-web/ui-kits/misc'
 
 import HomeSlider from './HomeSlider'
 import { NewProducts, RecommendedProducts } from 'modules/products'
+
+// utls
+import { formatPresetName } from '@yesplz/core-web/utils/index'
+
 import './home.css'
 
 class Home extends Component {
@@ -24,6 +28,12 @@ class Home extends Component {
 
   handleClickSlideItem = category => () => {
     this.props.history.push(`/products/${category}`)
+  }
+
+  handleClickEditorPick = (preset) => () => {
+    this.props.history.push(
+      `/products/${preset.category}/list?listingView=single&page=editorspick&preset=${formatPresetName(preset.name)}`
+    )
   }
 
   render () {
@@ -58,7 +68,11 @@ class Home extends Component {
         <div style={{ overflowX: 'hidden' }}>
           <div className='container'>
             <h2 className='SubHeader'>Editors Picks</h2>
-            <AdvancedPresetList presetMatchesCount={3} useMinimalPreset />
+            <AdvancedPresetList
+              presetMatchesCount={3}
+              useMinimalPreset
+              onClickGroupTitle={this.handleClickEditorPick}
+            />
           </div>
         </div>
 
