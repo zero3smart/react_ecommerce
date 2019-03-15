@@ -14,7 +14,14 @@ import { SectionTitle } from '@yesplz/core-web/ui-kits/misc'
 import { Input } from '@yesplz/core-web/ui-kits/forms'
 import { formatPresetName } from '@yesplz/core-web/utils'
 
-import { CATEGORY_PANTS, CATEGORY_SHOES, CATEGORY_TOPS, CATEGORIES_LABELS } from '@yesplz/core-web/config/constants'
+import {
+  CATEGORY_PANTS,
+  CATEGORY_SHOES,
+  CATEGORY_TOPS,
+  CATEGORIES_LABELS,
+  YESPLZ_VIDEO_LINK,
+  INSTAGRAM_LINK
+} from '@yesplz/core-web/config/constants'
 
 import InstagramSvg from '@yesplz/core-web/assets/svg/instagram-glyph.svg'
 
@@ -122,7 +129,7 @@ class Home extends Component {
           />
           <div className='container-wide'>
             <div className='Home-video'>
-              <iframe width='100%' height='100%' src='https://www.youtube.com/embed/z9ho8FkEj8I' frameBorder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowFullScreen />
+              <iframe width='100%' height='100%' src={YESPLZ_VIDEO_LINK} frameBorder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowFullScreen />
             </div>
           </div>
         </div>
@@ -136,7 +143,7 @@ class Home extends Component {
                 <div className='Title Title-sub'><Link to={'/profile/sizes'}>MY SIZE</Link></div>
 
                 <div className='Icons'>
-                  <img src={InstagramSvg} alt='InstagramSvg' />
+                  <a href={INSTAGRAM_LINK} target='_blank'><img src={InstagramSvg} alt='InstagramSvg' /></a>
                 </div>
               </div>
               <div className='Home-Footer-MailForm'>
