@@ -41,7 +41,7 @@ export class AdvancedPresetList extends Component {
     isPresetsFetched: false,
     titleBellowPreset: false,
     hidePreset: false,
-    onClickGroupTitle () {}
+    onClickGroupTitle () { }
   }
 
   componentDidMount () {
@@ -55,19 +55,26 @@ export class AdvancedPresetList extends Component {
       if (activeCategory) {
         fetchPresets(activeCategory)
       } else {
-        // we will fetch all categories editor picks\
+        // we will fetch all categories editor picks
         fetchPresets()
       }
     }
     // }
   }
 
-  componentWillReceiveProps (nextProps) {
-    const { activeCategory, activePresetName, fetchPresets } = nextProps
-    if (activePresetName !== this.props.activePresetName) {
+  componentDidUpdate (prevProps, prevState) {
+    if (this.props.activePresetName !== prevProps.activePresetName) {
+      const { activeCategory, activePresetName, fetchPresets } = this.props
       fetchPresets(activeCategory, { subcat: activePresetName })
     }
   }
+
+  // componentWillReceiveProps (nextProps) {
+  //   const { activeCategory, activePresetName, fetchPresets } = nextProps
+  //   if (activePresetName !== this.props.activePresetName) {
+  //     fetchPresets(activeCategory, { subcat: activePresetName })
+  //   }
+  // }
 
   get handlePresetClick () {
     const { setFilter, enableInitialFetch, tracker } = this.props

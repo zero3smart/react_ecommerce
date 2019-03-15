@@ -134,11 +134,12 @@ class ProductsLandingPage extends PureComponent {
 
   render () {
     const { valueGroups, categorySwitchOpened, isFilterVisible } = this.state
-    console.log(valueGroups)
 
     if (!includes([CATEGORY_TOPS, CATEGORY_SHOES, CATEGORY_PANTS], this.currentCategory)) {
       return <NotFound />
     }
+
+    console.log('RENDER', this.currentCategory, this.currentPreset)
 
     return (
       <div
@@ -171,6 +172,7 @@ class ProductsLandingPage extends PureComponent {
             activePresetName={this.currentPreset}
             useMinimalPreset
             onClickGroupTitle={this.handleClickEditorPick}
+            hidePreset
           />
 
           <h2 className='SubHeader'>Explore</h2>

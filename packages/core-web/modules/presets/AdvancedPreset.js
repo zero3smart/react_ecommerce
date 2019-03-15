@@ -59,13 +59,20 @@ class AdvancedPreset extends Component {
   }
 
   async componentDidMount () {
-    const { preset, presetMatchesCount, activeCategory } = this.props
+    this.fetchProducts(this.props)
+    // const { preset, presetMatchesCount, activeCategory } = this.props
 
-    // get 4 products relevant to the preset
-    const response = await getProducts(activeCategory, omit(preset, 'favorite', 'name'), presetMatchesCount)
-    this.setState({
-      products: mapProductFavorites(Product.getFavoriteProductIds(), response.products)
-    })
+    // // get 4 products relevant to the preset
+    // const response = await getProducts(activeCategory, omit(preset, 'favorite', 'name'), presetMatchesCount)
+    // this.setState({
+    //   products: mapProductFavorites(Product.getFavoriteProductIds(), response.products)
+    // })
+  }
+
+  componentDidUpdate (prevProps) {
+    if (prevProps.preset.name !== this.props.preset.name) {
+      this.fetchProducts(this.props)
+    }
   }
 
   get handleToggleLike () {
@@ -78,6 +85,14 @@ class AdvancedPreset extends Component {
         products: mapProductFavorites(Product.getFavoriteProductIds(), products)
       })
     }
+  }
+
+  fetchProducts = async (props) => {
+    const { preset, presetMatchesCount, activeCategory } = props
+    const response = await getProducts(activeCategory, omit(preset, 'favorite', 'name'), presetMatchesCount)
+    this.setState({
+      products: mapProductFavorites(Product.getFavoriteProductIds(), response.products)
+    })
   }
 
   render () {
