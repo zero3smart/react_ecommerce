@@ -289,3 +289,6 @@ export const SIZES = {
     }
   }
 }
+
+export const YESPLZ_VIDEO_LINK = 'https://www.youtube.com/embed/bvmxRUITN9I'
+export const INSTAGRAM_LINK = 'https://www.instagram.com/yesplzfashion/'
