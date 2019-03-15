@@ -8,6 +8,7 @@ class ProductListHorizontal extends PureComponent {
   static propTypes = {
     title: PropTypes.string.isRequired,
     category: PropTypes.string,
+    presetName: PropTypes.string,
     products: PropTypes.array,
     maxCount: PropTypes.number,
     limitPerPage: PropTypes.number,
@@ -36,6 +37,13 @@ class ProductListHorizontal extends PureComponent {
   componentDidMount () {
     const { category, limitPerPage, onInit } = this.props
     onInit(category, limitPerPage)
+  }
+
+  componentDidUpdate (prevProps) {
+    if (this.props.presetName && this.props.presetName !== prevProps.presetName) {
+      const { category, limitPerPage, onInit } = this.props
+      onInit(category, limitPerPage)
+    }
   }
 
   handleFetch () {
