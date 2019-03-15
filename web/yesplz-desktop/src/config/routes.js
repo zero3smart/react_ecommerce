@@ -7,6 +7,8 @@ import { Favorites } from 'modules/favorites'
 import { Faq } from 'modules/faq'
 import Tops from 'modules/tops/Tops'
 import { PresetProductsRoute } from 'modules/presets/presetsRoutes'
+import { ProductsPage } from 'modules/products'
+
 // presentationals
 import { SingleProductRoute, SinglePresetProductRoute } from 'modules/products/singleProductRoutes'
 
@@ -26,10 +28,12 @@ const BasePlatform = (props) => (
     <Switch>
       <Route exact path='/' component={Home} />
       <Route exact path='/products' component={Tops} />
-      <Route exact path='/products/:productId' component={SingleProductRoute} />
-      <Route exact path='/preset-products/:presetName' render={PresetProductsRoute} />
-      <Route exact path='/preset-products/:presetName/:productId' render={SinglePresetProductRoute} />
+      <Route exact path='/products/:category/list' component={ProductsPage} />
       <Route exact path='/products/:category/:productId' render={SinglePresetProductRoute} />
+
+      {/* <Route exact path='/products/:productId' component={SingleProductRoute} /> */}
+      <Route exact path='/preset-products/:presetName' render={PresetProductsRoute} />
+      {/* <Route exact path='/preset-products/:presetName/:productId' render={SinglePresetProductRoute} /> */}
       <Route exact path='/favorites/:favoriteType' component={Favorites} />
       <Route exact path='/faq' component={Faq} />
       <Route component={NotFound} />

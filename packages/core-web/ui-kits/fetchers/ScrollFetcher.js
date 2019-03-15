@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import reduce from 'lodash/reduce'
 import isEqual from 'lodash/isEqual'
 import DotLoader from '../loaders/DotLoader'
@@ -109,7 +110,16 @@ class ScrollFetcher extends Component {
     return (
       <div id={id} ref={this.loadRef} className={className} onScroll={this.handleScrollFrame} onTouchMove={this.handleTouchMove} style={{ ...styles.wrapper, ...style }}>
         {this.props.children}
-        {useButton && !isFetchingData && <ButtonSeparator label='Show More' onClick={this.handleFetch} style={styles.moreButton} />}
+        {
+          useButton && !isFetchingData && (
+            <React.Fragment>
+              <ButtonSeparator label='Show More' onClick={this.handleFetch} style={styles.moreButton} />
+              <div className='GoBack-link' >
+                <Link to='/'>Back to HOME</Link>
+              </div>
+            </React.Fragment>
+          )
+        }
         <DotLoader visible={isFetchingData} style={{ ...styles.loader, ...(useButton ? styles.loaderSpace : {}) }} />
       </div>
     )
@@ -132,8 +142,8 @@ ScrollFetcher.propTypes = {
 ScrollFetcher.defaultProps = {
   useButton: false,
   onFetch: (next) => { next() },
-  onScroll: (top) => {},
-  onTouchMove: (top) => {},
+  onScroll: (top) => { },
+  onTouchMove: (top) => { },
   className: '',
   style: {},
   disableInitalFetch: false,
