@@ -180,14 +180,14 @@ class VfCatWtopViewData extends VfCatViewData {
   }
 
   presetList = [
-    {coretype: 0, neckline: 0, shoulder: 0, sleeve_length: 0, top_length: 0},
-    {coretype: 0, neckline: 1, shoulder: 2, sleeve_length: 3, top_length: 0},
-    {coretype: 1, neckline: 3, shoulder: 2, sleeve_length: 1, top_length: 0},
+    {coretype: 1, neckline: 0, shoulder: 0, sleeve_length: 0, top_length: 0},
+    {coretype: 0, neckline: 1, shoulder: 3, sleeve_length: 3, top_length: 0},
+    {coretype: 1, neckline: 3, shoulder: 3, sleeve_length: 1, top_length: 0},
     {coretype: 1, neckline: 0, shoulder: 1, sleeve_length: 0, top_length: 1},
-    {coretype: 2, neckline: 0, shoulder: 2, sleeve_length: 4, top_length: 2},
-    {coretype: 2, neckline: 2, shoulder: 0, sleeve_length: 5, top_length: 1},
+    {coretype: 2, neckline: 0, shoulder: 3, sleeve_length: 4, top_length: 2},
+    {coretype: 2, neckline: 0, shoulder: 0, sleeve_length: 5, top_length: 1},
     {coretype: 3, neckline: 0, shoulder: 3, sleeve_length: 0, top_length: 1},
-    {coretype: 3, neckline: 4, shoulder: 3, sleeve_length: 5, top_length: 2}
+    {coretype: 3, neckline: 3, shoulder: 3, sleeve_length: 4, top_length: 2}
   ]
 
   // For Kolon demo - TODO: Make this configurable
