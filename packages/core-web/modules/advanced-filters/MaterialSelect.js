@@ -7,8 +7,8 @@ import MaterialWrinkleFreePng from '../../assets/images/material-wrinkle-free.pn
 
 const MaterialSelect = ({ name, value, onChange }) => (
   <ThumbnailPicker name={name} value={value} onChange={onChange} selectedStyle='half' canUnselect>
-    <ThumbnailPickerOption label='Material Cotton' value='cotton'>
-      <img src={MaterialCottonPng} alt='Material Cotton' />
+    <ThumbnailPickerOption label='Cotton' value='cotton'>
+      <img src={MaterialCottonPng} alt='Cotton' />
     </ThumbnailPickerOption>
     <ThumbnailPickerOption label='Silk' value='silk'>
       <img src={MaterialSilkPng} alt='material-silk' />
