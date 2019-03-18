@@ -40,6 +40,7 @@ export const FABRIC_COLORS = {
 export const CATEGORY_TOPS = 'wtop'
 export const CATEGORY_SHOES = 'wshoes'
 export const CATEGORY_PANTS = 'wpants'
+export const CATEGORY_SEARCH = 'search'
 
 // product list filters
 export const FILTER_OCCASIONS = [
@@ -122,7 +123,8 @@ export const STYLES_LABELS = {
 export const CATEGORIES_LABELS = {
   wtop: 'Tops',
   wpants: 'Jeans',
-  wshoes: 'Shoes'
+  wshoes: 'Shoes',
+  search: 'Search'
 }
 
 export const SIZES = {

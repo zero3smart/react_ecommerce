@@ -7,6 +7,7 @@ import { VisualFilter } from '@yesplz/core-models'
 import history from '@yesplz/core-web/config/history'
 import MenuButton from 'modules/menus/MenuButton'
 import SidebarMenu from 'modules/menus/SidebarMenu'
+import { CATEGORY_SEARCH } from '@yesplz/core-web/config/constants'
 import './base.css'
 
 class Base extends Component {
@@ -132,7 +133,9 @@ class Base extends Component {
               onClick={this.handleLinkClick}
               isActive={this.handleHomeLinkActive}
               className='logo'>
-              YESPLZ
+              {
+                this.props.location.pathname.indexOf(`products/${CATEGORY_SEARCH}/`) > -1 ? '' : 'YESPLZ'
+              }
             </NavLink>
             <NavLink
               to={this.isFavoritesPage ? '#' : '/favorites/items'}
