@@ -8,10 +8,11 @@ import { isFilterSavedSelector } from '@yesplz/core-web/modules/filters/selector
 import Transition from '@yesplz/core-web/ui-kits/transitions/Transition'
 import { fetchProducts } from '@yesplz/core-redux/ducks/products'
 import { setFilter, syncFilter, syncFavoritePresets, saveFilterAsPreset, deleteFilterFromPreset, setLastBodyPart, toggleVisualFilter, setOnboarding } from '@yesplz/core-redux/ducks/filters'
-import { CUSTOM_PRESET_NAME, CATEGORIES_LABELS } from '@yesplz/core-web/config/constants'
+import { CUSTOM_PRESET_NAME, CATEGORIES_LABELS, CATEGORY_SEARCH } from '@yesplz/core-web/config/constants'
 import VisualFilterPanel from 'modules/filters/VisualFilterPanel'
 import CategoryPicker from 'ui-kits/navigations/CategoryPicker'
 import './ProductsVisualFilter.scss'
+import { withRouter } from 'react-router-dom'
 
 export class ProductsVisualFilter extends Component {
   static propTypes = {
@@ -32,7 +33,8 @@ export class ProductsVisualFilter extends Component {
     deleteFilterFromPreset: PropTypes.func.isRequired,
     setLastBodyPart: PropTypes.func.isRequired,
     toggleVisualFilter: PropTypes.func.isRequired,
-    setOnboarding: PropTypes.func.isRequired
+    setOnboarding: PropTypes.func.isRequired,
+    history: PropTypes.func
   }
 
   static defaultProps = {
@@ -169,7 +171,9 @@ export class ProductsVisualFilter extends Component {
           </div>
         </Transition>
         <Transition timeout={{ enter: 100, exit: 100 }} show={!expanded} transition='fadeInUp'>
-          <FloatButton category={activeCategory} onClick={this.handleFilterToggle} />
+          {
+            this.props.history.location.pathname === '/' ? <FloatButton category={activeCategory} onClick={() => this.props.history.push(`products/${CATEGORY_SEARCH}/list?listingView=double`)} /> : <FloatButton category={activeCategory} onClick={this.handleFilterToggle} />
+          }
         </Transition>
         <CategoryPicker
           isVisible={isCategoryPickerVisible}
@@ -192,17 +196,19 @@ const mapStateToProps = state => ({
   onboarding: state.filters.onboarding
 })
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchProducts,
-    syncFilter,
-    syncFavoritePresets,
-    setFilter,
-    saveFilterAsPreset,
-    deleteFilterFromPreset,
-    setLastBodyPart,
-    toggleVisualFilter,
-    setOnboarding
-  }
-)(ProductsVisualFilter)
+export default withRouter(
+  connect(
+    mapStateToProps,
+    {
+      fetchProducts,
+      syncFilter,
+      syncFavoritePresets,
+      setFilter,
+      saveFilterAsPreset,
+      deleteFilterFromPreset,
+      setLastBodyPart,
+      toggleVisualFilter,
+      setOnboarding
+    }
+  )(ProductsVisualFilter)
+)
