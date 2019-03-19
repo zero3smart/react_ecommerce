@@ -8,8 +8,12 @@ import './ThumbnailPicker.scss'
 const ThumbnailPicker = ({ children, name, value, values, canUnselect, selectedStyle, onChange }) => {
   const isMulti = !isNil(values)
 
-  const managedChildren = React.Children.map(children, child => (
-    React.cloneElement(child, {
+  const managedChildren = React.Children.map(children, child => {
+    if (isNil(child)) {
+      return null
+    }
+
+    return React.cloneElement(child, {
       isActive: isMulti ? includes(values, child.props.value) : value === child.props.value,
       onClick: optionValue => {
         if (isMulti) {
@@ -28,7 +32,7 @@ const ThumbnailPicker = ({ children, name, value, values, canUnselect, selectedS
         }
       }
     })
-  ))
+  })
 
   return (
     <div className={`ThumbnailPicker ThumbnailPicker--${selectedStyle}`}>

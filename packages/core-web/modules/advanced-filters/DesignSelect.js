@@ -1,17 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import reduce from 'lodash/reduce'
+import { CATEGORY_SHOES, CATEGORY_PANTS } from '../../config/constants'
 import { ThumbnailPicker, ThumbnailPickerOption } from '../../ui-kits/selects'
 import SolidSvg from '../../assets/svg/design-solid.svg'
 import DetailSvg from '../../assets/svg/design-detail.svg'
 import PatternSvg from '../../assets/svg/design-pattern.svg'
+import LaceUpSvg from '../../assets/svg/design-lace-up.svg'
+import RippedOffSvg from '../../assets/svg/design-ripped-off.svg'
 
 /**
  * `DesignSelect` should process object as its `value`,
  * and use 1/0 as selected state for its fields.
  * (see default props)
  */
-const DesignSelect = ({ name, value, onChange }) => {
+const DesignSelect = ({ name, value, category, onChange }) => {
   // `valueKeys` will be array of `solid`, `pattern` or `details`
   const valueKeys = reduce(value, (acc, itemValue, itemKey) => {
     if (itemValue === 0) {
@@ -47,6 +50,20 @@ const DesignSelect = ({ name, value, onChange }) => {
       <ThumbnailPickerOption label='Detail' value='details'>
         <img src={DetailSvg} alt='Detail' />
       </ThumbnailPickerOption>
+      {
+        category === CATEGORY_PANTS ? (
+          <ThumbnailPickerOption label='Ripped Off' value='ripped-off'>
+            <img src={RippedOffSvg} alt='Ripped Off' />
+          </ThumbnailPickerOption>
+        ) : null
+      }
+      {
+        category === CATEGORY_SHOES ? (
+          <ThumbnailPickerOption label='Lace Up' value='lace-up'>
+            <img src={LaceUpSvg} alt='Lace Up' />
+          </ThumbnailPickerOption>
+        ) : null
+      }
     </ThumbnailPicker>
   )
 }
@@ -54,6 +71,7 @@ const DesignSelect = ({ name, value, onChange }) => {
 DesignSelect.propTypes = {
   name: PropTypes.string.isRequired,
   value: PropTypes.object,
+  category: PropTypes.object,
   onChange: PropTypes.func
 }
 

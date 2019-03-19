@@ -52,7 +52,7 @@ const StylesSelect = ({ name, value, category, lastBodyPart, config, onChange })
                 id={`vf-${currentBodyPart}-${itemValue}`}
                 category={category}
                 filter={{
-                  ...getDefaultFilters(category, currentBodyPart),
+                  ...getDefaultFilters(category, currentBodyPart, itemValue),
                   [currentBodyPart]: itemValue
                 }}
                 defaultBodyPart={currentBodyPart}
@@ -78,7 +78,7 @@ StylesSelect.defaultProps = {
   onChange: (name, value) => {}
 }
 
-const getDefaultFilters = (category, bodyPart) => {
+const getDefaultFilters = (category, bodyPart, bodyPartValue) => {
   switch (category) {
     case CATEGORY_TOPS:
       return {
@@ -99,8 +99,10 @@ const getDefaultFilters = (category, bodyPart) => {
     case CATEGORY_PANTS:
       return {
         rise: 0,
-        thigh: 0,
-        knee: 0,
+        thigh: includes(['knee', 'ankle'], bodyPart) ? 1 : 0,
+        knee: bodyPart === 'ankle' ? (
+          bodyPartValue === 0 || bodyPartValue === 3 ? 2 : 1
+        ) : 0,
         ankle: 0
       }
     default:
