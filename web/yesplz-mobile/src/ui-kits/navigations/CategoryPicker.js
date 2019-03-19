@@ -24,7 +24,7 @@ const CategoryPicker = ({ isVisible, hideBackdrop, category, onClose }) => {
   const handleCategoryPick = () => {
     const categoryKey = findKey(CATEGORIES_LABELS, label => label === valueGroups.category)
 
-    history.push(`/products/${categoryKey}`)
+    history.push(`/products/${categoryKey}/list?listingView=double`)
     onClose()
   }
 

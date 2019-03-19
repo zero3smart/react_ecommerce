@@ -13,7 +13,7 @@ import includes from 'lodash/includes'
 import findKey from 'lodash/findKey'
 
 import history from '@yesplz/core-web/config/history'
-import { CATEGORY_TOPS, CATEGORY_SHOES, CATEGORY_PANTS, CATEGORIES_LABELS, CATEGORY_SEARCH } from '@yesplz/core-web/config/constants'
+import { CATEGORY_TOPS, CATEGORY_SHOES, CATEGORY_PANTS, CATEGORIES_LABELS } from '@yesplz/core-web/config/constants'
 import { withTrackingProvider } from '@yesplz/core-web/hoc'
 import MobilePicker from '@yesplz/core-web/ui-kits/selects/MobilePicker'
 import { PageTitle } from '@yesplz/core-web/ui-kits/misc'
@@ -39,7 +39,8 @@ class ProductsPage extends PureComponent {
     match: PropTypes.object,
     location: PropTypes.object,
     presets: PropTypes.array,
-    fetchPresets: PropTypes.func.isRequired
+    fetchPresets: PropTypes.func.isRequired,
+    expanded: PropTypes.bool
   }
 
   static defaultProps = {
@@ -73,7 +74,7 @@ class ProductsPage extends PureComponent {
 
   get currentCategory () {
     const { match } = this.props
-    return match.params.category === CATEGORY_SEARCH ? CATEGORY_TOPS : match.params.category || CATEGORY_TOPS
+    return match.params.category || CATEGORY_TOPS
   }
 
   get optionGroups () {
@@ -84,7 +85,6 @@ class ProductsPage extends PureComponent {
     }
     return {
       category: [
-        'Search',
         'Tops',
         'Jeans',
         'Shoes'
@@ -158,16 +158,19 @@ class ProductsPage extends PureComponent {
     if (this.qsValues.preset) {
       this.props.fetchPresets(this.currentCategory)
     }
-    if (this.props.match.params.category === CATEGORY_SEARCH) {
-      setTimeout(() => {
-        window.scrollTo(0, 220)
-      }, 200)
-    }
   }
 
   componentDidUpdate (prevProps, prevState) {
     if (prevProps.location !== this.props.location) {
       console.log('update')
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.location !== this.props.location) {
+      this.setState({
+        useTwoColumnsView: this.listingView === 'double'
+      })
     }
   }
 
@@ -189,16 +192,17 @@ class ProductsPage extends PureComponent {
   }
 
   handleCategoryPick () {
-    const { search } = this.props.location
+    // const { search } = this.props.location
     const { valueGroups } = this.state
     const categoryKey = findKey(CATEGORIES_LABELS, label => label === valueGroups.category)
-    if (this.qsValues.preset) {
-      const qsValues = { ...this.qsValues }
-      qsValues.preset = formatPresetName(valueGroups.preset)
-      history.push(`/products/${categoryKey}/list?${queryString.stringify(qsValues)}`)
-    } else {
-      history.push(`/products/${categoryKey}/list${search || ''}`)
-    }
+    history.push(`/products/${categoryKey}`)
+    // if (this.qsValues.preset) {
+    //   const qsValues = { ...this.qsValues }
+    //   qsValues.preset = formatPresetName(valueGroups.preset)
+    //   history.push(`/products/${categoryKey}/list?${queryString.stringify(qsValues)}`)
+    // } else {
+    //   history.push(`/products/${categoryKey}/list${search || ''}`)
+    // }
     this.handleClosePicker()
   }
 
@@ -221,6 +225,12 @@ class ProductsPage extends PureComponent {
     this.handleCloseFilter()
   }
 
+  onColTypeChange = (col) => {
+    this.setState({
+      useTwoColumnsView: col === 'double'
+    })
+  }
+
   handleCloseFilter () {
     this.setState({
       isFilterVisible: false
@@ -230,7 +240,7 @@ class ProductsPage extends PureComponent {
   render () {
     const { valueGroups, categorySwitchOpened, isFilterVisible, useTwoColumnsView } = this.state
 
-    if (!includes([CATEGORY_TOPS, CATEGORY_SHOES, CATEGORY_PANTS, CATEGORY_SEARCH], this.currentCategory)) {
+    if (!includes([CATEGORY_TOPS, CATEGORY_SHOES, CATEGORY_PANTS], this.currentCategory)) {
       return <NotFound />
     }
 
@@ -243,24 +253,26 @@ class ProductsPage extends PureComponent {
       >
         <div className='container'>
           {
-            !this.lastTitle ? (
-              <PageTitle
-                className={classNames('ProductsPage-title', { 'is-opened': categorySwitchOpened })}
-                showSwitch
-                onFilterClick={this.handleFilterButtonClick}
-                onTitleClick={this.handleTitleClick}
-              >
-                {this.qsValues.preset ? parsePresetName(this.qsValues.preset) : CATEGORIES_LABELS[this.props.match.params.category === CATEGORY_SEARCH ? CATEGORY_SEARCH : this.currentCategory]}
-              </PageTitle>
-            ) : (
-              <PageTitle
-                className={classNames('ProductsPage-title', { 'is-opened': categorySwitchOpened })}
-                showSwitch
-                onFilterClick={this.handleFilterButtonClick}
-                isLastTitle={this.lastTitle !== null}
-              >
-                {this.lastTitle}
-              </PageTitle>
+            !this.props.expanded && (
+              !this.lastTitle ? (
+                <PageTitle
+                  className={classNames('ProductsPage-title', { 'is-opened': categorySwitchOpened })}
+                  showSwitch
+                  onFilterClick={this.handleFilterButtonClick}
+                  onTitleClick={this.handleTitleClick}
+                >
+                  {this.qsValues.preset ? parsePresetName(this.qsValues.preset) : CATEGORIES_LABELS[this.currentCategory]}
+                </PageTitle>
+              ) : (
+                <PageTitle
+                  className={classNames('ProductsPage-title', { 'is-opened': categorySwitchOpened })}
+                  showSwitch
+                  onFilterClick={this.handleFilterButtonClick}
+                  isLastTitle={this.lastTitle !== null}
+                >
+                  {this.lastTitle}
+                </PageTitle>
+              )
             )
           }
 
@@ -290,14 +302,15 @@ class ProductsPage extends PureComponent {
           onSubmit={this.handleSubmitFilter}
           onClose={this.handleCloseFilter}
         />
-        <ProductsVisualFilter hidden={isFilterVisible} activeCategory={this.currentCategory} />
+        <ProductsVisualFilter onColTypeChange={this.onColTypeChange} defaultColType={this.listingView} hidden={isFilterVisible} activeCategory={this.currentCategory} />
       </div>
     )
   }
 }
 
 const mapStateToProps = (state, props) => ({
-  presets: props.match.params.category === CATEGORY_SEARCH ? state.products[CATEGORY_TOPS].presets : state.products[props.match.params.category].presets
+  presets: state.products[props.match.params.category].presets,
+  expanded: state.filters.expanded
 })
 
 export default compose(

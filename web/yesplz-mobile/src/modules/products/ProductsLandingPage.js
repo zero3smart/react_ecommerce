@@ -119,6 +119,7 @@ class ProductsLandingPage extends PureComponent {
             activeCategory={this.currentCategory}
             useMinimalPreset
             onClickGroupTitle={this.handleClickEditorPick}
+            hidePreset
           />
 
           <h2 className='SubHeader'>Explore</h2>

@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
-import { CATEGORY_SEARCH } from '@yesplz/core-web/config/constants'
 
 class ScrollToTop extends React.Component {
   static propTypes = {
@@ -10,7 +9,7 @@ class ScrollToTop extends React.Component {
   }
 
   componentDidUpdate (prevProps) {
-    if (this.props.location !== prevProps.location && this.props.location.pathname.indexOf(`products/${CATEGORY_SEARCH}/`) < 0) {
+    if (this.props.location !== prevProps.location) {
       setTimeout(() => {
         // const warrapedElement = document.getElementById('MainScroll') ? document.getElementById('MainScroll') : document.getElementById('Base-mobile')
         window.scrollTo(0, 0)

@@ -8,8 +8,9 @@ import { isFilterSavedSelector } from '@yesplz/core-web/modules/filters/selector
 import Transition from '@yesplz/core-web/ui-kits/transitions/Transition'
 import { fetchProducts } from '@yesplz/core-redux/ducks/products'
 import { setFilter, syncFilter, syncFavoritePresets, saveFilterAsPreset, deleteFilterFromPreset, setLastBodyPart, toggleVisualFilter, setOnboarding } from '@yesplz/core-redux/ducks/filters'
-import { CUSTOM_PRESET_NAME, CATEGORIES_LABELS, CATEGORY_SEARCH } from '@yesplz/core-web/config/constants'
+import { CUSTOM_PRESET_NAME, CATEGORIES_LABELS, CATEGORY_TOPS } from '@yesplz/core-web/config/constants'
 import VisualFilterPanel from 'modules/filters/VisualFilterPanel'
+import ListView from 'modules/filters/ListView'
 import CategoryPicker from 'ui-kits/navigations/CategoryPicker'
 import './ProductsVisualFilter.scss'
 import { withRouter } from 'react-router-dom'
@@ -34,19 +35,25 @@ export class ProductsVisualFilter extends Component {
     setLastBodyPart: PropTypes.func.isRequired,
     toggleVisualFilter: PropTypes.func.isRequired,
     setOnboarding: PropTypes.func.isRequired,
-    history: PropTypes.func
+    history: PropTypes.func,
+    defaultColType: PropTypes.string,
+    onColTypeChange: PropTypes.func,
+    location: PropTypes.object,
+    match: PropTypes.object
   }
 
   static defaultProps = {
     expanded: false,
     hidden: false,
-    onboarding: false
+    onboarding: false,
+    defaultColType: 'signle'
   }
 
   constructor (props) {
     super(props)
     this.state = {
-      isCategoryPickerVisible: false
+      isCategoryPickerVisible: false,
+      colType: props.defaultColType
     }
     this.openCategoryPicker = this.openCategoryPicker.bind(this)
     this.closeCategoryPicker = this.closeCategoryPicker.bind(this)
@@ -60,9 +67,19 @@ export class ProductsVisualFilter extends Component {
 
   get handleFilterToggle () {
     const { expanded, toggleVisualFilter } = this.props
+    if (expanded) {
+      window.scrollTo(0, 0)
+    }
     return () => {
       toggleVisualFilter(!expanded)
     }
+  }
+
+  onSearchPage = () => {
+    const { match } = this.props
+    const category = match.params.category || CATEGORY_TOPS
+    this.props.history.push(`/products/${category}/list?listingView=double`)
+    this.props.toggleVisualFilter(true)
   }
 
   get handleFilterChange () {
@@ -124,12 +141,26 @@ export class ProductsVisualFilter extends Component {
     })
   }
 
+  onColTypeChange = (col) => {
+    this.setState({
+      colType: col
+    })
+    this.props.onColTypeChange(col)
+  }
+
+  get isListProductPage () {
+    return () => {
+      const { location } = this.props
+      return /^\/products\/(wtop|wpants|wshoes)\/list$/.test(location.pathname)
+    }
+  }
+
   render () {
     const {
       activeCategory, filters, scrollBellowTheFold, isFilterSaved, lastBodyPart,
       expanded, hidden, onboarding
     } = this.props
-    const { isCategoryPickerVisible } = this.state
+    const { isCategoryPickerVisible, colType } = this.state
 
     return (
       <div
@@ -149,7 +180,8 @@ export class ProductsVisualFilter extends Component {
         >
           <div className='ProductsVisualFilter-panelWrapper'>
             <div className='ProductsVisualFilter-header'>
-              <span style={{ width: 40 }} />
+              {/* <span style={{ width: 40 }} /> */}
+              <ListView colType={colType} onChange={this.onColTypeChange} />
               <div
                 onClick={this.openCategoryPicker}
                 className={classNames('ProductsVisualFilter-categoryToggle', { 'is-active': isCategoryPickerVisible })}>
@@ -172,7 +204,7 @@ export class ProductsVisualFilter extends Component {
         </Transition>
         <Transition timeout={{ enter: 100, exit: 100 }} show={!expanded} transition='fadeInUp'>
           {
-            this.props.history.location.pathname === '/' ? <FloatButton category={activeCategory} onClick={() => this.props.history.push(`products/${CATEGORY_SEARCH}/list?listingView=double`)} /> : <FloatButton category={activeCategory} onClick={this.handleFilterToggle} />
+            !this.isListProductPage() ? <FloatButton category={activeCategory} onClick={() => this.onSearchPage()} /> : <FloatButton category={activeCategory} onClick={this.handleFilterToggle} />
           }
         </Transition>
         <CategoryPicker
