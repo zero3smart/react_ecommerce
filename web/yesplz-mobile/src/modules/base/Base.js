@@ -7,13 +7,14 @@ import { VisualFilter } from '@yesplz/core-models'
 import history from '@yesplz/core-web/config/history'
 import MenuButton from 'modules/menus/MenuButton'
 import SidebarMenu from 'modules/menus/SidebarMenu'
-import { CATEGORY_SEARCH } from '@yesplz/core-web/config/constants'
+import { connect } from 'react-redux'
 import './base.css'
 
 class Base extends Component {
   static propTypes = {
     children: PropTypes.element,
-    location: PropTypes.object
+    location: PropTypes.object,
+    expanded: PropTypes.bool
   }
 
   constructor (props) {
@@ -59,28 +60,28 @@ class Base extends Component {
     })
   }
 
-  get isProductDetailPage () {
+  get isProductDetailPage() {
     const { location } = this.props
     return /^\/products\//.test(location.pathname)
   }
 
-  get isFavoritesPage () {
+  get isFavoritesPage() {
     const { location } = this.props
     return /^\/favorites\//.test(location.pathname)
   }
 
-  get handleHomeLinkActive () {
+  get handleHomeLinkActive() {
     return match => match // || this.isProductDetailPage
   }
 
-  get handleFavoritesLinkActive () {
+  get handleFavoritesLinkActive() {
     return () => {
       const { location } = this.props
       return /^\/favorites\/(fits|clothing)$/.test(location.pathname)
     }
   }
 
-  get handleLinkClick () {
+  get handleLinkClick() {
     return () => {
       const scrollWrapper = document.getElementById('MainScroll')
       if (scrollWrapper) {
@@ -89,14 +90,14 @@ class Base extends Component {
     }
   }
 
-  toggleSidebarMenu () {
+  toggleSidebarMenu() {
     const { menuOpened } = this.state
     this.setState({
       menuOpened: !menuOpened
     })
   }
 
-  handleSidebarMenuClose (done = () => { }) {
+  handleSidebarMenuClose(done = () => { }) {
     this.setState({
       menuOpened: false
     }, () => {
@@ -106,14 +107,21 @@ class Base extends Component {
     })
   }
 
-  handleMenuGroupChange (groupKey) {
+  handleMenuGroupChange(groupKey) {
     this.setState({
       hideMenuButton: groupKey !== 'main'
     })
   }
 
-  handleCategoryChange (category) {
+  handleCategoryChange(category) {
     console.debug('category changed', category)
+  }
+
+  get isListProductPage () {
+    return () => {
+      const { location } = this.props
+      return /^\/products\/(wtop|wpants|wshoes)\/list$/.test(location.pathname)
+    }
   }
 
   render () {
@@ -122,36 +130,38 @@ class Base extends Component {
 
     return (
       <div id='Base-mobile' className='Base'>
-        <div className={classNames('Base-header', { 'is-sticky': stickyHeader })}>
-          <div className='container-wide Base-header-container'>
-            <div style={styles.buttonMenuWrapper}>
-              {!hideMenuButton && <MenuButton closeMode={menuOpened} onClick={this.toggleSidebarMenu} />}
+        {
+          (!this.props.expanded || !this.isListProductPage()) && (
+            <div className={classNames('Base-header', { 'is-sticky': stickyHeader })}>
+              <div className='container-wide Base-header-container'>
+                <div style={styles.buttonMenuWrapper}>
+                  {!hideMenuButton && <MenuButton closeMode={menuOpened} onClick={this.toggleSidebarMenu} />}
+                </div>
+                <NavLink
+                  exact
+                  to={'/'}
+                  onClick={this.handleLinkClick}
+                  isActive={this.handleHomeLinkActive}
+                  className='logo'>
+                  YESPLZ
+                </NavLink>
+                <NavLink
+                  to={this.isFavoritesPage ? '#' : '/favorites/items'}
+                  onClick={this.handleLinkClick}
+                  isActive={this.handleFavoritesLinkActive}
+                  className='menu-icon'>
+                  <img src={FavoritesSvg} alt='Favorites Page' />
+                </NavLink>
+                <SidebarMenu
+                  opened={menuOpened}
+                  onCategoryChange={this.handleCategoryChange}
+                  onClose={this.handleSidebarMenuClose}
+                  onMenuGroupChange={this.handleMenuGroupChange}
+                />
+              </div>
             </div>
-            <NavLink
-              exact
-              to={'/'}
-              onClick={this.handleLinkClick}
-              isActive={this.handleHomeLinkActive}
-              className='logo'>
-              {
-                this.props.location.pathname.indexOf(`products/${CATEGORY_SEARCH}/`) > -1 ? '' : 'YESPLZ'
-              }
-            </NavLink>
-            <NavLink
-              to={this.isFavoritesPage ? '#' : '/favorites/items'}
-              onClick={this.handleLinkClick}
-              isActive={this.handleFavoritesLinkActive}
-              className='menu-icon'>
-              <img src={FavoritesSvg} alt='Favorites Page' />
-            </NavLink>
-            <SidebarMenu
-              opened={menuOpened}
-              onCategoryChange={this.handleCategoryChange}
-              onClose={this.handleSidebarMenuClose}
-              onMenuGroupChange={this.handleMenuGroupChange}
-            />
-          </div>
-        </div>
+          )
+        }
         {children}
       </div>
     )
@@ -166,4 +176,8 @@ const styles = {
   }
 }
 
-export default Base
+const mapStateToProps = state => ({
+  expanded: state.filters.expanded
+})
+
+export default connect(mapStateToProps)(Base)
