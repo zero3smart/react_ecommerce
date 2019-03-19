@@ -15,7 +15,9 @@
 
   &-thumbnail {
     position: relative;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     min-width: 48px;
     min-height: 48px;
     border-radius: 100%;

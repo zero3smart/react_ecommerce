@@ -9,7 +9,7 @@ import DesignSelect from './DesignSelect'
 import MaterialSelect from './MaterialSelect'
 import FavoritesSelect from './FavoritesSelect'
 
-const designFilterKeys = ['solid', 'pattern', 'details']
+const designFilterKeys = ['solid', 'pattern', 'details', 'lace-up', 'ripped-off']
 const nonVisualFilterKeys = [...designFilterKeys, 'color', 'material']
 
 const AdvancedFilter = ({ category, lastBodyPart, config, filters, style, onChange }) => {
@@ -17,7 +17,7 @@ const AdvancedFilter = ({ category, lastBodyPart, config, filters, style, onChan
   const styleFilter = omit(filters, nonVisualFilterKeys)
   const designFilter = pick(filters, designFilterKeys)
   const colorFilter = (filters.color || '').split(',')
-  const materialFilter = filters.material
+  const materialFilter = (filters.material || '').split(',')
 
   const handleFilterChange = (name, value) => {
     let updatedFilters = {
@@ -25,17 +25,12 @@ const AdvancedFilter = ({ category, lastBodyPart, config, filters, style, onChan
     }
 
     switch (name) {
+      case 'material':
       case 'color':
         const valueJoin = value.join(',')
         updatedFilters = {
           ...updatedFilters,
           [name]: valueJoin.slice(0, 1) === ',' ? valueJoin.slice(1) : valueJoin
-        }
-        break
-      case 'material':
-        updatedFilters = {
-          ...updatedFilters,
-          [name]: value
         }
         break
       case 'favorite':
@@ -58,7 +53,7 @@ const AdvancedFilter = ({ category, lastBodyPart, config, filters, style, onChan
       </TabItem>
 
       <TabItem tabKey='design'>
-        <DesignSelect name='design' value={designFilter} onChange={handleFilterChange} />
+        <DesignSelect name='design' category={category} value={designFilter} onChange={handleFilterChange} />
       </TabItem>
 
       <TabItem tabKey='colors'>
@@ -66,7 +61,7 @@ const AdvancedFilter = ({ category, lastBodyPart, config, filters, style, onChan
       </TabItem>
 
       <TabItem tabKey='materials'>
-        <MaterialSelect name='material' value={materialFilter} onChange={handleFilterChange} />
+        <MaterialSelect name='material' category={category} values={materialFilter} onChange={handleFilterChange} />
       </TabItem>
 
       <TabItem tabKey='favorite'>
