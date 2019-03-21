@@ -46,10 +46,10 @@ const getOptions = (category) => {
       ]
     case CATEGORY_PANTS:
       return [
-        <ThumbnailPickerOption key='cotton' label='Denim' value='cotton'>
+        <ThumbnailPickerOption key='denim' label='Denim' value='denim'>
           <img src={MaterialDenimSvg} alt='Denim' />
         </ThumbnailPickerOption>,
-        <ThumbnailPickerOption key='silk' label='Spandex' value='silk'>
+        <ThumbnailPickerOption key='spandex' label='Spandex' value='spandex'>
           <img src={MaterialSpandexSvg} alt='Spandex' />
         </ThumbnailPickerOption>,
         <ThumbnailPickerOption key='wool' label='Wool' value='wool'>

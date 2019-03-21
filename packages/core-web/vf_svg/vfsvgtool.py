@@ -245,21 +245,17 @@ class VfWpantsSvgGenerator(VfSvgGenerator):
 
         self.empty_group_ids += ['knee_0', 'ankle_0']
         # Disabled temporarily
-        self.empty_group_ids += [f'rise_{i}_HL' for i in range(3)]
-        self.empty_group_ids += [f'thigh_{i}_HL' for i in range(3)]
-        self.empty_group_ids += [f'knee_{i}_HL' for i in range(3)]
-        self.empty_group_ids += [f'ankle_{i}_HL' for i in range(4)]
-        self.empty_group_ids += [
-            'knees_1_thigh_1_HL', 'knees_1_thigh_2_HL', 
-            'knees_2_thigh_1_HL', 
-            'knees_2_thigh_2_HL', 
-            'ankle_1_knees_1_thigh_1_HL', 
-            'ankle_2_knees_1_thigh_1_HL', 
-            'ankle_2_knees_2_thigh_1_HL', 
-            'ankle_2_knees_1_thigh_2_HL', 
-            'ankle_3_knees_2_thigh_1_HL', 
-            'ankle_3_knees_1_thigh_2_HL', 
-        ] 
+        #self.empty_group_ids += [f'rise_{i}_HL' for i in range(3)]
+        #self.empty_group_ids += [f'thigh_{i}_HL' for i in range(3)]
+        #self.empty_group_ids += [f'knee_{i}_HL' for i in range(3)]
+        #self.empty_group_ids += [f'ankle_{i}_HL' for i in range(4)]
+        #self.empty_group_ids += [
+        #    'knees_1_thigh_1_HL', 'knees_1_thigh_2_HL', 
+        #    'knees_2_thigh_1_HL', 'knees_2_thigh_2_HL', 
+        #    'ankle_1_knees_1_thigh_1_HL', 'ankle_2_knees_1_thigh_1_HL', 
+        #    'ankle_2_knees_2_thigh_1_HL', 'ankle_2_knees_1_thigh_2_HL', 
+        #    'ankle_3_knees_2_thigh_1_HL', 'ankle_3_knees_1_thigh_2_HL', 
+        #] 
 
     def load_core_svg(self, svg_fn):
         id_fixups = {
@@ -270,7 +266,7 @@ class VfWpantsSvgGenerator(VfSvgGenerator):
             'ankle_TA':        'touch_ankle',
         }
         pos_fixes = {
-            'Final_VF_Pants_2.0': [f'120 0', .40]
+            'Final_VF_Pants_2.0': [f'80 20', .7]
         }
         str_subs = {
             'g id="Final_VF_Pants_2.0"': 'g class="VF-Core-Pants" id="Final_VF_Pants_2.0"'
@@ -298,8 +294,14 @@ class VfWpantsSvgGenerator(VfSvgGenerator):
             'rise_0_TN': 'tn_rise_0',
             'rise_1_TN': 'tn_rise_1',
             'rise_2_TN': 'tn_rise_2',
+
+            'mask-2': 'tn_mask-2', # avoid conflict from core's mask
         }
-        contents = self.load_svg_fixed(svg_fn, id_fixups)
+        str_sub_fixes = {
+            'path-1': 'tn_path-1',
+            '#mask-2': '#tn_mask-2',      # avoid conflict from core's mask
+        }
+        contents = self.load_svg_fixed(svg_fn, id_fixups, str_sub_fixes=str_sub_fixes)
         contents += self.tn_touch
         return contents
 
