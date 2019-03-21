@@ -295,11 +295,10 @@ class VfWpantsSvgGenerator(VfSvgGenerator):
             'rise_1_TN': 'tn_rise_1',
             'rise_2_TN': 'tn_rise_2',
 
-            'mask-2': 'tn_mask-2', # avoid conflict from core's mask
         }
         str_sub_fixes = {
-            'path-1': 'tn_path-1',
-            '#mask-2': '#tn_mask-2',      # avoid conflict from core's mask
+            'path-': 'tn_path-',
+            'mask-': 'tn_mask-',      # avoid conflict from core's mask
         }
         contents = self.load_svg_fixed(svg_fn, id_fixups, str_sub_fixes=str_sub_fixes)
         contents += self.tn_touch
