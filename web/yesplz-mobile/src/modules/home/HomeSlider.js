@@ -29,8 +29,8 @@ const HomeSlider = ({ onClickSlideItem }) => (
       <NextArrow onClick={onClickSlideItem(CATEGORY_TOPS)} />
     </div>
     <div style={{ backgroundImage: `url(${SliderPantsImage})` }}>
-      <h4>Jeans</h4>
-      <p>Jeans for your day to day or special occasions</p>
+      <h4>Pants</h4>
+      <p>Pants for your day to day or special occasions</p>
       <NextArrow onClick={onClickSlideItem(CATEGORY_PANTS)} />
     </div>
     <div style={{ backgroundImage: `url(${SliderShoesImage})` }}>

@@ -88,7 +88,7 @@ class ProductsPage extends PureComponent {
     return {
       category: [
         'Tops',
-        'Jeans',
+        'Pants',
         'Shoes'
       ]
     }

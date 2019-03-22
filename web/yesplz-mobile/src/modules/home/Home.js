@@ -50,9 +50,9 @@ class Home extends Component {
               limitPerPage={10}
               onProductPresetClick={this.handleClickNewProductsTitle(CATEGORY_TOPS)}
             />
-            <GroupTitle onClickTitle={this.handleClickNewArrivals(CATEGORY_PANTS)}>New Jeans</GroupTitle>
+            <GroupTitle onClickTitle={this.handleClickNewArrivals(CATEGORY_PANTS)}>New Pants</GroupTitle>
             <NewProducts
-              title='New Jeans'
+              title='New Pants'
               category={CATEGORY_PANTS}
               limitPerPage={10}
               onProductPresetClick={this.handleClickNewProductsTitle(CATEGORY_PANTS)}
