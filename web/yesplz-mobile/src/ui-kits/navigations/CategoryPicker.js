@@ -44,7 +44,7 @@ const CategoryPicker = ({ isVisible, hideBackdrop, category, onClose, setCategor
 const optionGroups = {
   category: [
     'Tops',
-    'Jeans',
+    'Pants',
     'Shoes'
   ]
 }

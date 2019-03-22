@@ -162,7 +162,7 @@ export class ProductsVisualFilter extends Component {
   render () {
     const {
       activeCategory, filters, scrollBellowTheFold, isFilterSaved, lastBodyPart,
-      expanded, hidden, onboarding
+      expanded, hidden
     } = this.props
     const { isCategoryPickerVisible, colType } = this.state
 
@@ -171,10 +171,11 @@ export class ProductsVisualFilter extends Component {
         className={classNames('ProductsVisualFilter', {
           allowHide: this.isProductDetailPage,
           pullDown: !scrollBellowTheFold,
-          onboarding,
+          // onboarding,
           expanded,
           'is-hidden': hidden,
-          animated: !onboarding })}
+          // animated: !onboarding
+          animated: true })}
       >
         <div className='ProductsVisualFilter-backdrop' onClick={this.handleFilterToggle} />
         <Transition

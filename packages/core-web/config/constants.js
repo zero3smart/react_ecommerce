@@ -63,7 +63,7 @@ export const FILTER_TYPES = [
   },
   {
     name: 'wpants',
-    label: 'Jeans'
+    label: 'Pants'
   },
   {
     name: 'wshoes',
@@ -121,9 +121,8 @@ export const STYLES_LABELS = {
 // end of product list filters
 export const CATEGORIES_LABELS = {
   wtop: 'Tops',
-  wpants: 'Jeans',
-  wshoes: 'Shoes',
-  search: 'Search'
+  wpants: 'Pants',
+  wshoes: 'Shoes'
 }
 
 export const SIZES = {
