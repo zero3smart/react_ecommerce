@@ -5,7 +5,7 @@ import MobilePicker from '@yesplz/core-web/ui-kits/selects/MobilePicker'
 import { CATEGORY_TOPS, CATEGORIES_LABELS } from '@yesplz/core-web/config/constants'
 import history from '@yesplz/core-web/config/history'
 
-const CategoryPicker = ({ isVisible, hideBackdrop, category, onClose }) => {
+const CategoryPicker = ({ isVisible, hideBackdrop, category, onClose, setCategory }) => {
   const [ valueGroups, changeValueGroups ] = useState({ category: CATEGORIES_LABELS[category] })
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const CategoryPicker = ({ isVisible, hideBackdrop, category, onClose }) => {
 
   const handleCategoryPick = () => {
     const categoryKey = findKey(CATEGORIES_LABELS, label => label === valueGroups.category)
-
+    setCategory(categoryKey)
     history.push(`/products/${categoryKey}/list?listingView=double`)
     onClose()
   }
@@ -53,14 +53,16 @@ CategoryPicker.propTypes = {
   isVisible: PropTypes.bool,
   hideBackdrop: PropTypes.bool,
   category: PropTypes.string,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
+  setCategory: PropTypes.func.isRequired
 }
 
 CategoryPicker.defaultProps = {
   isVisible: false,
   hideBackdrop: false,
   category: CATEGORY_TOPS,
-  onClose: () => {}
+  onClose: () => {},
+  setCategory: () => {}
 }
 
 export default CategoryPicker

@@ -29,7 +29,10 @@ export const isFilterSavedSelector = createSelector(
       return null
     }
     // find custom preset by filter settings
-    const customPreset = find(omit(customPresets, ['name', 'favorite', 'key']), { ...omit(filters, ['favorite']) })
+    console.log('lsadmsa')
+    console.log(customPresets)
+    console.log(filters)
+    const customPreset = find(omit(customPresets, ['name', 'favorite', 'key']), { ...omit(filters, ['favorite', 'key']) })
 
     return !isEmpty(customPreset)
   }

@@ -31,7 +31,7 @@ export class Presets extends Component {
     isPresetsFetched: false
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { fetchPresets, isPresetsFetched } = this.props
     // don't need to do initial fetch if presets is fetched already
     if (!isPresetsFetched) {
@@ -39,20 +39,25 @@ export class Presets extends Component {
     }
   }
 
-  get handlePresetClick () {
+  get handlePresetClick() {
     const { tracker, setFilter, enableInitialFetch } = this.props
-    return (filters, name) => {
+    return (filters, name, category, presetKey) => {
+      console.log(filters)
+      console.log(name)
+      console.log(category)
+      console.log(presetKey)
       setFilter(filters)
       // make products fetched from beginning
       enableInitialFetch()
       // redirect to Tops page
-      history.push(`/preset-products/${name}`)
+      // history.push(`/preset-products/${name}`)
+      history.push(`/favorites/styles/${category}/${presetKey}?listingView=double`)
 
       tracker.track('Preset Choose', { name })
     }
   }
 
-  get togglePresetLike () {
+  get togglePresetLike() {
     const { likePreset, unlikePreset } = this.props
     return (preset, favorite) => {
       if (favorite) {
@@ -63,7 +68,7 @@ export class Presets extends Component {
     }
   }
 
-  render () {
+  render() {
     const { isPresetsFetched, presets, extraItem, style } = this.props
     return (
       <div id='MainScroll' className='Presets' style={style}>
@@ -72,28 +77,42 @@ export class Presets extends Component {
         <div className='container'>
           <Transition show={isPresetsFetched} transition='fadeInUp'>
             {
-              presets.map((preset, index) => (
-                <Preset
-                  key={preset.key || `${preset.name} ${index}`}
-                  id={`${camelCase(preset.name)}${index}`}
-                  category={preset.category}
-                  presetKey={preset.key}
-                  name={preset.name}
-                  coretype={preset.coretype}
-                  neckline={preset.neckline}
-                  shoulder={preset.shoulder}
-                  sleeveLength={preset.sleeve_length}
-                  topLength={preset.top_length}
-                  pattern={preset.pattern}
-                  solid={preset.solid}
-                  details={preset.details}
-                  color={preset.color}
-                  favorite={preset.favorite}
-                  onClick={this.handlePresetClick}
-                  onToggleLike={this.togglePresetLike}
-                  style={{ animationDelay: `${50 * index}ms` }}
-                />
-              ))
+              presets.map((preset, index) => {
+                if (preset.category) {
+                  return (
+                    <Preset
+                      key={preset.key || `${preset.name} ${index}`}
+                      id={`${camelCase(preset.name)}${index}`}
+                      category={preset.category}
+                      ankle={preset.ankle}
+                      knee={preset.knee}
+                      rise={preset.rise}
+                      thigh={preset.thigh}
+                      bottoms={preset.bottoms}
+                      counters={preset.counters}
+                      covers={preset.covers}
+                      shafts={preset.shafts}
+                      toes={preset.toes}
+                      presetKey={preset.key}
+                      name={preset.name}
+                      coretype={preset.coretype}
+                      neckline={preset.neckline}
+                      shoulder={preset.shoulder}
+                      sleeveLength={preset.sleeve_length}
+                      topLength={preset.top_length}
+                      pattern={preset.pattern}
+                      solid={preset.solid}
+                      details={preset.details}
+                      color={preset.color}
+                      favorite={preset.favorite}
+                      onClick={this.handlePresetClick}
+                      onToggleLike={this.togglePresetLike}
+                      style={{ animationDelay: `${50 * index}ms` }}
+                    />
+                  )
+                }
+                return null
+              })
             }
           </Transition>
         </div>

@@ -67,7 +67,7 @@ class Base extends Component {
 
   get isFavoritesPage() {
     const { location } = this.props
-    return /^\/favorites\//.test(location.pathname)
+    return /^\/favorites\/[a-zA-Z]$/.test(location.pathname)
   }
 
   get handleHomeLinkActive() {

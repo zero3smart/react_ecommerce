@@ -29,7 +29,16 @@ export default class Preset extends Component {
     favorite: PropTypes.bool,
     style: PropTypes.object,
     onClick: PropTypes.func.isRequired,
-    onToggleLike: PropTypes.func.isRequired
+    onToggleLike: PropTypes.func.isRequired,
+    bottoms: PropTypes.number,
+    counters: PropTypes.counters,
+    covers: PropTypes.covers,
+    shafts: PropTypes.shafts,
+    toes: PropTypes.toes,
+    ankle: PropTypes.ankle,
+    knee: PropTypes.knee,
+    rise: PropTypes.rise,
+    thigh: PropTypes.thigh
   }
 
   static defaultProps = {
@@ -47,9 +56,9 @@ export default class Preset extends Component {
   }
 
   get bodyPartFilters () {
-    const { coretype, neckline, shoulder, sleeveLength, topLength } = this.props
+    const { coretype, neckline, shoulder, sleeveLength, topLength, bottoms, counters, covers, shafts, toes, ankle, knee, rise, thigh } = this.props
     return {
-      coretype, neckline, shoulder, sleeve_length: sleeveLength, top_length: topLength
+      coretype, neckline, shoulder, sleeve_length: sleeveLength, top_length: topLength, bottoms, counters, covers, shafts, toes, ankle, knee, rise, thigh
     }
   }
 
@@ -70,13 +79,13 @@ export default class Preset extends Component {
   }
 
   get handleClick () {
-    const { name, onClick, category } = this.props
+    const { name, onClick, category, presetKey } = this.props
     return () => {
       const filters = {
         ...this.bodyPartFilters,
         ...this.fabricFilters
       }
-      onClick(filters, name, category)
+      onClick(filters, name, category, presetKey)
     }
   }
 
@@ -98,7 +107,7 @@ export default class Preset extends Component {
   }
 
   render () {
-    const { id, name, className, favorite, style } = this.props
+    const { id, presetKey, className, favorite, style } = this.props
 
     return (
       <div id={id} onClick={this.handleClick} className={classNames('Preset', { [className]: className })} style={style}>
@@ -107,7 +116,7 @@ export default class Preset extends Component {
           <svg id={`${id}-svg`} />
         </div>
         <div className='Preset-filter'>
-          <div className='Preset-name'>{name}</div>
+          <div className='Preset-name'>{presetKey.replace('-', ' ')}</div>
           <FabricFilters {...this.fabricFilters} badgeMode />
         </div>
       </div>
