@@ -73,6 +73,7 @@ class Home extends Component {
               presetMatchesCount={3}
               useMinimalPreset
               onClickGroupTitle={this.handleClickEditorPick}
+              hidePreset
             />
           </div>
         </div>
