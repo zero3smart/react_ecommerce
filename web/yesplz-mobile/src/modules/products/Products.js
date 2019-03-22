@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import isEqual from 'lodash/isEqual'
 import ProductListVertical from '@yesplz/core-web/modules/products/ProductListVertical'
 import withProductsFetcher from './withProductsFetcher'
+import queryString from 'query-string'
 
 import './Product.scss'
 
@@ -20,7 +21,7 @@ class Products extends PureComponent {
     customFilters: {}
   }
 
-  componentWillMount () {
+  componentDidMount () {
     if (/^\/products\/(wtop|wpants|wshoes)\/list$/.test(this.props.location.pathname)) {
       const { category, limitPerPage, filters, onFilter, customFilters } = this.props
       onFilter(category, { ...filters, ...customFilters }, limitPerPage)
@@ -28,10 +29,12 @@ class Products extends PureComponent {
   }
 
   componentDidUpdate (prevProps) {
-    const { category, limitPerPage, filters, onFilter, customFilters } = this.props
-    // check for filter change
-    if (!isEqual(prevProps.filters, filters) || !isEqual(prevProps.customFilters, customFilters)) {
-      onFilter(category, { ...filters, ...customFilters }, limitPerPage)
+    const { category, limitPerPage, filters, onFilter, customFilters, location } = this.props
+    const qsValues = queryString.parse(location.search)
+    if (!qsValues.preset) {
+      if (!isEqual(prevProps.filters, filters) || !isEqual(prevProps.customFilters, customFilters)) {
+        onFilter(category, { ...filters, ...customFilters }, limitPerPage)
+      }
     }
   }
 
