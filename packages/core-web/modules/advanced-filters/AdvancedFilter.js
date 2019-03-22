@@ -12,7 +12,7 @@ import FavoritesSelect from './FavoritesSelect'
 const designFilterKeys = ['solid', 'pattern', 'details', 'lace-up', 'ripped-off']
 const nonVisualFilterKeys = [...designFilterKeys, 'color', 'material']
 
-const AdvancedFilter = ({ category, lastBodyPart, config, filters, style, onChange }) => {
+const AdvancedFilter = ({ category, lastBodyPart, config, filters, style, onChange, onBodyPartChange }) => {
   // split filters based on its type
   const styleFilter = omit(filters, nonVisualFilterKeys)
   const designFilter = pick(filters, designFilterKeys)
@@ -48,8 +48,16 @@ const AdvancedFilter = ({ category, lastBodyPart, config, filters, style, onChan
 
   return (
     <AdvancedFilterTabs tabs={tabs} style={style}>
-      <TabItem tabKey='styles'>
-        <StylesSelect name='style' value={styleFilter} category={category} lastBodyPart={lastBodyPart} config={config} onChange={handleFilterChange} />
+      <TabItem tabKey='styles' style={{ padding: 0 }}>
+        <StylesSelect
+          name='style'
+          value={styleFilter}
+          category={category}
+          lastBodyPart={lastBodyPart}
+          config={config}
+          onChange={handleFilterChange}
+          onBodyPartChange={onBodyPartChange}
+        />
       </TabItem>
 
       <TabItem tabKey='design'>
@@ -85,7 +93,8 @@ AdvancedFilter.propTypes = {
   config: PropTypes.object.isRequired,
   filters: PropTypes.object,
   style: PropTypes.object,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  onBodyPartChange: PropTypes.func.isRequired
 }
 
 AdvancedFilter.defaultProps = {

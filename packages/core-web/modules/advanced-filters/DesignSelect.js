@@ -71,7 +71,7 @@ const DesignSelect = ({ name, value, category, onChange }) => {
 DesignSelect.propTypes = {
   name: PropTypes.string.isRequired,
   value: PropTypes.object,
-  category: PropTypes.object,
+  category: PropTypes.string,
   onChange: PropTypes.func
 }
 

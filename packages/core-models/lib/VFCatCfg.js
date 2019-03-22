@@ -10,7 +10,7 @@ class VfCatCfg {
 
 class VfCatWtopCfg extends VfCatCfg {
   category = 'wtop'
-  partList = ['shoulder', 'neckline', 'sleeve_length', 'coretype', 'top_length']
+  partList = ['neckline', 'shoulder', 'sleeve_length', 'coretype', 'top_length']
   propMaxVal = {
     'coretype': 3,
     'top_length': 2,

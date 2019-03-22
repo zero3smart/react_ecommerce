@@ -5,7 +5,7 @@ import includes from 'lodash/includes'
 import without from 'lodash/without'
 import './ThumbnailPicker.scss'
 
-const ThumbnailPicker = ({ children, name, value, values, canUnselect, selectedStyle, onChange }) => {
+const ThumbnailPicker = ({ children, name, value, values, canUnselect, style, selectedStyle, onChange }) => {
   const isMulti = !isNil(values)
 
   const managedChildren = React.Children.map(children, child => {
@@ -35,7 +35,7 @@ const ThumbnailPicker = ({ children, name, value, values, canUnselect, selectedS
   })
 
   return (
-    <div className={`ThumbnailPicker ThumbnailPicker--${selectedStyle}`}>
+    <div className={`ThumbnailPicker ThumbnailPicker--${selectedStyle}`} style={style}>
       {managedChildren}
     </div>
   )
@@ -47,6 +47,7 @@ ThumbnailPicker.propTypes = {
   values: PropTypes.array, // use this for multiple values
   canUnselect: PropTypes.bool, // only works for single value, you'll be able to unselect multiple values without it
   selectedStyle: PropTypes.oneOf(['full', 'half']),
+  style: PropTypes.object,
   children: PropTypes.any.isRequired,
   onChange: PropTypes.func.isRequired
 }

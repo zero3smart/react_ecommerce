@@ -48,15 +48,16 @@ AdvancedFilterTabs.defaultProps = {
 }
 
 // tab content
-export const TabItem = ({ tabKey, children }) => (
-  <div key={tabKey} className='AdvancedFilterTabs-item'>
+export const TabItem = ({ tabKey, children, style }) => (
+  <div key={tabKey} className='AdvancedFilterTabs-item' style={style}>
     {children}
   </div>
 )
 
 TabItem.propTypes = {
   tabKey: PropTypes.string.isRequired,
-  children: PropTypes.any
+  children: PropTypes.any,
+  style: PropTypes.object
 }
 
 const scrollbarHandlers = ['click-rail', 'drag-thumb', 'keyboard', 'touch']

@@ -115,6 +115,18 @@ export default class VisualFilterPanel extends Component {
     }
   }
 
+  get handleBodyPartChange () {
+    return (bodyPart) => {
+      const { filters, onBodyPartChange } = this.props
+
+      this.visualFilter.removeHighlight()
+      onBodyPartChange(bodyPart)
+      this.visualFilter.setLastBodyPart(bodyPart)
+      this.visualFilter.changePropSelection(bodyPart, filters[bodyPart])
+      this.visualFilter.highlightGroup(this.visualFilter.catdata.getBodyPartGroupName(bodyPart))
+    }
+  }
+
   render () {
     const { filters, favorite, category, lastBodyPart, className } = this.props
     const { advancedFilterVisible } = this.state
@@ -141,6 +153,7 @@ export default class VisualFilterPanel extends Component {
               lastBodyPart={lastBodyPart}
               config={get(this.visualFilter, 'catdata.catcfg')}
               onChange={this.handleAdvancedFilter}
+              onBodyPartChange={this.handleBodyPartChange}
               style={{ marginTop: -36, position: 'relative', zIndex: 2 }}
             />
           )

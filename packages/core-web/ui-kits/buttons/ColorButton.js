@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import CheckSvg from '../../assets/svg/check.svg'
+import CheckDarkSvg from '../../assets/svg/check-dark.svg'
 import './ColorButton.scss'
 
 export default class ColorButton extends Component {
@@ -13,7 +14,7 @@ export default class ColorButton extends Component {
   }
 
   render () {
-    const { name, color, active } = this.props
+    const { name, color, active, invert } = this.props
     return (
       <button
         onClick={this.handleClick}
@@ -22,8 +23,8 @@ export default class ColorButton extends Component {
         <div className='ColorButton-color' style={{ backgroundColor: color, backgroundImage: color }} />
         {
           active && (
-            <div className='ColorButton-mask' style={{ backgroundColor: color, backgroundImage: color }}>
-              <img src={CheckSvg} />
+            <div className='ColorButton-mask' style={{ backgroundColor: invert ? null : color, backgroundImage: color }}>
+              <img src={invert ? CheckDarkSvg : CheckSvg} />
             </div>
           )
         }
@@ -36,10 +37,12 @@ ColorButton.propTypes = {
   name: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
   active: PropTypes.bool,
+  invert: PropTypes.bool,
   onClick: PropTypes.func
 }
 
 ColorButton.defaultProps = {
   active: false,
+  invert: false,
   onClick: (name) => { console.debug('ColorButton - clicked', name) }
 }
