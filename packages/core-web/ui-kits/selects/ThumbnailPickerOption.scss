@@ -9,7 +9,7 @@
     font-weight: bold;
     line-height: 15px;
     letter-spacing: 0;
-    margin-top: 8px;
+    margin-top: 4px;
     text-transform: capitalize;
   }
 
@@ -21,8 +21,8 @@
     min-width: 48px;
     min-height: 48px;
     border-radius: 100%;
-    overflow: hidden;
     border: solid 1.5px rgba($dark-grey, 0.03);
+    margin: 10px;
 
     .ThumbnailPicker--half & {
       padding: 10px;
@@ -61,7 +61,6 @@
   }
 
   &-imageWrapper {
-    position: relative;
     text-align: center;
 
     & > * {
@@ -71,18 +70,16 @@
       z-index: 0;
     }
 
+    &::after,
     &::before {
       content: '';
       position: absolute;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      top: 0;
 
       background: $accent-primary;
+      width: 44px;
+      height: 44px;
       max-width: 50%;
       max-height: 50%;
-      margin: auto;
 
       border-radius: 100%;
       opacity: 0;
@@ -100,6 +97,24 @@
         opacity: 0.9;
         display: block;
       }
+    }
+
+    &::before {
+      right: 0;
+      bottom: 0;
+      left: 0;
+      top: 0;
+    }
+
+    &::after {
+      background: rgba($accent-primary, 0.1);
+      width: 44px;
+      height: 44px;
+      background: none;
+      box-sizing: content-box;
+      border: 10px solid rgba($accent-primary, 0.1);
+      left: -10px;
+      top: -10px;
     }
   }
 
@@ -120,4 +135,3 @@
   }
 
 }
-

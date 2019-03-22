@@ -21,7 +21,7 @@ const MaterialSelect = ({ name, values, category, onChange }) => (
 
 MaterialSelect.propTypes = {
   name: PropTypes.string.isRequired,
-  values: PropTypes.string,
+  values: PropTypes.array,
   category: PropTypes.string,
   onChange: PropTypes.func
 }

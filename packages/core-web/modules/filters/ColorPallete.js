@@ -76,7 +76,7 @@ export class ColorPallete extends Component {
       <div className={classNames('ColorPallete', { [className]: className })} style={style}>
         {
           map(FABRIC_COLORS, (color, name) => (
-            <ColorButton active={includes(values, name)} key={name} name={name} color={color} onClick={this.handleClick} />
+            <ColorButton active={includes(values, name)} key={name} name={name} color={color} onClick={this.handleClick} invert={name === 'white'} />
           ))
         }
         <button className='ColorPallete-clear' onClick={this.clearSelection}>
