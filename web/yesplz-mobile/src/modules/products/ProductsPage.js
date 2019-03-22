@@ -22,7 +22,7 @@ import { Products, ProductsFilter } from 'modules/products'
 import ProductsVisualFilter from 'modules/filters/ProductsVisualFilter'
 import { NotFound } from 'modules/base'
 import { formatPresetName, parsePresetName } from '@yesplz/core-web/utils/index'
-
+import { setFilter } from '@yesplz/core-redux/ducks/filters'
 import './ProductsPage.scss'
 
 const ProductsTitle = ({ title }) => (
@@ -40,7 +40,9 @@ class ProductsPage extends PureComponent {
     location: PropTypes.object,
     presets: PropTypes.array,
     fetchPresets: PropTypes.func.isRequired,
-    expanded: PropTypes.bool
+    expanded: PropTypes.bool,
+    setFilter: PropTypes.func.isRequired,
+    favoritePresets: PropTypes.array
   }
 
   static defaultProps = {
@@ -155,8 +157,22 @@ class ProductsPage extends PureComponent {
     this.setState({
       useTwoColumnsView: this.listingView === 'double'
     })
-    if (this.qsValues.preset) {
-      this.props.fetchPresets(this.currentCategory)
+    if (this.props.match.params.presetKey) {
+      this.setPresetFavoriteFilter(this.props.favoritePresets)
+    } else {
+      if (this.qsValues.preset) {
+        this.props.fetchPresets(this.currentCategory)
+      }
+    }
+  }
+
+  setPresetFavoriteFilter = (favoritePresets = []) => {
+    if (favoritePresets.length > 0) {
+      const fp = favoritePresets.filter(fp => fp.key === this.props.match.params.presetKey)
+      if (fp.length > 0) {
+        this.props.setFilter(omit({...fp[0]}, ['key', 'name', 'favorite']))
+        this.props.fetchPresets(this.currentCategory)
+      }
     }
   }
 
@@ -171,6 +187,11 @@ class ProductsPage extends PureComponent {
       this.setState({
         useTwoColumnsView: this.listingView === 'double'
       })
+    }
+    if (nextProps.favoritePresets.length !== this.props.favoritePresets.length) {
+      if (this.props.match.params.presetKey) {
+        this.setPresetFavoriteFilter(nextProps.favoritePresets)
+      }
     }
   }
 
@@ -261,7 +282,7 @@ class ProductsPage extends PureComponent {
                   onFilterClick={this.handleFilterButtonClick}
                   onTitleClick={this.handleTitleClick}
                 >
-                  {this.qsValues.preset ? parsePresetName(this.qsValues.preset) : CATEGORIES_LABELS[this.currentCategory]}
+                  {this.props.match.params.presetKey ? this.props.match.params.presetKey : this.qsValues.preset ? parsePresetName(this.qsValues.preset) : CATEGORIES_LABELS[this.currentCategory]}
                 </PageTitle>
               ) : (
                 <PageTitle
@@ -285,6 +306,7 @@ class ProductsPage extends PureComponent {
             category={this.currentCategory}
             limitPerPage={20}
             useTwoColumnsView={useTwoColumnsView}
+            location={this.props.location}
           />
         </div>
         <MobilePicker
@@ -310,10 +332,11 @@ class ProductsPage extends PureComponent {
 
 const mapStateToProps = (state, props) => ({
   presets: state.products[props.match.params.category].presets,
-  expanded: state.filters.expanded
+  expanded: state.filters.expanded,
+  favoritePresets: state.filters.favoritePresets
 })
 
 export default compose(
-  connect(mapStateToProps, { fetchPresets }),
+  connect(mapStateToProps, { fetchPresets, setFilter }),
   withTrackingProvider()
 )(ProductsPage)

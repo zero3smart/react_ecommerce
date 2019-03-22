@@ -18,9 +18,9 @@ const mapStateToProps = (state, props) => {
 }
 
 const mapDispatchToProps = (dispatch, props) => ({
-  onInit (category, limitPerPage, customFilters) {
-    dispatch(fetchProducts(category, { ...props.filters, ...customFilters }, limitPerPage, true))
-  },
+  // onInit (category, limitPerPage, customFilters) {
+  //   dispatch(fetchProducts(category, { ...props.filters, ...customFilters }, limitPerPage, true))
+  // },
   onFilter (category, filters, limitPerPage) {
     dispatch(fetchProducts(category, filters, limitPerPage, true))
   },

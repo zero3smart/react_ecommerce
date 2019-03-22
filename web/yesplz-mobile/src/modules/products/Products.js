@@ -10,6 +10,7 @@ class Products extends PureComponent {
   static propTypes = {
     category: PropTypes.string.isRequired,
     customFilters: PropTypes.object,
+    location: PropTypes.object,
     limitPerPage: PropTypes.number.isRequired,
     filters: PropTypes.shape({}).isRequired,
     onFilter: PropTypes.func.isRequired
@@ -17,6 +18,13 @@ class Products extends PureComponent {
 
   static defaultProps = {
     customFilters: {}
+  }
+
+  componentWillMount () {
+    if (/^\/products\/(wtop|wpants|wshoes)\/list$/.test(this.props.location.pathname)) {
+      const { category, limitPerPage, filters, onFilter, customFilters } = this.props
+      onFilter(category, { ...filters, ...customFilters }, limitPerPage)
+    }
   }
 
   componentDidUpdate (prevProps) {

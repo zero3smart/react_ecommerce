@@ -34,6 +34,7 @@ const BasePlatform = (props) => (
       {/* <Route exact path='/preset-products/:presetName/:productId' render={renderSinglePresetProductPage} /> */}
 
       <Route exact path='/favorites/:favoriteType' component={Favorites} />
+      <Route exact path='/favorites/:favoriteType/:category/:presetKey' component={ProductsPage} />
       <Route exact path='/profile/sizes/:category/:sizeKey' component={Sizes} />
 
       <Route exact path='/faq' component={Faq} />

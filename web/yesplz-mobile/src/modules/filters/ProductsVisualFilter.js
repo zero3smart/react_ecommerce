@@ -88,7 +88,7 @@ export class ProductsVisualFilter extends Component {
       // set filter to store
       setFilter(filters)
       // fetch products based selected filter
-      fetchProducts(undefined, undefined, undefined, true)
+      // fetchProducts(undefined, undefined, undefined, true)
       // set wrapper scrolltop to 0
       document.documentElement.scrollTop = 0
     }
@@ -155,6 +155,10 @@ export class ProductsVisualFilter extends Component {
     }
   }
 
+  setCategory = (c) => {
+    this.props.setFilter({ ...this.props.filters, category: c })
+  }
+
   render () {
     const {
       activeCategory, filters, scrollBellowTheFold, isFilterSaved, lastBodyPart,
@@ -211,6 +215,7 @@ export class ProductsVisualFilter extends Component {
           isVisible={isCategoryPickerVisible}
           category={activeCategory}
           onClose={this.closeCategoryPicker}
+          setCategory={this.setCategory}
           hideBackdrop
         />
       </div>
