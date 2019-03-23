@@ -17,7 +17,7 @@
 .Base-header {
   display: flex;
   align-items: flex-end;
-  height: 15.14vh;
+  /* height: 15.14vh; */
   max-height: 123px;
   background: white;
   padding: 22px 4px;

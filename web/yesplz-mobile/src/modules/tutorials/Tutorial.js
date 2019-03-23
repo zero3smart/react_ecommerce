@@ -54,7 +54,7 @@ class Tutorial extends PureComponent {
   }
 
   render () {
-    const { currentSlide, disableNext } = this.state
+    const { currentSlide } = this.state
 
     return (
       <div className='Tutorial'>
@@ -93,7 +93,7 @@ class Tutorial extends PureComponent {
             currentSlide === 2 ? (
               <Button
                 kind='secondary'
-                disabled={disableNext}
+                // disabled={disableNext}
                 style={styles.buttonStyle}
                 onClick={this.handleFinish}>
                 Explore
@@ -103,7 +103,7 @@ class Tutorial extends PureComponent {
                 <button className='Tutorial-skipButton' onClick={this.handleFinish}>
                 Skip
                 </button>
-                <button className='Tutorial-nextButton' onClick={this.handleSlideNext} disabled={disableNext}>
+                <button className='Tutorial-nextButton' onClick={this.handleSlideNext}>
                   <ArrowLine color='#FFFFFF' />
                 </button>
               </Fragment>
