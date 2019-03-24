@@ -64,7 +64,7 @@ class VfCatWpantsCfg extends VfCatCfg {
   category = 'wpants'
   partList = ['rise', 'thigh', 'knee', 'ankle']
   propMaxVal = {
-    rise: 2,
+    rise: 1,
     thigh: 2,
     knee: 2,
     ankle: 3

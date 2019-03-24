@@ -313,10 +313,10 @@ class VfCatWpantsViewData extends VfCatViewData {
   }
   presetList = [
     {rise: 0, thigh: 0, knee: 0, ankle: 0},
-    {rise: 2, thigh: 0, knee: 0, ankle: 0},
-    {rise: 1, thigh: 1, knee: 1, ankle: 1},
+    {rise: 1, thigh: 0, knee: 0, ankle: 0}, // {rise: 2, thigh: 0, knee: 0, ankle: 0},
+    {rise: 0, thigh: 1, knee: 1, ankle: 1},
     {rise: 0, thigh: 1, knee: 2, ankle: 2},
-    {rise: 2, thigh: 2, knee: 2, ankle: 3}
+    {rise: 1, thigh: 2, knee: 2, ankle: 3}
   ]
 
   constructor (vfcatcfg) {
