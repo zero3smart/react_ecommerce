@@ -14,6 +14,10 @@ import ListView from 'modules/filters/ListView'
 import CategoryPicker from 'ui-kits/navigations/CategoryPicker'
 import './ProductsVisualFilter.scss'
 import { withRouter } from 'react-router-dom'
+import Arrow0 from '@yesplz/core-web/assets/svg/arrow-0.svg'
+import Arrow1 from '@yesplz/core-web/assets/svg/arrow-1.svg'
+import Arrow2 from '@yesplz/core-web/assets/svg/arrow-2.svg'
+import { setStep } from '@yesplz/core-redux/ducks/tutorial-onboarding'
 
 export class ProductsVisualFilter extends Component {
   static propTypes = {
@@ -35,11 +39,13 @@ export class ProductsVisualFilter extends Component {
     setLastBodyPart: PropTypes.func.isRequired,
     toggleVisualFilter: PropTypes.func.isRequired,
     setOnboarding: PropTypes.func.isRequired,
+    setStep: PropTypes.func.isRequired,
     history: PropTypes.func,
     defaultColType: PropTypes.string,
     onColTypeChange: PropTypes.func,
     location: PropTypes.object,
-    match: PropTypes.object
+    match: PropTypes.object,
+    tutorialStep: PropTypes.number.isRequired
   }
 
   static defaultProps = {
@@ -53,7 +59,8 @@ export class ProductsVisualFilter extends Component {
     super(props)
     this.state = {
       isCategoryPickerVisible: false,
-      colType: props.defaultColType
+      colType: props.defaultColType,
+      isClickAdvanceFilter: false
     }
     this.openCategoryPicker = this.openCategoryPicker.bind(this)
     this.closeCategoryPicker = this.closeCategoryPicker.bind(this)
@@ -76,16 +83,23 @@ export class ProductsVisualFilter extends Component {
   }
 
   onSearchPage = () => {
-    const { match } = this.props
+    const { match, setStep } = this.props
+    setStep(2)
     const category = match.params.category || CATEGORY_TOPS
     this.props.history.push(`/products/${category}/list?listingView=double`)
     this.props.toggleVisualFilter(true)
   }
 
   get handleFilterChange () {
-    const { fetchProducts, setFilter } = this.props
-    return (filters) => {
+    const { setFilter, onboarding, tutorialStep, setStep } = this.props
+    return (filters, userClick = false) => {
       // set filter to store
+      if (onboarding && tutorialStep === 3 && userClick) {
+        setStep(4)
+      }
+      if (onboarding && tutorialStep === 4 && userClick) {
+        setStep(5)
+      }
       setFilter(filters)
       // fetch products based selected filter
       // fetchProducts(undefined, undefined, undefined, true)
@@ -159,10 +173,14 @@ export class ProductsVisualFilter extends Component {
     this.props.setFilter({ ...this.props.filters, category: c })
   }
 
+  onSetTutorial = (step) => {
+    this.props.setStep(step)
+  }
+
   render () {
     const {
       activeCategory, filters, scrollBellowTheFold, isFilterSaved, lastBodyPart,
-      expanded, hidden
+      expanded, hidden, onboarding, tutorialStep
     } = this.props
     const { isCategoryPickerVisible, colType } = this.state
 
@@ -171,13 +189,67 @@ export class ProductsVisualFilter extends Component {
         className={classNames('ProductsVisualFilter', {
           allowHide: this.isProductDetailPage,
           pullDown: !scrollBellowTheFold,
-          // onboarding,
+          isonboarding: onboarding,
           expanded,
           'is-hidden': hidden,
           // animated: !onboarding
           animated: true })}
       >
-        <div className='ProductsVisualFilter-backdrop' onClick={this.handleFilterToggle} />
+        {
+          onboarding && (
+            <div className={`ProductsVisualFilter-backdrop-${tutorialStep > 1 ? 'notstep1' : 'onboarding'}`} />
+          )
+        }
+        {
+          !onboarding && (
+            <div className='ProductsVisualFilter-backdrop' onClick={this.handleFilterToggle} />
+          )
+        }
+        {
+          onboarding && tutorialStep === 1 && (
+            <div className='step-1'>
+              <p>Now let’s tap on visual filter button.</p>
+              <img alt='' src={Arrow0} />
+            </div>
+          )
+        }
+        {
+          onboarding && tutorialStep === 2 && (
+            <div className='step-1 step-2'>
+              <p> Let’s tap on Advanced Filter.</p>
+              <img alt='' src={Arrow0} />
+            </div>
+          )
+        }
+        {
+          onboarding && tutorialStep === 3 && (
+            <div className='step-1 step-3'>
+              <p>Tap on a dimond to select the body parts</p>
+              <img alt='' src={Arrow1} />
+            </div>
+          )
+        }
+        {
+          onboarding && tutorialStep === 4 && (
+            <div className='step-1 step-3 step-4'>
+              <p>Tap either the body parts or thumbnails to change the design!</p>
+              <div className='right-arrow'>
+                <img alt='' src={Arrow0} />
+              </div>
+              <img alt='' className='left-arrow' src={Arrow1} />
+            </div>
+          )
+        }
+        {
+          onboarding && tutorialStep === 5 && (
+            <div className='step-1 step-3 step-5'>
+              <p>Great! You can save your favorite styles.</p>
+              <div className='arrow'>
+                <img alt='' src={Arrow2} />
+              </div>
+            </div>
+          )
+        }
         <Transition
           timeout={{ enter: 100, exit: 300 }}
           transition='fadeInUp'
@@ -186,6 +258,9 @@ export class ProductsVisualFilter extends Component {
           <div className='ProductsVisualFilter-panelWrapper'>
             <div className='ProductsVisualFilter-header'>
               {/* <span style={{ width: 40 }} /> */}
+              {
+                onboarding && tutorialStep !== 3 && tutorialStep !== 5 && <div className='overlay' />
+              }
               <ListView colType={colType} onChange={this.onColTypeChange} />
               <div
                 onClick={this.openCategoryPicker}
@@ -203,6 +278,9 @@ export class ProductsVisualFilter extends Component {
               lastBodyPart={lastBodyPart}
               onFilterChange={this.handleFilterChange}
               onFilterLike={this.handleFilterLike}
+              tutorialStep={tutorialStep}
+              onboarding={onboarding}
+              onSetTutorial={this.onSetTutorial}
               onBodyPartChange={this.handleBodyPartChange}
               onFinishedOnboarding={this.handleFinishOnboarding} />
           </div>
@@ -231,7 +309,8 @@ const mapStateToProps = state => ({
   scrollBellowTheFold: state.product.scrollBellowTheFold,
   router: state.router,
   expanded: state.filters.expanded,
-  onboarding: state.filters.onboarding
+  onboarding: state.filters.onboarding,
+  tutorialStep: state.tutorial.step
 })
 
 export default withRouter(
@@ -246,7 +325,8 @@ export default withRouter(
       deleteFilterFromPreset,
       setLastBodyPart,
       toggleVisualFilter,
-      setOnboarding
+      setOnboarding,
+      setStep
     }
   )(ProductsVisualFilter)
 )

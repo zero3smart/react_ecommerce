@@ -32,7 +32,27 @@
     bottom: 0;
     z-index: -1;
     display: none;
-
+    &-onboarding {
+      z-index: 100;
+      width: 100vw;
+      height: 100vh;
+      opacity: 0.2;
+      background-color: #06000e;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+    &-notstep1 {
+      width: 100vw;
+      height: 100vh;
+      opacity: 0.7;
+      background-color: #000000;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
     .expanded > & {
       display: block;
     }
@@ -44,6 +64,16 @@
     align-items: center;
     justify-content: space-between;
     padding: 12px 20px;
+    position: relative;
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.7;
+      background-color: #000000;
+    }
   }
 
   &-categoryToggle {
@@ -91,6 +121,113 @@
 
   .FloatButton {
     animation-name: bounceInUp;
+  }
+
+  &.isonboarding {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.6);
+    .step-1 {
+      z-index: 9999;
+      position: absolute;
+      bottom: 140px;
+      width: 100%;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      p {
+        max-width: 200px;
+        font-size: 20px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.4;
+        letter-spacing: normal;
+        color: #ffffff;
+        display: inline-block;
+      }
+      img {
+        transform: rotate(-59deg);
+        margin-left: 10px;
+      }
+    }
+    .step-2 {
+      bottom: 40px;
+      p {
+        max-width: 160px;
+        margin-left: calc(50% - 130px);
+        text-align: left;
+      }
+      img {
+        transform: rotate(-19deg);
+        height: 80px;
+        margin-top: 20px;
+      }
+    }
+    .step-3 {
+      top: -125px;
+      display: block;
+      padding-left: 30px;
+      text-align: left;
+      height: auto;
+      bottom: auto;
+      p {
+        max-width: 258px;
+        text-align: left;
+        display: block;
+      }
+      img {
+        margin: 0;
+        -webkit-transform: rotate(-10deg);
+        transform: rotate(-10deg);
+        height: 158px;
+      }
+    }
+    .step-4 {
+      top: -53px;
+      padding: 0;
+      p {
+        padding-left: 58px;
+        max-width: 310px;
+      }
+      .right-arrow {
+        text-align: right;
+        margin-top: 70px;
+        img {
+          transform: rotate(26deg);
+          height: 70px;
+          margin-right: 90px;
+        }
+      }
+      .left-arrow {
+        transform: rotate(-20deg);
+        height: 98px;
+        margin-top: 84px;
+        margin-left: 18px;
+      }
+    }
+    .step-5 {
+      top: -86px;
+      .arrow {
+        text-align: right;
+        img {
+          margin-right: 96px;
+          transform: rotate(-7deg);
+          height: 103px;
+        }
+      }
+    }
+    .FloatButton {
+      z-index: 100;
+    }
+  }
+
+  &.expanded {
+    top: auto;
+
   }
 
   &.onboarding {
