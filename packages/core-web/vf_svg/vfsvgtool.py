@@ -147,16 +147,16 @@ class VfSvgGenerator:
             if re.search(f'id="{k}"', svg.contents):
                 svg.rename_id(k, v)
             else:
-                print(f'id {k} not found in {fn}')
+                print(f' * id {k} not found in {fn}')
         for k, v in pos_fixes.items():
             if re.search(f'id="{k}"', svg.contents):
                 xy, scale = v[0], v[1]
                 svg.translate(k, xy, scale)
             else:
-                print(f'id {k} not found in {fn}. No position change.')
+                print(f' * id {k} not found in {fn}. No position change.')
         for k, v in str_sub_fixes.items():
             if not svg.str_sub(k, v):
-                print(f'pattern {k} not found in {fn}')
+                print(f' * pattern {k} not found in {fn}')
         return svg.contents
 
     def load_preset_arrow(self):
@@ -244,18 +244,6 @@ class VfWpantsSvgGenerator(VfSvgGenerator):
         self.tn_svg = 'scoured/tn_wpants.svg' # Temporary image until we get actual thumbnail image
 
         self.empty_group_ids += ['knee_0', 'ankle_0']
-        # Disabled temporarily
-        #self.empty_group_ids += [f'rise_{i}_HL' for i in range(3)]
-        #self.empty_group_ids += [f'thigh_{i}_HL' for i in range(3)]
-        #self.empty_group_ids += [f'knee_{i}_HL' for i in range(3)]
-        #self.empty_group_ids += [f'ankle_{i}_HL' for i in range(4)]
-        #self.empty_group_ids += [
-        #    'knees_1_thigh_1_HL', 'knees_1_thigh_2_HL', 
-        #    'knees_2_thigh_1_HL', 'knees_2_thigh_2_HL', 
-        #    'ankle_1_knees_1_thigh_1_HL', 'ankle_2_knees_1_thigh_1_HL', 
-        #    'ankle_2_knees_2_thigh_1_HL', 'ankle_2_knees_1_thigh_2_HL', 
-        #    'ankle_3_knees_2_thigh_1_HL', 'ankle_3_knees_1_thigh_2_HL', 
-        #] 
 
     def load_core_svg(self, svg_fn):
         id_fixups = {
@@ -264,9 +252,10 @@ class VfWpantsSvgGenerator(VfSvgGenerator):
             'thigh_TA':        'touch_thigh',
             'knees_TA':        'touch_knee',
             'ankle_TA':        'touch_ankle',
+            'pants_points': 'touch_points'
         }
         pos_fixes = {
-            'Final_VF_Pants_2.0': [f'80 20', .7]
+            'Final_VF_Pants_2.0': [f'80 10', .7]
         }
         str_subs = {
             'g id="Final_VF_Pants_2.0"': 'g class="VF-Core-Pants" id="Final_VF_Pants_2.0"'
@@ -292,9 +281,7 @@ class VfWpantsSvgGenerator(VfSvgGenerator):
             'thigh_2_TN': 'tn_thigh_2',
             'rise_TN': 'tn_rise',
             'rise_0_TN': 'tn_rise_0',
-            'rise_1_TN': 'tn_rise_1',
-            'rise_2_TN': 'tn_rise_2',
-
+            'rise_1_TN': 'tn_rise_1'
         }
         str_sub_fixes = {
             'path-': 'tn_path-',
@@ -324,12 +311,6 @@ class VfWtopSvgGenerator(VfSvgGenerator):
         self.tn_svg = 'scoured/tn_wtop.svg'
 
         self.empty_group_ids += ['top_length_0']
-        # Temporary until HL resources are  added
-        #self.empty_group_ids += [f'coretype_{i}_HL' for i in range(4)]
-        #self.empty_group_ids += [f'neckline_{i}_HL' for i in range(5)]
-        #self.empty_group_ids += [f'shoulder_{i}_HL' for i in range(4)]
-        #self.empty_group_ids += [f'sleeve_length_{i}_HL' for i in range(6)]
-        #self.empty_group_ids += [f'top_length_{i}_HL' for i in range(3)]
 
     def load_core_svg(self, svg_fn):
         id_fixups = {
