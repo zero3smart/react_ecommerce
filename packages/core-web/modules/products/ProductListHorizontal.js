@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import SlideFetcher from '../../ui-kits/fetchers/SlideFetcher'
 import ProductGrid from './ProductGrid'
+import { withRouter } from 'react-router-dom'
 import './ProductListHorizontal.scss'
 
 class ProductListHorizontal extends PureComponent {
@@ -16,7 +17,8 @@ class ProductListHorizontal extends PureComponent {
     onInit: PropTypes.func.isRequired,
     onFetchNext: PropTypes.func.isRequired,
     onToggleLike: PropTypes.func.isRequired,
-    onProductPresetClick: PropTypes.func
+    onProductPresetClick: PropTypes.func,
+    location: PropTypes.object
   }
 
   static defaultProps = {
@@ -35,8 +37,10 @@ class ProductListHorizontal extends PureComponent {
   }
 
   componentDidMount () {
-    const { category, limitPerPage, onInit } = this.props
-    onInit(category, limitPerPage)
+    const { category, limitPerPage, onInit, location } = this.props
+    if (!(/^\/products\/(wtop|wpants|wshoes)\/list$/.test(location.pathname))) {
+      onInit(category, limitPerPage)
+    }
   }
 
   componentDidUpdate (prevProps) {
@@ -85,4 +89,4 @@ class ProductListHorizontal extends PureComponent {
   }
 }
 
-export default ProductListHorizontal
+export default withRouter(ProductListHorizontal)
