@@ -259,7 +259,7 @@ const mapStateToProps = (state, props) => ({
   isPresetsFetched: props.show || state.filters.presetsFetched,
   activePresetName: props.match.params.presetName,
   // products
-  filters: state.filters.data,
+  filters: state.filters[props.activeCategory].data,
   products: state.products.list,
   totalCount: state.products.totalCount,
   isProductsFetched: state.products.fetched,

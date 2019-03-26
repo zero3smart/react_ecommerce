@@ -76,7 +76,7 @@ export function fetchProducts (
     try {
       const { products, filters } = getState()
       const activeCategory = category || products.activeCategory
-      const currentFilters = { ...(customFilters || filters.data), ...filters.secondary }
+      const currentFilters = { ...(customFilters || filters[activeCategory].data), ...filters.secondary }
 
       // on initial fetch, set page should always start from 0
       const nextOffset = initialFetch ? 0 : products[activeCategory].nextOffset

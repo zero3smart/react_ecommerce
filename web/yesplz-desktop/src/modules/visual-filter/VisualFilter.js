@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { FilterPanel } from '@yesplz/core-web/modules/filters'
 import { fetchProducts } from '@yesplz/core-redux/ducks/products'
@@ -104,24 +106,34 @@ class VisualFilter extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  filters: state.filters.data,
-  isFilterSaved: isFilterSavedSelector(state, { customPresetName: CUSTOM_PRESET_NAME }),
-  lastBodyPart: state.filters.lastBodyPart,
-  router: state.router,
-  activeCategory: state.products.activeCategory
-})
+const mapStateToProps = (state, props) => {
+  const activeCategory = props.match.params.category || state.products.activeCategory
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchProducts,
-    syncFilter,
-    syncFavoritePresets,
-    setFilter,
-    saveFilterAsPreset,
-    deleteFilterFromPreset,
-    setLastBodyPart,
-    setOnboarding
+  return {
+    activeCategory,
+    filters: state.filters[activeCategory].data,
+    isFilterSaved: isFilterSavedSelector(state, {
+      category: state.products.activeCategory,
+      customPresetName: CUSTOM_PRESET_NAME
+    }),
+    lastBodyPart: state.filters.lastBodyPart,
+    router: state.router
   }
+}
+
+export default compose(
+  withRouter,
+  connect(
+    mapStateToProps,
+    {
+      fetchProducts,
+      syncFilter,
+      syncFavoritePresets,
+      setFilter,
+      saveFilterAsPreset,
+      deleteFilterFromPreset,
+      setLastBodyPart,
+      setOnboarding
+    }
+  )
 )(VisualFilter)
