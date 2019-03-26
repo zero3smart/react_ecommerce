@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Button } from '@yesplz/core-web/ui-kits/buttons'
@@ -13,6 +13,7 @@ class ProductListVertical extends PureComponent {
     category: PropTypes.string,
     products: PropTypes.array,
     customFilters: PropTypes.object,
+    location: PropTypes.object,
     maxCount: PropTypes.number,
     limitPerPage: PropTypes.number,
     productBasePath: PropTypes.string,
@@ -45,8 +46,10 @@ class ProductListVertical extends PureComponent {
   }
 
   componentDidMount () {
-    const { category, limitPerPage, customFilters } = this.props
-    this.props.onInit(category, limitPerPage, customFilters)
+    const { category, limitPerPage, customFilters, location } = this.props
+    if (!(/^\/products\/(wtop|wpants|wshoes)\/list$/.test(location.pathname))) {
+      this.props.onInit(category, limitPerPage, customFilters)
+    }
   }
 
   get sliderSettings () {
@@ -124,4 +127,4 @@ const styles = {
   }
 }
 
-export default ProductListVertical
+export default withRouter(ProductListVertical)
