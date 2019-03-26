@@ -16,7 +16,8 @@ class BaseDemo extends Component {
   static propTypes = {
     children: PropTypes.element,
     activeCategory: PropTypes.string.isRequired,
-    filters: PropTypes.object.isRequired
+    filters: PropTypes.object.isRequired,
+    lastBodyPart: PropTypes.string.isRequired
   }
 
   constructor (props) {
@@ -28,19 +29,19 @@ class BaseDemo extends Component {
   }
 
   componentDidUpdate (prevProps) {
-    const { filters } = this.props
+    const { filters, lastBodyPart } = this.props
     const { isTutorialActive, tutorialStep } = this.state
 
     if (isTutorialActive) {
       // if bodypart updated, change to step 2
-      if (!isEqual(filters.lastBodyPart, prevProps.filters.lastBodyPart)) {
+      if (!isEqual(lastBodyPart, prevProps.lastBodyPart)) {
         this.setState({
           tutorialStep: 1
         })
       }
 
       // if filters changed on step 2, finish the tutorial
-      if (tutorialStep === 1 && !isEqual(filters.data, prevProps.filters.data)) {
+      if (tutorialStep === 1 && !isEqual(filters, prevProps.filters)) {
         console.debug('not equal')
         this.finishTutorial()
       }
@@ -119,7 +120,8 @@ const renderDemoTutorial = (isTutorialActive, tutorialStep) => {
 
 const mapStateToProps = state => ({
   activeCategory: state.products.activeCategory,
-  filters: state.filters
+  filters: state.filters[state.products.activeCategory].data,
+  lastBodyPart: state.filters.lastBodyPart
 })
 
 export default connect(mapStateToProps)(BaseDemo)

@@ -4,16 +4,17 @@ import withProductLike from '@yesplz/core-web/hoc/withProductLike'
 import { fetchProducts } from '@yesplz/core-redux/ducks/products'
 
 const mapStateToProps = (state, props) => {
-  const currentCategory = state.products[props.category]
+  const currentCategoryProducts = state.products[props.category]
+  const currentCategoryFilters = state.filters[props.category]
 
   return {
-    products: currentCategory.data,
+    products: currentCategoryProducts.data,
     filters: {
-      ...state.filters.data,
+      ...currentCategoryFilters.data,
       ...state.filters.secondary,
       ...state.filters.stuff
     },
-    maxCount: currentCategory.limitPerPage
+    maxCount: currentCategoryProducts.limitPerPage
   }
 }
 

@@ -5,8 +5,8 @@ import isEmpty from 'lodash/isEmpty'
 import omit from 'lodash/omit'
 
 const getFavoritePresets = state => state.filters.favoritePresets
-const getFilters = state => state.filters.data
-const getCustomPresetName = (_, prop) => prop.customPresetName
+const getFilters = (state, props) => state.filters[props.category].data
+const getCustomPresetName = (_, props) => props.customPresetName
 
 /**
  * get custom presets list
@@ -29,9 +29,6 @@ export const isFilterSavedSelector = createSelector(
       return null
     }
     // find custom preset by filter settings
-    console.log('lsadmsa')
-    console.log(customPresets)
-    console.log(filters)
     const customPreset = find(omit(customPresets, ['name', 'favorite', 'key']), { ...omit(filters, ['favorite', 'key']) })
 
     return !isEmpty(customPreset)

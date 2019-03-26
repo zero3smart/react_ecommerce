@@ -91,7 +91,7 @@ export class ProductsVisualFilter extends Component {
   }
 
   get handleFilterChange () {
-    const { setFilter, onboarding, tutorialStep, setStep } = this.props
+    const { match, setFilter, onboarding, tutorialStep, setStep } = this.props
     return (filters, userClick = false) => {
       // set filter to store
       if (onboarding && tutorialStep === 3 && userClick) {
@@ -100,7 +100,7 @@ export class ProductsVisualFilter extends Component {
       if (onboarding && tutorialStep === 4 && userClick) {
         setStep(5)
       }
-      setFilter(filters)
+      setFilter(match.params.category, filters)
       // fetch products based selected filter
       // fetchProducts(undefined, undefined, undefined, true)
       // set wrapper scrolltop to 0
@@ -170,7 +170,7 @@ export class ProductsVisualFilter extends Component {
   }
 
   setCategory = (c) => {
-    this.props.setFilter({ ...this.props.filters, category: c })
+    // this.props.setFilter({ ...this.props.filters, category: c })
   }
 
   onSetTutorial = (step) => {
@@ -302,9 +302,9 @@ export class ProductsVisualFilter extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  filters: state.filters.data,
-  isFilterSaved: isFilterSavedSelector(state, { customPresetName: CUSTOM_PRESET_NAME }),
+const mapStateToProps = (state, props) => ({
+  filters: state.filters[props.activeCategory].data,
+  isFilterSaved: isFilterSavedSelector(state, { category: props.activeCategory, customPresetName: CUSTOM_PRESET_NAME }),
   lastBodyPart: state.filters.lastBodyPart,
   scrollBellowTheFold: state.product.scrollBellowTheFold,
   router: state.router,

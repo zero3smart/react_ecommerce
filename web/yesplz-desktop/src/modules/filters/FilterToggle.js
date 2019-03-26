@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
+import { withRouter, matchPath } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { toggleVisualFilter } from '@yesplz/core-redux/ducks/filters'
@@ -75,12 +77,20 @@ class FilterToggle extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  filters: state.filters.data,
-  router: state.router,
-  scrollBellowTheFold: state.product.scrollBellowTheFold,
-  onboarding: state.filters.onboarding,
-  activeCategory: state.products.activeCategory
-})
+const mapStateToProps = (state, props) => {
+  const match = matchPath(props.location.pathname, { path: '/products/:category' })
+  const activeCategory = (match && match.params.category) || state.products.activeCategory
 
-export default connect(mapStateToProps, { toggleVisualFilter })(FilterToggle)
+  return {
+    filters: state.filters[activeCategory].data,
+    router: state.router,
+    scrollBellowTheFold: state.product.scrollBellowTheFold,
+    onboarding: state.filters.onboarding,
+    activeCategory
+  }
+}
+
+export default compose(
+  withRouter,
+  connect(mapStateToProps, { toggleVisualFilter })
+)(FilterToggle)
