@@ -47,21 +47,21 @@ class Home extends Component {
             <NewProducts
               title='New Tops'
               category={CATEGORY_TOPS}
-              limitPerPage={10}
+              limitPerPage={20}
               onProductPresetClick={this.handleClickNewProductsTitle(CATEGORY_TOPS)}
             />
             <GroupTitle onClickTitle={this.handleClickNewArrivals(CATEGORY_PANTS)}>New Pants</GroupTitle>
             <NewProducts
               title='New Pants'
               category={CATEGORY_PANTS}
-              limitPerPage={10}
+              limitPerPage={20}
               onProductPresetClick={this.handleClickNewProductsTitle(CATEGORY_PANTS)}
             />
             <GroupTitle onClickTitle={this.handleClickNewArrivals(CATEGORY_SHOES)}>New Shoes</GroupTitle>
             <NewProducts
               title='New Shoes'
               category={CATEGORY_SHOES}
-              limitPerPage={10}
+              limitPerPage={20}
               onProductPresetClick={this.handleClickNewProductsTitle(CATEGORY_SHOES)}
             />
           </div>
@@ -70,7 +70,7 @@ class Home extends Component {
           <div className='container'>
             <h2 className='SubHeader'>Editors Picks</h2>
             <AdvancedPresetList
-              presetMatchesCount={3}
+              presetMatchesCount={20}
               useMinimalPreset
               onClickGroupTitle={this.handleClickEditorPick}
               hidePreset
@@ -81,7 +81,7 @@ class Home extends Component {
         <div className='container'>
           <h2 className='SubHeader'>Explore</h2>
           <RecommendedProducts
-            limitPerPage={3}
+            limitPerPage={20}
             enableFetchNext
             useScrollFetcher
           />

@@ -236,11 +236,11 @@ class VfCatWtopViewData extends VfCatViewData {
 
 class VfCatWshoesViewData extends VfCatViewData {
   currentPropState = {
-    toes: 0,
+    toes: 1,
     covers: 0,
     counters: 0,
-    bottoms: 0,
-    shafts: 0
+    shafts: 0,
+    bottoms: 5
   }
   presetList = [
     {'toes': 1, 'covers': 0, 'shafts': 0, 'counters': 2, 'bottoms': 5},
@@ -307,16 +307,15 @@ class VfCatWshoesViewData extends VfCatViewData {
 class VfCatWpantsViewData extends VfCatViewData {
   currentPropState = {
     rise: 0,
-    thigh: 0,
-    knee: 0,
-    ankle: 0
+    thigh: 1,
+    knee: 1,
+    ankle: 1
   }
   presetList = [
-    {rise: 0, thigh: 0, knee: 0, ankle: 0},
-    {rise: 1, thigh: 0, knee: 0, ankle: 0}, // {rise: 2, thigh: 0, knee: 0, ankle: 0},
     {rise: 0, thigh: 1, knee: 1, ankle: 1},
     {rise: 0, thigh: 1, knee: 2, ankle: 2},
-    {rise: 1, thigh: 2, knee: 2, ankle: 3}
+    {rise: 1, thigh: 2, knee: 2, ankle: 3},
+    {rise: 1, thigh: 0, knee: 0, ankle: 0}, // {rise: 2, thigh: 0, knee: 0, ankle: 0},
   ]
 
   constructor (vfcatcfg) {
