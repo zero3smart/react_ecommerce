@@ -6,6 +6,7 @@ import { fetchProducts } from '@yesplz/core-redux/ducks/products'
 import { syncFilter, toggleVisualFilter } from '@yesplz/core-redux/ducks/filters'
 import { withTrackingProvider } from '../../hoc'
 import { ProductList } from '@yesplz/core-web/modules/products'
+import { CATEGORY_TOPS } from '@yesplz/core-web/config/constants'
 import './products-page.css'
 
 class ProductsPage extends Component {
@@ -135,7 +136,7 @@ class ProductsPage extends Component {
 }
 
 const mapStateToProps = (state, props) => ({
-  filters: state.filters.data,
+  filters: state.filters[props.match.params.category || CATEGORY_TOPS].data,
   products: state.products.list,
   totalCount: state.products.totalCount,
   willBeEmptyList: state.products.willBeEmptyList,

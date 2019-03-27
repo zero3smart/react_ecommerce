@@ -83,7 +83,7 @@ class Tops extends Component {
 const mapStateToProps = state => {
   const activeCategory = state.products.activeCategory
   return {
-    filters: state.filters.data,
+    filters: state.filters[activeCategory].data,
     products: state.products[activeCategory].data,
     totalCount: state.products[activeCategory].totalCount,
     isProductsFetched: state.products[activeCategory].fetched,

@@ -99,7 +99,7 @@ class StatefulCategorizedProducts extends PureComponent {
         <ProductListHorizontal
           title={title}
           category={category}
-          limitPerPage={10}
+          limitPerPage={20}
           products={products}
           onInit={this.fetchProducts}
           onFetchNext={this.fetchProducts}

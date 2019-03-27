@@ -48,11 +48,11 @@ class VfCatWshoesCfg extends VfCatCfg {
     'details': 1
   }
   propDefaultVal = {
-    'toes': 2,
-    'covers': 2,
-    'counters': 2,
-    'bottoms': 1,
+    'toes': 1,
+    'covers': 0,
+    'counters': 0,
     'shafts': 0,
+    'bottoms': 5,
     'solid': 0,
     'pattern': 0,
     'details': 0,

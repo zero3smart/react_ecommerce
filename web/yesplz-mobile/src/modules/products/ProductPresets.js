@@ -59,7 +59,7 @@ class ProductPresets extends PureComponent {
         category={category}
         favoriteProducts={favoriteProducts}
         filters={omit(preset, ['name', 'category'])}
-        limitPerPage={10}
+        limitPerPage={20}
         onProductLike={toggleProductLike}
         onProductPresetClick={this.onProductPresetClick(preset)}
       />

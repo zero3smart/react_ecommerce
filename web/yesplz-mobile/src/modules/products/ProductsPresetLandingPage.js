@@ -161,13 +161,13 @@ class ProductsLandingPage extends PureComponent {
           <GroupTitle onClickTitle={this.handleClickNewArrivals}>New Arrivals</GroupTitle>
           <NewProducts
             category={this.currentCategory}
-            limitPerPage={3}
+            limitPerPage={20}
             presetName={this.currentPreset}
           />
 
           <h2 className='SubHeader'>Editors Picks</h2>
           <AdvancedPresetList
-            presetMatchesCount={3}
+            presetMatchesCount={20}
             activeCategory={this.currentCategory}
             activePresetName={this.currentPreset}
             useMinimalPreset
@@ -177,7 +177,7 @@ class ProductsLandingPage extends PureComponent {
 
           <h2 className='SubHeader'>Explore</h2>
           <RecommendedProducts
-            limitPerPage={3}
+            limitPerPage={20}
             category={this.currentCategory}
             enableFetchNext
             useScrollFetcher

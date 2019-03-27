@@ -1,12 +1,16 @@
 import axios from 'axios'
-import { FILTERS } from '@yesplz/core-web/config/constants'
+import { CATEGORY_TOPS, CATEGORY_SHOES, CATEGORY_PANTS, FILTERS } from '@yesplz/core-web/config/constants'
 import { Preset, VisualFilter } from '@yesplz/core-models'
+import { getCatCfg } from '@yesplz/core-models/lib/VFCatCfg'
 import { updatePresetFavorite, mapPresetFavorites } from './helpers'
+import reduce from 'lodash/reduce'
+
 const { localStorage } = window
 const isDev = process.env.NODE_ENV === 'development'
 
 // Actions
 const SET_FILTER = 'filters/SET_FILTER'
+const SYNC_FILTER = 'filters/SYNC_FILTER'
 const SET_SECONDARY_FILTER = 'filters/SET_SECONDARY_FILTER'
 const SET_PRESETS = 'filters/SET_PRESETS'
 const SET_FAVORITE_PRESETS = 'filters/SET_FAVORITE_PRESETS'
@@ -17,18 +21,27 @@ const TOOGLE_VISUAL_FILTER = 'filters/TOOGLE_VISUAL_FILTER'
 const SET_ONBOARDING = 'filters/SET_ONBOARDING'
 
 const defaultState = {
-  // visual filter
-  data: {
-    coretype: 2,
-    top_length: 1,
-    neckline: 1,
-    shoulder: 3,
-    sleeve_length: 0,
-    solid: 0,
-    pattern: 0,
-    details: 0,
-    color: null,
-    sale: 0
+  // visual filters
+  [CATEGORY_TOPS]: {
+    data: {
+      ...getCatCfg(CATEGORY_TOPS).propDefaultVal,
+      sale: 0,
+      color: ''
+    }
+  },
+  [CATEGORY_SHOES]: {
+    data: {
+      ...getCatCfg(CATEGORY_SHOES).propDefaultVal,
+      sale: 0,
+      color: ''
+    }
+  },
+  [CATEGORY_PANTS]: {
+    data: {
+      ...getCatCfg(CATEGORY_PANTS).propDefaultVal,
+      sale: 0,
+      color: ''
+    }
   },
   // secondary filters such as ocasions, prices, sales, etc
   secondary: {},
@@ -51,7 +64,20 @@ export default function reducer (state = defaultState, action = {}) {
       if (!payload.filters) {
         return state
       }
-      return { ...state, data: payload.filters }
+      return { ...state, [payload.category]: { data: payload.filters } }
+    case SYNC_FILTER:
+      if (!payload.filters) {
+        return state
+      }
+      return {
+        ...state,
+        ...reduce(payload.filters, (acc, filters, category) => ({
+          ...acc,
+          [category]: {
+            data: filters
+          }
+        }), {})
+      }
     case SET_SECONDARY_FILTER:
       return { ...state, secondary: payload.filters }
     case SET_PRESETS:
@@ -95,10 +121,15 @@ export default function reducer (state = defaultState, action = {}) {
 }
 
 // Actions creator
-export function setFilter (filters) {
+export function setFilter (category, filters) {
+  const prevSavedFilters = JSON.parse(localStorage.getItem(FILTERS))
   // save to local storage
-  localStorage.setItem(FILTERS, JSON.stringify(filters))
-  return { type: SET_FILTER, payload: { filters } }
+  localStorage.setItem(FILTERS, JSON.stringify({
+    ...prevSavedFilters,
+    [category]: filters
+  }))
+
+  return { type: SET_FILTER, payload: { category, filters } }
 }
 
 export function setSecondaryFilter (filters) {
@@ -120,7 +151,7 @@ export function setLastBodyPart (lastBodyPart) {
  */
 export function syncFilter () {
   const filters = JSON.parse(localStorage.getItem(FILTERS))
-  return { type: SET_FILTER, payload: { filters } }
+  return { type: SYNC_FILTER, payload: { filters } }
 }
 
 /**
