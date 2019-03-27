@@ -238,8 +238,8 @@ class VfCatWshoesViewData extends VfCatViewData {
   currentPropState = {
     toes: 1,
     covers: 0,
-    counters: 0,
     shafts: 0,
+    counters: 2,
     bottoms: 5
   }
   presetList = [

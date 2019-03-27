@@ -25,7 +25,7 @@ class VfCatWtopCfg extends VfCatCfg {
     'coretype': 2,
     'top_length': 1,
     'neckline': 1,
-    'shoulder': 1,
+    'shoulder': 3,
     'sleeve_length': 3,
     'solid': 0,
     'pattern': 0,
@@ -50,8 +50,8 @@ class VfCatWshoesCfg extends VfCatCfg {
   propDefaultVal = {
     'toes': 1,
     'covers': 0,
-    'counters': 0,
     'shafts': 0,
+    'counters': 2,
     'bottoms': 5,
     'solid': 0,
     'pattern': 0,
