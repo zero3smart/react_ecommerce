@@ -71,9 +71,9 @@ class VfCatWpantsCfg extends VfCatCfg {
   }
   propDefaultVal = {
     rise: 0,
-    thigh: 0,
-    knee: 0,
-    ankle: 0
+    thigh: 1,
+    knee: 1,
+    ankle: 1
   }
 }
 
