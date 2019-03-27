@@ -67,7 +67,7 @@ const getOptions = (category) => {
         <ThumbnailPickerOption key='glossy' label='Glossy' value='glossy'>
           <img src={MaterialGlossySvg} alt='Glossy' />
         </ThumbnailPickerOption>,
-        <ThumbnailPickerOption key='fabrics' label='Fabrics' value='fabrics'>
+        <ThumbnailPickerOption key='fabrics' label='Fabrics' value='fabric'>
           <img src={MaterialFabricSvg} alt='Fabrics' />
         </ThumbnailPickerOption>
       ]
