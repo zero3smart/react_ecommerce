@@ -10,7 +10,7 @@ const TutorialItem = ({
     <div className='TutorialItem-content'>
       <h2>{title}</h2>
       <p className='TutorialItem-subtitle'>{subtitle}</p>
-      <div style={{ maxWidth: '85%' }}>
+      <div style={{ maxWidth: '100%' }}>
         {content}
       </div>
     </div>

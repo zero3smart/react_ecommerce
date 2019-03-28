@@ -350,8 +350,10 @@ export default class VisualFilter {
       if (onFinishedOnboarding) {
         onFinishedOnboarding()
       }
-      VisualFilter.saveConfig('onboarding_completed', 1)
       this.track('MiniOnboarding Completed')
+    }
+    if (isupdate) {
+      VisualFilter.saveConfig('onboarding_completed', 1)
     }
   }
 

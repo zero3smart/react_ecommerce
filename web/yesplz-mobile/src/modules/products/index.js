@@ -8,7 +8,6 @@ import NewProducts from './NewProducts'
 import Products from './Products'
 import ProductsFilter from './ProductsFilter'
 // hoc
-import withProductsFetcher from './withProductsFetcher'
 
 export {
   StatefulCategorizedProducts,
@@ -19,6 +18,5 @@ export {
   ProductsPage,
   NewProducts,
   Products,
-  ProductsFilter,
-  withProductsFetcher
+  ProductsFilter
 }
