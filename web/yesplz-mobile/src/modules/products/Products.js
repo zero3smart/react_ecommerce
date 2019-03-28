@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import isEqual from 'lodash/isEqual'
 import ProductListVertical from '@yesplz/core-web/modules/products/ProductListVertical'
-import withProductsFetcher from './withProductsFetcher'
+import { withProductsFetcher } from '@yesplz/core-web/hoc'
 import queryString from 'query-string'
 
 import './Product.scss'

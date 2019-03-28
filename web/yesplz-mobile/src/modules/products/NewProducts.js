@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ProductListHorizontal from '@yesplz/core-web/modules/products/ProductListHorizontal'
 import ProductListVertical from '@yesplz/core-web/modules/products/ProductListVertical'
-import withProductsFetcher from './withProductsFetcher'
+import { withProductsFetcher } from '@yesplz/core-web/hoc'
 
 const categoryFilters = {
   wtop: {

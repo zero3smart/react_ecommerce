@@ -33,7 +33,7 @@ export default class VisualFilterPanel extends Component {
     onFilterLike: (filters, favorite) => { console.debug('FilterPanel - filter like changed', filters, favorite) }
   }
 
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       svgLoaded: false,
@@ -41,7 +41,7 @@ export default class VisualFilterPanel extends Component {
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const { category, filters, debugTouchArea, lastBodyPart, onBodyPartChange, onFinishedOnboarding, tutorialStep, onboarding } = this.props
     // initialize visual filter
     this.visualFilter = new VisualFilter('#VisualFilter', {
@@ -61,7 +61,7 @@ export default class VisualFilterPanel extends Component {
     this.visualFilter.setLastBodyPart(lastBodyPart)
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate (prevProps, prevState) {
     const { filters, lastBodyPart } = this.props
     const { svgLoaded } = this.state
     if (!isEqual(svgLoaded, prevState.svgLoaded) || !isEqual(filters, prevProps.filters)) {
@@ -73,7 +73,7 @@ export default class VisualFilterPanel extends Component {
     }
   }
 
-  get handleSVGLoaded() {
+  get handleSVGLoaded () {
     return () => {
       this.setState({
         svgLoaded: true
@@ -81,19 +81,19 @@ export default class VisualFilterPanel extends Component {
     }
   }
 
-  get fabricFilters() {
+  get fabricFilters () {
     const { details, pattern, solid, color } = this.props.filters
     return { details, pattern, solid, color }
   }
 
-  get handleBodyPartFilter() {
+  get handleBodyPartFilter () {
     return (bodyPartFilters, userClick = false) => {
       const { filters, onFilterChange } = this.props
       onFilterChange({ ...filters, ...bodyPartFilters }, userClick)
     }
   }
 
-  get handleAdvancedFilter() {
+  get handleAdvancedFilter () {
     const { filters, onFilterChange } = this.props
     return (advancedFilters) => {
       onFilterChange({ ...filters, ...advancedFilters }, true)
@@ -111,7 +111,7 @@ export default class VisualFilterPanel extends Component {
     onFilterLike(filters, !favorite)
   }
 
-  get toggleAdvancedFilter() {
+  get toggleAdvancedFilter () {
     return () => {
       const { onboarding, onSetTutorial } = this.props
       if (onboarding) {
@@ -124,7 +124,7 @@ export default class VisualFilterPanel extends Component {
     }
   }
 
-  get handleBodyPartChange() {
+  get handleBodyPartChange () {
     return (bodyPart) => {
       const { filters, onBodyPartChange } = this.props
 
@@ -136,7 +136,7 @@ export default class VisualFilterPanel extends Component {
     }
   }
 
-  render() {
+  render () {
     const { filters, favorite, category, lastBodyPart, className, onboarding, tutorialStep } = this.props
     const { advancedFilterVisible } = this.state
 
