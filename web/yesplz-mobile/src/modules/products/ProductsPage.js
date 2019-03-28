@@ -170,7 +170,7 @@ class ProductsPage extends PureComponent {
     if (favoritePresets.length > 0) {
       const fp = favoritePresets.filter(fp => fp.key === this.props.match.params.presetKey)
       if (fp.length > 0) {
-        this.props.setFilter(omit({...fp[0]}, ['key', 'name', 'favorite']))
+        this.props.setFilter(this.currentCategory, omit({...fp[0]}, ['key', 'name', 'favorite']))
         this.props.fetchPresets(this.currentCategory)
       }
     }

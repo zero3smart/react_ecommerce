@@ -129,7 +129,7 @@ class Favorites extends Component {
   get handlePresetClick () {
     const { setFilter, enableInitialFetch, tracker } = this.props
     return (filters, presetName, category) => {
-      setFilter(filters)
+      setFilter(category, filters)
       // make products fetched from beginning
       enableInitialFetch()
       // redirect to preset's products page

@@ -107,8 +107,8 @@ export class Presets extends Component {
 
   get handlePresetClick () {
     const { presetBaseURI, setFilter, fetchProducts, enableInitialFetch, activePresetName } = this.props
-    return (filters, filterName) => {
-      setFilter(filters)
+    return (filters, filterName, category) => {
+      setFilter(category, filters)
       // fetch products from the beginning after filter applied
       enableInitialFetch()
       fetchProducts(undefined, undefined, undefined, true)

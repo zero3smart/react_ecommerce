@@ -25,6 +25,7 @@ export default class SimplePreset extends PureComponent {
     solid: filterProps,
     color: filterProps,
     topLength: filterProps,
+    category: PropTypes.string,
     className: filterProps,
     style: PropTypes.object,
     onClick: PropTypes.func.isRequired
@@ -67,13 +68,13 @@ export default class SimplePreset extends PureComponent {
   }
 
   get handleClick () {
-    const { name, onClick } = this.props
+    const { name, category, onClick } = this.props
     return () => {
       const filters = {
         ...this.bodyPartFilters,
         ...this.fabricFilters
       }
-      onClick(filters, name)
+      onClick(filters, name, category)
     }
   }
 

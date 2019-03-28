@@ -35,10 +35,10 @@ class VisualFilter extends Component {
   }
 
   get handleFilterChange () {
-    const { fetchProducts, setFilter } = this.props
+    const { activeCategory, fetchProducts, setFilter } = this.props
     return (filters) => {
       // set filter to store
-      setFilter(filters)
+      setFilter(activeCategory, filters)
       // fetch products based selected filter
       fetchProducts(undefined, undefined, undefined, true)
       // set wrapper scrolltop to 0
