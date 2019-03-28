@@ -31,7 +31,7 @@ export class Presets extends Component {
     isPresetsFetched: false
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const { fetchPresets, isPresetsFetched } = this.props
     // don't need to do initial fetch if presets is fetched already
     if (!isPresetsFetched) {
@@ -39,14 +39,10 @@ export class Presets extends Component {
     }
   }
 
-  get handlePresetClick() {
+  get handlePresetClick () {
     const { tracker, setFilter, enableInitialFetch } = this.props
     return (filters, name, category, presetKey) => {
-      console.log(filters)
-      console.log(name)
-      console.log(category)
-      console.log(presetKey)
-      setFilter(filters)
+      setFilter(category, filters)
       // make products fetched from beginning
       enableInitialFetch()
       // redirect to Tops page
@@ -57,7 +53,7 @@ export class Presets extends Component {
     }
   }
 
-  get togglePresetLike() {
+  get togglePresetLike () {
     const { likePreset, unlikePreset } = this.props
     return (preset, favorite) => {
       if (favorite) {
@@ -68,7 +64,7 @@ export class Presets extends Component {
     }
   }
 
-  render() {
+  render () {
     const { isPresetsFetched, presets, extraItem, style } = this.props
     return (
       <div id='MainScroll' className='Presets' style={style}>

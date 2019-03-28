@@ -24,9 +24,9 @@ class TopPresets extends Component {
 
   get handlePresetClick () {
     const { setFilter } = this.props
-    return (filters, presetName) => {
+    return (filters, presetName, category) => {
       // set filter
-      setFilter(filters)
+      setFilter(category, filters)
       // redirect to presets page
       history.push(`/presets/${presetName}`)
     }
@@ -53,6 +53,7 @@ class TopPresets extends Component {
               details={preset.details}
               color={preset.color}
               favorite={preset.favorite}
+              category={preset.category}
               onClick={this.handlePresetClick}
               onToggleLike={this.togglePresetLike}
             />
