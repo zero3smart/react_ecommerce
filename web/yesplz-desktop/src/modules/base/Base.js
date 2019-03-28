@@ -72,7 +72,7 @@ class Base extends Component {
             </NavLink>
             <div className='Base-rightNav'>
               <NavLink
-                to={this.isFavoritesPage ? '#' : '/favorites/clothing'}
+                to={this.isFavoritesPage ? '#' : '/favorites/items'}
                 onClick={this.handleLinkClick}
                 isActive={this.handleFavoritesLinkActive}
                 className='menu-icon'>

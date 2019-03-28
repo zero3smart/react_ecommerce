@@ -182,18 +182,19 @@ export function syncFavoriteProducts (syncRemote = false) {
     let favoriteProducts = []
     if (syncRemote) {
       // get favorite product ids and sync the data from backend
-      const productIds = Product.getFavoriteProductIds()
-      const favoriteProductsPromises = productIds.map(async (productId) => {
-        let finalProductId = productId
+      // const productIds = Product.getFavoriteProductIds()
+      const productslist = products.favoriteList
+      const favoriteProductsPromises = productslist.map(async (product) => {
+        let finalProductId = product.product_id
 
         // check whether it contains xx_xxx_xxxx format
         // if not, add `ns_` prefix
-        const isNewFormat = /^.+?(_).+?(_).+?$/.test(productId)
+        const isNewFormat = /^.+?(_).+?(_).+?$/.test(product.product_id)
         if (!isNewFormat) {
-          finalProductId = `ns_${productId}`
+          finalProductId = `ns_${product.product_id}`
         }
 
-        const response = await axios.get(`/categories/${products.activeCategory}/${finalProductId}`)
+        const response = await axios.get(`/categories/${product.category}/${finalProductId}`)
         return {
           ...response.data.products[0],
           favorite: true

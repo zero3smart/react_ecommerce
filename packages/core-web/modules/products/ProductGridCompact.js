@@ -49,12 +49,12 @@ export default class ProductGridCompact extends PureComponent {
   }
 
   render () {
-    const { id, name, brand, imgSrc, price, originalPrice, showOriginalPrice, currency, className, favorite, style, extraInfo } = this.props
+    const { id, name, brand, imgSrc, price, originalPrice, showOriginalPrice, currency, className, favorite, style, extraInfo, category } = this.props
 
     // sale is available if original price is different with price
     const isSale = originalPrice && originalPrice !== price
     return (
-      <Link to={`/products/${id}`} className={`ProductGridCompact ${className}`} style={style} title={`${name} - ${brand}${extraInfo}`}>
+      <Link to={`/products/${category}/${id}`} className={`ProductGridCompact ${className}`} style={style} title={`${name} - ${brand}${extraInfo}`}>
         <div className='ProductGridCompact-thumbnail'>
           <LikeButton active={favorite} onClick={this.toggleLike} />
           {
