@@ -1,6 +1,5 @@
 .Favorites {
   height: calc(100% - 165px);
-  margin: auto;
   padding-bottom: 40px;
 }
 
@@ -123,4 +122,59 @@
   width: 100%;
   flex-basis: 100%;
   order: 2;
+}
+
+.FavoriteContent {
+  display: flex;
+  height: 100%;
+  .left-menu {
+    flex: 0 0 269.47px;
+    padding-left: 40px;
+    border-right: 1px solid #eae9ea;
+    height: calc(100vh - 64px);
+    .MenuNavigation {
+      margin-bottom: 20px;
+    }
+    .content-menu {
+      height: calc(100% - 60px);
+      overflow-y: auto;
+    }
+  }
+  .Favorites {
+    flex: 0 0 calc(100% - 269.47px);
+    padding: 38px 64px;
+    .ProductsPage-ProductList {
+      height: 100%;
+    }
+    .Favorites-products {
+      .container {
+        max-width: 100%;
+        width: 100%;
+      }
+    }
+    .title {
+      display: flex;
+      margin-bottom: 35px;
+      >h3 {
+        flex: 1;
+      }
+      .GridView {
+        flex: 0 0 auto;
+      }
+    }
+    .content-preset {
+      height: 100%;
+      overflow-y: auto;
+    }
+    #MainScroll {
+      overflow-y: auto;
+    }
+    .ColTypeDouble {
+      .Favorites-products {
+        .ProductGridCompact {
+          width: calc(25% - 10px);
+        }
+      }
+    }
+  }
 }

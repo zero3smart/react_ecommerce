@@ -8,7 +8,7 @@ import history from '@yesplz/core-web/config/history'
 
 import useProductsFilterState from 'modules/filters/useProductsFilterState'
 import ProductsFilterOverlay, { FilterLabel } from 'modules/filters/ProductsFilterOverlay'
-import FilterGroup from 'modules/filters/FilterGroup'
+import FilterGroup from '@yesplz/core-web/modules/filters/FilterGroup'
 
 const FavoriteProductsFilter = ({ isVisible, defaultColType, secondaryFilters, activeCategory, onSubmit, onClose }) => {
   const {
