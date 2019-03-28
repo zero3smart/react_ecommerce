@@ -72,3 +72,4 @@ For vscode users, please install [eslint](https://marketplace.visualstudio.com/i
     "configFile": ".eslintrc"
 }
 ```
+.env.local file in web\yesplz-* directory  will override default .env
