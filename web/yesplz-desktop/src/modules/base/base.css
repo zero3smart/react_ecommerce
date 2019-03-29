@@ -20,6 +20,10 @@
   /* padding: 21px 25px; */
 }
 
+.Base >.base-content {
+  height: calc(100% - 65px);
+}
+
 .Base-headerContainer {
   margin: auto;
   display: flex;
