@@ -29,7 +29,7 @@ export default () => WrappedComponent => {
       const { onboarding } = this.props
       const { tutorialActive } = this.state
       return (
-        <div>
+        <div className='base-content'>
           {
             onboarding && tutorialActive && <Tutorial onFinish={this.handleTutorialFinish} />
           }
