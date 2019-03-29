@@ -133,7 +133,8 @@ class Favorites extends Component {
       // make products fetched from beginning
       enableInitialFetch()
       // redirect to preset's products page
-      history.push(`/preset-products/${category}/${formatPresetName(presetName)}`)
+      // history.push(`/preset-products/${category}/${formatPresetName(presetName)}`)
+      history.push(`/products/${category}/list?favorite=true`)
       // track preset click
       tracker.track('Preset Choose', { name: presetName })
     }
@@ -194,7 +195,7 @@ class Favorites extends Component {
                             key={index}
                             // id={`${camelCase(preset.name)}${index}`}
                             id={`${camelCase(preset.key)}`}
-                            preset={preset}
+                            preset={{...preset, name: `${preset.name}-${preset.key.split('-')[1]}`}}
                             onClick={this.handlePresetClick}
                             onClickGroupTitle={this.onClickGroupTitle(preset)}
                             onToggleLike={this.togglePresetLike}
@@ -202,6 +203,7 @@ class Favorites extends Component {
                             useMinimalPreset
                             activeCategory={preset.category}
                             hidePreset={false}
+                            showOriginalPrice
                             titleBellowPreset
                             defaultViewBoxSvg={[0, 0, 304, 214]}
                           />

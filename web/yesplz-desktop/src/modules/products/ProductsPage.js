@@ -54,7 +54,7 @@ class ProductsPage extends React.Component {
 
   handleFetchProducts = () => {
     const { fetchProducts } = this.props
-    fetchProducts(this.currentCategory, this.customFilters, 100, true)
+    fetchProducts(this.currentCategory, this.qsValues.favorite ? null : this.customFilters, 100, true)
   }
 
   handleFetchPresets = () => {
@@ -118,7 +118,7 @@ class ProductsPage extends React.Component {
     const { products, totalCount, fetchProducts } = this.props
     return (next) => {
       if (products.length < totalCount) {
-        fetchProducts(this.currentCategory, this.customFilters).then(() => {
+        fetchProducts(this.currentCategory, this.qsValues.favorite ? null : this.customFilters).then(() => {
           next()
         })
       } else {

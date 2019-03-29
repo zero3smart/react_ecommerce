@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 
 import { FILTER_OCCASIONS, FILTER_TYPES, FILTER_SALES, FILTER_PRICES } from '@yesplz/core-web/config/constants'
 import { setSecondaryFilter } from '@yesplz/core-redux/ducks/filters'
-import history from '@yesplz/core-web/config/history'
 import FilterGroup from '@yesplz/core-web/modules/filters/FilterGroup'
 import FilterLabel from '@yesplz/core-web/modules/filters/FilterLabel'
 
@@ -58,7 +57,13 @@ const FavoriteProductsFilter = ({ secondaryFilters, activeCategory, onSubmit, cu
           <FilterLabel label='Types'>
             <FilterGroup
               name='types'
-              options={FILTER_TYPES}
+              options={customField.indexOf('types') > -1 ? [
+                {
+                  name: 'all',
+                  label: 'All Types'
+                },
+                ...FILTER_TYPES
+              ] : FILTER_TYPES}
               values={filters['types']}
               type='radio'
               onChange={handleFilterChange}

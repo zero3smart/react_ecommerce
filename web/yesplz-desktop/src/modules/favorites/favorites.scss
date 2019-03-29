@@ -143,6 +143,11 @@
   .Favorites {
     flex: 0 0 calc(100% - 269.47px);
     padding: 38px 64px;
+    .AdvancedPreset {
+      .MinimalPreset-title {
+        display: none;
+      }
+    }
     .ProductsPage-ProductList {
       height: 100%;
     }
