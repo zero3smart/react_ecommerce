@@ -112,6 +112,7 @@ export default class VisualFilterPanel extends Component {
   }
 
   get toggleAdvancedFilter() {
+    alert('cancel')
     return () => {
       const { onboarding, onSetTutorial } = this.props
       if (onboarding) {

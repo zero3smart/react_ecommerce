@@ -75,7 +75,7 @@ export class ProductsVisualFilter extends Component {
   get handleFilterToggle () {
     const { expanded, toggleVisualFilter } = this.props
     if (expanded) {
-      window.scrollTo(0, 0)
+        window.scrollTo(0, 0)
     }
     return () => {
       toggleVisualFilter(!expanded)
@@ -259,7 +259,7 @@ export class ProductsVisualFilter extends Component {
             <div className='ProductsVisualFilter-header'>
               {/* <span style={{ width: 40 }} /> */}
               {
-                onboarding && tutorialStep !== 3 && tutorialStep !== 5 && <div className='overlay' />
+                onboarding && <div className='overlay' />
               }
               <ListView colType={colType} onChange={this.onColTypeChange} />
               <div
