@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Tutorial } from 'modules/tutorials'
-import VisualFilter from '@yesplz/core-models/lib/VisualFilter'
+import { Tutorial } from '../modules/tutorials'
 
 export default () => WrappedComponent => {
   class TutorialHOC extends PureComponent {
@@ -22,20 +21,16 @@ export default () => WrappedComponent => {
       this.setState({
         tutorialActive: false
       })
-      VisualFilter.saveConfig('onboarding_completed', 1)
     }
 
     render () {
       const { onboarding } = this.props
       const { tutorialActive } = this.state
-      return (
-        <div className='base-content'>
-          {
-            onboarding && tutorialActive && <Tutorial onFinish={this.handleTutorialFinish} />
-          }
-          <WrappedComponent />
-        </div>
-      )
+
+      if (onboarding && tutorialActive) {
+        return <Tutorial onFinish={this.handleTutorialFinish} />
+      }
+      return <WrappedComponent />
     }
   }
 

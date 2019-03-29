@@ -12,15 +12,15 @@ import { fetchPresets } from '@yesplz/core-redux/ducks/products'
 
 import history from '@yesplz/core-web/config/history'
 import { AdvancedPresetList } from '@yesplz/core-web/modules/presets'
-import ProductsVisualFilter from 'modules/filters/ProductsVisualFilter'
+import ProductsVisualFilter from '../filters/ProductsVisualFilter'
 import { CATEGORY_TOPS, CATEGORY_SHOES, CATEGORY_PANTS, CATEGORIES_LABELS } from '@yesplz/core-web/config/constants'
 import { withTrackingProvider } from '@yesplz/core-web/hoc'
 import MobilePicker from '@yesplz/core-web/ui-kits/selects/MobilePicker'
 import { PageTitle, GroupTitle } from '@yesplz/core-web/ui-kits/misc'
 // import { Button } from '@yesplz/core-web/ui-kits/buttons'
 
-import { NewProducts, ProductsFilter, RecommendedProducts } from 'modules/products'
-import { NotFound } from 'modules/base'
+import { NewProducts, ProductsFilter, RecommendedProducts } from './index'
+import { NotFound } from '../base'
 
 // utls
 import { formatPresetName, parsePresetName } from '@yesplz/core-web/utils/index'

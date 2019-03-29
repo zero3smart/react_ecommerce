@@ -1,7 +1,7 @@
 import React from 'react'
-import { renderBreadcrumbs } from 'config/routesHelpers'
+import { renderBreadcrumbs } from '../../config/routesHelpers'
 import { ProductPage } from '@yesplz/core-web/modules/products'
-import ProductsVisualFilter from 'modules/filters/ProductsVisualFilter'
+import ProductsVisualFilter from '../filters/ProductsVisualFilter'
 
 import './product-routes.scss'
 

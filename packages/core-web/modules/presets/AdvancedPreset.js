@@ -23,7 +23,6 @@ class AdvancedPreset extends Component {
     activeCategory: PropTypes.string.isRequired,
     presetMatchesCount: PropTypes.number,
     useMinimalPreset: PropTypes.bool,
-    showOriginalPrice: PropTypes.bool,
     hidePreset: PropTypes.bool,
     titleBellowPreset: PropTypes.bool,
     defaultViewBoxSvg: PropTypes.arry,
@@ -36,7 +35,6 @@ class AdvancedPreset extends Component {
   static defaultProps = {
     presetMatchesCount: 4,
     useMinimalPreset: false,
-    showOriginalPrice: false,
     hidePreset: false,
     titleBellowPreset: false,
     onClickGroupTitle () { }
@@ -108,8 +106,7 @@ class AdvancedPreset extends Component {
       onClick,
       onClickGroupTitle,
       onToggleLike,
-      defaultViewBoxSvg,
-      showOriginalPrice
+      defaultViewBoxSvg
     } = this.props
     const { products } = this.state
     return (
@@ -174,7 +171,6 @@ class AdvancedPreset extends Component {
                 originalPrice={product.original_price}
                 extraInfo={product.extra_info}
                 favorite={product.favorite}
-                showOriginalPrice={showOriginalPrice}
                 imgSrc={product.front_img_sm}
                 category={product.category}
                 productBasePath={`/products/${activeCategory}`}

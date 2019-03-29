@@ -20,7 +20,7 @@ import {
 import {
   MenuNavigation,
   MenuButtons
-} from 'modules/menus'
+} from '../menus'
 
 import './Sizes.scss'
 

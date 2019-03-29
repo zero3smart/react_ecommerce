@@ -7,11 +7,11 @@ import { syncFavoriteProducts, enableInitialFetch } from '@yesplz/core-redux/duc
 import { syncFilter, syncFavoritePresets, likePreset, unlikePreset, setFilter } from '@yesplz/core-redux/ducks/filters'
 import { ProductList, ProductGridCompact } from '@yesplz/core-web/modules/products'
 // import Presets from 'modules/presets/Presets'
-import MenuNavigation from 'modules/menus/MenuNavigation'
-import FavoriteProductsFilter from 'modules/favorites/FavoriteProductsFilter'
+import MenuNavigation from '../menus/MenuNavigation'
+import FavoriteProductsFilter from './FavoriteProductsFilter'
 import { ListView } from '@yesplz/core-web/modules/filters'
 import classnames from 'classnames'
-import EmptyContent from 'ui-kits/empties'
+import EmptyContent from '../../ui-kits/empties'
 import './favorites.scss'
 import Transition from '@yesplz/core-web/ui-kits/transitions/Transition'
 import AdvancedPreset from '@yesplz/core-web/modules/presets/AdvancedPreset'
@@ -133,8 +133,7 @@ class Favorites extends Component {
       // make products fetched from beginning
       enableInitialFetch()
       // redirect to preset's products page
-      // history.push(`/preset-products/${category}/${formatPresetName(presetName)}`)
-      history.push(`/products/${category}/list?favorite=true`)
+      history.push(`/preset-products/${category}/${formatPresetName(presetName)}`)
       // track preset click
       tracker.track('Preset Choose', { name: presetName })
     }
@@ -195,7 +194,7 @@ class Favorites extends Component {
                             key={index}
                             // id={`${camelCase(preset.name)}${index}`}
                             id={`${camelCase(preset.key)}`}
-                            preset={{...preset, name: `${preset.name}-${preset.key.split('-')[1]}`}}
+                            preset={preset}
                             onClick={this.handlePresetClick}
                             onClickGroupTitle={this.onClickGroupTitle(preset)}
                             onToggleLike={this.togglePresetLike}
@@ -203,7 +202,6 @@ class Favorites extends Component {
                             useMinimalPreset
                             activeCategory={preset.category}
                             hidePreset={false}
-                            showOriginalPrice
                             titleBellowPreset
                             defaultViewBoxSvg={[0, 0, 304, 214]}
                           />

@@ -1,16 +1,16 @@
 import React from 'react'
 import { Route, Switch } from 'react-router'
 // pages
-import { Base, BaseDemo, NotFound } from 'modules/base'
-import { Home } from 'modules/home'
-import { Favorites } from 'modules/favorites'
-import { Faq } from 'modules/faq'
-import Tops from 'modules/tops/Tops'
-import { PresetProductsRoute } from 'modules/presets/presetsRoutes'
-import { ProductsPage } from 'modules/products'
+import { Base, BaseDemo, NotFound } from '../modules/base'
+import { Home } from '../modules/home'
+import { Favorites } from '../modules/favorites'
+import { Faq } from '../modules/faq'
+import Tops from '../modules/tops/Tops'
+import { PresetProductsRoute } from '../modules/presets/presetsRoutes'
+import { ProductsPage } from '../modules/products'
 
 // presentationals
-import { SingleProductRoute, SinglePresetProductRoute } from 'modules/products/singleProductRoutes'
+import { SingleProductRoute, SinglePresetProductRoute } from '../modules/products/singleProductRoutes'
 
 const createRoutes = () => (
   <Switch>

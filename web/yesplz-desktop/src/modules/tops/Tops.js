@@ -8,7 +8,7 @@ import { syncFilter } from '@yesplz/core-redux/ducks/filters'
 import withTrackingProvider from '@yesplz/core-web/hoc/withTrackingProvider'
 import { ProductList } from '@yesplz/core-web/modules/products'
 // import { SectionTitle } from '@yesplz/core-web/ui-kits/misc'
-import { VisualFilter } from 'modules/visual-filter'
+import { VisualFilter } from '../visual-filter'
 import './tops.css'
 
 class Tops extends Component {

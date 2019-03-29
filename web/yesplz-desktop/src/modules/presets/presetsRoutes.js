@@ -1,6 +1,6 @@
 import React from 'react'
 import ProductsPage from '@yesplz/core-web/modules/products/ProductsPage'
-import { renderBreadcrumbs } from 'config/routesHelpers'
+import { renderBreadcrumbs } from '../../config/routesHelpers'
 import './presets-routes.css'
 
 export const PresetProductsRoute = router => {

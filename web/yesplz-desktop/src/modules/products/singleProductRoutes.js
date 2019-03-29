@@ -1,6 +1,6 @@
 import React from 'react'
 import ProductPage from '@yesplz/core-web/modules/products/ProductPage'
-import { renderBreadcrumbs } from 'config/routesHelpers'
+import { renderBreadcrumbs } from '../../config/routesHelpers'
 import './single-product-routes.css'
 import './ProductPage-desktop.scss'
 

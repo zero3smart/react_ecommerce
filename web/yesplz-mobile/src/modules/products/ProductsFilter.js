@@ -7,9 +7,9 @@ import { FILTER_OCCASIONS, FILTER_SALES, FILTER_PRICES, SIZES } from '@yesplz/co
 import { setSecondaryFilter } from '@yesplz/core-redux/ducks/filters'
 import history from '@yesplz/core-web/config/history'
 
-import useProductsFilterState from 'modules/filters/useProductsFilterState'
-import ProductsFilterOverlay, { FilterLabel } from 'modules/filters/ProductsFilterOverlay'
-import FilterGroup from 'modules/filters/FilterGroup'
+import useProductsFilterState from '../filters/useProductsFilterState'
+import ProductsFilterOverlay, { FilterLabel } from '../filters/ProductsFilterOverlay'
+import FilterGroup from '../filters/FilterGroup'
 
 const ProductsFilter = ({ isVisible, defaultColType, secondaryFilters, activeCategory, onSubmit, onClose }) => {
   const {

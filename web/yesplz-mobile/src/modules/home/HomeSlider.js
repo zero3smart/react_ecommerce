@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { HeroSlider } from 'ui-kits/sliders'
+import { HeroSlider } from '../../ui-kits/sliders'
 import { CATEGORY_TOPS, CATEGORY_SHOES, CATEGORY_PANTS } from '@yesplz/core-web/config/constants'
 
 // slide images

@@ -8,7 +8,7 @@ import { SlideImage, SliderDots } from '@yesplz/core-web/modules/sliders'
 import TutorialImage1 from './images/yesplz-tutorial-1.svg'
 import TutorialImage2a from './images/yesplz-tutorial-2a.svg'
 import TutorialImage2b from './images/yesplz-tutorial-2b.svg'
-// import TutorialImage2c from './images/yesplz-tutorial-2c.svg'
+import TutorialImage2c from './images/yesplz-tutorial-2c.svg'
 import TutorialImage3a from './images/yesplz-tutorial-3a.svg'
 import TutorialImage3b from './images/yesplz-tutorial-3b.svg'
 import TutorialImage3c from './images/yesplz-tutorial-3c.svg'
@@ -62,14 +62,13 @@ class Tutorial extends PureComponent {
         currentSlide={currentSlide}
         slideCount={3}
         goToSlide={this.handleSlideTo}
-        style={{ margin: '38px auto' }}
+        style={{ margin: '70px auto' }}
       />
     )
 
     return (
       <div className='Tutorial'>
         <div className='container'>
-          <h3 className='title'>WELCOME TO YESPLZ!</h3>
           <Carousel
             slideIndex={currentSlide}
             renderCenterLeftControls={noop}
@@ -77,8 +76,8 @@ class Tutorial extends PureComponent {
             renderBottomCenterControls={noop}
           >
             <TutorialItem
-              title=''
-              subtitle='Hello! Meet your smart filter.'
+              title='Hello.'
+              subtitle='meet your smart filter'
               image={(
                 <SlideImage
                   imageSources={[
@@ -89,19 +88,20 @@ class Tutorial extends PureComponent {
               content={(
                 <React.Fragment>
                   {sliderDots}
-                  <button className='TutorialItem-secondaryButton' onClick={this.handleSlideNext}>Next</button>
-                  <a className='TutorialItem-primaryButton' onClick={onFinish}>Skip</a>
+                  <button className='TutorialItem-primaryButton' onClick={onFinish}>Skip</button>
+                  <button className='TutorialItem-secondaryButton' onClick={this.handleSlideNext}>OK</button>
                 </React.Fragment>
               )}
             />
             <TutorialItem
-              title=''
-              subtitle='Hello! Meet your smart filter.'
+              title='Click'
+              subtitle='the smart filter button.'
               image={currentSlide === 1 ? (
                 <SlideImage
                   imageSources={[
                     TutorialImage2a,
-                    TutorialImage2b
+                    TutorialImage2b,
+                    TutorialImage2c
                   ]}
                   repeatedTimes={2}
                   beforeStart={this.disableNext}
@@ -112,18 +112,17 @@ class Tutorial extends PureComponent {
                 <React.Fragment>
                   {sliderDots}
                   <button
-                    className='TutorialItem-secondaryButton'
-                    // disabled={preventNext}
+                    className='TutorialItem-primaryButton'
+                    disabled={preventNext}
                     onClick={this.handleSlideNext}>
                     Next
                   </button>
-                  <a className='TutorialItem-primaryButton' onClick={onFinish}>Skip</a>
                 </React.Fragment>
               )}
             />
             <TutorialItem
-              title=''
-              subtitle='Tap any parts you want to customize. We find the items for you. Enjoy!'
+              title='Tap'
+              subtitle='any parts you want to customize. We bring the matching items. '
               image={currentSlide === 2 ? (
                 <SlideImage
                   imageSources={[
@@ -140,12 +139,11 @@ class Tutorial extends PureComponent {
                 <React.Fragment>
                   {sliderDots}
                   <button
-                    className='TutorialItem-secondaryButton'
-                    // disabled={preventNext}
+                    className='TutorialItem-primaryButton'
+                    disabled={preventNext}
                     onClick={onFinish}>
-                    EXPLORE
+                    Finish
                   </button>
-                  <a className='TutorialItem-primaryButton' onClick={onFinish}>Skip</a>
                 </React.Fragment>
               )}
             />

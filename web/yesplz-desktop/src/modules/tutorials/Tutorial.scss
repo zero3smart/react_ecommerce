@@ -1,5 +1,5 @@
 .Tutorial {
-  background: rgba(255, 255, 255, 0.8);
+  background: white;
   position: fixed;
   top: 0;
   left: 0;
@@ -7,45 +7,18 @@
   bottom: 0;
   overflow-y: auto;
   z-index: 99999;
-  display: flex;
 
-  >.container {
+  > .container {
     max-width: 1270px;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    background: #fff;
-    max-width: 786px;
-    flex-direction: column;
-    height: 80%;
-    .title {
-        font-size: 24px;
-        font-weight: 900;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: normal;
-        letter-spacing: 4.1px;
-        color: #1b1b1d;
-        text-align: center;
-    }
-    .slider {
-      height: calc(100% - 94px)!important;
-    }
-    .SliderDots-item {
-      width: 8px;
-      height: 8px;
-      background-color: #582adf;
-      opacity: 0.3;
-    }
-    .SliderDots-item.is-active {
-      opacity: 1;
-    }
   }
 
   .slider-frame {
-    overflow: visible !important;
+    overflow: visible!important;
   }
   .slider-slide {
     padding-top: 30px;

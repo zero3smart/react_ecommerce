@@ -6,8 +6,8 @@ import YesplzLogoSvg from '@yesplz/core-web/assets/svg/yesplz-logo.svg'
 import UserSvg from '@yesplz/core-web/assets/svg/user.svg'
 import BurgerSvg from '@yesplz/core-web/assets/svg/burger.svg'
 import FavoritesSvg from '@yesplz/core-web/assets/svg/favorites.svg'
-import FilterToggle from 'modules/filters/FilterToggle'
-import CategoryMenu from 'modules/menus/CategoryMenu'
+import FilterToggle from '../filters/FilterToggle'
+import CategoryMenu from '../menus/CategoryMenu'
 import './base.css'
 
 class Base extends Component {

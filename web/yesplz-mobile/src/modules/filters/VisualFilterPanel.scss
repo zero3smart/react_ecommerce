@@ -1,4 +1,4 @@
-@import 'assets/styles/variables.scss';
+@import '../../assets/styles/variables.scss';
 
 .VisualFilterPanel {
   background: $background-secondary;
@@ -78,7 +78,7 @@
     right: 70px;
     border-radius: 100%;
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.04);
-  
+
     & > button {
       display: flex;
       align-items: center;

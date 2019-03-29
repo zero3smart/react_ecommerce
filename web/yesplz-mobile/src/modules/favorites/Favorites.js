@@ -14,12 +14,12 @@ import { Presets } from '@yesplz/core-web/modules/presets'
 import { TitleHeader } from '@yesplz/core-web/ui-kits/title-headers'
 import { FilterIcon } from '@yesplz/core-web/ui-kits/icons'
 
-import MenuNavigation from 'modules/menus/MenuNavigation'
-import FavoriteProductsFilter from 'modules/favorites/FavoriteProductsFilter'
-import EmptyContent from 'ui-kits/empties'
+import MenuNavigation from '../menus/MenuNavigation'
+import FavoriteProductsFilter from './FavoriteProductsFilter'
+import EmptyContent from '../../ui-kits/empties'
 
 // utils
-import { countFilters, getPercentSale } from 'utils'
+import { countFilters, getPercentSale } from '../../utils'
 
 import './favorites.scss'
 

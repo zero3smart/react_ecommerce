@@ -4,10 +4,10 @@ import { AdvancedPresetList } from '@yesplz/core-web/modules/presets'
 import { withTrackingProvider } from '@yesplz/core-web/hoc'
 import { CATEGORY_TOPS, CATEGORY_SHOES, CATEGORY_PANTS } from '@yesplz/core-web/config/constants'
 import { GroupTitle } from '@yesplz/core-web/ui-kits/misc'
-import ProductsVisualFilter from 'modules/filters/ProductsVisualFilter'
+import ProductsVisualFilter from '../filters/ProductsVisualFilter'
 
 import HomeSlider from './HomeSlider'
-import { NewProducts, RecommendedProducts } from 'modules/products'
+import { NewProducts, RecommendedProducts } from '../products'
 
 // utls
 import { formatPresetName } from '@yesplz/core-web/utils/index'

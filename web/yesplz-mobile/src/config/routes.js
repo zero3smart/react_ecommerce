@@ -2,15 +2,15 @@ import React from 'react'
 import { Route, Switch } from 'react-router'
 // pages
 import { Faq } from '@yesplz/core-web/modules/faq'
-import { Tutorial } from 'modules/tutorials'
+import { Tutorial } from '../modules/tutorials'
 
-import { Base, NotFound } from 'modules/base'
-import { Home } from 'modules/home'
-import { Favorites } from 'modules/favorites'
-import { ProductsLandingPage, ProductsPage, ProductsPresetLandingPage } from 'modules/products'
-import { renderSingleProductPage } from 'modules/products/productRoutes'
+import { Base, NotFound } from '../modules/base'
+import { Home } from '../modules/home'
+import { Favorites } from '../modules/favorites'
+import { ProductsLandingPage, ProductsPage, ProductsPresetLandingPage } from '../modules/products'
+import { renderSingleProductPage } from '../modules/products/productRoutes'
 // import { renderPresetProductsPage, renderSinglePresetProductPage } from 'modules/presets/presetRoutes'
-import { Sizes } from 'modules/sizes'
+import { Sizes } from '../modules/sizes'
 
 const createRoutes = () => (
   <Switch>

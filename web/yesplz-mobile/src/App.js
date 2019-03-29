@@ -11,9 +11,9 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import '@yesplz/core-web/assets/css/animations.css'
 import '@yesplz/core-web/assets/css/reset.css'
-import 'assets/styles/overrides.scss'
+import './assets/styles/overrides.scss'
 import 'react-perfect-scrollbar/dist/css/styles.css'
-import 'App.scss'
+import './App.scss'
 
 const App = () => (
   <Provider store={store}>
